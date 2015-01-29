@@ -1,31 +1,32 @@
 package com.corners.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.Game;
 
-public class MainActivity extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
+public class MainActivity extends Game {
+	Start start;
+	Categories categories;
+	Levels levels;
+	Play play;
+	Settings settings;
 	
 	@Override
 	/** Method called once when the application is created. **/
 	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("kitten.jpg");
-		System.out.println("hallu");
+		start = new Start(this);
+		categories = new Categories(this);
+		levels = new Levels(this);
+		play = new Play(this);
+		settings = new Settings(this);
+        setScreen(start);
 	}
 
 	@Override
 	/** Method called by the game loop from the application every time rendering should be performed. Game logic updates are usually also performed in this method. **/
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
 	}
 	
 	/** This method is called every time the game screen is re-sized and the game is not in the paused state. It is also called once just after the create() method.
