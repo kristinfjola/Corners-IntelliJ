@@ -13,13 +13,12 @@ public class MainActivity extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		img = new Texture("kitten.jpg");
 		System.out.println("hallu");
 	}
 
 	@Override
 	public void render () {
-		System.out.println("hallu 2");
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
