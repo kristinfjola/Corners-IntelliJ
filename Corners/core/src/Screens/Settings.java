@@ -1,12 +1,13 @@
-package com.corners.game;
+package Screens;
 
 import com.badlogic.gdx.Screen;
+import com.corners.game.MainActivity;
 
-public class Play implements Screen{
+public class Settings implements Screen{
 
 	MainActivity main;
 	
-	public Play(MainActivity main){
+	public Settings(MainActivity main){
 		this.main = main;
 	}
 	

@@ -1,6 +1,7 @@
-package com.corners.game;
+package Screens;
 
 import com.badlogic.gdx.Screen;
+import com.corners.game.MainActivity;
 
 public class Categories implements Screen {
 

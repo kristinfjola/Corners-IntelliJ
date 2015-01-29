@@ -1,9 +1,11 @@
 package com.corners.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import Screens.Categories;
+import Screens.Levels;
+import Screens.Play;
+import Screens.Settings;
+import Screens.Start;
+
 import com.badlogic.gdx.Game;
 
 public class MainActivity extends Game {
