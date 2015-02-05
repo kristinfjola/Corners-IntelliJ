@@ -5,26 +5,27 @@ import Screens.Levels;
 import Screens.Play;
 import Screens.Settings;
 import Screens.Start;
+import Screens.Start;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
 public class MainActivity extends Game {
-	public Start start;
 	public Categories categories;
 	public Levels levels;
 	public Play play;
 	public Settings settings;
+	public Start start;
 	
 	@Override
 	/** Method called once when the application is created. **/
 	public void create () {
-		start = new Start(this);
 		categories = new Categories(this);
 		levels = new Levels(this);
 		play = new Play(this);
 		settings = new Settings(this);
+		start = new Start(this);
         setScreen(start);
 	}
 
