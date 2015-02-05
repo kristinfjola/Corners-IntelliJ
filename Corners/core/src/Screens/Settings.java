@@ -52,6 +52,7 @@ public class Settings implements Screen{
 		textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
 		textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
 		textButtonStyle.font = skin.getFont("default");
+		textButtonStyle.font.setScale(3);
 		skin.add("default", textButtonStyle);
 
 		// Create a table that fills the screen. Everything else will go inside this table.
@@ -70,6 +71,7 @@ public class Settings implements Screen{
 		button.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Clicked! Is checked: " + button.isChecked());
+				System.out.println("settings");
 				button.setText("Good job!");
 			}
 		});

@@ -26,7 +26,7 @@ public class Start implements Screen{
 	Stage stage;
 	SpriteBatch batch;
 	
-	public Start(MainActivity main){
+	public Start(final MainActivity main){
 		this.main = main;
 		batch = new SpriteBatch();
 		stage = new Stage();
@@ -52,31 +52,39 @@ public class Start implements Screen{
 		textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
 		textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
 		textButtonStyle.font = skin.getFont("default");
-		textButtonStyle.font.setScale(10);
+		textButtonStyle.font.setScale(3);
 		skin.add("default", textButtonStyle);
 
 		// Create a table that fills the screen. Everything else will go inside this table.
 		Table table = new Table();
 		table.setFillParent(true);
 		stage.addActor(table);
+		
+		final TextButton btnCategories = new TextButton("Play", skin);
+		table.add(btnCategories);
+		table.row();
 
-		// Create a button with the "default" TextButtonStyle. A 3rd parameter can be used to specify a name other than "default".
-		final TextButton button = new TextButton("Click me!", skin);
-		table.add(button);
-
-		// Add a listener to the button. ChangeListener is fired when the button's checked state changes, eg when clicked,
-		// Button#setChecked() is called, via a key press, etc. If the event.cancel() is called, the checked state will be reverted.
-		// ClickListener could have been used, but would only fire when clicked. Also, canceling a ClickListener event won't
-		// revert the checked state.
-		button.addListener(new ChangeListener() {
+		btnCategories.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				System.out.println("Clicked! Is checked: " + button.isChecked());
-				button.setText("Good job!");
+				System.out.println("Clicked! Is checked: " + btnCategories.isChecked());
+				System.out.println("start");
+				dispose();
+				main.categories = new Categories(main);
+				main.setScreen(main.categories);
 			}
 		});
 
-		// Add an image actor. Have to set the size, else it would be the size of the drawable (which is the 1x1 texture).
-		table.add(new Image(skin.newDrawable("white", Color.RED))).size(64);
+		final TextButton btnSettings = new TextButton("Settings", skin);
+		table.add(btnSettings);
+
+		btnSettings.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				System.out.println("Clicked! Is checked: " + btnSettings.isChecked());
+				System.out.println("start");
+				main.settings = new Settings(main);
+				main.setScreen(main.settings);
+			}
+		});
 	}
 	
 	@Override
