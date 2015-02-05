@@ -16,7 +16,7 @@ public class Start implements Screen{
 	public Start(MainActivity main){
 		this.main = main;
 		batch = new SpriteBatch();
-		img = new Texture("kitten.jpg");
+		img = new Texture("badlogic.jpg");
 	}
 
 	@Override
@@ -27,6 +27,10 @@ public class Start implements Screen{
 
 	@Override
 	public void render(float delta) {
+		// switch screens
+		if (Gdx.input.justTouched()) // use your own criterion here
+            main.setScreen(main.settings);
+		
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();

@@ -7,13 +7,15 @@ import Screens.Settings;
 import Screens.Start;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 
 public class MainActivity extends Game {
-	Start start;
-	Categories categories;
-	Levels levels;
-	Play play;
-	Settings settings;
+	public Start start;
+	public Categories categories;
+	public Levels levels;
+	public Play play;
+	public Settings settings;
 	
 	@Override
 	/** Method called once when the application is created. **/
@@ -29,6 +31,9 @@ public class MainActivity extends Game {
 	@Override
 	/** Method called by the game loop from the application every time rendering should be performed. Game logic updates are usually also performed in this method. **/
 	public void render () {
+		//Gdx.gl.glClearColor(1, 1, 1, 1);
+        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		super.render();
 	}
 	
 	/** This method is called every time the game screen is re-sized and the game is not in the paused state. It is also called once just after the create() method.
