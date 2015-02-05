@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -20,17 +19,23 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.corners.game.MainActivity;
 
 public class Start implements Screen{
-
+	Texture carl;
 	MainActivity main;
 	Skin skin;
 	Stage stage;
 	SpriteBatch batch;
+	float screenWidth;
+	float screenHeight;
 	
 	public Start(final MainActivity main){
 		this.main = main;
 		batch = new SpriteBatch();
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
+		
+		this.carl = new Texture("carl1.jpg");
+		this.screenWidth = Gdx.graphics.getWidth();
+		this.screenHeight = Gdx.graphics.getHeight();
 
 		// A skin can be loaded via JSON or defined programmatically, either is fine. Using a skin is optional but strongly
 		// recommended solely for the convenience of getting a texture, region, etc as a drawable, tinted drawable, etc.
@@ -52,7 +57,7 @@ public class Start implements Screen{
 		textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
 		textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
 		textButtonStyle.font = skin.getFont("default");
-		textButtonStyle.font.setScale(3);
+		textButtonStyle.font.setScale(resizeText(320, 2, Gdx.graphics.getWidth()));
 		skin.add("default", textButtonStyle);
 
 		// Create a table that fills the screen. Everything else will go inside this table.
@@ -60,10 +65,7 @@ public class Start implements Screen{
 		table.setFillParent(true);
 		stage.addActor(table);
 		
-		final TextButton btnCategories = new TextButton("Play", skin);
-		table.add(btnCategories);
-		table.row();
-
+		final TextButton btnCategories = new TextButton("Categories", skin);
 		btnCategories.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Clicked! Is checked: " + btnCategories.isChecked());
@@ -75,8 +77,6 @@ public class Start implements Screen{
 		});
 
 		final TextButton btnSettings = new TextButton("Settings", skin);
-		table.add(btnSettings);
-
 		btnSettings.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Clicked! Is checked: " + btnSettings.isChecked());
@@ -85,6 +85,15 @@ public class Start implements Screen{
 				main.setScreen(main.settings);
 			}
 		});
+		
+		final TextButton btnFriends = new TextButton("Friends", skin);
+		
+		table.add(btnCategories);
+		table.row();
+		table.add(btnSettings);
+		table.row();
+		table.add(btnFriends);
+		table.row();
 	}
 	
 	@Override
@@ -94,9 +103,14 @@ public class Start implements Screen{
 	}
 
 	@Override
-	public void render(float delta) {
-		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
+	public void render(float delta) {	
+		Gdx.gl.glClearColor(54/255f, 83/255f, 139/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		batch.begin();
+		batch.draw(carl, (this.screenWidth/2)-(this.screenWidth/4), this.screenHeight-(this.screenHeight/3), this.screenWidth/2, this.screenHeight/3);
+		batch.end();
+		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 		
@@ -130,6 +144,12 @@ public class Start implements Screen{
 	public void dispose() {
 		stage.dispose();
 		skin.dispose();
+	}
+	
+	public float resizeText(float width, float currentSize, float currentWidth){
+	    float a = width * currentSize;
+	    float b = a/currentWidth;
+	    return b;
 	}
 
 }
