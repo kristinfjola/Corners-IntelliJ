@@ -5,11 +5,8 @@ import Screens.Levels;
 import Screens.Play;
 import Screens.Settings;
 import Screens.Start;
-import Screens.Start;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 
 public class MainActivity extends Game {
 	public Categories categories;
