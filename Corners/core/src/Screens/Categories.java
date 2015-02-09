@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.corners.game.MainActivity;
 import Logic.Category;
 import Logic.Colors;
+import Logic.Flags;
 
 public class Categories implements Screen {
 	Texture carl; //the character, let's call it Carl
@@ -88,6 +89,8 @@ public class Categories implements Screen {
 				//main.settings = new Settings(main);
 				//main.setScreen(main.settings);
 				System.out.println("COLORS!");
+				main.play = new Play(main, new Colors());
+	            main.setScreen(main.play);
 			}
 		});
 		
@@ -95,6 +98,8 @@ public class Categories implements Screen {
 		btnFlags.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("FLAGS!");
+				main.play = new Play(main, new Flags());
+	            main.setScreen(main.play);
 			}
 		});
 		
@@ -122,13 +127,6 @@ public class Categories implements Screen {
 		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
-        
-        if (Gdx.input.justTouched()) // use your own criterion here
-        	main.play = new Play(main, new Colors());
-            main.setScreen(main.play);
-        /*if (Gdx.input.justTouched()) // use your own criterion here
-        	main.levels = new Levels(main);
-            main.setScreen(main.levels);*/
 	}
 
 	@Override
