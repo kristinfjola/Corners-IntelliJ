@@ -51,10 +51,10 @@ public class Start implements Screen{
 				System.out.println("Clicked! Is checked: " + btnCategories.isChecked());
 				System.out.println("start");
 				dispose();
-				main.play = new Play(main, new Logic.Math());
-	            main.setScreen(main.play);
-				//main.categories = new Categories(main);
-				//main.setScreen(main.categories);
+				//main.play = new Play(main, new Logic.Math());
+	            //main.setScreen(main.play);
+				main.categories = new Categories(main);
+				main.setScreen(main.categories);
 			}
 		});
 		
@@ -142,7 +142,7 @@ public class Start implements Screen{
 		textButtonStyle.font.setScale(Gdx.graphics.getWidth()/140);
 		skin.add("default", textButtonStyle);*/
 		
-		Skin skins = new Skin(Gdx.files.internal("skins/skins.json"));
+		Skin skin = new Skin(Gdx.files.internal("skins/skins.json"));
 		return skin;
 	}
 }
