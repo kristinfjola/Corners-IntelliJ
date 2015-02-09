@@ -1,6 +1,5 @@
 package Screens;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -20,51 +19,30 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.corners.game.MainActivity;
 
 public class Start implements Screen{
-	Texture carl;
 	MainActivity main;
-	Skin skin;
-	Stage stage;
-	SpriteBatch batch;
-	float screenWidth;
-	float screenHeight;
+	Skin skin = new Skin();
+	Stage stage = new Stage();
+	SpriteBatch batch = new SpriteBatch();
+	float screenWidth = Gdx.graphics.getWidth();
+	float screenHeight = Gdx.graphics.getHeight();
+	Texture carl = new Texture("carl4.jpg");
 	
 	public Start(final MainActivity main){
-		this.main = main;
-		batch = new SpriteBatch();
-		stage = new Stage();
+		this.main = main;		
 		Gdx.input.setInputProcessor(stage);
-		
-		this.carl = new Texture("carl1.jpg");
-		this.screenWidth = Gdx.graphics.getWidth();
-		this.screenHeight = Gdx.graphics.getHeight();
 
 		// A skin can be loaded via JSON or defined programmatically, either is fine. Using a skin is optional but strongly
 		// recommended solely for the convenience of getting a texture, region, etc as a drawable, tinted drawable, etc.
-		skin = new Skin();
-
-		// Generate a 1x1 white texture and store it in the skin named "white".
-		Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
-		pixmap.setColor(Color.WHITE);
-		pixmap.fill();
-		skin.add("white", new Texture(pixmap));
-
-		// Store the default libgdx font under the name "default".
-		skin.add("default", new BitmapFont());
-
-		// Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
-		TextButtonStyle textButtonStyle = new TextButtonStyle();
-		textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
-		textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-		textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
-		textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
-		textButtonStyle.font = skin.getFont("default");
-		//textButtonStyle.font.setScale(resizeText(320, 2, Gdx.graphics.getWidth()));
-		textButtonStyle.font.setScale(3);
-		skin.add("default", textButtonStyle);
-
+		skin = getSkin();
+	}
+	
+	@Override
+	public void show() {
+		// TODO Auto-generated method stub
 		// Create a table that fills the screen. Everything else will go inside this table.
 		Table table = new Table();
-		table.setFillParent(true);
+		table.top();
+		table.setFillParent(true); //makes the table as big as the stage, and centers it inside the stage
 		stage.addActor(table);
 		
 		final TextButton btnCategories = new TextButton("Categories", skin);
@@ -73,11 +51,13 @@ public class Start implements Screen{
 				System.out.println("Clicked! Is checked: " + btnCategories.isChecked());
 				System.out.println("start");
 				dispose();
+				//main.play = new Play(main, new Logic.Math());
+	            //main.setScreen(main.play);
 				main.categories = new Categories(main);
-	            main.setScreen(main.categories);
+				main.setScreen(main.categories);
 			}
 		});
-
+		
 		final TextButton btnSettings = new TextButton("Settings", skin);
 		btnSettings.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
@@ -88,19 +68,11 @@ public class Start implements Screen{
 			}
 		});
 		
-		final TextButton btnFriends = new TextButton("Friends", skin);
+		TextButton btnFriends = new TextButton("Friends", skin);
 		
-		table.add(btnCategories);
-		table.row();
-		table.add(btnSettings);
-		table.row();
-		table.add(btnFriends);
-		table.row();
-	}
-	
-	@Override
-	public void show() {
-		// TODO Auto-generated method stub
+		table.add(btnCategories).padTop(screenHeight/2.8f).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
+		table.add(btnSettings).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
+		table.add(btnFriends).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
 		
 	}
 
@@ -110,7 +82,7 @@ public class Start implements Screen{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
-		batch.draw(carl, (this.screenWidth/2)-(this.screenWidth/4), this.screenHeight-(this.screenHeight/3), this.screenWidth/2, this.screenHeight/3);
+		batch.draw(carl, screenWidth/4, screenHeight*2/3, screenWidth/2, screenHeight/3);
 		batch.end();
 		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -148,10 +120,29 @@ public class Start implements Screen{
 		skin.dispose();
 	}
 	
-	public float resizeText(float width, float currentSize, float currentWidth){
-	    float a = width * currentSize;
-	    float b = a/currentWidth;
-	    return b;
-	}
+	public Skin getSkin() {
+		/*Skin skin = new Skin();
+		
+		// Generate a 1x1 white texture and store it in the skin named "white".
+		Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
+		pixmap.setColor(Color.WHITE);
+		pixmap.fill();
+		skin.add("white", new Texture(pixmap));
 
+		// Store the default libgdx font under the name "default".
+		skin.add("default", new BitmapFont());
+
+		// Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
+		TextButtonStyle textButtonStyle = new TextButtonStyle();
+		textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
+		textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
+		textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
+		textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
+		textButtonStyle.font = skin.getFont("default");
+		textButtonStyle.font.setScale(Gdx.graphics.getWidth()/140);
+		skin.add("default", textButtonStyle);*/
+		
+		Skin skin = new Skin(Gdx.files.internal("skins/skins.json"));
+		return skin;
+	}
 }

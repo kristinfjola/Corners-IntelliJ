@@ -56,11 +56,11 @@ public class Categories implements Screen {
 		// Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
 		textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
-		textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-		textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
-		textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
+		//textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
+		//textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
+		//textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
 		textButtonStyle.font = skin.getFont("default");
-		textButtonStyle.font.setScale(5);
+		textButtonStyle.font.setScale(6);
 		skin.add("default", textButtonStyle);
 
 		// Create a table that fills the screen. Everything else will go inside this table.
@@ -88,6 +88,8 @@ public class Categories implements Screen {
 				//System.out.println("start");
 				//main.settings = new Settings(main);
 				//main.setScreen(main.settings);
+				//main.levels = new Levels(main, "");
+				//main.setScreen(main.levels);
 				System.out.println("COLORS!");
 				main.play = new Play(main, new Colors());
 	            main.setScreen(main.play);
