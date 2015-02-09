@@ -58,7 +58,8 @@ public class Start implements Screen{
 		textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
 		textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
 		textButtonStyle.font = skin.getFont("default");
-		textButtonStyle.font.setScale(resizeText(320, 2, Gdx.graphics.getWidth()));
+		//textButtonStyle.font.setScale(resizeText(320, 2, Gdx.graphics.getWidth()));
+		textButtonStyle.font.setScale(3);
 		skin.add("default", textButtonStyle);
 
 		// Create a table that fills the screen. Everything else will go inside this table.
@@ -72,8 +73,8 @@ public class Start implements Screen{
 				System.out.println("Clicked! Is checked: " + btnCategories.isChecked());
 				System.out.println("start");
 				dispose();
-				main.play = new Play(main, new Logic.Math());
-	            main.setScreen(main.play);
+				main.categories = new Categories(main);
+	            main.setScreen(main.categories);
 			}
 		});
 
