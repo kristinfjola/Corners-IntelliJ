@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.corners.game.MainActivity;
+import Logic.Category;
+import Logic.Math;
+import Logic.Colors;
 
 public class Categories implements Screen {
 
@@ -25,8 +28,8 @@ public class Categories implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         if (Gdx.input.justTouched()) // use your own criterion here
-        	main.levels = new Levels(main);
-            main.setScreen(main.levels);
+        	main.play = new Play(main, new Colors());
+            main.setScreen(main.play);
 	}
 
 	@Override

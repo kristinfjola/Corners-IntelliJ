@@ -21,10 +21,6 @@ public class MainActivity extends Game {
 	@Override
 	/** Method called once when the application is created. **/
 	public void create () {
-		categories = new Categories(this);
-		levels = new Levels(this);
-		play = new Play(this);
-		settings = new Settings(this);
 		start = new Start(this);
         setScreen(start);
 	}

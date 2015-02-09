@@ -1,5 +1,6 @@
 package Screens;
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -71,8 +72,8 @@ public class Start implements Screen{
 				System.out.println("Clicked! Is checked: " + btnCategories.isChecked());
 				System.out.println("start");
 				dispose();
-				main.categories = new Categories(main);
-				main.setScreen(main.categories);
+				main.play = new Play(main, new Logic.Math());
+	            main.setScreen(main.play);
 			}
 		});
 
