@@ -1,6 +1,6 @@
 {
     "com.badlogic.gdx.graphics.g2d.BitmapFont": {
-        "default": { "file": "fonts/sample.fnt" },
+        "default": { "file": "fonts/sampleLarge.fnt" },
     },
     "com.badlogic.gdx.graphics.Color": {
         "white": { "r": 1, "g": 1, "b": 1, "a": 1 },
