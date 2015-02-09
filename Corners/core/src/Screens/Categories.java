@@ -71,11 +71,8 @@ public class Categories implements Screen {
 		final TextButton btnMath = new TextButton("Math", skin);
 		btnMath.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				//System.out.println("Clicked! Is checked: " + btnCategories.isChecked());
-				//System.out.println("start");
-				//dispose();
-				//main.categories = new Categories(main);
-				//main.setScreen(main.categories);
+				main.levels = new Levels(main, "");
+				main.setScreen(main.levels);
 				System.out.println("MATH!");
 			}
 		});
@@ -83,10 +80,8 @@ public class Categories implements Screen {
 		final TextButton btnColors = new TextButton("Colors", skin);
 		btnColors.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				//System.out.println("Clicked! Is checked: " + btnSettings.isChecked());
-				//System.out.println("start");
-				//main.settings = new Settings(main);
-				//main.setScreen(main.settings);
+				main.levels = new Levels(main, "");
+				main.setScreen(main.levels);
 				System.out.println("COLORS!");
 			}
 		});
@@ -94,6 +89,8 @@ public class Categories implements Screen {
 		final TextButton btnFlags = new TextButton("Flags", skin);
 		btnFlags.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
+				main.levels = new Levels(main, "");
+				main.setScreen(main.levels);
 				System.out.println("FLAGS!");
 			}
 		});
