@@ -75,9 +75,8 @@ public class Categories implements Screen {
 				//System.out.println("Clicked! Is checked: " + btnCategories.isChecked());
 				//System.out.println("start");
 				//dispose();
-				//main.categories = new Categories(main);
-				//main.setScreen(main.categories);
-				System.out.println("MATH!");
+				main.levels = new Levels(main, new Colors());
+				main.setScreen(main.levels);
 			}
 		});
 
@@ -91,8 +90,8 @@ public class Categories implements Screen {
 				//main.levels = new Levels(main, "");
 				//main.setScreen(main.levels);
 				System.out.println("COLORS!");
-				main.play = new Play(main, new Colors());
-	            main.setScreen(main.play);
+				main.levels = new Levels(main, new Colors());
+	            main.setScreen(main.levels);
 			}
 		});
 		
@@ -100,8 +99,8 @@ public class Categories implements Screen {
 		btnFlags.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("FLAGS!");
-				main.play = new Play(main, new Flags());
-	            main.setScreen(main.play);
+				main.levels = new Levels(main, new Flags());
+	            main.setScreen(main.levels);
 			}
 		});
 		
