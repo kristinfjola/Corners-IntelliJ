@@ -11,6 +11,7 @@ public class Levels implements Screen{
 	
 	public Levels(MainActivity main){
 		this.main = main;
+		//Hvert er þessi kóði að fara????
 	}
 	
 	@Override
