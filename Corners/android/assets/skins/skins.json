@@ -18,12 +18,16 @@
         "screen720": { "font": font72, "up": "default-round" },
         "screen1080": { "font": font108, "up": "default-round" } 
     },
-    "com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle.LabelStyle:"{
+    "com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle.LabelStyle":{
     	"default": { font: default-font, fontColor: black },
     	"screen320": { "font": font32, "up": "default-round" },
     	"screen480": { "font": font48, "up": "default-round" },
         "screen540": { "font": font54, "up": "default-round" },
         "screen720": { "font": font72, "up": "default-round" },
         "screen1080": { "font": font108, "up": "default-round" }
-    }
+    },
+    "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
+		default: { down: default-round-down, up: default-round },
+		toggle: { down: default-round-down, checked: default-round-down, up: default-round }
+	}
 }
