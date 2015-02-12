@@ -105,8 +105,14 @@ public class Levels implements Screen{
 		stage.draw();		
 	}
 
+	/**
+	 * Sets the screen to its proper size
+	 * @param width
+	 * @param height
+	 */
 	@Override
 	public void resize(int width, int height) {
+		stage.getViewport().update(width, height, true);
 	}
 
 	@Override
@@ -126,6 +132,9 @@ public class Levels implements Screen{
 		// TODO Auto-generated method stub
 	}
 
+	/**
+	 * Disposes the screen
+	 */
 	@Override
 	public void dispose() {
 		stage.dispose();
@@ -154,6 +163,7 @@ public class Levels implements Screen{
 		labelStyle.background = skin.newDrawable("white", new Color(240/255f, 240/255f, 102/255f, 1));
 		labelStyle.font = new BitmapFont();
 		skin.add("default", labelStyle);
+		
 		
 		Label label = new Label(Integer.toString(level), skin);
 		label.setAlignment(Align.center);		
