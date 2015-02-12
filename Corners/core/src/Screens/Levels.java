@@ -1,3 +1,9 @@
+/**
+ * @author 	Steinunn Fridgeirsdottir
+ * @date 	05.02.2015
+ * @goal 	Levels is a screen that shows the user the levels that he/she can play in a category.
+ * 			It also shows the stars that the user has won.
+ */
 package screens;
 
 import logic.Category;
@@ -33,12 +39,21 @@ public class Levels implements Screen{
 	private Table container;
 	private Category cat;
 	
+	/**
+	 * Constructor that sets the private variable and starts the screen.
+	 * 
+	 * @param main
+	 * @param category
+	 */
 	public Levels(MainActivity main, Category category){
 		this.main = main;
 		cat = category;
 		create();
 	}
 	
+	/**
+	 * Sets up the buttons on the level screen
+	 */
 	public void create(){
 		stage = new Stage();
 		skin = new Skin();
@@ -59,6 +74,7 @@ public class Levels implements Screen{
 		stage.addActor(container);
 		container.setFillParent(true);
 
+		//TODO: Fix the padding to a % of a screen size
 		int c = 1;
 		Table levels = new Table().pad(50);
 		levels.defaults().pad(40, 20, 40, 20);
@@ -77,6 +93,11 @@ public class Levels implements Screen{
 		
 	}
 
+	/**
+	 * Renders the stuff on the screen 
+	 *
+	 * @param delta
+	 */
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -103,7 +124,6 @@ public class Levels implements Screen{
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -113,7 +133,8 @@ public class Levels implements Screen{
 	}
 	
 	/**
-	 * Creates a button to represent the level
+	 * Creates a button to represent a level
+	 * level is a int number that represents the level number of the button
 	 * 
 	 * @param level
 	 * @return The button to use for the level
@@ -134,14 +155,11 @@ public class Levels implements Screen{
 		labelStyle.font = new BitmapFont();
 		skin.add("default", labelStyle);
 		
-		// Create the label to show the level number
 		Label label = new Label(Integer.toString(level), skin);
 		label.setAlignment(Align.center);		
 		
-		// Stack the image and the label at the top of our button
 		button.stack(new Image(skin.getDrawable("levelButton")), label).expand().fill();
 		
-		// Randomize the number of stars earned for demonstration purposes
 		Table starTable = new Table();
 		starTable.background(skin.newDrawable("white", new Color(54/255f, 83/255f, 139/255f, 1)));
 		starTable.defaults().pad(5);
@@ -163,9 +181,17 @@ public class Levels implements Screen{
 	}
 	
 	/**
-	 * Handle the click - in real life, we'd go to the level
+	 * A handler for the level-button click
 	 */
 	public ClickListener levelClickListener = new ClickListener() {
+		
+		/**
+		 * Sends the user to a new play screen
+		 * 
+		 * @param event
+		 * @param x
+		 * @param y
+		 */
 		@Override
 		public void clicked (InputEvent event, float x, float y) {
 			main.play = new Play(main, cat);
