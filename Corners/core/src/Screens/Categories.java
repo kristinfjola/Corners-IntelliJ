@@ -1,3 +1,9 @@
+/**
+ * @author: Edda Bjork Konradsdottir
+ * @date: 	05.02.2015
+ * @goal: 	A class for the categories screen (mostly interface)
+ */
+
 package screens;
 
 import logic.Category;
@@ -28,6 +34,13 @@ public class Categories implements Screen {
 	Skin skin;
 	Stage stage;
 	
+	
+	/**
+	 * Constructor. Creates the the interface and sets the
+	 * private variables
+	 * 
+	 * @param main - applicable activity
+	 */
 	public Categories(final MainActivity main){
 		this.main = main;
 		this.batch = new SpriteBatch();
@@ -52,9 +65,6 @@ public class Categories implements Screen {
 		final TextButton btnMath = new TextButton("Math", skin, screenSizeGroup);
 		btnMath.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				//System.out.println("Clicked! Is checked: " + btnCategories.isChecked());
-				//System.out.println("start");
-				//dispose();
 				main.levels = new Levels(main, new Colors());
 				main.setScreen(main.levels);
 			}
@@ -63,12 +73,6 @@ public class Categories implements Screen {
 		final TextButton btnColors = new TextButton("Colors", skin, screenSizeGroup);
 		btnColors.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				//System.out.println("Clicked! Is checked: " + btnSettings.isChecked());
-				//System.out.println("start");
-				//main.settings = new Settings(main);
-				//main.setScreen(main.settings);
-				//main.levels = new Levels(main, "");
-				//main.setScreen(main.levels);
 				System.out.println("COLORS!");
 				main.levels = new Levels(main, new Colors());
 	            main.setScreen(main.levels);
@@ -97,8 +101,12 @@ public class Categories implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
+	
+	/**
+	 * Renders all the cool stuff on the screen every delta time
+	 * 
+	 * @param delta
+	 */
 	public void render(float delta) {
 		Gdx.gl.glClearColor(54/255f, 83/255f, 139/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -110,9 +118,13 @@ public class Categories implements Screen {
 		stage.draw();
 	}
 
-	@Override
+	/**
+	 * Resizes the screen to the applicable size
+	 * 
+	 * @param width
+	 * @param height
+	 */
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
 		stage.getViewport().update(width, height, true);
 	}
 
@@ -134,13 +146,20 @@ public class Categories implements Screen {
 		
 	}
 
-	@Override
+	/**
+	 * Disposes the screen
+	 */
 	public void dispose() {
-		// TODO Auto-generated method stub
 		stage.dispose();
 		skin.dispose();
 	}
 	
+	/**
+	 * Check in which screen size group the screen is
+	 * (how big the screen is)
+	 * 
+	 * @return screen size group
+	 */
 	public String getScreenSizeGroup(){
 		if(screenWidth < 400) return "screen320";
 		else if(400 <= screenWidth && screenWidth < 510) return "screen480";
