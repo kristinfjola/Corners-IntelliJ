@@ -1,16 +1,19 @@
+/**
+ * @author: Kristin Fjola Tomasdottir
+ * @date	05.02.2015
+ * @goal: 	The display of each level which includes a question in the middle
+ * 			of the screen and 4 answers located at each corner of the screen
+ */
 package screens;
 
 import logic.Category;
-
 import boxes.Box;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.corners.game.MainActivity;
 
@@ -26,6 +29,10 @@ public class Play implements Screen, InputProcessor{
     int screenHeight = 800;
     int qSize = 100;
 	
+	/**
+	 * @param main - main activity of the game
+	 * @param cat - what category is being played
+	 */
 	public Play(MainActivity main, Category cat){
 		this.main = main;
 		this.cat = cat;
@@ -36,6 +43,11 @@ public class Play implements Screen, InputProcessor{
  	    batch = new SpriteBatch();
 	}
 
+	/**
+	 * Renders a question in the middle of the screen and 4 answers located
+	 * at each corner of the screen. Handles when user touches the screen
+	 * and drags/swipes the question.
+	 */
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -67,7 +79,6 @@ public class Play implements Screen, InputProcessor{
 		if(hit != null){
 			cat.getAnswers().removeValue(hit, false);
 		}
-		
 	}
 	
 	@Override
@@ -119,6 +130,10 @@ public class Play implements Screen, InputProcessor{
 		return false;
 	}
 
+	/**
+	 * If user let's go of the question box it returns to the middle
+	 * of the screen.
+	 */
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		cat.getQuestion().getRec().x = screenWidth / 2 - qSize / 2;

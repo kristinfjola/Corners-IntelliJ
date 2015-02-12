@@ -1,11 +1,13 @@
+/**
+ * @author: Kristin Fjola Tomasdottir
+ * @date	05.02.2015
+ * @goal: 	Delivers levels for the category Colors
+ */
 package logic;
 
 import java.util.Random;
-
-
 import boxes.Box;
 import boxes.ColorBox;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,6 +21,9 @@ public class Colors extends Category {
 			Color.RED, Color.TEAL};
 	Color[] colorsInUse = new Color[4];
 	
+	/**
+	 * 	Creates a new Colors category, delivers a question and possible answers
+	 */
 	public Colors(){
 		qWidth = 100;
 		qHeight = 100;
@@ -65,18 +70,30 @@ public class Colors extends Category {
 		return null;
 	}
 
+	/**
+	 * @return	selection of colors
+	 */
 	public Color[] getColors() {
 		return colors;
 	}
 
+	/**
+	 * @param colors
+	 */
 	public void setColors(Color[] colors) {
 		this.colors = colors;
 	}
 
+	/**
+	 * @return	colors in use in current level
+	 */
 	public Color[] getColorsInUse() {
 		return colorsInUse;
 	}
 
+	/**
+	 * @param colorsInUse
+	 */
 	public void setColorsInUse(Color[] colorsInUse) {
 		this.colorsInUse = colorsInUse;
 	}

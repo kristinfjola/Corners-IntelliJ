@@ -1,5 +1,9 @@
+/**
+ * @author: Kristin Fjola Tomasdottir
+ * @date	05.02.2015
+ * @goal: 	Delivers levels for the category Flags
+ */
 package logic;
-
 
 import boxes.Box;
 import boxes.ColorBox;
@@ -14,7 +18,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 public class Flags extends Category{
+	
 	String[] countries = {"Canada", "Ethiopia", "UK", "Sweeden", "Iceland"};
+	
+	/**
+	 * 	Creates a new Flags category, delivers a question and possible answers
+	 */
 	public Flags(){
 		qWidth = 120;
 		qHeight = 80;
@@ -48,5 +57,19 @@ public class Flags extends Category{
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * @return countries selection
+	 */
+	public String[] getCountries() {
+		return countries;
+	}
+
+	/**
+	 * @param countries
+	 */
+	public void setCountries(String[] countries) {
+		this.countries = countries;
 	}
 }
