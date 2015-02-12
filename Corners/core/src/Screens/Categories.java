@@ -119,7 +119,9 @@ public class Categories implements Screen {
 	}
 
 	/**
-	 * Resizes the screen to the applicable size
+	 * Resizes the screen to the applicable size, the parameters
+	 * width and height are the new width and height the screen 
+	 * has been resized to
 	 * 
 	 * @param width
 	 * @param height

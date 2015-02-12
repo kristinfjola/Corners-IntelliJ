@@ -1,3 +1,10 @@
+/**
+ * @author: Edda Bjork Konradsdottir
+ * @date: 	05.02.2015
+ * @goal: 	The activity for the game, keeps track of which screen
+ * 			to show
+ */
+
 package com.corners.game;
 
 import screens.Categories;
@@ -27,8 +34,6 @@ public class MainActivity extends Game {
 	@Override
 	/** Method called by the game loop from the application every time rendering should be performed. Game logic updates are usually also performed in this method. **/
 	public void render () {
-		//Gdx.gl.glClearColor(1, 1, 1, 1);
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		super.render();
 	}
 	
