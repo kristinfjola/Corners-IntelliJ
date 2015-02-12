@@ -1,7 +1,8 @@
-package Screens;
+package screens;
 
-import Boxes.Box;
-import Logic.Category;
+import logic.Category;
+
+import boxes.Box;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;

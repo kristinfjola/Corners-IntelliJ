@@ -1,8 +1,9 @@
-package Logic;
+package logic;
 
-import Boxes.Box;
-import Boxes.ColorBox;
-import Boxes.FlagBox;
+
+import boxes.Box;
+import boxes.ColorBox;
+import boxes.FlagBox;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

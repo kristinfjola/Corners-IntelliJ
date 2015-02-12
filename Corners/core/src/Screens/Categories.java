@@ -1,4 +1,8 @@
-package Screens;
+package screens;
+
+import logic.Category;
+import logic.Colors;
+import logic.Flags;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -14,9 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.corners.game.MainActivity;
-import Logic.Category;
-import Logic.Colors;
-import Logic.Flags;
 
 public class Categories implements Screen {
 	Texture carl; //the character, let's call it Carl

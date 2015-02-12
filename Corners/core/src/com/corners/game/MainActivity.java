@@ -1,11 +1,10 @@
 package com.corners.game;
 
-import Screens.Categories;
-import Screens.Levels;
-import Screens.Play;
-import Screens.Settings;
-import Screens.Start;
-import Screens.Start;
+import screens.Categories;
+import screens.Levels;
+import screens.Play;
+import screens.Settings;
+import screens.Start;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;

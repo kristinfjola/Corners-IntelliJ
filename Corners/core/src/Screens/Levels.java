@@ -1,4 +1,4 @@
-package Screens;
+package screens;
 
 import Logic.Category;
 import Logic.Colors;

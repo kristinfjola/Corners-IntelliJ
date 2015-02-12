@@ -1,9 +1,10 @@
-package Logic;
+package logic;
 
 import java.util.Random;
 
-import Boxes.ColorBox;
-import Boxes.Box;
+
+import boxes.Box;
+import boxes.ColorBox;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;

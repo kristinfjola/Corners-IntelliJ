@@ -1,6 +1,12 @@
-package Logic;
+/**
+ * Name: 	Kristin Fjola Tomasdottir
+ * Date: 	09.02.2015
+ * Goal: 	blabla
+ */
+package logic;
 
-import Boxes.Box;
+
+import boxes.Box;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -23,6 +29,10 @@ public class Category {
 		return null;
 	}
 
+	/**
+	 * @param
+	 * @return	blabla
+	 */
 	public int getLevel() {
 		return level;
 	}
