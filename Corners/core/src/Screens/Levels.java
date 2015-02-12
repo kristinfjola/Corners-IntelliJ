@@ -1,7 +1,7 @@
 package screens;
 
-import Logic.Category;
-import Logic.Colors;
+import logic.Category;
+import logic.Colors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;

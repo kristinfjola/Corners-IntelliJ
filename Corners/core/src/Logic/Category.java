@@ -1,16 +1,12 @@
 /**
  * Name: 	Kristin Fjola Tomasdottir
  * Date: 	09.02.2015
- * Goal: 	blabla
+ * Goal: 	A Superclass for all categories of the game
  */
 package logic;
 
-
 import boxes.Box;
-
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 public class Category {
