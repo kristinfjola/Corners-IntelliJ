@@ -2,19 +2,15 @@ package Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.corners.game.MainActivity;
@@ -40,28 +36,11 @@ public class Categories implements Screen {
 		this.screenHeight = Gdx.graphics.getHeight();
 		Gdx.input.setInputProcessor(stage);
 		
-		// A skin can be loaded via JSON or defined programmatically, either is fine. Using a skin is optional but strongly
-		// recommended solely for the convenience of getting a texture, region, etc as a drawable, tinted drawable, etc.
-		skin = new Skin();
-
-		// Generate a 1x1 white texture and store it in the skin named "white".
-		Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
-		pixmap.setColor(Color.WHITE);
-		pixmap.fill();
-		skin.add("white", new Texture(pixmap));
-
-		// Store the default libgdx font under the name "default".
-		skin.add("default", new BitmapFont());
-
-		// Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
-		TextButtonStyle textButtonStyle = new TextButtonStyle();
-		textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
-		//textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-		//textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
-		//textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
-		textButtonStyle.font = skin.getFont("default");
-		textButtonStyle.font.setScale(6);
-		skin.add("default", textButtonStyle);
+		TextureAtlas atlas = new TextureAtlas("fonts/uiskin.atlas");
+		
+		this.skin = new Skin(Gdx.files.internal("skins/skins.json"), atlas);
+		
+		String screenSizeGroup = getScreenSizeGroup();
 
 		// Create a table that fills the screen. Everything else will go inside this table.
 		Table table = new Table();
@@ -69,7 +48,7 @@ public class Categories implements Screen {
 		table.setFillParent(true);
 		stage.addActor(table);
 		
-		final TextButton btnMath = new TextButton("Math", skin);
+		final TextButton btnMath = new TextButton("Math", skin, screenSizeGroup);
 		btnMath.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				//System.out.println("Clicked! Is checked: " + btnCategories.isChecked());
@@ -80,7 +59,7 @@ public class Categories implements Screen {
 			}
 		});
 
-		final TextButton btnColors = new TextButton("Colors", skin);
+		final TextButton btnColors = new TextButton("Colors", skin, screenSizeGroup);
 		btnColors.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				//System.out.println("Clicked! Is checked: " + btnSettings.isChecked());
@@ -95,7 +74,7 @@ public class Categories implements Screen {
 			}
 		});
 		
-		final TextButton btnFlags = new TextButton("Flags", skin);
+		final TextButton btnFlags = new TextButton("Flags", skin, screenSizeGroup);
 		btnFlags.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("FLAGS!");
@@ -159,5 +138,13 @@ public class Categories implements Screen {
 		// TODO Auto-generated method stub
 		stage.dispose();
 		skin.dispose();
+	}
+	
+	public String getScreenSizeGroup(){
+		if(screenWidth < 400) return "screen320";
+		else if(400 <= screenWidth && screenWidth < 510) return "screen480";
+		else if(510 <= screenWidth && screenWidth < 630) return "screen540";
+		else if(630 <= screenWidth && screenWidth < 900) return "screen720";
+		else return "screen1080"; //900 <= screenWidth
 	}
 }

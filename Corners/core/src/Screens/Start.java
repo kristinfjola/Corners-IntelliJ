@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -26,7 +27,7 @@ public class Start implements Screen{
 		this.main = main;		
 		stage = new Stage();
 		batch = new SpriteBatch();
-		skin = new Skin(Gdx.files.internal("skins/skins.json"));
+		skin = getSkin();
 		Gdx.input.setInputProcessor(stage);
 	}
 	
@@ -121,5 +122,11 @@ public class Start implements Screen{
 		else if(510 <= screenWidth && screenWidth < 630) return "screen540";
 		else if(630 <= screenWidth && screenWidth < 900) return "screen720";
 		else return "screen1080"; //900 <= screenWidth
+	}
+	
+	public Skin getSkin() {
+		TextureAtlas atlas = new TextureAtlas("fonts/uiskin.atlas");
+		Skin skin = new Skin(Gdx.files.internal("skins/skins.json"), atlas);
+		return skin;
 	}
 }
