@@ -1,3 +1,9 @@
+/**
+ * @author: Johanna Agnes Magnusdottir
+ * @date: 	05.02.2015
+ * @goal: 	A class for the Start screen (mostly interface)
+ */
+
 package screens;
 
 import com.badlogic.gdx.Gdx;
@@ -21,8 +27,14 @@ public class Start implements Screen{
 	Skin skin;
 	float screenWidth = Gdx.graphics.getWidth();
 	float screenHeight = Gdx.graphics.getHeight();
-	Texture carl = new Texture("carl4.jpg");
+	Texture carl = new Texture("carl1.jpg");
 	
+	/**
+	 * Constructor. Creates the the interface and sets the
+	 * private variables
+	 * 
+	 * @param main - applicable activity
+	 */
 	public Start(final MainActivity main){
 		this.main = main;		
 		stage = new Stage();
@@ -31,9 +43,11 @@ public class Start implements Screen{
 		Gdx.input.setInputProcessor(stage);
 	}
 	
+	/**
+	 * Creates and sets up the buttons on the start screen
+	 */
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
 		Table table = new Table();
 		table.top();
 		table.setFillParent(true);
@@ -47,24 +61,14 @@ public class Start implements Screen{
 				System.out.println("Clicked! Is checked: " + btnCategories.isChecked());
 				System.out.println("start");
 				dispose();
-				//main.play = new Play(main, new Logic.Math());
-	            //main.setScreen(main.play);
 				main.categories = new Categories(main);
 				main.setScreen(main.categories);
 			}
 		});
 		
-		final TextButton btnSettings = new TextButton("Settings", skin, screenSizeGroup);
-		btnSettings.addListener(new ChangeListener() {
-			public void changed (ChangeEvent event, Actor actor) {
-				System.out.println("Clicked! Is checked: " + btnSettings.isChecked());
-				System.out.println("start");
-				main.settings = new Settings(main);
-				main.setScreen(main.settings);
-			}
-		});
-		
+		TextButton btnSettings = new TextButton("Settings", skin, screenSizeGroup);
 		TextButton btnFriends = new TextButton("Friends", skin, screenSizeGroup);
+		// TODO Add listeners
 		
 		table.add(btnCategories).padTop(screenHeight/2.8f).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
 		table.add(btnSettings).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
@@ -72,6 +76,11 @@ public class Start implements Screen{
 		
 	}
 
+	/**
+	 * Renders stuff on the screen every delta time
+	 * 
+	 * @param delta
+	 */
 	@Override
 	public void render(float delta) {	
 		Gdx.gl.glClearColor(54/255f, 83/255f, 139/255f, 1);
@@ -86,6 +95,14 @@ public class Start implements Screen{
 		
 	}
 
+	/**
+	 * Resizes the screen to the applicable size, the parameters
+	 * width and height are the new width and height the screen 
+	 * has been resized to
+	 * 
+	 * @param width
+	 * @param height
+	 */
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
@@ -110,12 +127,21 @@ public class Start implements Screen{
 		
 	}
 
+	/**
+	 * Disposes the screen
+	 */
 	@Override
 	public void dispose() {
 		stage.dispose();
 		skin.dispose();
 	}
 	
+	/**
+	 * Check in which screen size group the screen is
+	 * (how big the screen is)
+	 * 
+	 * @return screen size group
+	 */
 	public String getScreenSizeGroup(){
 		if(screenWidth < 400) return "screen320";
 		else if(400 <= screenWidth && screenWidth < 510) return "screen480";
@@ -124,6 +150,11 @@ public class Start implements Screen{
 		else return "screen1080"; //900 <= screenWidth
 	}
 	
+	/**
+	 * Gets the skin
+	 * 
+	 * @return the skin from skins.json
+	 */
 	public Skin getSkin() {
 		TextureAtlas atlas = new TextureAtlas("fonts/uiskin.atlas");
 		Skin skin = new Skin(Gdx.files.internal("skins/skins.json"), atlas);
