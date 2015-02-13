@@ -144,7 +144,9 @@ public class Levels implements Screen{
 	public Button getLevelButton(int level) {
 		Button button = new Button(skin);
 		
-		Label label = new Label(Integer.toString(level), skin);
+		String screenSizeGroup = main.screenSizeGroup;
+		
+		Label label = new Label(Integer.toString(level), skin, screenSizeGroup);
 		label.setAlignment(Align.center);		
 		
 		button.stack(new Image(skin.getDrawable("levelButton")), label).expand().fill();
