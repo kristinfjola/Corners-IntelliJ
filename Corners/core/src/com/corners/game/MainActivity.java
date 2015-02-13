@@ -15,7 +15,8 @@ import screens.Start;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class MainActivity extends Game {
 	public Categories categories;
@@ -23,10 +24,14 @@ public class MainActivity extends Game {
 	public Play play;
 	public Settings settings;
 	public Start start;
+	public Skin skin;
+	public String screenSizeGroup;
 	
 	@Override
 	/** Method called once when the application is created. **/
 	public void create () {
+		skin = getSkin();
+		screenSizeGroup = getScreenSizeGroup();
 		start = new Start(this);
         setScreen(start);
 	}
@@ -56,5 +61,31 @@ public class MainActivity extends Game {
 	/** Called when the application is destroyed. It is preceded by a call to pause(). **/
 	public void dispose () { 
 		
+	}
+	
+	/**
+	 * Gets the skin
+	 * 
+	 * @return the skin from skins.json
+	 */
+	public Skin getSkin() {
+		TextureAtlas atlas = new TextureAtlas("atlas/uiskin.atlas");		
+		Skin skin = new Skin(Gdx.files.internal("skins/skins.json"), atlas);
+		return skin;
+	}
+	
+	/**
+	 * Check in which screen size group the screen is
+	 * (how big the screen is)
+	 * 
+	 * @return screen size group
+	 */
+	public String getScreenSizeGroup(){
+		int screenWidth = Gdx.graphics.getWidth();
+		if(screenWidth < 400) return "screen320";
+		else if(400 <= screenWidth && screenWidth < 510) return "screen480";
+		else if(510 <= screenWidth && screenWidth < 630) return "screen540";
+		else if(630 <= screenWidth && screenWidth < 900) return "screen720";
+		else return "screen1080"; //900 <= screenWidth
 	}
 }

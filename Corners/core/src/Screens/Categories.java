@@ -50,11 +50,9 @@ public class Categories implements Screen {
 		this.screenHeight = Gdx.graphics.getHeight();
 		Gdx.input.setInputProcessor(stage);
 		
-		TextureAtlas atlas = new TextureAtlas("fonts/uiskin.atlas");
+		skin = main.skin;
 		
-		this.skin = new Skin(Gdx.files.internal("skins/skins.json"), atlas);
-		
-		String screenSizeGroup = getScreenSizeGroup();
+		String screenSizeGroup = main.screenSizeGroup;
 
 		// Create a table that fills the screen. Everything else will go inside this table.
 		Table table = new Table();
@@ -153,20 +151,5 @@ public class Categories implements Screen {
 	 */
 	public void dispose() {
 		stage.dispose();
-		skin.dispose();
-	}
-	
-	/**
-	 * Check in which screen size group the screen is
-	 * (how big the screen is)
-	 * 
-	 * @return screen size group
-	 */
-	public String getScreenSizeGroup(){
-		if(screenWidth < 400) return "screen320";
-		else if(400 <= screenWidth && screenWidth < 510) return "screen480";
-		else if(510 <= screenWidth && screenWidth < 630) return "screen540";
-		else if(630 <= screenWidth && screenWidth < 900) return "screen720";
-		else return "screen1080"; //900 <= screenWidth
 	}
 }

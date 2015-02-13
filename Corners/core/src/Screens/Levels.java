@@ -56,13 +56,7 @@ public class Levels implements Screen{
 	 */
 	public void create(){
 		stage = new Stage();
-		skin = new Skin();
-
-		// Generate a 1x1 white texture and store it in the skin named "white".
-		Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
-		pixmap.setColor(Color.WHITE);
-		pixmap.fill();
-		skin.add("white", new Texture(pixmap));
+		skin = main.skin;
 		
 		skin.add("levelButton", skin.newDrawable("white", Color.BLUE), Drawable.class);
 		skin.add("star-filled", skin.newDrawable("white", Color.YELLOW), Drawable.class); 
@@ -138,7 +132,6 @@ public class Levels implements Screen{
 	@Override
 	public void dispose() {
 		stage.dispose();
-		skin.dispose();
 	}
 	
 	/**
@@ -149,21 +142,7 @@ public class Levels implements Screen{
 	 * @return The button to use for the level
 	 */
 	public Button getLevelButton(int level) {
-			
-		ButtonStyle buttonStyle = new ButtonStyle();
-		buttonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
-		buttonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-		buttonStyle.checked = skin.newDrawable("white", Color.BLUE);
-		buttonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
-		skin.add("default", buttonStyle);
-		
 		Button button = new Button(skin);
-		
-		LabelStyle labelStyle = new LabelStyle();
-		labelStyle.background = skin.newDrawable("white", new Color(240/255f, 240/255f, 102/255f, 1));
-		labelStyle.font = new BitmapFont();
-		skin.add("default", labelStyle);
-		
 		
 		Label label = new Label(Integer.toString(level), skin);
 		label.setAlignment(Align.center);		
@@ -171,7 +150,7 @@ public class Levels implements Screen{
 		button.stack(new Image(skin.getDrawable("levelButton")), label).expand().fill();
 		
 		Table starTable = new Table();
-		starTable.background(skin.newDrawable("white", new Color(54/255f, 83/255f, 139/255f, 1)));
+		//starTable.background(skin.newDrawable("white", new Color(54/255f, 83/255f, 139/255f, 1)));
 		starTable.defaults().pad(5);
 
 		for (int star = 0; star < 3; star++) {

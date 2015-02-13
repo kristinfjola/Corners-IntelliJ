@@ -39,7 +39,7 @@ public class Start implements Screen{
 		this.main = main;		
 		stage = new Stage();
 		batch = new SpriteBatch();
-		skin = getSkin();
+		skin = main.skin;
 		Gdx.input.setInputProcessor(stage);
 	}
 	
@@ -53,7 +53,7 @@ public class Start implements Screen{
 		table.setFillParent(true);
 		stage.addActor(table);
 		
-		String screenSizeGroup = getScreenSizeGroup();
+		String screenSizeGroup = main.screenSizeGroup;
 		
 		final TextButton btnCategories = new TextButton("Categories", skin, screenSizeGroup);
 		btnCategories.addListener(new ChangeListener() {
@@ -133,31 +133,5 @@ public class Start implements Screen{
 	@Override
 	public void dispose() {
 		stage.dispose();
-		skin.dispose();
-	}
-	
-	/**
-	 * Check in which screen size group the screen is
-	 * (how big the screen is)
-	 * 
-	 * @return screen size group
-	 */
-	public String getScreenSizeGroup(){
-		if(screenWidth < 400) return "screen320";
-		else if(400 <= screenWidth && screenWidth < 510) return "screen480";
-		else if(510 <= screenWidth && screenWidth < 630) return "screen540";
-		else if(630 <= screenWidth && screenWidth < 900) return "screen720";
-		else return "screen1080"; //900 <= screenWidth
-	}
-	
-	/**
-	 * Gets the skin
-	 * 
-	 * @return the skin from skins.json
-	 */
-	public Skin getSkin() {
-		TextureAtlas atlas = new TextureAtlas("fonts/uiskin.atlas");
-		Skin skin = new Skin(Gdx.files.internal("skins/skins.json"), atlas);
-		return skin;
 	}
 }
