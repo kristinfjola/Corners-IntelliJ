@@ -8,11 +8,14 @@ package screens;
 
 import logic.Category;
 import boxes.Box;
+import boxes.MathBox;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.corners.game.MainActivity;
@@ -28,6 +31,7 @@ public class Play implements Screen, InputProcessor{
     int screenWidth = 480;
     int screenHeight = 800;
     int qSize = 100;
+    boolean lockPos = false;
 	
 	/**
 	 * @param main - main activity of the game
@@ -57,21 +61,43 @@ public class Play implements Screen, InputProcessor{
 		// draw sprites
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
+		
+		// draw answers
 		for(Box answer : cat.getAnswers()){
 			batch.draw(cat.getAnswerTextures()[cat.getAnswers().indexOf(answer, false)], 
 					answer.getRec().x, answer.getRec().y, answer.getRec().getWidth(), answer.getRec().getHeight());
+			// category math
+			if(answer instanceof MathBox){
+				((MathBox) answer).getFont().draw(batch, ((MathBox) answer).getText(), 
+						answer.getRec().x + answer.getRec().getWidth()/2,
+						answer.getRec().y + answer.getRec().getHeight()/2);
+			}
 		}
+		
+		// draw question
 		batch.draw(cat.getQuestionTexture(), cat.getQuestion().getRec().x, cat.getQuestion().getRec().y, 
 				cat.getQuestion().getRec().width, cat.getQuestion().getRec().height);
+		// category math
+		if(cat.getQuestion() instanceof MathBox){
+			((MathBox) cat.getQuestion()).getFont().draw(batch, ((MathBox) cat.getQuestion()).getText(), 
+					cat.getQuestion().getRec().x + cat.getQuestion().getRec().getWidth()/2,
+					cat.getQuestion().getRec().y + cat.getQuestion().getRec().getHeight()/2);
+		}
+		
 		batch.end();
 		
 		// swipe question
 		if(Gdx.input.isTouched()) {
 			touchPos = new Vector3();
 			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			camera.unproject(touchPos);
-			cat.getQuestion().getRec().x = touchPos.x - qSize / 2;
-			cat.getQuestion().getRec().y = touchPos.y - qSize / 2;
+			if(lockPos || touchOverlapsQuestion(touchPos)){
+				if(lockPos) {
+					camera.unproject(touchPos);
+				}
+				cat.getQuestion().getRec().x = touchPos.x - qSize / 2;
+				cat.getQuestion().getRec().y = touchPos.y - qSize / 2;
+				lockPos = true;
+			}
 		}
 		
 		// hit answer
@@ -79,6 +105,17 @@ public class Play implements Screen, InputProcessor{
 		if(hit != null){
 			cat.getAnswers().removeValue(hit, false);
 		}
+	}
+	
+	public boolean touchOverlapsQuestion(Vector3 touchPos){
+		camera.unproject(touchPos);
+		if(touchPos.x >= cat.getQuestion().getRec().x 
+				&& touchPos.x <= cat.getQuestion().getRec().x + cat.getQuestion().getRec().getWidth()
+				&& touchPos.y >= cat.getQuestion().getRec().y
+				&& touchPos.y <= cat.getQuestion().getRec().y + cat.getQuestion().getRec().getHeight()){
+			return true;
+		}
+		return false;
 	}
 	
 	@Override
@@ -138,6 +175,7 @@ public class Play implements Screen, InputProcessor{
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		cat.getQuestion().getRec().x = screenWidth / 2 - qSize / 2;
 		cat.getQuestion().getRec().y = screenHeight / 2 - qSize / 2;
+		lockPos = false;
 		return false;
 	}
 

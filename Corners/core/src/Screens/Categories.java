@@ -63,7 +63,7 @@ public class Categories implements Screen {
 		final TextButton btnMath = new TextButton("Math", skin, screenSizeGroup);
 		btnMath.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				main.levels = new Levels(main, new Colors());
+				main.levels = new Levels(main, new logic.Math());
 				main.setScreen(main.levels);
 			}
 		});
