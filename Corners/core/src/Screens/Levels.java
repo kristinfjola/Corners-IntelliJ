@@ -138,7 +138,7 @@ public class Levels implements Screen{
 	 * @param level
 	 * @return The button to use for the level
 	 */
-	public Button getLevelButton(int level) {
+	public Button getLevelButton(final int level) {
 		Button button = new Button(skin);
 		
 		String screenSizeGroup = main.screenSizeGroup;
@@ -164,8 +164,21 @@ public class Levels implements Screen{
 		button.row();
 		button.add(starTable);
 		
-		button.setName("Level" + Integer.toString(level));
-		button.addListener(levelClickListener);		
+		button.setName(Integer.toString(level));
+		button.addListener(new ClickListener() {	
+			/**
+			 * Sends the user to a new play screen
+			 * 
+			 * @param event
+			 * @param x
+			 * @param y
+			 */
+			@Override
+			public void clicked (InputEvent event, float x, float y) {
+				main.play = new Play(main, cat, level);
+	            main.setScreen(main.play);
+			}
+		});		
 		return button;
 	}
 	
@@ -183,7 +196,7 @@ public class Levels implements Screen{
 		 */
 		@Override
 		public void clicked (InputEvent event, float x, float y) {
-			main.play = new Play(main, cat);
+			main.play = new Play(main, cat, 1);
             main.setScreen(main.play);
 		}
 	};

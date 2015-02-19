@@ -31,6 +31,7 @@ public class Play implements Screen, InputProcessor{
     int screenWidth = 480;
     int screenHeight = 800;
     int qSize = 100;
+    int level;
     boolean lockPos = false;
     int questionsAnswered = 0;
 	
@@ -38,9 +39,10 @@ public class Play implements Screen, InputProcessor{
 	 * @param main - main activity of the game
 	 * @param cat - what category is being played
 	 */
-	public Play(MainActivity main, Category cat){
+	public Play(MainActivity main, Category cat, int level){
 		this.main = main;
 		this.cat = cat;
+		this.level = level;
 		Gdx.input.setInputProcessor(this);
 		
 		camera = new OrthographicCamera();
