@@ -44,7 +44,7 @@ public class Categories implements Screen {
 	public Categories(final MainActivity main){
 		this.main = main;
 		this.batch = new SpriteBatch();
-		this.carl = new Texture("carl1.jpg");
+		this.carl = new Texture("carl/carl4.jpg");
 		stage = new Stage();
 		this.screenWidth = Gdx.graphics.getWidth();
 		this.screenHeight = Gdx.graphics.getHeight();
@@ -106,11 +106,11 @@ public class Categories implements Screen {
 	 * @param delta
 	 */
 	public void render(float delta) {
-		Gdx.gl.glClearColor(54/255f, 83/255f, 139/255f, 1);
+		Gdx.gl.glClearColor(21/255f, 149/255f, 136/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-		batch.draw(carl, (this.screenWidth/2)-(this.screenWidth/4), this.screenHeight-(this.screenHeight/3), this.screenWidth/2, this.screenHeight/3);
-		batch.end();
+        batch.draw(carl, screenWidth/4, screenHeight*2/3, screenWidth/2, screenWidth/2);
+        batch.end();
 		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();

@@ -15,6 +15,7 @@ import screens.Start;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
@@ -26,6 +27,8 @@ public class MainActivity extends Game {
 	public Start start;
 	public Skin skin;
 	public String screenSizeGroup;
+	public Texture fullStar;
+	public Texture emptyStar;
 	
 	@Override
 	/** Method called once when the application is created. **/
@@ -34,6 +37,8 @@ public class MainActivity extends Game {
 		screenSizeGroup = getScreenSizeGroup();
 		start = new Start(this);
         setScreen(start);
+        fullStar = new Texture("stars/star_yellow.png");
+		emptyStar = new Texture("stars/star_gray.png");
 	}
 
 	@Override

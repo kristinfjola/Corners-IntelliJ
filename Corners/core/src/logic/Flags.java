@@ -34,7 +34,7 @@ public class Flags extends Category{
  	    question = new FlagBox(qWidth, qHeight, "Iceland");
  	    question.getRec().x = screenWidth / 2 - qWidth / 2;
  	    question.getRec().y = screenHeight / 2 - qHeight / 2;
- 	    question.setTexture(new Texture(Gdx.files.internal("Iceland.png")));
+ 	    question.setTexture(new Texture(Gdx.files.internal("flags/Iceland.png")));
  	    
  	    //answers
  	    answers = new Array<Box>();
@@ -42,7 +42,7 @@ public class Flags extends Category{
  	    	FlagBox box = new FlagBox(qWidth, qHeight, countries[i]);
  	 	    box.getRec().x = xcoords[i];
  	 	    box.getRec().y = ycoords[i];
- 	 	    box.setTexture(new Texture(Gdx.files.internal(countries[i] + ".png")));
+ 	 	    box.setTexture(new Texture(Gdx.files.internal("flags/" + countries[i] + ".png")));
  	 	    answers.add(box);
  	    }
 	}
