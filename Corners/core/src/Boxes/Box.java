@@ -5,6 +5,8 @@
  */
 package boxes;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Box {
@@ -12,6 +14,7 @@ public class Box {
 	Rectangle rec;
 	int screenWidth = 480;
     int screenHeight = 800;
+    Texture texture;
     
     /**
 	 * @param width	- width of box
@@ -21,6 +24,10 @@ public class Box {
     	this.rec = new Rectangle();
 		this.rec.width = width;
 		this.rec.height = height;
+    }
+    
+    public void draw(SpriteBatch batch){
+    	batch.draw(texture, rec.x, rec.y, rec.width, rec.height);
     }
     
 	/**
@@ -63,6 +70,14 @@ public class Box {
 	 */
 	public void setScreenHeight(int screenHeight) {
 		this.screenHeight = screenHeight;
+	}
+
+	public Texture getTexture() {
+		return texture;
+	}
+
+	public void setTexture(Texture texture) {
+		this.texture = texture;
 	}
     
     

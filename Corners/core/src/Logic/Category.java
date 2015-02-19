@@ -12,15 +12,67 @@ import com.badlogic.gdx.utils.Array;
 public class Category {
 	
 	Box question;
-	Texture questionTexture;
 	Array<Box> answers;
-	Texture[] answerTextures = new Texture[4];
 	int qWidth;
 	int qHeight;
 	int screenWidth = 480;
     int screenHeight = 800;
-	
-    /**
+    int level = 1;
+    
+    public void generateNewQuestion(){
+		switch(level){
+			case 1: generate1stLevelQuestions();
+					break;
+			case 2: generate2ndLevelQuestions();
+					break;
+			case 3: generate3rdLevelQuestions();
+				break;
+			case 4: generate4thLevelQuestions();
+				break;
+			case 5: generate5thLevelQuestions();
+				break;
+			case 6: generate6thLevelQuestions();
+				break;
+			case 7: generate7thLevelQuestions();
+				break;
+			case 8: generate8thLevelQuestions();
+				break;
+			case 9: generate9thLevelQuestions();
+				break;
+			default: break;
+		}
+	}
+    
+    public void generate1stLevelQuestions() {
+	}
+    
+    public void generate2ndLevelQuestions() {
+	}
+
+    public void generate3rdLevelQuestions() {
+	}
+
+    public void generate4thLevelQuestions() {
+	}
+
+    public void generate5thLevelQuestions() {
+	}
+
+    public void generate6thLevelQuestions() {
+	}
+
+    public void generate7thLevelQuestions() {
+	}
+
+    public void generate8thLevelQuestions() {
+	}
+    
+    public void generate9thLevelQuestions() {
+	}
+
+    
+
+	/**
 	 * @param
 	 * @return	true if question box collapses with answer box
 	 */
@@ -40,20 +92,6 @@ public class Category {
 	 */
 	public void setQuestion(Box question) {
 		this.question = question;
-	}
-
-	/**
-	 * @return texture on current question
-	 */
-	public Texture getQuestionTexture() {
-		return questionTexture;
-	}
-
-	/**
-	 * @param questionTexture
-	 */
-	public void setQuestionTexture(Texture questionTexture) {
-		this.questionTexture = questionTexture;
 	}
 
 	/**
@@ -126,19 +164,12 @@ public class Category {
 		this.screenHeight = screenHeight;
 	}
 
-	/**
-	 * @return texture for current answers
-	 */
-	public Texture[] getAnswerTextures() {
-		return answerTextures;
+	public int getLevel() {
+		return level;
 	}
 
-	/**
-	 * @param answerTextures
-	 */
-	public void setAnswerTextures(Texture[] answerTextures) {
-		this.answerTextures = answerTextures;
+	public void setLevel(int level) {
+		this.level = level;
 	}
-	
 	
 }

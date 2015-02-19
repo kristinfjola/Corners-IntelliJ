@@ -32,6 +32,7 @@ public class Play implements Screen, InputProcessor{
     int screenHeight = 800;
     int qSize = 100;
     boolean lockPos = false;
+    int questionsAnswered = 0;
 	
 	/**
 	 * @param main - main activity of the game
@@ -58,32 +59,13 @@ public class Play implements Screen, InputProcessor{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
 		
-		// draw sprites
+		// draw question and answers
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		
-		// draw answers
 		for(Box answer : cat.getAnswers()){
-			batch.draw(cat.getAnswerTextures()[cat.getAnswers().indexOf(answer, false)], 
-					answer.getRec().x, answer.getRec().y, answer.getRec().getWidth(), answer.getRec().getHeight());
-			// category math
-			if(answer instanceof MathBox){
-				((MathBox) answer).getFont().draw(batch, ((MathBox) answer).getText(), 
-						answer.getRec().x + answer.getRec().getWidth()/2,
-						answer.getRec().y + answer.getRec().getHeight()/2);
-			}
+			answer.draw(batch);
 		}
-		
-		// draw question
-		batch.draw(cat.getQuestionTexture(), cat.getQuestion().getRec().x, cat.getQuestion().getRec().y, 
-				cat.getQuestion().getRec().width, cat.getQuestion().getRec().height);
-		// category math
-		if(cat.getQuestion() instanceof MathBox){
-			((MathBox) cat.getQuestion()).getFont().draw(batch, ((MathBox) cat.getQuestion()).getText(), 
-					cat.getQuestion().getRec().x + cat.getQuestion().getRec().getWidth()/2,
-					cat.getQuestion().getRec().y + cat.getQuestion().getRec().getHeight()/2);
-		}
-		
+		cat.getQuestion().draw(batch);		
 		batch.end();
 		
 		// swipe question
@@ -103,7 +85,15 @@ public class Play implements Screen, InputProcessor{
 		// hit answer
 		Box hit = cat.checkIfHitAnswer();
 		if(hit != null){
-			cat.getAnswers().removeValue(hit, false);
+			//cat.getAnswers().removeValue(hit, false);
+			
+			// get new question
+			questionsAnswered++;
+			if(questionsAnswered >= 5){
+				cat.setLevel(cat.getLevel()+1);
+				questionsAnswered = 0;
+			}
+			cat.generateNewQuestion();
 		}
 	}
 	

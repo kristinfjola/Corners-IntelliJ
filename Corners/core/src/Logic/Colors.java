@@ -39,11 +39,11 @@ public class Colors extends Category {
  			pm.setColor(randomColor);
  			colorsInUse[i] = randomColor;
  			pm.fill();
- 			answerTextures[i] = new Texture(pm);
  	    	
  	    	ColorBox box = new ColorBox(qWidth, qHeight, randomColor);
  	 	    box.getRec().x = xcoords[i];
  	 	  	box.getRec().y = ycoords[i];
+ 	 	  	box.setTexture(new Texture(pm));
  	 	    answers.add(box);
  	    }
  	    
@@ -52,10 +52,10 @@ public class Colors extends Category {
  		Color randomColor = colorsInUse[rand.nextInt(colorsInUse.length)];
  		pixmap.setColor(randomColor);
  		pixmap.fill();
- 		questionTexture = new Texture(pixmap);
  		question = new ColorBox(qWidth, qHeight, randomColor);
   	    question.getRec().x = screenWidth / 2 - qWidth / 2;
   	    question.getRec().y = screenHeight / 2 - qHeight / 2;
+  	    question.setTexture(new Texture(pixmap));
 	}
 	
 	@Override

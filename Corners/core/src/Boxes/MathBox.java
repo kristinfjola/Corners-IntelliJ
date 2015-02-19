@@ -8,6 +8,7 @@ package boxes;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MathBox extends Box{
 
@@ -27,6 +28,12 @@ public class MathBox extends Box{
 		this.font.setColor(Color.BLACK);
 		this.text = text;
 	}
+	
+	@Override
+	public void draw(SpriteBatch batch){
+		super.draw(batch);
+		font.draw(batch, text, rec.x + rec.width/4, rec.y + rec.height/2);
+    }
 
 	/**
 	 * @return answer for box
