@@ -19,8 +19,6 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.utils.Array;
 
 public class Math extends Category{
-
-	int[] numbers = {1, 2, 3, 4};
 	/**
 	 * 	Creates a new Math category, delivers a question and possible answers
 	 */
@@ -52,8 +50,6 @@ public class Math extends Category{
   	    question.getRec().x = screenWidth / 2 - qWidth / 2;
   	    question.getRec().y = screenHeight / 2 - qHeight / 2;
   	    question.setTexture(new Texture(pm));
-  	    
-  	    generateNewQuestion();
 	}
 	
 	@Override
@@ -68,118 +64,284 @@ public class Math extends Category{
 		return null;
 	}
 	
-	@Override
-	public void generate1stLevelQuestions(){
-		// question
-		Random rand = new Random();
-		int a = 1 + rand.nextInt(20);
-		int b = 1 + rand.nextInt(20);
-		int sum = a + b;
-		String str = a + " + " + b;
+	public void generateQuestion(int ans, String str){
 		((MathBox) question).setText(str);
-		((MathBox) question).setNumber(sum);
-		
+		((MathBox) question).setNumber(ans);
+	}
+	
+	public void generateCorrectAnswer(int ans, String str){
+		Random rand = new Random();
+		int randomBox = rand.nextInt(4);
+		((MathBox) answers.get(randomBox)).setText(str);
+		((MathBox) answers.get(randomBox)).setNumber(ans);
+	}
+	
+	public void generateAnswersForLevels2to7(int ans){
 		// answers
 		List<Integer> numbers = new ArrayList<>();
+		Random rand = new Random();
 		for(Box answer : answers){
-			int ans = 1 + rand.nextInt(sum+10);
-			while(ans == sum || numbers.contains(ans)){
-				ans = 1 + rand.nextInt(sum+10);
+			int a = (ans < 6 ? 1 : ans-5) + rand.nextInt(10);
+			while(a == ans || numbers.contains(a)){
+				a = (ans < 6 ? 1 : ans-5) + rand.nextInt(10);
 			}
-			((MathBox) answer).setText(Integer.toString(ans));
-			((MathBox) answer).setNumber(ans);
-			numbers.add(ans);
+			((MathBox) answer).setText(Integer.toString(a));
+			((MathBox) answer).setNumber(a);
+			numbers.add(a);
 		}
-		// overwrite random box to match answer
-		int randomBox = rand.nextInt(4);
-		((MathBox) answers.get(randomBox)).setText(Integer.toString(sum));
-		((MathBox) answers.get(randomBox)).setNumber(sum);
 	}
 	
 	@Override
+	public void generate1stLevelQuestions(){
+		// numbers
+		Random rand = new Random();
+		int ans = 1 + rand.nextInt(20);
+		
+		generateQuestion(ans, Integer.toString(ans));
+		generateAnswersForLevels2to7(ans);
+		generateCorrectAnswer(ans, Integer.toString(ans));
+	}
+	
+	
+	@Override
 	public void generate2ndLevelQuestions(){
-		// question
+		// +
 		Random rand = new Random();
 		int a = 1 + rand.nextInt(20);
-		int b = rand.nextInt(a);
-		int diff = a - b;
-		String str = a + " - " + b;
-		((MathBox) question).setText(str);
-		((MathBox) question).setNumber(diff);
+		int b = 1 + rand.nextInt(20);
+		int ans = a + b;
 		
-		// answers
-		List<Integer> numbers = new ArrayList<>();
-		for(Box answer : answers){
-			int ans = 1 + rand.nextInt(diff+5);
-			while(ans == diff || numbers.contains(ans)){
-				ans = 1 + rand.nextInt(a+b);
-			}
-			((MathBox) answer).setText(Integer.toString(ans));
-			((MathBox) answer).setNumber(ans);
-			numbers.add(ans);
-		}
-		// overwrite random box to match answer
-		int randomBox = rand.nextInt(4);
-		((MathBox) answers.get(randomBox)).setText(Integer.toString(diff));
-		((MathBox) answers.get(randomBox)).setNumber(diff);
+		generateQuestion(ans, a + " + " + b);
+		generateAnswersForLevels2to7(ans);
+		generateCorrectAnswer(ans, Integer.toString(ans));
 	}
 	
 	@Override
 	public void generate3rdLevelQuestions() {
+		// -
+		Random rand = new Random();
+		int a = 1 + rand.nextInt(30);
+		int b = rand.nextInt(a);
+		int ans = a - b;
+		
+		generateQuestion(ans, a + " - " + b);
+		generateAnswersForLevels2to7(ans);
+		generateCorrectAnswer(ans, Integer.toString(ans));
 	}
 
 	@Override
 	public void generate4thLevelQuestions() {
+		// x
+		Random rand = new Random();
+		int a = 1 + rand.nextInt(12);
+		int b = 1 + rand.nextInt(12);
+		int ans = a * b;
+		
+		generateQuestion(ans, a + " x " + b);
+		generateAnswersForLevels2to7(ans);
+		generateCorrectAnswer(ans, Integer.toString(ans));
 	}
 
 	@Override
 	public void generate5thLevelQuestions() {
+		// /
+		Random rand = new Random();
+		int a = 1 + rand.nextInt(10);
+		int b = (1 + rand.nextInt(10)) * a;
+		int ans = b / a;
+		
+		generateQuestion(ans, b + " / " + a);
+		generateAnswersForLevels2to7(ans);
+		generateCorrectAnswer(ans, Integer.toString(ans));
 	}
 
 	@Override
 	public void generate6thLevelQuestions() {
+		// + and -
+		Random rand = new Random();
+		double op = rand.nextDouble();
+		int ans;
+		String str;
+		if(op < 0.5){
+			// +
+			int a = 1 + rand.nextInt(100);
+			int b = 1 + rand.nextInt(100);
+			ans = a + b;
+			str = a + " + " + b;
+		} else {
+			// -
+			int a = 1 + rand.nextInt(100);
+			int b = rand.nextInt(a);
+			ans = a - b;
+			str = a + " - " + b;
+		}
+		generateQuestion(ans, str);
+		generateAnswersForLevels2to7(ans);
+		generateCorrectAnswer(ans, Integer.toString(ans));
 	}
 
 	@Override
 	public void generate7thLevelQuestions() {
+		// + and -
+		Random rand = new Random();
+		double op = rand.nextDouble();
+		int ans;
+		String str;
+		if(op < 0.5){
+			// *
+			int a = 1 + rand.nextInt(25);
+			int b = 1 + rand.nextInt(25);
+			ans = a * b;
+			str = a + " x " + b;
+		} else {
+			// /
+			int a = 1 + rand.nextInt(30);
+			int b = (1 + rand.nextInt(30)) * a;
+			ans = b / a;
+			str = b + " / " + a;
+		}
+		generateQuestion(ans, str);
+		generateAnswersForLevels2to7(ans);
+		generateCorrectAnswer(ans, Integer.toString(ans));
 	}
 
 	public void generate8thLevelQuestions(){
-		//+: question to question
-		
-		// question
+		// + and -: question to question
 		Random rand = new Random();
-		int qa = rand.nextInt(20);
-		int qb = rand.nextInt(20);
-		int qn = qa + qb;
-		String qs = qa + " + " + qb;
-		((MathBox) question).setText(qs);
-		((MathBox) question).setNumber(qn);
-		
-		// answers
-		for(Box answer : answers){
-			int a = rand.nextInt(20);
-			int b = rand.nextInt(20);
-			int n = a + b;
-			while(n == qn){
-				a = rand.nextInt(20);
-				b = rand.nextInt(20);
-				n = a + b;
+		double op = rand.nextDouble();
+		int ans;
+		String strQuestion;
+		String strAnswer;
+		if(op < 0.5){
+			// +
+			int a = 1 + rand.nextInt(20);
+			int b = 1 + rand.nextInt(20);
+			ans = a + b;
+			strQuestion = a + " + " + b;
+			List<Integer> numbers = new ArrayList<>();
+			for(Box answer : answers){
+				int a2 = (a < 10 ? 1 : a-10) + rand.nextInt(10);
+				int b2 = (b < 10 ? 1 : b-10) + rand.nextInt(10);
+				int ans2 = a2 + b2;
+				while(ans2 == ans || numbers.contains(ans2)){
+					a2 = (a < 10 ? 1 : a-10) + rand.nextInt(10);
+					b2 = (b < 10 ? 1 : b-10) + rand.nextInt(10);
+					ans2 = a2 + b2;
+				}
+				String s = a2 + " + " + b2;
+				((MathBox) answer).setText(s);
+				((MathBox) answer).setNumber(ans2);
+				numbers.add(ans2);
 			}
-			String s = a + " + " + b;
-			((MathBox) answer).setText(s);
-			((MathBox) answer).setNumber(n);
+			
+			int a3 = rand.nextInt(ans);
+			int b3 = ans-a3;
+			strAnswer = a3 + " + " + b3;
+		} else {
+			// -
+			int a = 1 + rand.nextInt(100);
+			int b = rand.nextInt(a);
+			ans = a - b;
+			strQuestion = a + " - " + b;
+			List<Integer> numbers = new ArrayList<>();
+			for(Box answer : answers){
+				int a2 = (a < 10 ? 1 : a-10) + rand.nextInt(10);
+				int b2 = (b < 10 ? 1 : b-10) + rand.nextInt(10);
+				int ans2 = a2 - b2;
+				while(ans2 == ans || numbers.contains(ans2)){
+					a2 = (a < 10 ? 1 : a-10) + rand.nextInt(10);
+					b2 = (b < 10 ? 1 : b-10) + rand.nextInt(10);
+					ans2 = a2 - b2;
+				}
+				String s = a2 + " - " + b2;
+				((MathBox) answer).setText(s);
+				((MathBox) answer).setNumber(ans2);
+				numbers.add(ans2);
+			}
+
+			int a3 = a + rand.nextInt(20);
+			int b3 = a3-ans;
+			strAnswer = a3 + " - " + b3;
 		}
-		// overwrite random box to match answer
-		int randomBox = rand.nextInt(4);
-		int a = rand.nextInt(qn);
-		int b = qn-a;
-		String s = a + " + " + b;
-		((MathBox) answers.get(randomBox)).setText(s);
-		((MathBox) answers.get(randomBox)).setNumber(qn);
+		generateQuestion(ans, strQuestion);
+		generateCorrectAnswer(ans, strAnswer);
 	}
 	
 	@Override
 	public void generate9thLevelQuestions() {
+		// x and /: question to question
+		Random rand = new Random();
+		double op = rand.nextDouble();
+		int ans;
+		String strQuestion;
+		String strAnswer;
+		if(op < 0.5){
+			// x
+			int a = 1 + rand.nextInt(20);
+			int b = 1 + rand.nextInt(20);
+			ans = a * b;
+			strQuestion = a + " x " + b;
+			List<Integer> numbers = new ArrayList<>();
+			for(Box answer : answers){
+				int a2 = (a < 10 ? 1 : a-10) + rand.nextInt(10);
+				int b2 = (b < 10 ? 1 : b-10) + rand.nextInt(10);
+				int ans2 = a2 * b2;
+				while(ans2 == ans || numbers.contains(ans2)){
+					a2 = (a < 10 ? 1 : a-10) + rand.nextInt(10);
+					b2 = (b < 10 ? 1 : b-10) + rand.nextInt(10);
+					ans2 = a2 * b2;
+				}
+				String s = a2 + " x " + b2;
+				((MathBox) answer).setText(s);
+				((MathBox) answer).setNumber(ans2);
+				numbers.add(ans2);
+			}
+
+			int a3 = getRandomDivisor(ans);
+			int b3 = ans/a3;
+			strAnswer = a3 + " x " + b3;
+		} else {
+			// /
+			int a = 1 + rand.nextInt(50);
+			int b = (1 + rand.nextInt(5)) * a;
+			ans = b / a;
+			strQuestion = b + " / " + a;
+			List<Integer> numbers = new ArrayList<>();
+			for(Box answer : answers){
+				int a2 = (a < 5 ? 1 : a-5) + rand.nextInt(5);
+				int b2 = (1 + rand.nextInt(5))*a2;
+				int ans2 = b2 / a2;
+				while(ans2 == ans || numbers.contains(ans2)){
+					a2 = (a < 5 ? 1 : a-5) + rand.nextInt(5);
+					b2 = (1 + rand.nextInt(5))*a2;
+					ans2 = b2 / a2;
+				}
+				String s = b2 + " / " + a2;
+				((MathBox) answer).setText(s);
+				((MathBox) answer).setNumber(ans2);
+				numbers.add(ans2);
+			}
+
+			int a3 = a + rand.nextInt(100);
+			int b3 = a3*ans;
+			strAnswer = b3 + " / " + a3;
+		}
+		generateQuestion(ans, strQuestion);
+		generateCorrectAnswer(ans, strAnswer);
+	}
+	
+	private int getRandomDivisor(int num){
+		List<Integer> divisors = new ArrayList<>(); 
+		for (int i = 2; i < num / 2; i++) {
+            if (num % i == 0) {
+                divisors.add(i);
+            }
+        }
+		Random rand = new Random();
+		if(divisors.size() > 0) {
+			return divisors.get(rand.nextInt(divisors.size()));
+		} else {
+			return 1;
+		}
 	}
 }

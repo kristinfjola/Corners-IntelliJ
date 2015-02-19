@@ -48,6 +48,7 @@ public class Play implements Screen, InputProcessor{
 		camera = new OrthographicCamera();
  	    camera.setToOrtho(false, screenWidth, screenHeight);
  	    batch = new SpriteBatch();
+ 	    cat.generateNewQuestion(level);
 	}
 
 	/**
@@ -87,15 +88,13 @@ public class Play implements Screen, InputProcessor{
 		// hit answer
 		Box hit = cat.checkIfHitAnswer();
 		if(hit != null){
-			//cat.getAnswers().removeValue(hit, false);
-			
 			// get new question
 			questionsAnswered++;
-			if(questionsAnswered >= 5){
-				cat.setLevel(cat.getLevel()+1);
+			if(questionsAnswered >= 7){
 				questionsAnswered = 0;
+				level++;
 			}
-			cat.generateNewQuestion();
+			cat.generateNewQuestion(level);
 		}
 	}
 	

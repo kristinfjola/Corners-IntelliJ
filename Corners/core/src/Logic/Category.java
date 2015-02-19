@@ -17,9 +17,8 @@ public class Category {
 	int qHeight;
 	int screenWidth = 480;
     int screenHeight = 800;
-    int level = 1;
     
-    public void generateNewQuestion(){
+    public void generateNewQuestion(int level){
 		switch(level){
 			case 1: generate1stLevelQuestions();
 					break;
@@ -162,14 +161,6 @@ public class Category {
 	 */
 	public void setScreenHeight(int screenHeight) {
 		this.screenHeight = screenHeight;
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
 	}
 	
 }
