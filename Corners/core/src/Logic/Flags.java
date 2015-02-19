@@ -29,7 +29,7 @@ public class Flags extends Category{
 		qHeight = 80;
 		int[] xcoords = {0, 0, screenWidth-qWidth, screenWidth-qWidth}; 
 		int[] ycoords = {0, screenHeight-qHeight, screenHeight-qHeight, 0}; 
-		questionTexture = new Texture(Gdx.files.internal("Iceland.png"));
+		questionTexture = new Texture(Gdx.files.internal("flags/Iceland.png"));
 		
 		//question
  	    question = new FlagBox(qWidth, qHeight, "Iceland");
@@ -43,7 +43,7 @@ public class Flags extends Category{
  	 	    box.getRec().x = xcoords[i];
  	 	    box.getRec().y = ycoords[i];
  	 	    answers.add(box);
- 	 	    answerTextures[i] = new Texture(Gdx.files.internal(countries[i] + ".png"));
+ 	 	    answerTextures[i] = new Texture(Gdx.files.internal("flags/" + countries[i] + ".png"));
  	    }
 	}
 	

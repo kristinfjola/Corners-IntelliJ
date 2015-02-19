@@ -26,7 +26,7 @@ public class Start implements Screen{
 	Skin skin;
 	float screenWidth = Gdx.graphics.getWidth();
 	float screenHeight = Gdx.graphics.getHeight();
-	Texture carl = new Texture("carl4.jpg");
+	Texture carl = new Texture("carl/carl4.jpg");
 	
 	/**
 	 * Constructor. Creates the the interface and sets the
@@ -86,7 +86,7 @@ public class Start implements Screen{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
-		batch.draw(carl, screenWidth/4, screenHeight*2/3, screenWidth/2, screenHeight/3);
+		batch.draw(carl, screenWidth/4, screenHeight*2/3, screenWidth/2, screenWidth/2);
 		batch.end();
 		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));

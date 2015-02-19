@@ -7,28 +7,24 @@
 package screens;
 
 import logic.Category;
-import logic.Colors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.corners.game.MainActivity;
 
 public class Levels implements Screen{
@@ -38,6 +34,8 @@ public class Levels implements Screen{
 	private Stage stage;
 	private Table container;
 	private Category cat;
+	final float screenWidth = Gdx.graphics.getWidth();
+	final float screenHeight = Gdx.graphics.getHeight();
 	
 	/**
 	 * Constructor that sets the private variable and starts the screen.
@@ -58,24 +56,23 @@ public class Levels implements Screen{
 		stage = new Stage();
 		skin = main.skin;
 		
-		skin.add("levelButton", skin.newDrawable("white", Color.BLUE), Drawable.class);
-		skin.add("star-filled", skin.newDrawable("white", Color.YELLOW), Drawable.class); 
-		skin.add("star-unfilled", skin.newDrawable("white", Color.GRAY), Drawable.class);
-		
+		// TODO setja inn retta liti og setja inn stjornur
+		skin.add("levelButton-finished", skin.newDrawable("white", new Color(255/255f,197/255f,1/255f,1)), Drawable.class);
+		skin.add("levelButton-unfinished", skin.newDrawable("white", new Color(202/255f,170/255f,54/255f,8/9f)), Drawable.class);
+			
 		Gdx.input.setInputProcessor(stage);
 
 		container = new Table();
 		stage.addActor(container);
 		container.setFillParent(true);
 
-		//TODO: Fix the padding to a % of a screen size
-		int c = 1;
-		Table levels = new Table().pad(50);
-		levels.defaults().pad(40, 20, 40, 20);
-		for (int y = 0; y < 3; y++) {
+		int cnt = 1;
+		Table levels = new Table();
+		levels.defaults().size(screenWidth/4.2f,screenWidth/2.5f);
+		for (int rows = 0; rows < 3; rows++) {
 			levels.row();
-			for (int x = 0; x < 3; x++) {
-				levels.add(getLevelButton(c++)).expand().fill();
+			for (int columns = 0; columns < 3; columns++) {
+				levels.add(getLevelButton(cnt++)).expand().fill();
 			}
 		}
 		container.add(levels).expand().fill();
@@ -94,7 +91,6 @@ public class Levels implements Screen{
 	 */
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(21/255f, 149/255f, 136/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();		
@@ -149,23 +145,24 @@ public class Levels implements Screen{
 		
 		Label label = new Label(Integer.toString(level), skin, screenSizeGroup);
 		label.setAlignment(Align.center);		
-		
-		button.stack(new Image(skin.getDrawable("levelButton")), label).expand().fill();
-		
+				
 		Table starTable = new Table();
-		//starTable.background(skin.newDrawable("white", new Color(54/255f, 83/255f, 139/255f, 1)));
-		starTable.defaults().pad(5);
+		starTable.defaults().size(screenWidth/5f);
 
 		for (int star = 0; star < 3; star++) {
 			if(level == 1)
-				starTable.add(new Image(skin.getDrawable("star-filled"))).width(20).height(20);
+				starTable.add(new Image(main.fullStar)).size(screenWidth/5/4f).pad(screenWidth/5/4/6f);
 			else
-				starTable.add(new Image(skin.getDrawable("star-unfilled"))).width(20).height(20);
-				
-		}			
+				starTable.add(new Image(main.emptyStar)).size(screenWidth/5/4f).pad(screenWidth/5/4/6f);
+		}
 		
+		if(level == 1)
+			button.stack(new Image(skin.getDrawable("levelButton-finished")), label).expand().fill();
+		else
+			button.stack(new Image(skin.getDrawable("levelButton-unfinished")), label).expand().fill();
+
 		button.row();
-		button.add(starTable).height(30);
+		button.add(starTable);
 		
 		button.setName("Level" + Integer.toString(level));
 		button.addListener(levelClickListener);		
