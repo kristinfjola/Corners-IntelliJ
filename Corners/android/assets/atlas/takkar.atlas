@@ -1,0 +1,12 @@
+button.jpg
+size: 256,140
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+yellow-button
+  rotate: false
+  xy: 5, 0
+  size: 411, 170
+  orig: 411, 170
+  offset: 0, 0
+  index: -1

@@ -74,8 +74,8 @@ public class MainActivity extends Game {
 	 * @return the skin from skins.json
 	 */
 	public Skin getSkin() {
-		TextureAtlas atlas = new TextureAtlas("atlas/uiskin.atlas");		
-		Skin skin = new Skin(Gdx.files.internal("skins/skins.json"), atlas);
+		TextureAtlas atlas = new TextureAtlas("atlas/takkar.atlas");		
+		Skin skin = new Skin(Gdx.files.internal("skins/skins2.json"), atlas);
 		return skin;
 	}
 	
