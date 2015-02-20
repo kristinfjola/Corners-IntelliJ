@@ -10,21 +10,14 @@ import logic.Category;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.corners.game.MainActivity;
 
 public class Levels implements Screen{
@@ -56,10 +49,6 @@ public class Levels implements Screen{
 		stage = new Stage();
 		skin = main.skin;
 		
-		// TODO setja inn retta liti og setja inn stjornur
-		skin.add("levelButton-finished", skin.newDrawable("white", new Color(255/255f,197/255f,1/255f,1)), Drawable.class);
-		skin.add("levelButton-unfinished", skin.newDrawable("white", new Color(202/255f,170/255f,54/255f,8/9f)), Drawable.class);
-			
 		Gdx.input.setInputProcessor(stage);
 
 		container = new Table();
@@ -67,15 +56,23 @@ public class Levels implements Screen{
 		container.setFillParent(true);
 
 		int cnt = 1;
-		Table levels = new Table();
-		levels.defaults().size(screenWidth/4.2f,screenWidth/2.5f);
+		Table tableLevels = new Table();
+		tableLevels.defaults().size(screenWidth/4.2f,screenHeight/6f);
 		for (int rows = 0; rows < 3; rows++) {
-			levels.row();
+			tableLevels.row();
 			for (int columns = 0; columns < 3; columns++) {
-				levels.add(getLevelButton(cnt++)).expand().fill();
+				Table level = new Table();
+				level.top();
+				
+				level.add(getLevelButton(cnt)).size(screenWidth/4.2f,screenHeight/6f).expand();
+				level.row();
+				level.add(getStarTable(cnt));
+				
+				tableLevels.add(level).expand();
+				cnt++;
 			}
 		}
-		container.add(levels).expand().fill();
+		container.add(tableLevels).expand().fill();
 	}
 	
 	@Override
@@ -138,33 +135,17 @@ public class Levels implements Screen{
 	 * @param level
 	 * @return The button to use for the level
 	 */
-	public Button getLevelButton(final int level) {
-		Button button = new Button(skin);
+	public TextButton getLevelButton(final int level) {
+		TextButton button;
 		
-		String screenSizeGroup = main.screenSizeGroup;
-		
-		Label label = new Label(Integer.toString(level), skin, screenSizeGroup);
-		label.setAlignment(Align.center);		
-				
-		Table starTable = new Table();
-		starTable.defaults().size(screenWidth/5f);
-
-		for (int star = 0; star < 3; star++) {
-			if(level == 1)
-				starTable.add(new Image(main.fullStar)).size(screenWidth/5/4f).pad(screenWidth/5/4/6f);
-			else
-				starTable.add(new Image(main.emptyStar)).size(screenWidth/5/4f).pad(screenWidth/5/4/6f);
+		if(level == 1) {
+			button = new TextButton(""+level, skin, main.screenSizeGroup);
+		}
+		else {
+			button = new TextButton(""+level, skin, main.screenSizeGroup);
 		}
 		
-		if(level == 1)
-			button.stack(new Image(skin.getDrawable("levelButton-finished")), label).expand().fill();
-		else
-			button.stack(new Image(skin.getDrawable("levelButton-unfinished")), label).expand().fill();
-
-		button.row();
-		button.add(starTable);
-		
-		button.setName(Integer.toString(level));
+		button.setName("Level" + Integer.toString(level));
 		button.addListener(new ClickListener() {	
 			/**
 			 * Sends the user to a new play screen
@@ -180,6 +161,20 @@ public class Levels implements Screen{
 			}
 		});		
 		return button;
+	}
+	
+
+	public Table getStarTable(int level) {
+		Table starTable = new Table();
+
+		for (int star = 0; star < 3; star++) {
+			if(level == 1)
+				starTable.add(new Image(main.fullStar)).size(screenWidth/4.2f/3);
+			else
+				starTable.add(new Image(main.fullStar)).size(screenWidth/4.2f/3);
+		}
+		
+		return starTable;
 	}
 	
 	/**
