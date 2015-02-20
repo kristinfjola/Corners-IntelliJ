@@ -14,6 +14,7 @@ public class MathBox extends Box{
 
 	int number;
 	BitmapFont font;
+	BitmapFont bmFont;
 	String text;
 	
 	/**
@@ -21,18 +22,24 @@ public class MathBox extends Box{
 	 * @param height - height of box
 	 * @param number - answer for box
 	 */
-	public MathBox(int width, int height, int number, String text){
+	public MathBox(int width, int height, int number, String text, BitmapFont bmFont){
 		super(width, height);
 		this.number = number;
+		
 		this.font = new BitmapFont();
 		this.font.setColor(Color.BLACK);
+		
+		this.bmFont = bmFont;
+		this.bmFont.setColor(Color.BLACK);
+		//this.bmFont.setScale(2f);
+		
 		this.text = text;
 	}
 	
 	@Override
 	public void draw(SpriteBatch batch){
 		super.draw(batch);
-		font.draw(batch, text, rec.x + rec.width/4, rec.y + rec.height/2);
+		bmFont.draw(batch, text, rec.x + rec.width/4, rec.y + rec.height/2);
     }
 
 	/**

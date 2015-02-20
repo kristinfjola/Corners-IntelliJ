@@ -74,8 +74,8 @@ public class MainActivity extends Game {
 	 * @return the skin from skins.json
 	 */
 	public Skin getSkin() {
-		TextureAtlas atlas = new TextureAtlas("atlas/takkar.atlas");		
-		Skin skin = new Skin(Gdx.files.internal("skins/skins2.json"), atlas);
+		TextureAtlas atlas = new TextureAtlas("atlas/buttons.atlas");		
+		Skin skin = new Skin(Gdx.files.internal("skins/skins.json"), atlas);
 		return skin;
 	}
 	
@@ -87,10 +87,10 @@ public class MainActivity extends Game {
 	 */
 	public String getScreenSizeGroup(){
 		int screenWidth = Gdx.graphics.getWidth();
-		if(screenWidth < 400) return "screen320";
-		else if(400 <= screenWidth && screenWidth < 510) return "screen480";
-		else if(510 <= screenWidth && screenWidth < 630) return "screen540";
-		else if(630 <= screenWidth && screenWidth < 900) return "screen720";
-		else return "screen1080"; //900 <= screenWidth
+		if(screenWidth < 400) return "font32";
+		else if(400 <= screenWidth && screenWidth < 510) return "font48";
+		else if(510 <= screenWidth && screenWidth < 630) return "font54";
+		else if(630 <= screenWidth && screenWidth < 900) return "font72";
+		else return "font108"; //900 <= screenWidth
 	}
 }

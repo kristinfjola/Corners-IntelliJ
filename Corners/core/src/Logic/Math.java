@@ -14,15 +14,17 @@ import boxes.MathBox;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Array;
 
 public class Math extends Category{
 	/**
 	 * 	Creates a new Math category, delivers a question and possible answers
 	 */
-	public Math(){
+	public Math(BitmapFont bmFont){
+		this.bmFont = bmFont;
 		qWidth = 100;
 		qHeight = 100;
 		int[] xcoords = {0, 0, screenWidth-qWidth, screenWidth-qWidth}; 
@@ -32,10 +34,12 @@ public class Math extends Category{
  	    answers = new Array<Box>();
  	    for(int i = 0; i < 4; i++){
  	    	Pixmap pm = new Pixmap(qWidth, qHeight, Format.RGBA8888);
- 			pm.setColor(Color.YELLOW);
- 			pm.fill();
+ 	 	    pm.setColor(new Color(255/255f,197/255f,1/255f,1));
+ 	 		pm.fillRectangle(0,0,qWidth, qHeight);
+ 	 		pm.setColor(Color.BLACK);
+ 	 		pm.drawRectangle(0,0,qWidth, qHeight);
  	    	
- 	    	MathBox box = new MathBox(qWidth, qHeight, 2, "1+1");
+ 	    	MathBox box = new MathBox(qWidth, qHeight, 2, "1+1", bmFont);
  	 	    box.getRec().x = xcoords[i];
  	 	  	box.getRec().y = ycoords[i];
  	 	  	box.setTexture(new Texture(pm));
@@ -43,10 +47,12 @@ public class Math extends Category{
  	    }
  	    
  	    //question
- 		Pixmap pm = new Pixmap(qWidth, qHeight, Format.RGBA8888);
- 		pm.setColor(Color.LIGHT_GRAY);
- 		pm.fill();
- 		question = new MathBox(qWidth, qHeight, 2, "2+2");
+ 	    Pixmap pm = new Pixmap(qWidth, qHeight, Format.RGBA8888);
+	    pm.setColor(Color.LIGHT_GRAY);
+		pm.fillRectangle(0,0,qWidth, qHeight);
+		pm.setColor(Color.BLACK);
+		pm.drawRectangle(0,0,qWidth, qHeight);
+ 		question = new MathBox(qWidth, qHeight, 2, "2+2", bmFont);
   	    question.getRec().x = screenWidth / 2 - qWidth / 2;
   	    question.getRec().y = screenHeight / 2 - qHeight / 2;
   	    question.setTexture(new Texture(pm));
@@ -78,7 +84,7 @@ public class Math extends Category{
 	
 	public void generateAnswersForLevels2to7(int ans){
 		// answers
-		List<Integer> numbers = new ArrayList<>();
+		List<Integer> numbers = new ArrayList<Integer>();
 		Random rand = new Random();
 		for(Box answer : answers){
 			int a = (ans < 6 ? 1 : ans-5) + rand.nextInt(10);
@@ -218,7 +224,7 @@ public class Math extends Category{
 			int b = 1 + rand.nextInt(20);
 			ans = a + b;
 			strQuestion = a + " + " + b;
-			List<Integer> numbers = new ArrayList<>();
+			List<Integer> numbers = new ArrayList<Integer>();
 			for(Box answer : answers){
 				int a2 = (a < 10 ? 1 : a-10) + rand.nextInt(10);
 				int b2 = (b < 10 ? 1 : b-10) + rand.nextInt(10);
@@ -243,7 +249,7 @@ public class Math extends Category{
 			int b = rand.nextInt(a);
 			ans = a - b;
 			strQuestion = a + " - " + b;
-			List<Integer> numbers = new ArrayList<>();
+			List<Integer> numbers = new ArrayList<Integer>();
 			for(Box answer : answers){
 				int a2 = (a < 10 ? 1 : a-10) + rand.nextInt(10);
 				int b2 = (b < 10 ? 1 : b-10) + rand.nextInt(10);
@@ -281,7 +287,7 @@ public class Math extends Category{
 			int b = 1 + rand.nextInt(20);
 			ans = a * b;
 			strQuestion = a + " x " + b;
-			List<Integer> numbers = new ArrayList<>();
+			List<Integer> numbers = new ArrayList<Integer>();
 			for(Box answer : answers){
 				int a2 = (a < 10 ? 1 : a-10) + rand.nextInt(10);
 				int b2 = (b < 10 ? 1 : b-10) + rand.nextInt(10);
@@ -306,7 +312,7 @@ public class Math extends Category{
 			int b = (1 + rand.nextInt(5)) * a;
 			ans = b / a;
 			strQuestion = b + " / " + a;
-			List<Integer> numbers = new ArrayList<>();
+			List<Integer> numbers = new ArrayList<Integer>();
 			for(Box answer : answers){
 				int a2 = (a < 5 ? 1 : a-5) + rand.nextInt(5);
 				int b2 = (1 + rand.nextInt(5))*a2;
@@ -331,7 +337,7 @@ public class Math extends Category{
 	}
 	
 	private int getRandomDivisor(int num){
-		List<Integer> divisors = new ArrayList<>(); 
+		List<Integer> divisors = new ArrayList<Integer>(); 
 		for (int i = 2; i < num / 2; i++) {
             if (num % i == 0) {
                 divisors.add(i);
