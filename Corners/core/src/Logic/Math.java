@@ -25,6 +25,7 @@ public class Math extends Category{
 	 */
 	public Math(BitmapFont bmFont){
 		this.bmFont = bmFont;
+		// TODO gera að hlutfallsstærð
 		qWidth = 100;
 		qHeight = 100;
 		int[] xcoords = {0, 0, screenWidth-qWidth, screenWidth-qWidth}; 

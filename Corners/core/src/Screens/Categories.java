@@ -63,6 +63,7 @@ public class Categories implements Screen {
 		final TextButton btnMath = new TextButton("Math", skin, screenSizeGroup);
 		btnMath.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
+				// TODO senda inn rétt, hlutfallslegt font og búa það til
 				main.levels = new Levels(main, new logic.Math(main.skin.getFont("tempMiniFont")));
 				main.setScreen(main.levels);
 			}
@@ -96,8 +97,6 @@ public class Categories implements Screen {
 	
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	/**
@@ -129,21 +128,15 @@ public class Categories implements Screen {
 	}
 
 	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
+	public void pause() {		
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	/**

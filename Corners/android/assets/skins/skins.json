@@ -5,7 +5,7 @@
         "font54": { "file": "fonts/54-font.fnt" },
         "font72": { "file": "fonts/72-font.fnt" },
         "font108": { "file": "fonts/108-font.fnt" },
-        "tempMiniFont": { "file": "fonts/boldMiniFont.fnt" },
+        "tempMiniFont": { "file": "fonts/48-font.fnt" },
     },
     
     "com.badlogic.gdx.graphics.Color": {
@@ -16,16 +16,23 @@
     },
     
     "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
-    	"default": { "font": font54, "up": "yellow-button", "fontColor": black },
-    	"font32": { "font": font32, "up": "yellow-button", "fontColor": black},
-    	"font48": { "font": font48, "up": "yellow-button", "fontColor": black},
-        "font54": { "font": font54, "up": "yellow-button", "fontColor": black},
-        "font72": { "font": font72, "up": "yellow-button", "fontColor": black},
-        "font108": { "font": font108, "up": "yellow-button", "fontColor": black},
-        "font32-grey": { "font": font32, "up": "gray-button", "fontColor": black},
-    	"font48-grey": { "font": font48, "up": "gray-button", "fontColor": black},
-        "font54-grey": { "font": font54, "up": "gray-button", "fontColor": black},
-        "font72-grey": { "font": font72, "up": "gray-button", "fontColor": black},
-        "font108-grey": { "font": font108, "up": "gray-button", "fontColor": black},
+    	"default": { "font": font54, "up": "mainButton", "fontColor": black },
+    	"font32": { "font": font32, "up": "mainButton", "fontColor": black},
+    	"font48": { "font": font48, "up": "mainButton", "fontColor": black},
+        "font54": { "font": font54, "up": "mainButton", "fontColor": black},
+        "font72": { "font": font72, "up": "mainButton", "fontColor": black},
+        "font108": { "font": font108, "up": "mainButton", "fontColor": black},
+        
+        "font32-level-yellow": { "font": font32, "up": "levelButtonYellow", "fontColor": black},
+    	"font48-level-yellow": { "font": font48, "up": "levelButtonYellow", "fontColor": black},
+        "font54-level-yellow": { "font": font54, "up": "levelButtonYellow", "fontColor": black},
+        "font72-level-yellow": { "font": font72, "up": "levelButtonYellow", "fontColor": black},
+        "font108-level-yellow": { "font": font108, "up": "levelButtonYellow", "fontColor": black},
+        
+        "font32-level-grey": { "font": font32, "up": "levelButtonGrey", "fontColor": black},
+    	"font48-level-grey": { "font": font48, "up": "levelButtonGrey", "fontColor": black},
+        "font54-level-grey": { "font": font54, "up": "levelButtonGrey", "fontColor": black},
+        "font72-level-grey": { "font": font72, "up": "levelButtonGrey", "fontColor": black},
+        "font108-level-grey": { "font": font108, "up": "levelButtonGrey", "fontColor": black},
     },
 }

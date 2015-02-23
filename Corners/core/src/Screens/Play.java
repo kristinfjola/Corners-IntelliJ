@@ -45,7 +45,7 @@ public class Play implements Screen, InputProcessor{
     boolean hit = false;
     int screenWidth = 480;
     int screenHeight = 800;
-    int qSize = 100;
+    //int qSize = 100;
     int level;
     boolean lockPos = false;
     int questionsAnswered = 0;
@@ -53,8 +53,8 @@ public class Play implements Screen, InputProcessor{
     float sum = 0;
     String xDirection = "none";
     String yDirection = "none";
-    float origX = screenWidth / 2 - qSize / 2;
-    float origY = screenHeight / 2 - qSize / 2;
+    float origX;
+    float origY;
     boolean swipeQuestion = false;
 
     long startTime = 0;	
@@ -71,6 +71,8 @@ public class Play implements Screen, InputProcessor{
 		this.level = level;
 		stage = new Stage();
 		Gdx.input.setInputProcessor(this);
+		origX = screenWidth/2 - cat.getQuestion().getRec().getWidth()/2;
+	    origY = screenHeight/2 - cat.getQuestion().getRec().getHeight()/2;
 		
 		camera = new OrthographicCamera();
  	    camera.setToOrtho(false, screenWidth, screenHeight);
@@ -137,8 +139,8 @@ public class Play implements Screen, InputProcessor{
 					}
 				}
 				
-				cat.getQuestion().getRec().x = touchPos.x - qSize / 2;
-				cat.getQuestion().getRec().y = touchPos.y - qSize / 2;
+				cat.getQuestion().getRec().x = touchPos.x - cat.getQuestion().getRec().getWidth() / 2;
+				cat.getQuestion().getRec().y = touchPos.y - cat.getQuestion().getRec().getHeight() / 2;
 				lockPos = true;
 				swipeQuestion = true;
 			}
@@ -149,8 +151,8 @@ public class Play implements Screen, InputProcessor{
 			if(xDirection != "none") {
 				if(xDirection == "right") {
 					cat.getQuestion().getRec().x += 6;
-					if(cat.getQuestion().getRec().x > screenWidth-qSize) {
-						cat.getQuestion().getRec().x = screenWidth-qSize;
+					if(cat.getQuestion().getRec().x > screenWidth-cat.getQuestion().getRec().getWidth()) {
+						cat.getQuestion().getRec().x = screenWidth-cat.getQuestion().getRec().getWidth();
 					}
 				} else {
 					cat.getQuestion().getRec().x -= 6;
@@ -162,8 +164,8 @@ public class Play implements Screen, InputProcessor{
 			if(yDirection != "none") {
 				if(yDirection == "up") {
 					cat.getQuestion().getRec().y += 12;
-					if(cat.getQuestion().getRec().y > screenHeight-qSize) {
-						cat.getQuestion().getRec().y = screenHeight-qSize;
+					if(cat.getQuestion().getRec().y > screenHeight-cat.getQuestion().getRec().getHeight()) {
+						cat.getQuestion().getRec().y = screenHeight-cat.getQuestion().getRec().getHeight();
 					}
 				} else {
 					cat.getQuestion().getRec().y -= 12;
@@ -180,8 +182,8 @@ public class Play implements Screen, InputProcessor{
 				sum = 0;
 				Box hitBox = cat.checkIfHitBox();
 				if(hitBox == null) {
-					cat.getQuestion().getRec().x = screenWidth / 2 - qSize / 2;
-					cat.getQuestion().getRec().y = screenHeight / 2 - qSize / 2;
+					cat.getQuestion().getRec().x = screenWidth / 2 - cat.getQuestion().getRec().getWidth() / 2;
+					cat.getQuestion().getRec().y = screenHeight / 2 - cat.getQuestion().getRec().getHeight() / 2;
 				}
 			}
 		}

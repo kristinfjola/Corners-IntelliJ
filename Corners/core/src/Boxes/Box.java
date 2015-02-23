@@ -5,6 +5,7 @@
  */
 package boxes;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -14,6 +15,8 @@ public class Box {
 	Rectangle rec;
 	int screenWidth = 480;
     int screenHeight = 800;
+	//int screenWidth = Gdx.graphics.getWidth();
+    //int screenHeight = Gdx.graphics.getHeight();
     Texture texture;
     
     /**

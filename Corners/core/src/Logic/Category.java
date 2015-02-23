@@ -7,6 +7,7 @@ package logic;
 
 import boxes.Box;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Array;
 
@@ -18,6 +19,8 @@ public class Category {
 	int qHeight;
 	int screenWidth = 480;
     int screenHeight = 800;
+	//int screenWidth = Gdx.graphics.getWidth();
+    //int screenHeight = Gdx.graphics.getHeight();
     BitmapFont bmFont;
     
     public void generateNewQuestion(int level){
