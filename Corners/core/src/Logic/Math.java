@@ -64,6 +64,17 @@ public class Math extends Category{
 		return null;
 	}
 	
+	public Box checkIfHitBox() {
+		for(Box answer : answers){
+			MathBox a = (MathBox) answer;
+			MathBox q = (MathBox) question;
+			if(a.getRec().overlaps(q.getRec())){
+				return a;
+			}
+		}
+		return null;
+	}
+	
 	public void generateQuestion(int ans, String str){
 		((MathBox) question).setText(str);
 		((MathBox) question).setNumber(ans);
@@ -78,7 +89,7 @@ public class Math extends Category{
 	
 	public void generateAnswersForLevels2to7(int ans){
 		// answers
-		List<Integer> numbers = new ArrayList<>();
+		List<Integer> numbers = new ArrayList<Integer>();
 		Random rand = new Random();
 		for(Box answer : answers){
 			int a = (ans < 6 ? 1 : ans-5) + rand.nextInt(10);
@@ -218,7 +229,7 @@ public class Math extends Category{
 			int b = 1 + rand.nextInt(20);
 			ans = a + b;
 			strQuestion = a + " + " + b;
-			List<Integer> numbers = new ArrayList<>();
+			List<Integer> numbers = new ArrayList<Integer>();
 			for(Box answer : answers){
 				int a2 = (a < 10 ? 1 : a-10) + rand.nextInt(10);
 				int b2 = (b < 10 ? 1 : b-10) + rand.nextInt(10);
@@ -243,7 +254,7 @@ public class Math extends Category{
 			int b = rand.nextInt(a);
 			ans = a - b;
 			strQuestion = a + " - " + b;
-			List<Integer> numbers = new ArrayList<>();
+			List<Integer> numbers = new ArrayList<Integer>();
 			for(Box answer : answers){
 				int a2 = (a < 10 ? 1 : a-10) + rand.nextInt(10);
 				int b2 = (b < 10 ? 1 : b-10) + rand.nextInt(10);
@@ -281,7 +292,7 @@ public class Math extends Category{
 			int b = 1 + rand.nextInt(20);
 			ans = a * b;
 			strQuestion = a + " x " + b;
-			List<Integer> numbers = new ArrayList<>();
+			List<Integer> numbers = new ArrayList<Integer>();
 			for(Box answer : answers){
 				int a2 = (a < 10 ? 1 : a-10) + rand.nextInt(10);
 				int b2 = (b < 10 ? 1 : b-10) + rand.nextInt(10);
@@ -306,7 +317,7 @@ public class Math extends Category{
 			int b = (1 + rand.nextInt(5)) * a;
 			ans = b / a;
 			strQuestion = b + " / " + a;
-			List<Integer> numbers = new ArrayList<>();
+			List<Integer> numbers = new ArrayList<Integer>();
 			for(Box answer : answers){
 				int a2 = (a < 5 ? 1 : a-5) + rand.nextInt(5);
 				int b2 = (1 + rand.nextInt(5))*a2;
@@ -331,7 +342,7 @@ public class Math extends Category{
 	}
 	
 	private int getRandomDivisor(int num){
-		List<Integer> divisors = new ArrayList<>(); 
+		List<Integer> divisors = new ArrayList<Integer>(); 
 		for (int i = 2; i < num / 2; i++) {
             if (num % i == 0) {
                 divisors.add(i);

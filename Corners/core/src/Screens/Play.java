@@ -18,6 +18,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.corners.game.MainActivity;
 
 public class Play implements Screen, InputProcessor{
@@ -34,6 +37,13 @@ public class Play implements Screen, InputProcessor{
     int level;
     boolean lockPos = false;
     int questionsAnswered = 0;
+    boolean touchUp = false;
+    float sum = 0;
+    String xDirection = "none";
+    String yDirection = "none";
+    float origX = screenWidth / 2 - qSize / 2;
+    float origY = screenHeight / 2 - qSize / 2;
+    boolean swipeQuestion = false;
 	
 	/**
 	 * @param main - main activity of the game
@@ -79,9 +89,74 @@ public class Play implements Screen, InputProcessor{
 				if(lockPos) {
 					camera.unproject(touchPos);
 				}
+				
+				if(cat.getQuestion().getRec().x - origX < 30 && 
+						cat.getQuestion().getRec().x - origX > -30) {
+					xDirection = "none";
+				} else {
+					if(cat.getQuestion().getRec().x > origX) {
+						xDirection = "right";
+					} else {
+						xDirection = "left";
+					}
+				}
+				if(cat.getQuestion().getRec().y - origY < 30 &&
+						cat.getQuestion().getRec().y - origY > -30) {
+					yDirection = "none";
+				} else {
+					if(cat.getQuestion().getRec().y > origY) {
+						yDirection = "up";
+					} else {
+						yDirection = "down";
+					}
+				}
+				
 				cat.getQuestion().getRec().x = touchPos.x - qSize / 2;
 				cat.getQuestion().getRec().y = touchPos.y - qSize / 2;
 				lockPos = true;
+				swipeQuestion = true;
+			}
+		}
+		
+		// swipe question smoothly after touchUp
+		if(touchUp && swipeQuestion) {
+			if(xDirection != "none") {
+				if(xDirection == "right") {
+					cat.getQuestion().getRec().x += 6;
+					if(cat.getQuestion().getRec().x > screenWidth-qSize) {
+						cat.getQuestion().getRec().x = screenWidth-qSize;
+					}
+				} else {
+					cat.getQuestion().getRec().x -= 6;
+					if(cat.getQuestion().getRec().x < 0) {
+						cat.getQuestion().getRec().x = 0;
+					}
+				}
+			}
+			if(yDirection != "none") {
+				if(yDirection == "up") {
+					cat.getQuestion().getRec().y += 12;
+					if(cat.getQuestion().getRec().y > screenHeight-qSize) {
+						cat.getQuestion().getRec().y = screenHeight-qSize;
+					}
+				} else {
+					cat.getQuestion().getRec().y -= 12;
+					if(cat.getQuestion().getRec().y < 0) {
+						cat.getQuestion().getRec().y = 0;
+					}
+				}
+			}
+			
+			sum += 3;
+			if(sum > 50) {
+				touchUp = false;
+				swipeQuestion = false;
+				sum = 0;
+				Box hitBox = cat.checkIfHitBox();
+				if(hitBox == null) {
+					cat.getQuestion().getRec().x = screenWidth / 2 - qSize / 2;
+					cat.getQuestion().getRec().y = screenHeight / 2 - qSize / 2;
+				}
 			}
 		}
 		
@@ -164,9 +239,8 @@ public class Play implements Screen, InputProcessor{
 	 */
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		cat.getQuestion().getRec().x = screenWidth / 2 - qSize / 2;
-		cat.getQuestion().getRec().y = screenHeight / 2 - qSize / 2;
 		lockPos = false;
+		touchUp = true;
 		return false;
 	}
 
@@ -184,7 +258,5 @@ public class Play implements Screen, InputProcessor{
 	public boolean scrolled(int amount) {
 		return false;
 	}
-	
-	
 
 }

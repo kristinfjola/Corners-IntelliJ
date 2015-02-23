@@ -78,6 +78,14 @@ public class Category {
     public Box checkIfHitAnswer(){
 		return null;
 	}
+    
+    /**
+	 * @param
+	 * @return	true if question box collapses with some answer box
+	 */
+    public Box checkIfHitBox() {
+    	return null;
+    }
 
 	/**
 	 * @return current question
