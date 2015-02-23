@@ -39,7 +39,7 @@ public class MathBox extends Box{
 	@Override
 	public void draw(SpriteBatch batch){
 		super.draw(batch);
-		bmFont.draw(batch, text, rec.x + rec.width/4, rec.y + rec.height/2);
+		font.draw(batch, text, rec.x + rec.width/4, rec.y + rec.height/2);
     }
 
 	/**
