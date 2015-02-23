@@ -5,6 +5,7 @@
         "font54": { "file": "fonts/54-font.fnt" },
         "font72": { "file": "fonts/72-font.fnt" },
         "font108": { "file": "fonts/108-font.fnt" },
+        "tempMiniFont": { "file": "fonts/boldMiniFont.fnt" },
     },
     
     "com.badlogic.gdx.graphics.Color": {
@@ -15,25 +16,16 @@
     },
     
     "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
-    	"default": { "font": font54, "up": "default-round", "fontColor": black },
-    	"screen320": { "font": font32, "up": "default-round", "fontColor": black},
-    	"screen480": { "font": font48, "up": "default-round", "fontColor": black},
-        "screen540": { "font": font54, "up": "default-round", "fontColor": black},
-        "screen720": { "font": font72, "up": "default-round", "fontColor": black},
-        "screen1080": { "font": font108, "up": "default-round", "fontColor": black}  
+    	"default": { "font": font54, "up": "yellow-button", "fontColor": black },
+    	"font32": { "font": font32, "up": "yellow-button", "fontColor": black},
+    	"font48": { "font": font48, "up": "yellow-button", "fontColor": black},
+        "font54": { "font": font54, "up": "yellow-button", "fontColor": black},
+        "font72": { "font": font72, "up": "yellow-button", "fontColor": black},
+        "font108": { "font": font108, "up": "yellow-button", "fontColor": black},
+        "font32-grey": { "font": font32, "up": "gray-button", "fontColor": black},
+    	"font48-grey": { "font": font48, "up": "gray-button", "fontColor": black},
+        "font54-grey": { "font": font54, "up": "gray-button", "fontColor": black},
+        "font72-grey": { "font": font72, "up": "gray-button", "fontColor": black},
+        "font108-grey": { "font": font108, "up": "gray-button", "fontColor": black},
     },
-    
-    com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
-		default: {  },
-		toggle: {  }
-	},
-	
-	com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
-		"default": { "font": font108 },
-    	"screen320": { "font": font32 },
-    	"screen480": { "font": font48 },
-        "screen540": { "font": font54 },
-        "screen720": { "font": font72 },
-        "screen1080": { "font": font108 } 
-	},
 }

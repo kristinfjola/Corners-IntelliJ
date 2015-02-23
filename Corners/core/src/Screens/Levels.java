@@ -77,8 +77,6 @@ public class Levels implements Screen{
 	
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	/**
@@ -105,19 +103,14 @@ public class Levels implements Screen{
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -142,7 +135,7 @@ public class Levels implements Screen{
 			button = new TextButton(""+level, skin, main.screenSizeGroup);
 		}
 		else {
-			button = new TextButton(""+level, skin, main.screenSizeGroup);
+			button = new TextButton(""+level, skin, main.screenSizeGroup+"-grey");
 		}
 		
 		button.setName("Level" + Integer.toString(level));
@@ -166,12 +159,19 @@ public class Levels implements Screen{
 
 	public Table getStarTable(int level) {
 		Table starTable = new Table();
-
+		
+		// TODO saekja rettar upplysingar fra gagnagrunni
+		int numberOfStars = 2;
+		int cntStars = 0;
+		
 		for (int star = 0; star < 3; star++) {
-			if(level == 1)
+			if(level == 1 && cntStars != numberOfStars) { //taka ut level==1
 				starTable.add(new Image(main.fullStar)).size(screenWidth/4.2f/3);
-			else
-				starTable.add(new Image(main.fullStar)).size(screenWidth/4.2f/3);
+			}
+			else {
+				starTable.add(new Image(main.emptyStar)).size(screenWidth/4.2f/3);
+			}
+			cntStars++;
 		}
 		
 		return starTable;

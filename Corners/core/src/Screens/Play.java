@@ -13,14 +13,26 @@ import boxes.MathBox;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.corners.game.MainActivity;
 
 public class Play implements Screen, InputProcessor{
@@ -44,6 +56,10 @@ public class Play implements Screen, InputProcessor{
     float origX = screenWidth / 2 - qSize / 2;
     float origY = screenHeight / 2 - qSize / 2;
     boolean swipeQuestion = false;
+
+    long startTime = 0;	
+    ProgressBar progressBar;
+    private Stage stage;
 	
 	/**
 	 * @param main - main activity of the game
@@ -53,12 +69,14 @@ public class Play implements Screen, InputProcessor{
 		this.main = main;
 		this.cat = cat;
 		this.level = level;
+		stage = new Stage();
 		Gdx.input.setInputProcessor(this);
 		
 		camera = new OrthographicCamera();
  	    camera.setToOrtho(false, screenWidth, screenHeight);
  	    batch = new SpriteBatch();
- 	    cat.generateNewQuestion(level);
+ 	    createProgressBar();
+ 	    getNewQuestion();
 	}
 
 	/**
@@ -72,14 +90,22 @@ public class Play implements Screen, InputProcessor{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
 		
+		// progress bar
+		long endTime = System.nanoTime();
+	    long secondsPassed = (endTime - startTime)/1000000000;  
+		progressBar.setValue(secondsPassed);
+
 		// draw question and answers
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		for(Box answer : cat.getAnswers()){
 			answer.draw(batch);
 		}
-		cat.getQuestion().draw(batch);		
+		cat.getQuestion().draw(batch);	
 		batch.end();
+		
+		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+		stage.draw();
 		
 		// swipe question
 		if(Gdx.input.isTouched()) {
@@ -163,13 +189,17 @@ public class Play implements Screen, InputProcessor{
 		// hit answer
 		Box hit = cat.checkIfHitAnswer();
 		if(hit != null){
-			// get new question
 			questionsAnswered++;
 			if(questionsAnswered >= 7){
 				questionsAnswered = 0;
 				level++;
 			}
-			cat.generateNewQuestion(level);
+			getNewQuestion();
+		}
+		
+		// check time
+		if(secondsPassed > progressBar.getMaxValue()){
+			loose();
 		}
 	}
 	
@@ -182,6 +212,37 @@ public class Play implements Screen, InputProcessor{
 			return true;
 		}
 		return false;
+	}
+	
+	public void loose(){
+		main.setScreen(new Levels(main, cat));
+	}
+	
+	public void resetTime(){
+		progressBar.setValue(0);
+		startTime = System.nanoTime();
+	}
+	
+	public void getNewQuestion(){
+		cat.generateNewQuestion(level);
+		resetTime();
+	}
+	
+	public void resetProgressBar(){
+		progressBar.remove();
+		createProgressBar();
+	}
+	
+	public void createProgressBar(){
+		main.skin.add("bg", new Texture(Gdx.files.internal("progressBar/background.png")));
+ 	    main.skin.add("knob", new Texture(Gdx.files.internal("progressBar/knob.png")));
+ 	    ProgressBarStyle barStyle = new ProgressBarStyle(main.skin.getDrawable("bg"), main.skin.getDrawable("knob"));
+ 	    barStyle.knobBefore = barStyle.knob;
+ 	    progressBar = new ProgressBar(0, 10, 0.5f, false, barStyle);
+	    progressBar.setPosition(300, 300);
+	    progressBar.setSize(500, progressBar.getPrefHeight());
+	    progressBar.setAnimateDuration(1);
+	    stage.addActor(progressBar);
 	}
 	
 	@Override

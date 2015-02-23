@@ -6,7 +6,8 @@
 package logic;
 
 import boxes.Box;
-import com.badlogic.gdx.graphics.Texture;
+
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Array;
 
 public class Category {
@@ -17,6 +18,7 @@ public class Category {
 	int qHeight;
 	int screenWidth = 480;
     int screenHeight = 800;
+    BitmapFont bmFont;
     
     public void generateNewQuestion(int level){
 		switch(level){
