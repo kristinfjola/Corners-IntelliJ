@@ -54,7 +54,7 @@ public class Start implements Screen{
 		
 		String screenSizeGroup = main.screenSizeGroup;
 		
-		final TextButton btnCategories = new TextButton("Categories", skin, screenSizeGroup);
+		final TextButton btnCategories = new TextButton("Play", skin, screenSizeGroup);
 		btnCategories.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Clicked! Is checked: " + btnCategories.isChecked());
