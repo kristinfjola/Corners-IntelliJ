@@ -54,7 +54,7 @@ public class Start implements Screen{
 		
 		String screenSizeGroup = main.screenSizeGroup;
 		
-		final TextButton btnCategories = new TextButton("Categories", skin, screenSizeGroup);
+		final TextButton btnCategories = new TextButton("Play", skin, screenSizeGroup+"-L");
 		btnCategories.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Clicked! Is checked: " + btnCategories.isChecked());
@@ -65,8 +65,8 @@ public class Start implements Screen{
 			}
 		});
 		
-		TextButton btnSettings = new TextButton("Settings", skin, screenSizeGroup);
-		TextButton btnFriends = new TextButton("Friends", skin, screenSizeGroup);
+		TextButton btnSettings = new TextButton("Settings", skin, screenSizeGroup+"-L");
+		TextButton btnFriends = new TextButton("Friends", skin, screenSizeGroup+"-L");
 		// TODO Add listeners
 		
 		table.add(btnCategories).padTop(screenHeight/2.8f).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();

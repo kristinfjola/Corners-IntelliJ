@@ -17,10 +17,10 @@ public class Category {
 	Array<Box> answers;
 	int qWidth;
 	int qHeight;
-	int screenWidth = 480;
-    int screenHeight = 800;
-	//int screenWidth = Gdx.graphics.getWidth();
-    //int screenHeight = Gdx.graphics.getHeight();
+	//int screenWidth = 480;
+    //int screenHeight = 800;
+	int screenWidth = Gdx.graphics.getWidth();
+    int screenHeight = Gdx.graphics.getHeight();
     BitmapFont bmFont;
     
     public void generateNewQuestion(int level){
@@ -174,6 +174,14 @@ public class Category {
 	 */
 	public void setScreenHeight(int screenHeight) {
 		this.screenHeight = screenHeight;
+	}
+
+	public BitmapFont getBmFont() {
+		return bmFont;
+	}
+
+	public void setBmFont(BitmapFont bmFont) {
+		this.bmFont = bmFont;
 	}
 	
 }
