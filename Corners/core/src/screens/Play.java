@@ -33,11 +33,8 @@ public class Play implements Screen, InputProcessor{
 	OrthographicCamera camera;
 	Vector3 touchPos;
     boolean hit = false;
-    //int screenWidth = 480;
-    //int screenHeight = 800;
     int screenWidth = Gdx.graphics.getWidth();
     int screenHeight = Gdx.graphics.getHeight();
-    //int qSize = 100;
     int level;
     boolean lockPos = false;
     int questionsAnswered = 0;
@@ -48,6 +45,7 @@ public class Play implements Screen, InputProcessor{
     float origX;
     float origY;
     boolean swipeQuestion = false;
+    boolean hitWrong = false;
 
     long startTime = 0;	
     long secondsPassed;
@@ -135,11 +133,12 @@ public class Play implements Screen, InputProcessor{
 				cat.getQuestion().getRec().y = touchPos.y - cat.getQuestion().getRec().getHeight() / 2;
 				lockPos = true;
 				swipeQuestion = true;
+				hitWrong = false;
 			}
 		}
 		
 		// swipe question smoothly after touchUp
-		if(touchUp && swipeQuestion) {
+		if(touchUp && swipeQuestion && !hitWrong) {
 			if(xDirection != "none") {
 				if(xDirection == "right") {
 					cat.getQuestion().getRec().x += 6;
@@ -172,11 +171,8 @@ public class Play implements Screen, InputProcessor{
 				touchUp = false;
 				swipeQuestion = false;
 				sum = 0;
-				Box hitBox = cat.checkIfHitBox();
-				if(hitBox == null) {
-					cat.getQuestion().getRec().x = screenWidth / 2 - cat.getQuestion().getRec().getWidth() / 2;
-					cat.getQuestion().getRec().y = screenHeight / 2 - cat.getQuestion().getRec().getHeight() / 2;
-				}
+				cat.getQuestion().getRec().x = screenWidth / 2 - cat.getQuestion().getRec().getWidth() / 2;
+				cat.getQuestion().getRec().y = screenHeight / 2 - cat.getQuestion().getRec().getHeight() / 2;
 			}
 		}
 		
@@ -191,8 +187,19 @@ public class Play implements Screen, InputProcessor{
 			getNewQuestion();
 		}
 		
+		//if hit wrong answer then move question to the middle
+		//we need to make our own overlaps function so this looks good:
+		Box hitBox = cat.checkIfHitBox();
+		if(hitBox != null && hit == null) {
+			hitWrong = true;
+			cat.getQuestion().getRec().x = screenWidth / 2 - cat.getQuestion().getRec().getWidth() / 2;
+			cat.getQuestion().getRec().y = screenHeight / 2 - cat.getQuestion().getRec().getHeight() / 2;
+		}
+		
 		// check time
 		if(secondsPassed > progressBar.getMaxValue()){
+			cat.getQuestion().getRec().x = screenWidth / 2 - cat.getQuestion().getRec().getWidth() / 2;
+			cat.getQuestion().getRec().y = screenHeight / 2 - cat.getQuestion().getRec().getHeight() / 2;
 			loose();
 		}
 	}
