@@ -102,7 +102,9 @@ public class Play implements Screen, InputProcessor{
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		for(Box answer : cat.getAnswers()){
+			//batch.setColor(Color.RED)
 			answer.draw(batch);
+			//batch.setColor(Color.WHITE);
 		}
 		cat.getQuestion().draw(batch);	
 		drawProgressBar();
