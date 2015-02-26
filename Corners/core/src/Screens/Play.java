@@ -43,8 +43,10 @@ public class Play implements Screen, InputProcessor{
 	OrthographicCamera camera;
 	Vector3 touchPos;
     boolean hit = false;
-    int screenWidth = 480;
-    int screenHeight = 800;
+    //int screenWidth = 480;
+    //int screenHeight = 800;
+    int screenWidth = Gdx.graphics.getWidth();
+    int screenHeight = Gdx.graphics.getHeight();
     //int qSize = 100;
     int level;
     boolean lockPos = false;
@@ -241,8 +243,8 @@ public class Play implements Screen, InputProcessor{
  	    ProgressBarStyle barStyle = new ProgressBarStyle(main.skin.getDrawable("bg"), main.skin.getDrawable("knob"));
  	    barStyle.knobBefore = barStyle.knob;
  	    progressBar = new ProgressBar(0, 10, 0.5f, false, barStyle);
-	    progressBar.setPosition(300, 300);
-	    progressBar.setSize(500, progressBar.getPrefHeight());
+	    progressBar.setPosition(screenWidth/4, screenHeight/5);
+	    progressBar.setSize(screenWidth/2, progressBar.getPrefHeight());
 	    progressBar.setAnimateDuration(1);
 	    stage.addActor(progressBar);
 	}
