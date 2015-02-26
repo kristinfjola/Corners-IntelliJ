@@ -6,23 +6,23 @@
 
 package screens;
 
-import logic.Category;
 import logic.Colors;
 import logic.Flags;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.corners.game.MainActivity;
 
 public class Categories implements Screen {
@@ -33,6 +33,7 @@ public class Categories implements Screen {
 	float screenHeight;
 	Skin skin;
 	Stage stage;
+	private InputProcessor inputProcessor;
 	
 	
 	/**
@@ -48,7 +49,9 @@ public class Categories implements Screen {
 		stage = new Stage();
 		this.screenWidth = Gdx.graphics.getWidth();
 		this.screenHeight = Gdx.graphics.getHeight();
-		Gdx.input.setInputProcessor(stage);
+		
+		addBackToProcessor();
+		setAllProcessors();    
 		
 		skin = main.skin;
 		
@@ -95,6 +98,7 @@ public class Categories implements Screen {
 		table.row();
 	}
 	
+
 	@Override
 	public void show() {
 	}
@@ -144,5 +148,69 @@ public class Categories implements Screen {
 	 */
 	public void dispose() {
 		stage.dispose();
+	}
+
+	private void addBackToProcessor() {
+		 inputProcessor = new InputProcessor() {
+				
+				@Override
+				public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+				@Override
+				public boolean touchDragged(int screenX, int screenY, int pointer) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+				@Override
+				public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+				@Override
+				public boolean scrolled(int amount) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+				@Override
+				public boolean mouseMoved(int screenX, int screenY) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+				@Override
+				public boolean keyUp(int keycode) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+				@Override
+				public boolean keyTyped(char character) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+				@Override
+				public boolean keyDown(int keycode) {
+					if(keycode == Keys.BACK){
+						main.setScreen(new Start(main));
+			        }
+			        return false;
+				}
+			};
+	}
+	
+	private void setAllProcessors() {
+		Gdx.input.setCatchBackKey(true);
+		
+		InputMultiplexer multiplexer = new InputMultiplexer();
+		multiplexer.addProcessor(stage);
+		multiplexer.addProcessor(inputProcessor);
+		Gdx.input.setInputProcessor(multiplexer); 	
 	}
 }

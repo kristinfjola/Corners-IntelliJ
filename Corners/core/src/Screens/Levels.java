@@ -9,6 +9,9 @@ package screens;
 import logic.Category;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -29,6 +32,7 @@ public class Levels implements Screen{
 	private Category cat;
 	final float screenWidth = Gdx.graphics.getWidth();
 	final float screenHeight = Gdx.graphics.getHeight();
+	InputProcessor inputProcessor; 
 	
 	/**
 	 * Constructor that sets the private variable and starts the screen.
@@ -36,25 +40,36 @@ public class Levels implements Screen{
 	 * @param main
 	 * @param category
 	 */
-	public Levels(MainActivity main, Category category){
+	public Levels(final MainActivity main, Category category){
 		this.main = main;
 		cat = category;
+ 	    Gdx.input.setCatchBackKey(true);
+ 	    addBackToProcessor(); 
 		create();
 	}
-	
+
+	private void setAllProcessors() {
+		Gdx.input.setCatchBackKey(true);
+		
+		InputMultiplexer multiplexer = new InputMultiplexer();
+		multiplexer.addProcessor(stage);
+		multiplexer.addProcessor(inputProcessor);
+		Gdx.input.setInputProcessor(multiplexer); 	
+	}
+
 	/**
 	 * Sets up the buttons on the level screen
 	 */
 	public void create(){
 		stage = new Stage();
 		skin = main.skin;
-		
-		Gdx.input.setInputProcessor(stage);
 
 		container = new Table();
 		stage.addActor(container);
 		container.setFillParent(true);
 
+		setAllProcessors();
+		
 		int cnt = 1;
 		Table tableLevels = new Table();
 		tableLevels.defaults().size(screenWidth/4.2f,screenHeight/6f);
@@ -177,23 +192,60 @@ public class Levels implements Screen{
 		return starTable;
 	}
 	
-	/**
-	 * A handler for the level-button click
-	 */
-	public ClickListener levelClickListener = new ClickListener() {
-		
-		/**
-		 * Sends the user to a new play screen
-		 * 
-		 * @param event
-		 * @param x
-		 * @param y
-		 */
-		@Override
-		public void clicked (InputEvent event, float x, float y) {
-			main.play = new Play(main, cat, 1);
-            main.setScreen(main.play);
-		}
-	};
+	private void addBackToProcessor() {
+		 inputProcessor = new InputProcessor() {
+				
+				@Override
+				public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+				@Override
+				public boolean touchDragged(int screenX, int screenY, int pointer) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+				@Override
+				public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+				@Override
+				public boolean scrolled(int amount) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+				@Override
+				public boolean mouseMoved(int screenX, int screenY) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+				@Override
+				public boolean keyUp(int keycode) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+				@Override
+				public boolean keyTyped(char character) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+				@Override
+				public boolean keyDown(int keycode) {
+					if(keycode == Keys.BACK){
+						System.out.println("test er að ýta á back");
+						main.setScreen(new Categories(main));
+			        }
+			        return false;
+				}
+			};
+	}
 
 }

@@ -8,31 +8,19 @@ package screens;
 
 import logic.Category;
 import boxes.Box;
-import boxes.MathBox;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.corners.game.MainActivity;
 
 public class Play implements Screen, InputProcessor{
@@ -73,7 +61,8 @@ public class Play implements Screen, InputProcessor{
 		Gdx.input.setInputProcessor(this);
 		origX = screenWidth/2 - cat.getQuestion().getRec().getWidth()/2;
 	    origY = screenHeight/2 - cat.getQuestion().getRec().getHeight()/2;
-		
+ 	    Gdx.input.setCatchBackKey(true);
+	    
 		camera = new OrthographicCamera();
  	    camera.setToOrtho(false, screenWidth, screenHeight);
  	    batch = new SpriteBatch();
@@ -278,7 +267,10 @@ public class Play implements Screen, InputProcessor{
 
 	@Override
 	public boolean keyDown(int keycode) {
-		return false;
+		if(keycode == Keys.BACK){
+			main.setScreen(new Levels(main, cat));
+        }
+        return false;
 	}
 
 	@Override
