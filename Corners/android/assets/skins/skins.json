@@ -1,11 +1,16 @@
 {
     "com.badlogic.gdx.graphics.g2d.BitmapFont": {
-        "font32": { "file": "fonts/32-font.fnt" },
-        "font48": { "file": "fonts/48-font.fnt" },
-        "font54": { "file": "fonts/54-font.fnt" },
-        "font72": { "file": "fonts/72-font.fnt" },
-        "font108": { "file": "fonts/108-font.fnt" },
-        "tempMiniFont": { "file": "fonts/48-font.fnt" },
+        "screen320-L": { "file": "fonts/32-font.fnt" },
+        "screen480-L": { "file": "fonts/48-font.fnt" },
+        "screen540-L": { "file": "fonts/54-font.fnt" },
+        "screen720-L": { "file": "fonts/72-font.fnt" },
+        "screen1080-L": { "file": "fonts/108-font.fnt" },
+        
+        "screen320-M": { "file": "fonts/22-font.fnt" },
+        "screen480-M": { "file": "fonts/34-font.fnt" },
+        "screen540-M": { "file": "fonts/38-font.fnt" },
+        "screen720-M": { "file": "fonts/50-font.fnt" },
+        "screen1080-M": { "file": "fonts/76-font.fnt" },
     },
     
     "com.badlogic.gdx.graphics.Color": {
@@ -16,23 +21,23 @@
     },
     
     "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
-    	"default": { "font": font54, "up": "mainButton", "fontColor": black },
-    	"font32": { "font": font32, "up": "mainButton", "fontColor": black},
-    	"font48": { "font": font48, "up": "mainButton", "fontColor": black},
-        "font54": { "font": font54, "up": "mainButton", "fontColor": black},
-        "font72": { "font": font72, "up": "mainButton", "fontColor": black},
-        "font108": { "font": font108, "up": "mainButton", "fontColor": black},
+    	"default": { "font": screen540-L, "up": "mainButton", "fontColor": black },
+    	"screen320-L": { "font": screen320-L, "up": "mainButton", "fontColor": black},
+    	"screen480-L": { "font": screen480-L, "up": "mainButton", "fontColor": black},
+        "screen540-L": { "font": screen540-L, "up": "mainButton", "fontColor": black},
+        "screen720-L": { "font": screen720-L, "up": "mainButton", "fontColor": black},
+        "screen1080-L": { "font": screen1080-L, "up": "mainButton", "fontColor": black},
         
-        "font32-level-yellow": { "font": font32, "up": "levelButtonYellow", "fontColor": black},
-    	"font48-level-yellow": { "font": font48, "up": "levelButtonYellow", "fontColor": black},
-        "font54-level-yellow": { "font": font54, "up": "levelButtonYellow", "fontColor": black},
-        "font72-level-yellow": { "font": font72, "up": "levelButtonYellow", "fontColor": black},
-        "font108-level-yellow": { "font": font108, "up": "levelButtonYellow", "fontColor": black},
+        "screen320-L-level-yellow": { "font": screen320-L, "up": "levelButtonYellow", "fontColor": black},
+    	"screen480-L-level-yellow": { "font": screen480-L, "up": "levelButtonYellow", "fontColor": black},
+        "screen540-L-level-yellow": { "font": screen540-L, "up": "levelButtonYellow", "fontColor": black},
+        "screen720-L-level-yellow": { "font": screen720-L, "up": "levelButtonYellow", "fontColor": black},
+        "screen1080-L-level-yellow": { "font": screen1080-L, "up": "levelButtonYellow", "fontColor": black},
         
-        "font32-level-grey": { "font": font32, "up": "levelButtonGrey", "fontColor": black},
-    	"font48-level-grey": { "font": font48, "up": "levelButtonGrey", "fontColor": black},
-        "font54-level-grey": { "font": font54, "up": "levelButtonGrey", "fontColor": black},
-        "font72-level-grey": { "font": font72, "up": "levelButtonGrey", "fontColor": black},
-        "font108-level-grey": { "font": font108, "up": "levelButtonGrey", "fontColor": black},
+        "screen320-L-level-grey": { "font": screen320-L, "up": "levelButtonGrey", "fontColor": black},
+    	"screen480-L-level-grey": { "font": screen480-L, "up": "levelButtonGrey", "fontColor": black},
+        "screen540-L-level-grey": { "font": screen540-L, "up": "levelButtonGrey", "fontColor": black},
+        "screen720-L-level-grey": { "font": screen720-L, "up": "levelButtonGrey", "fontColor": black},
+        "screen1080-L-level-grey": { "font": screen1080-L, "up": "levelButtonGrey", "fontColor": black},
     },
 }

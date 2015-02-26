@@ -132,10 +132,10 @@ public class Levels implements Screen{
 		TextButton button;
 		
 		if(level == 1) {
-			button = new TextButton(""+level, skin, main.screenSizeGroup+"-level-yellow");
+			button = new TextButton(""+level, skin, main.screenSizeGroup+"-L"+"-level-yellow");
 		}
 		else {
-			button = new TextButton(""+level, skin, main.screenSizeGroup+"-level-grey");
+			button = new TextButton(""+level, skin, main.screenSizeGroup+"-L"+"-level-grey");
 		}
 		
 		button.setName("Level" + Integer.toString(level));

@@ -52,7 +52,7 @@ public class Categories implements Screen {
 		
 		skin = main.skin;
 		
-		String screenSizeGroup = main.screenSizeGroup;
+		final String screenSizeGroup = main.screenSizeGroup;
 
 		// Create a table that fills the screen. Everything else will go inside this table.
 		Table table = new Table();
@@ -60,16 +60,16 @@ public class Categories implements Screen {
 		table.setFillParent(true);
 		stage.addActor(table);
 		
-		final TextButton btnMath = new TextButton("Math", skin, screenSizeGroup);
+		final TextButton btnMath = new TextButton("Math", skin, screenSizeGroup+"-L");
 		btnMath.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				// TODO senda inn rétt, hlutfallslegt font og búa það til
-				main.levels = new Levels(main, new logic.Math(main.skin.getFont("tempMiniFont")));
+				main.levels = new Levels(main, new logic.Math(main.skin.getFont(screenSizeGroup+"-M")));
 				main.setScreen(main.levels);
 			}
 		});
 
-		final TextButton btnColors = new TextButton("Colors", skin, screenSizeGroup);
+		final TextButton btnColors = new TextButton("Colors", skin, screenSizeGroup+"-L");
 		btnColors.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("COLORS!");
@@ -78,7 +78,7 @@ public class Categories implements Screen {
 			}
 		});
 		
-		final TextButton btnFlags = new TextButton("Flags", skin, screenSizeGroup);
+		final TextButton btnFlags = new TextButton("Flags", skin, screenSizeGroup+"-L");
 		btnFlags.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("FLAGS!");

@@ -26,8 +26,8 @@ public class Math extends Category{
 	public Math(BitmapFont bmFont){
 		this.bmFont = bmFont;
 		// TODO gera flottari hlutfall
-		qWidth = screenWidth/5;
-		qHeight = screenWidth/5;
+		qWidth = screenWidth/4;
+		qHeight = screenWidth/4;
 		int[] xcoords = {0, 0, screenWidth-qWidth, screenWidth-qWidth}; 
 		int[] ycoords = {0, screenHeight-qHeight, screenHeight-qHeight, 0}; 
 
