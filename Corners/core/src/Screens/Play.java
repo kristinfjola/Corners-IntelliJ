@@ -60,7 +60,9 @@ public class Play implements Screen, InputProcessor{
     boolean swipeQuestion = false;
 
     long startTime = 0;	
+    long secondsPassed;
     ProgressBar progressBar;
+    BitmapFont time;
     private Stage stage;
 	
 	/**
@@ -75,6 +77,9 @@ public class Play implements Screen, InputProcessor{
 		Gdx.input.setInputProcessor(this);
 		origX = screenWidth/2 - cat.getQuestion().getRec().getWidth()/2;
 	    origY = screenHeight/2 - cat.getQuestion().getRec().getHeight()/2;
+	    
+	    time = cat.getBmFont();
+	    time.setColor(Color.BLACK);
 		
 		camera = new OrthographicCamera();
  	    camera.setToOrtho(false, screenWidth, screenHeight);
@@ -94,11 +99,6 @@ public class Play implements Screen, InputProcessor{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
 		
-		// progress bar
-		long endTime = System.nanoTime();
-	    long secondsPassed = (endTime - startTime)/1000000000;  
-		progressBar.setValue(secondsPassed);
-
 		// draw question and answers
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
@@ -106,6 +106,7 @@ public class Play implements Screen, InputProcessor{
 			answer.draw(batch);
 		}
 		cat.getQuestion().draw(batch);	
+		drawProgressBar();
 		batch.end();
 		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -230,6 +231,13 @@ public class Play implements Screen, InputProcessor{
 	public void getNewQuestion(){
 		cat.generateNewQuestion(level);
 		resetTime();
+	}
+	
+	public void drawProgressBar(){
+		long endTime = System.nanoTime();
+	    secondsPassed = (endTime - startTime)/1000000000;  
+		progressBar.setValue(secondsPassed);
+		time.draw(batch, secondsPassed+"", progressBar.getWidth(), screenHeight/5 - screenHeight/100);
 	}
 	
 	public void resetProgressBar(){

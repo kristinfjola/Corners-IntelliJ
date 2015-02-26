@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class MathBox extends Box{
 
 	int number;
-	BitmapFont font;
 	BitmapFont bmFont;
 	String text;
 	
@@ -26,12 +25,8 @@ public class MathBox extends Box{
 		super(width, height);
 		this.number = number;
 		
-		this.font = new BitmapFont();
-		this.font.setColor(Color.BLACK);
-		
 		this.bmFont = bmFont;
 		this.bmFont.setColor(Color.BLACK);
-		//this.bmFont.setScale(2f);
 		
 		this.text = text;
 	}
@@ -56,14 +51,6 @@ public class MathBox extends Box{
 	 */
 	public void setNumber(int number) {
 		this.number = number;
-	}
-
-	public BitmapFont getFont() {
-		return font;
-	}
-
-	public void setFont(BitmapFont font) {
-		this.font = font;
 	}
 
 	public String getText() {

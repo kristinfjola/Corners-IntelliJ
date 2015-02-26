@@ -175,5 +175,13 @@ public class Category {
 	public void setScreenHeight(int screenHeight) {
 		this.screenHeight = screenHeight;
 	}
+
+	public BitmapFont getBmFont() {
+		return bmFont;
+	}
+
+	public void setBmFont(BitmapFont bmFont) {
+		this.bmFont = bmFont;
+	}
 	
 }
