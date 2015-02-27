@@ -40,7 +40,7 @@ public class Levels implements Screen{
 	 * @param main
 	 * @param category
 	 */
-	public Levels(final MainActivity main, Category category){
+	public Levels(MainActivity main, Category category){
 		this.main = main;
 		cat = category;
  	    Gdx.input.setCatchBackKey(true);
@@ -175,7 +175,7 @@ public class Levels implements Screen{
 	public Table getStarTable(int level) {
 		Table starTable = new Table();
 		
-		// TODO saekja rettar upplysingar fra gagnagrunni
+		// TODO Get stars from db
 		int numberOfStars = 2;
 		int cntStars = 0;
 		
@@ -240,7 +240,6 @@ public class Levels implements Screen{
 				@Override
 				public boolean keyDown(int keycode) {
 					if(keycode == Keys.BACK){
-						System.out.println("test er að ýta á back");
 						main.setScreen(new Categories(main));
 			        }
 			        return false;
