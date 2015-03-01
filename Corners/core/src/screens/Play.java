@@ -42,6 +42,7 @@ public class Play implements Screen, InputProcessor{
     int nrOfQuestions;
     float origX;
     float origY;
+    Extra extra;
     
     // swipe
     Vector3 touchPos;
@@ -69,6 +70,7 @@ public class Play implements Screen, InputProcessor{
 	 */
 	public Play(MainActivity main, Category cat, int level){
 		this.main = main;
+		extra = new Extra(main);
 		this.cat = cat;
 		this.level = level;
 		stage = new Stage();
@@ -97,6 +99,8 @@ public class Play implements Screen, InputProcessor{
 		Gdx.gl.glClearColor(21/255f, 149/255f, 136/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
+		
+		extra.draw(batch, "L", "Level "+level, "R");
 		
 		// draw question and answers
 		batch.setProjectionMatrix(camera.combined);

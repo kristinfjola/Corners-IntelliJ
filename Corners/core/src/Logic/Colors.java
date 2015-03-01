@@ -25,6 +25,7 @@ public class Colors extends Category {
 	 * 	Creates a new Colors category, delivers a question and possible answers
 	 */
 	public Colors(){
+		type = "Colors";
 		qWidth = 100;
 		qHeight = 100;
 		int[] xcoords = {0, 0, screenWidth-qWidth, screenWidth-qWidth}; 

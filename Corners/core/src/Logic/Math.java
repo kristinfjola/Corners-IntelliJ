@@ -25,6 +25,7 @@ public class Math extends Category{
 	 * 	Creates a new Math category, delivers a question and possible answers
 	 */
 	public Math(BitmapFont bmFont){
+		type = "Math";
 		this.bmFont = bmFont;
 		// TODO gera flottari hlutfall
 		qWidth = (int) (screenWidth/3.5);

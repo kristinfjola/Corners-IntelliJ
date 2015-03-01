@@ -8,9 +8,14 @@ package screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -27,6 +32,7 @@ public class Start implements Screen{
 	float screenWidth = Gdx.graphics.getWidth();
 	float screenHeight = Gdx.graphics.getHeight();
 	Texture carl = new Texture("carl/carl4.jpg");
+	Extra extra;
 	
 	/**
 	 * Constructor. Creates the the interface and sets the
@@ -40,6 +46,7 @@ public class Start implements Screen{
 		batch = new SpriteBatch();
 		skin = main.skin;
 		Gdx.input.setInputProcessor(stage);
+		extra = new Extra(main);
 	}
 	
 	/**
@@ -69,7 +76,7 @@ public class Start implements Screen{
 		TextButton btnFriends = new TextButton("Friends", skin, screenSizeGroup+"-L");
 		// TODO Add listeners
 		
-		table.add(btnCategories).padTop(screenHeight/2.8f).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
+		table.add(btnCategories).padTop(screenHeight/2.4f).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
 		table.add(btnSettings).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
 		table.add(btnFriends).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
 		
@@ -83,15 +90,15 @@ public class Start implements Screen{
 	@Override
 	public void render(float delta) {	
 		Gdx.gl.glClearColor(21/255f, 149/255f, 136/255f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);	
 		
 		batch.begin();
-		batch.draw(carl, screenWidth/4, screenHeight*2/3, screenWidth/2, screenWidth/2);
+		batch.draw(carl, screenWidth/4, screenHeight*3/5, screenWidth/2, screenWidth/2);		
 		batch.end();
+		extra.draw(batch, "L", "Corners", "R");
 		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
-		
 	}
 
 	/**
