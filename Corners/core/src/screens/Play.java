@@ -57,11 +57,13 @@ public class Play implements Screen, InputProcessor{
     // time
     long startTime = 0;	
     long secondsPassed;
+    long totalSecondsWasted = 0;
     ProgressBar progressBar;
     ProgressBarStyle progressBarStyle;
     BitmapFont time;
     long maxTime;
     boolean delayTime = false;
+    int stars = 3;
     
 	
 	/**
@@ -81,7 +83,7 @@ public class Play implements Screen, InputProcessor{
 	    time = cat.getBmFont();
 	    time.setColor(Color.BLACK);
 	    maxTime = 10;
-	    nrOfQuestions = 7;
+	    nrOfQuestions = 9;
 		camera = new OrthographicCamera();
  	    camera.setToOrtho(false, screenWidth, screenHeight);
  	    batch = new SpriteBatch();
@@ -106,9 +108,7 @@ public class Play implements Screen, InputProcessor{
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		for(Box answer : cat.getAnswers()){
-			//batch.setColor(Color.RED)
 			answer.draw(batch);
-			//batch.setColor(Color.WHITE);
 		}
 		cat.getQuestion().draw(batch);	
 		drawProgressBar();
@@ -199,10 +199,10 @@ public class Play implements Screen, InputProcessor{
 		if(hit != null && !delayTime){
 			questionsAnswered++;
 			if(questionsAnswered >= nrOfQuestions){
-				questionsAnswered = 0;
-				level++;
+				win();
+			} else {
+				displayRightAnswerAndGetNewQuestion();
 			}
-			displayRightAnswerAndGetNewQuestion();
 		}
 		
 		//if hit wrong answer then move question to the middle
@@ -217,6 +217,15 @@ public class Play implements Screen, InputProcessor{
 		if(secondsPassed > progressBar.getMaxValue()){
 			loose();
 		}
+	}
+	
+	public void win(){
+		questionsAnswered = 0;
+		totalSecondsWasted = 0;
+		stars = 3;
+		level++;
+		displayRightAnswerAndGetNewQuestion(); // temp - hér kemur frekar animation
+		saveStars();
 	}
 	
 	public void moveQuestionToStartPos(){
@@ -285,6 +294,7 @@ public class Play implements Screen, InputProcessor{
 		    	delayTime = false;
 		    }
 		}, 1);
+		updateStars();
 	}
 	
 	public void createProgressBar(){
@@ -329,6 +339,29 @@ public class Play implements Screen, InputProcessor{
 		progressBarStyle.background = main.skin.getDrawable("bg_wrong");
 		progressBarStyle.knob = main.skin.getDrawable("knob_wrong");
 		progressBarStyle.knobBefore = progressBarStyle.knob;
+	}
+	
+	public void saveStars(){
+		// TODO: vista stjörnufjölda fyrir borð
+	}
+	
+	public void updateStars(){
+		totalSecondsWasted += secondsPassed;
+		
+		int threeStars = 20;
+		int twoStars = 45;
+		int oneStar = 80;
+		
+		if(totalSecondsWasted >= threeStars && stars == 3){
+			stars = 2;
+		} else if(totalSecondsWasted >= twoStars && stars == 2){
+			stars = 1;
+		} else if(totalSecondsWasted >= oneStar && stars == 1){
+			stars = 0;
+		}
+		
+		System.out.println("total secs wasted: " + totalSecondsWasted);
+		System.out.println("stars: " + stars);
 	}
 	
 	@Override
