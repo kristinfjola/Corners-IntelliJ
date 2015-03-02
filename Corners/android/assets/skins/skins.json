@@ -10,7 +10,7 @@
         "screen480-M": { "file": "fonts/34-font.fnt" },
         "screen540-M": { "file": "fonts/38-font.fnt" },
         "screen720-M": { "file": "fonts/50-font.fnt" },
-        "screen1080-M": { "file": "fonts/76-font.fnt" },
+        "screen1080-M": { "file": "fonts/78-font.fnt" },
     },
     
     "com.badlogic.gdx.graphics.Color": {

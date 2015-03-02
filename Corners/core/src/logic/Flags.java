@@ -25,6 +25,7 @@ public class Flags extends Category{
 	 * 	Creates a new Flags category, delivers a question and possible answers
 	 */
 	public Flags(){
+		type = "Flags";
 		qWidth = 120;
 		qHeight = 80;
 		int[] xcoords = {0, 0, screenWidth-qWidth, screenWidth-qWidth}; 

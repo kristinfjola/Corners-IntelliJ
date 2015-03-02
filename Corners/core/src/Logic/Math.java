@@ -12,6 +12,7 @@ import java.util.Random;
 import boxes.Box;
 import boxes.MathBox;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -24,39 +25,42 @@ public class Math extends Category{
 	 * 	Creates a new Math category, delivers a question and possible answers
 	 */
 	public Math(BitmapFont bmFont){
+		type = "Math";
 		this.bmFont = bmFont;
 		// TODO gera flottari hlutfall
-		qWidth = screenWidth/4;
-		qHeight = screenWidth/4;
+		qWidth = (int) (screenWidth/3.5);
+		qHeight = (int) (screenWidth/3.5);
 		int[] xcoords = {0, 0, screenWidth-qWidth, screenWidth-qWidth}; 
 		int[] ycoords = {0, screenHeight-qHeight, screenHeight-qHeight, 0}; 
 
 		//answers
  	    answers = new Array<Box>();
  	    for(int i = 0; i < 4; i++){
- 	    	Pixmap pm = new Pixmap(qWidth, qHeight, Format.RGBA8888);
+ 	    	/*Pixmap pm = new Pixmap(qWidth, qHeight, Format.RGBA8888);
  	 	    pm.setColor(new Color(255/255f,197/255f,1/255f,1));
  	 		pm.fillRectangle(0,0,qWidth, qHeight);
  	 		pm.setColor(Color.BLACK);
- 	 		pm.drawRectangle(0,0,qWidth, qHeight);
+ 	 		pm.drawRectangle(0,0,qWidth, qHeight);*/
  	    	
  	    	MathBox box = new MathBox(qWidth, qHeight, 2, "1+1", bmFont);
  	 	    box.getRec().x = xcoords[i];
  	 	  	box.getRec().y = ycoords[i];
- 	 	  	box.setTexture(new Texture(pm));
+ 	 	  	//box.setTexture(new Texture(pm));
+ 	 	  	box.setTexture(new Texture(Gdx.files.internal("mathBoxes/aBox"+(i+1)+".png")));
  	 	    answers.add(box);
  	    }
  	    
  	    //question
- 	    Pixmap pm = new Pixmap(qWidth, qHeight, Format.RGBA8888);
+ 	    /*Pixmap pm = new Pixmap(qWidth, qHeight, Format.RGBA8888);
 	    pm.setColor(Color.LIGHT_GRAY);
 		pm.fillRectangle(0,0,qWidth, qHeight);
 		pm.setColor(Color.BLACK);
-		pm.drawRectangle(0,0,qWidth, qHeight);
+		pm.drawRectangle(0,0,qWidth, qHeight);*/
  		question = new MathBox(qWidth, qHeight, 2, "2+2", bmFont);
   	    question.getRec().x = screenWidth / 2 - qWidth / 2;
   	    question.getRec().y = screenHeight / 2 - qHeight / 2;
-  	    question.setTexture(new Texture(pm));
+  	    //question.setTexture(new Texture(pm));
+  	    question.setTexture(new Texture(Gdx.files.internal("mathBoxes/qBox.png")));
 	}
 	
 	@Override

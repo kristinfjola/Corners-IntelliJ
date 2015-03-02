@@ -22,6 +22,7 @@ public class Category {
 	int screenWidth = Gdx.graphics.getWidth();
     int screenHeight = Gdx.graphics.getHeight();
     BitmapFont bmFont;
+    String type;
     
     public void generateNewQuestion(int level){
 		switch(level){
@@ -182,6 +183,10 @@ public class Category {
 
 	public void setBmFont(BitmapFont bmFont) {
 		this.bmFont = bmFont;
+	}
+	
+	public String getType() {
+		return type;
 	}
 	
 }

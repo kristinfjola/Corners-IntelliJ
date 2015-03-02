@@ -14,6 +14,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -33,6 +34,8 @@ public class Levels implements Screen{
 	final float screenWidth = Gdx.graphics.getWidth();
 	final float screenHeight = Gdx.graphics.getHeight();
 	InputProcessor inputProcessor; 
+	Extra extra;
+	SpriteBatch batch;
 	
 	/**
 	 * Constructor that sets the private variable and starts the screen.
@@ -40,9 +43,11 @@ public class Levels implements Screen{
 	 * @param main
 	 * @param category
 	 */
-	public Levels(final MainActivity main, Category category){
+	public Levels(MainActivity main, Category category){
 		this.main = main;
 		cat = category;
+		extra = new Extra(main);
+		batch = new SpriteBatch();
  	    Gdx.input.setCatchBackKey(true);
  	    addBackToProcessor(); 
 		create();
@@ -72,6 +77,7 @@ public class Levels implements Screen{
 		
 		int cnt = 1;
 		Table tableLevels = new Table();
+		tableLevels.padTop(screenHeight/7);
 		tableLevels.defaults().size(screenWidth/4.2f,screenHeight/6f);
 		for (int rows = 0; rows < 3; rows++) {
 			tableLevels.row();
@@ -102,6 +108,7 @@ public class Levels implements Screen{
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		extra.draw(batch, "L", cat.getType(), "R");
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();		
 	}
@@ -175,7 +182,7 @@ public class Levels implements Screen{
 	public Table getStarTable(int level) {
 		Table starTable = new Table();
 		
-		// TODO saekja rettar upplysingar fra gagnagrunni
+		// TODO Get stars from db
 		int numberOfStars = 2;
 		int cntStars = 0;
 		
@@ -240,7 +247,6 @@ public class Levels implements Screen{
 				@Override
 				public boolean keyDown(int keycode) {
 					if(keycode == Keys.BACK){
-						System.out.println("test er að ýta á back");
 						main.setScreen(new Categories(main));
 			        }
 			        return false;

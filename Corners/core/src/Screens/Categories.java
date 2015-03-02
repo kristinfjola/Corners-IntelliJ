@@ -34,6 +34,7 @@ public class Categories implements Screen {
 	Skin skin;
 	Stage stage;
 	private InputProcessor inputProcessor;
+	Extra extra;
 	
 	
 	/**
@@ -49,30 +50,29 @@ public class Categories implements Screen {
 		stage = new Stage();
 		this.screenWidth = Gdx.graphics.getWidth();
 		this.screenHeight = Gdx.graphics.getHeight();
+		extra = new Extra(main);
 		
 		addBackToProcessor();
 		setAllProcessors();    
 		
 		skin = main.skin;
 		
-		final String screenSizeGroup = main.screenSizeGroup;
-
 		// Create a table that fills the screen. Everything else will go inside this table.
 		Table table = new Table();
 		table.top();
 		table.setFillParent(true);
 		stage.addActor(table);
 		
-		final TextButton btnMath = new TextButton("Math", skin, screenSizeGroup+"-L");
+		final TextButton btnMath = new TextButton("Math", skin, main.screenSizeGroup+"-L");
 		btnMath.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				// TODO senda inn rétt, hlutfallslegt font og búa það til
-				main.levels = new Levels(main, new logic.Math(main.skin.getFont(screenSizeGroup+"-M")));
+				main.levels = new Levels(main, new logic.Math(main.skin.getFont(main.screenSizeGroup+"-M")));
 				main.setScreen(main.levels);
 			}
 		});
 
-		final TextButton btnColors = new TextButton("Colors", skin, screenSizeGroup+"-L");
+		final TextButton btnColors = new TextButton("Colors", skin, main.screenSizeGroup+"-L");
 		btnColors.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("COLORS!");
@@ -81,7 +81,7 @@ public class Categories implements Screen {
 			}
 		});
 		
-		final TextButton btnFlags = new TextButton("Flags", skin, screenSizeGroup+"-L");
+		final TextButton btnFlags = new TextButton("Flags", skin, main.screenSizeGroup+"-L");
 		btnFlags.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("FLAGS!");
@@ -90,7 +90,7 @@ public class Categories implements Screen {
 			}
 		});
 		
-		table.add(btnMath).width(this.screenWidth/1.5f).height(this.screenHeight/8).padTop(this.screenHeight/2.8f).padBottom(this.screenHeight/20);
+		table.add(btnMath).width(this.screenWidth/1.5f).height(this.screenHeight/8).padTop(screenHeight/2.4f).padBottom(this.screenHeight/20);
 		table.row();
 		table.add(btnColors).width(this.screenWidth/1.5f).height(this.screenHeight/8).padBottom(this.screenHeight/20);
 		table.row();
@@ -112,8 +112,9 @@ public class Categories implements Screen {
 		Gdx.gl.glClearColor(21/255f, 149/255f, 136/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(carl, screenWidth/4, screenHeight*2/3, screenWidth/2, screenWidth/2);
+        batch.draw(carl, screenWidth/4, screenHeight*3/5, screenWidth/2, screenWidth/2);	
         batch.end();
+        extra.draw(batch, "L", "Categories", "R");
 		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
