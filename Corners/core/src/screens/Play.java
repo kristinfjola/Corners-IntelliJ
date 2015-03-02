@@ -20,11 +20,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.corners.game.MainActivity;
@@ -91,7 +93,13 @@ public class Play implements Screen, InputProcessor{
 		infoBar.setRightText("");
 		infoBar.setLeftImage("stars");
 		infoBar.setRightImage("pause");
-		//infoBar.setRightListener(PauseListener);
+		ClickListener pauseListener = new ClickListener() {
+			@Override
+			public void clicked (InputEvent event, float x, float y) {
+				System.out.println("CLICK! You just clicked Pause!");
+			}
+		};
+		infoBar.setRightListener(pauseListener);
 	 	table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
 
 		origX = screenWidth/2 - cat.getQuestion().getRec().getWidth()/2;
@@ -279,7 +287,7 @@ public class Play implements Screen, InputProcessor{
 	}
 	
 	public void saveStars(){
-		// TODO: vista stj�rnufj�lda fyrir bor�
+		// TODO: save staramount for levels
 	}
 	
 	public void updateStars(){

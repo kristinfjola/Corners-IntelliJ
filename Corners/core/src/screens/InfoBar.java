@@ -5,16 +5,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.corners.game.MainActivity;
 
 public class InfoBar {
@@ -28,18 +27,18 @@ public class InfoBar {
 	String rightText="";
 	String leftImage="empty";
 	String rightImage="empty";
-	ChangeListener leftListener;
-	ChangeListener rightListener;
+	ClickListener leftListener;
+	ClickListener rightListener;
 	
 	public InfoBar(MainActivity main) {
 		this.main = main;
 		barWidth = screenWidth;
 	 	barHeight = screenHeight/10;
-	 	leftListener = new ChangeListener() {
-			public void changed (ChangeEvent event, Actor actor) {}
+	 	leftListener = new ClickListener() {
+	 		public void clicked (InputEvent event, float x, float y) {}
 		};
-		rightListener = new ChangeListener() {
-			public void changed (ChangeEvent event, Actor actor) {}
+		rightListener = new ClickListener() {
+			public void clicked (InputEvent event, float x, float y) {}
 		};
 	}
 	
@@ -51,16 +50,17 @@ public class InfoBar {
 	 	Table infoBarTable = new Table(main.skin);
 	 	infoBarTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(pm))));
 	 	
-	 	ImageTextButton leftButton = new ImageTextButton(leftText, main.skin, leftImage);
-	 	ImageTextButton rightButton = new ImageTextButton(rightText, main.skin, rightImage);
+	 	Button leftButton = new Button(main.skin);
+	 	Label leftLabel = new Label(leftText, main.skin, main.screenSizeGroup+"-M");
+	 	leftLabel.setAlignment(Align.center);
+	 	leftButton.stack(new Image(new Texture("barInfo/"+leftImage+".png")), leftLabel).expand().fill();
 	 	
-	 	rightButton.addListener(new ChangeListener() {
-			public void changed (ChangeEvent event, Actor actor) {
-				System.out.println("You just clicked the right side!");
-			}
-		});
+	 	Button rightButton = new Button(main.skin);
+	 	Label rightLabel = new Label(rightText, main.skin, main.screenSizeGroup+"-M");
+	 	rightLabel.setAlignment(Align.center);
+	 	rightButton.stack(new Image(new Texture("barInfo/"+rightImage+".png")), rightLabel).expand().fill();
+	 	rightButton.addListener(rightListener);
 	 	
-	 	//TODO get corrent info on stars and levels and change the image
 	 	infoBarTable.add(leftButton).size(barHeight).expand().left();
 	 	infoBarTable.add(middleText).expand();
 	 	infoBarTable.add(rightButton).size(barHeight).expand().right();
@@ -96,11 +96,11 @@ public class InfoBar {
 		this.rightImage = rightImage;
 	}
 	
-	public void setLeftListener(ChangeListener leftListener) {
+	public void setLeftListener(ClickListener leftListener) {
 		this.leftListener = leftListener;
 	}
 	
-	public void setRightListener(ChangeListener rightListener) {
+	public void setRightListener(ClickListener rightListener) {
 		this.rightListener = rightListener;
 	}
 }
