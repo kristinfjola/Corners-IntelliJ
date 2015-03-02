@@ -121,6 +121,7 @@ public class Play implements Screen, InputProcessor{
 		totalSecondsWasted = 0;
 		stars = 3;
 		level++;
+		setCorrectProgressBar();
 		animateFinishLevel();
 		saveStars();
 	}
@@ -296,11 +297,14 @@ public class Play implements Screen, InputProcessor{
 
 	@Override
 	public void pause() {
+		refreshProgressBar(true);
+		delayTime = true;
 		this.state = State.PAUSE;
 	}
 
 	@Override
 	public void resume() {
+		delayTime = false;
 		this.state = State.RUN;
 	}
 
