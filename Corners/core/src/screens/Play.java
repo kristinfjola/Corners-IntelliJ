@@ -21,8 +21,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.corners.game.MainActivity;
 
 public class Play implements Screen, InputProcessor{
@@ -52,6 +55,7 @@ public class Play implements Screen, InputProcessor{
     ProgressBar progressBar;
     BitmapFont time;
     private Stage stage;
+    private State state;
 	
 	/**
 	 * @param main - main activity of the game
@@ -61,6 +65,7 @@ public class Play implements Screen, InputProcessor{
 		this.main = main;
 		this.cat = cat;
 		this.level = level;
+		this.state = State.RUN;
 		stage = new Stage();
 		Gdx.input.setInputProcessor(this);
 		origX = screenWidth/2 - cat.getQuestion().getRec().getWidth()/2;
@@ -74,6 +79,11 @@ public class Play implements Screen, InputProcessor{
  	    createProgressBar();
  	    getNewQuestion();
 	}
+	
+	public enum State {
+		PAUSE,
+		RUN
+	}
 
 	/**
 	 * Renders a question in the middle of the screen and 4 answers located
@@ -82,23 +92,170 @@ public class Play implements Screen, InputProcessor{
 	 */
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(21/255f, 149/255f, 136/255f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		camera.update();
-		
-		// draw question and answers
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-		for(Box answer : cat.getAnswers()){
-			answer.draw(batch);
+		switch (state) {
+		case RUN:
+			update();
+			break;
+		case PAUSE:
+			break;
 		}
-		cat.getQuestion().draw(batch);	
-		drawProgressBar();
-		batch.end();
 		
-		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-		stage.draw();
+		draw();
+	}
+	
+	public boolean touchOverlapsQuestion(Vector3 touchPos){
+		camera.unproject(touchPos);
+		if(touchPos.x >= cat.getQuestion().getRec().x 
+				&& touchPos.x <= cat.getQuestion().getRec().x + cat.getQuestion().getRec().getWidth()
+				&& touchPos.y >= cat.getQuestion().getRec().y
+				&& touchPos.y <= cat.getQuestion().getRec().y + cat.getQuestion().getRec().getHeight()){
+			return true;
+		}
+		return false;
+	}
+	
+	public void loose(){
+		main.setScreen(new Levels(main, cat));
+	}
+	
+	public void resetTime(){
+		progressBar.setValue(0);
+		startTime = System.nanoTime();
+	}
+	
+	public void getNewQuestion(){
+		cat.generateNewQuestion(level);
+		resetTime();
+	}
+	
+	public void drawProgressBar(){
+		long endTime = System.nanoTime();
+	    secondsPassed = (endTime - startTime)/1000000000;  
+		progressBar.setValue(secondsPassed);
+		time.draw(batch, secondsPassed+"", progressBar.getWidth(), screenHeight/5 - screenHeight/100);
+	}
+	
+	public void resetProgressBar(){
+		progressBar.remove();
+		createProgressBar();
+	}
+	
+	public void createProgressBar(){
+		main.skin.add("bg", new Texture(Gdx.files.internal("progressBar/background.png")));
+ 	    main.skin.add("knob", new Texture(Gdx.files.internal("progressBar/knob.png")));
+ 	    ProgressBarStyle barStyle = new ProgressBarStyle(main.skin.getDrawable("bg"), main.skin.getDrawable("knob"));
+ 	    barStyle.knobBefore = barStyle.knob;
+ 	    progressBar = new ProgressBar(0, 10, 0.5f, false, barStyle);
+	    progressBar.setPosition(screenWidth/4, screenHeight/5);
+	    progressBar.setSize(screenWidth/2, progressBar.getPrefHeight());
+	    progressBar.setAnimateDuration(1);
+	    stage.addActor(progressBar);
+	}
+	
+	public void animateFinishLevel() {
+		pause();
 		
+		Dialog dialog = new Dialog("Level completed!", this.main.skin);
+		dialog.getContentTable().row();
+		dialog.getContentTable().row();
+		dialog.text("Congratulations!"); 
+		dialog.show(this.stage);
+		Timer.schedule(new Task(){
+		    @Override
+		    public void run() {
+		        // Do your work
+		    	main.setScreen(new Levels(main, cat));
+		    }
+		}, 2);
+		
+	}
+	
+	public void moveQuestionOverAnswer() {
+		if(xDirection == "left" ) {
+			cat.getQuestion().getRec().x = 0;
+		}
+		
+	}
+	
+	@Override
+	public void show() {
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		
+	}
+
+	@Override
+	public void pause() {
+		this.state = State.PAUSE;
+	}
+
+	@Override
+	public void resume() {
+		this.state = State.RUN;
+	}
+
+	@Override
+	public void hide() {
+		
+	}
+
+	@Override
+	public void dispose() {
+		batch.dispose();
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		if(keycode == Keys.BACK){
+			main.setScreen(new Levels(main, cat));
+        }
+        return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	/**
+	 * If user let's go of the question box it returns to the middle
+	 * of the screen.
+	 */
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		lockPos = false;
+		touchUp = true;
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		return false;
+	}
+	
+	public void update() {
 		// swipe question
 		if(Gdx.input.isTouched()) {
 			touchPos = new Vector3();
@@ -179,10 +336,12 @@ public class Play implements Screen, InputProcessor{
 		// hit answer
 		Box hit = cat.checkIfHitAnswer();
 		if(hit != null){
+			moveQuestionOverAnswer();
 			questionsAnswered++;
 			if(questionsAnswered >= 7){
 				questionsAnswered = 0;
 				level++;
+				animateFinishLevel();
 			}
 			getNewQuestion();
 		}
@@ -204,131 +363,22 @@ public class Play implements Screen, InputProcessor{
 		}
 	}
 	
-	public boolean touchOverlapsQuestion(Vector3 touchPos){
-		camera.unproject(touchPos);
-		if(touchPos.x >= cat.getQuestion().getRec().x 
-				&& touchPos.x <= cat.getQuestion().getRec().x + cat.getQuestion().getRec().getWidth()
-				&& touchPos.y >= cat.getQuestion().getRec().y
-				&& touchPos.y <= cat.getQuestion().getRec().y + cat.getQuestion().getRec().getHeight()){
-			return true;
+	public void draw() {
+		Gdx.gl.glClearColor(21/255f, 149/255f, 136/255f, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		camera.update();
+		
+		// draw question and answers
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+		for(Box answer : cat.getAnswers()){
+			answer.draw(batch);
 		}
-		return false;
-	}
-	
-	public void loose(){
-		main.setScreen(new Levels(main, cat));
-	}
-	
-	public void resetTime(){
-		progressBar.setValue(0);
-		startTime = System.nanoTime();
-	}
-	
-	public void getNewQuestion(){
-		cat.generateNewQuestion(level);
-		resetTime();
-	}
-	
-	public void drawProgressBar(){
-		long endTime = System.nanoTime();
-	    secondsPassed = (endTime - startTime)/1000000000;  
-		progressBar.setValue(secondsPassed);
-		time.draw(batch, secondsPassed+"", progressBar.getWidth(), screenHeight/5 - screenHeight/100);
-	}
-	
-	public void resetProgressBar(){
-		progressBar.remove();
-		createProgressBar();
-	}
-	
-	public void createProgressBar(){
-		main.skin.add("bg", new Texture(Gdx.files.internal("progressBar/background.png")));
- 	    main.skin.add("knob", new Texture(Gdx.files.internal("progressBar/knob.png")));
- 	    ProgressBarStyle barStyle = new ProgressBarStyle(main.skin.getDrawable("bg"), main.skin.getDrawable("knob"));
- 	    barStyle.knobBefore = barStyle.knob;
- 	    progressBar = new ProgressBar(0, 10, 0.5f, false, barStyle);
-	    progressBar.setPosition(screenWidth/4, screenHeight/5);
-	    progressBar.setSize(screenWidth/2, progressBar.getPrefHeight());
-	    progressBar.setAnimateDuration(1);
-	    stage.addActor(progressBar);
-	}
-	
-	@Override
-	public void show() {
-	}
-
-	@Override
-	public void resize(int width, int height) {
+		cat.getQuestion().draw(batch);	
+		drawProgressBar();
+		batch.end();
 		
+		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+		stage.draw();
 	}
-
-	@Override
-	public void pause() {
-		
-	}
-
-	@Override
-	public void resume() {
-		
-	}
-
-	@Override
-	public void hide() {
-		
-	}
-
-	@Override
-	public void dispose() {
-		batch.dispose();
-	}
-
-	@Override
-	public boolean keyDown(int keycode) {
-		if(keycode == Keys.BACK){
-			main.setScreen(new Levels(main, cat));
-        }
-        return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		return false;
-	}
-
-	/**
-	 * If user let's go of the question box it returns to the middle
-	 * of the screen.
-	 */
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		lockPos = false;
-		touchUp = true;
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		return false;
-	}
-
 }

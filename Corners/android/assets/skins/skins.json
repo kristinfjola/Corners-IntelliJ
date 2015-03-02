@@ -19,7 +19,7 @@
         "green": { "r": 0, "g": 1, "b": 0, "a": 1 },
 		"red": { "r": 1, "g": 0, "b": 0, "a": 1 },
     },
-    
+
     "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
     	"default": { "font": screen540-L, "up": "mainButton", "fontColor": black },
     	"screen320-L": { "font": screen320-L, "up": "mainButton", "fontColor": black},
@@ -39,5 +39,21 @@
         "screen540-L-level-grey": { "font": screen540-L, "up": "levelButtonGrey", "fontColor": black},
         "screen720-L-level-grey": { "font": screen720-L, "up": "levelButtonGrey", "fontColor": black},
         "screen1080-L-level-grey": { "font": screen1080-L, "up": "levelButtonGrey", "fontColor": black},
+    },
+    "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+	"default": { "font": screen540-L, "fontColor": black },
+	"screen320-L": { "font": screen320-L, "fontColor": black},
+    	"screen480-L": { "font": screen480-L, "fontColor": black},
+        "screen540-L": { "font": screen540-L, "fontColor": black},
+        "screen720-L": { "font": screen720-L, "fontColor": black},
+        "screen1080-L": { "font": screen1080-L, "fontColor": black},
+    },
+    "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
+	"default": { "titleFont": screen540-L, "titleFontColor": black },
+	"screen320-L": { "titleFont": screen320-L, "titleFontColor": black},
+    	"screen480-L": { "titleFont": screen480-L, "titleFontColor": black},
+        "screen540-L": { "titleFont": screen540-L, "titleFontColor": black},
+        "screen720-L": { "titleFont": screen720-L, "titleFontColor": black},
+        "screen1080-L": { "titleFont": screen1080-L, "titleFontColor": black},
     },
 }

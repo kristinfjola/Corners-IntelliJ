@@ -55,7 +55,7 @@ public class MainActivity extends Game {
 	
 	/** On Android this method is called when the Home button is pressed or an incoming call is received.A good place to save the game state. **/
 	public void pause () { 
-		
+		super.pause();
 	}
 
 	/** This method is only called on Android, when the application resumes from a paused state. **/
