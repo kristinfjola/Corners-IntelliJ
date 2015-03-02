@@ -56,4 +56,16 @@
         "screen720-L": { "titleFont": screen720-L, "titleFontColor": black},
         "screen1080-L": { "titleFont": screen1080-L, "titleFontColor": black},
     },
+    
+    "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+    	"default": { "font": screen540-M, "fontColor": black },
+    },
+    
+    "com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {
+    	"default": { "font": screen540-M, "fontColor": black, "up": stars },
+    	"stars": { "font": screen540-M, "fontColor": black, "up": stars },
+    	"levels": { "font": screen540-M, "fontColor": black, "up": levels },
+    	"empty": { "font": screen540-M, "fontColor": black, "up": empty },
+    	"pause": { "font": screen540-M, "fontColor": black, "up": pause  },
+    },
 }

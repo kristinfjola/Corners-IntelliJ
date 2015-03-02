@@ -38,3 +38,55 @@ levelButtonGrey
   orig: 411, 170
   offset: 0, 0
   index: -1
+  
+tempStarsBarImg.png
+size: 80,80
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+stars
+  rotate: false
+  xy: 0, 0
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+  
+tempLevelsBarImg.png
+size: 80,80
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+levels
+  rotate: false
+  xy: 0, 0
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+  
+emptyBarImg.png
+size: 80,80
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+empty
+  rotate: false
+  xy: 0, 0
+  size: 42, 42
+  orig: 42, 42
+  offset: 0, 0
+  index: -1
+  
+tempPauseBarImg.png
+size: 80,80
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+pause
+  rotate: false
+  xy: 0, 0
+  size: 83, 83
+  orig: 83, 83
+  offset: 0, 0
+  index: -1

@@ -34,7 +34,7 @@ public class Categories implements Screen {
 	Skin skin;
 	Stage stage;
 	private InputProcessor inputProcessor;
-	Extra extra;
+	InfoBar infoBar;
 	
 	
 	/**
@@ -50,7 +50,7 @@ public class Categories implements Screen {
 		stage = new Stage();
 		this.screenWidth = Gdx.graphics.getWidth();
 		this.screenHeight = Gdx.graphics.getHeight();
-		extra = new Extra(main);
+		infoBar = new InfoBar(main);
 		
 		addBackToProcessor();
 		setAllProcessors();    
@@ -63,6 +63,14 @@ public class Categories implements Screen {
 		table.setFillParent(true);
 		stage.addActor(table);
 		
+		//Setting up the info bar
+		infoBar.setLeftText("2.1/3");
+		infoBar.setMiddleText("Categories");
+		infoBar.setRightText("8/27");
+		infoBar.setLeftImage("stars");
+		infoBar.setRightImage("levels");
+		table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
+	
 		final TextButton btnMath = new TextButton("Math", skin, main.screenSizeGroup+"-L");
 		btnMath.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
@@ -90,7 +98,7 @@ public class Categories implements Screen {
 			}
 		});
 		
-		table.add(btnMath).width(this.screenWidth/1.5f).height(this.screenHeight/8).padTop(screenHeight/2.4f).padBottom(this.screenHeight/20);
+		table.add(btnMath).width(this.screenWidth/1.5f).height(this.screenHeight/8).padTop(screenHeight/3f).padBottom(this.screenHeight/20);
 		table.row();
 		table.add(btnColors).width(this.screenWidth/1.5f).height(this.screenHeight/8).padBottom(this.screenHeight/20);
 		table.row();
@@ -111,10 +119,10 @@ public class Categories implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(21/255f, 149/255f, 136/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        
         batch.begin();
-        batch.draw(carl, screenWidth/4, screenHeight*3/5, screenWidth/2, screenWidth/2);	
+		batch.draw(carl, screenWidth*0.25f, screenHeight*0.6f, screenWidth*0.5f, screenWidth*0.5f);	
         batch.end();
-        extra.draw(batch, "L", "Categories", "R");
 		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
