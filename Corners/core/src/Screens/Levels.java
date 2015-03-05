@@ -24,6 +24,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.corners.game.MainActivity;
 
+import data.DataProcessor;
+import data.LevelStars;
+import data.LevelState;
+
 public class Levels implements Screen{
 
 	private MainActivity main;
@@ -36,6 +40,7 @@ public class Levels implements Screen{
 	InputProcessor inputProcessor; 
 	InfoBar infoBar;
 	SpriteBatch batch;
+	LevelStars stars;
 	
 	/**
 	 * Constructor that sets the private variable and starts the screen.
@@ -50,16 +55,8 @@ public class Levels implements Screen{
 		batch = new SpriteBatch();
  	    Gdx.input.setCatchBackKey(true);
  	    addBackToProcessor(); 
+ 	    processData(category);
 		create();
-	}
-
-	private void setAllProcessors() {
-		Gdx.input.setCatchBackKey(true);
-		
-		InputMultiplexer multiplexer = new InputMultiplexer();
-		multiplexer.addProcessor(stage);
-		multiplexer.addProcessor(inputProcessor);
-		Gdx.input.setInputProcessor(multiplexer); 	
 	}
 
 	/**
@@ -83,6 +80,7 @@ public class Levels implements Screen{
 		infoBar.setRightImage("levels");
 	 	container.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
 
+	 	
 		int cnt = 1;
 		Table tableLevels = new Table();
 		tableLevels.defaults().size(screenWidth/4.2f,screenHeight/6f);
@@ -159,7 +157,7 @@ public class Levels implements Screen{
 	public TextButton getLevelButton(final int level) {
 		TextButton button;
 		
-		if(level == 1) {
+		if(stars.getStars()[level] > -1) {
 			button = new TextButton(""+level, skin, main.screenSizeGroup+"-L"+"-level-yellow");
 		}
 		else {
@@ -187,22 +185,35 @@ public class Levels implements Screen{
 
 	public Table getStarTable(int level) {
 		Table starTable = new Table();
-		
-		// TODO Get stars from db
-		int numberOfStars = 2;
+		int numberOfStars = stars.getStars()[level];
 		int cntStars = 0;
-		
 		for (int star = 0; star < 3; star++) {
-			if(level == 1 && cntStars != numberOfStars) { //taka ut level==1
+			if(cntStars < numberOfStars) {
 				starTable.add(new Image(main.fullStar)).size(screenWidth/4.2f/3);
+				cntStars++;
 			}
 			else {
 				starTable.add(new Image(main.emptyStar)).size(screenWidth/4.2f/3);
 			}
-			cntStars++;
+			
 		}
 		
 		return starTable;
+	}
+	
+	private void processData(Category category) {
+		 LevelState levelState = new LevelState(); 
+		 DataProcessor.getData(levelState);
+		 stars = levelState.getStarsByString(category.getType());
+	}
+
+	private void setAllProcessors() {
+		Gdx.input.setCatchBackKey(true);
+		
+		InputMultiplexer multiplexer = new InputMultiplexer();
+		multiplexer.addProcessor(stage);
+		multiplexer.addProcessor(inputProcessor);
+		Gdx.input.setInputProcessor(multiplexer); 	
 	}
 	
 	private void addBackToProcessor() {
