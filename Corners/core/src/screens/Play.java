@@ -73,6 +73,9 @@ public class Play implements Screen, InputProcessor{
     long maxTime;
     boolean delayTime = false;
     int stars = 3;
+    
+    // levels
+    int maxNumLevels = 9;
 	
 	/**
 	 * @param main - main activity of the game
@@ -142,9 +145,15 @@ public class Play implements Screen, InputProcessor{
 	public void win(){
 		questionsAnswered = 0;
 		totalSecondsWasted = 0;
-		level++;
 		setCorrectProgressBar();
-		animateFinishLevel(true);
+		
+		if(level < maxNumLevels) { 
+			animateFinishLevel(true, false);
+			level++;
+		} else {
+			animateFinishLevel(true, true);
+		}
+		
 		saveStars();
 	}
 	
@@ -168,7 +177,7 @@ public class Play implements Screen, InputProcessor{
 		setWrongProgressBar();
 		refreshProgressBar(true);
 		delayTime = true;
-		animateFinishLevel(false);
+		animateFinishLevel(false, false);
 	}
 	
 	public void resetTime(){
@@ -228,20 +237,25 @@ public class Play implements Screen, InputProcessor{
 	    stage.addActor(progressBar);
 	}
 	
-	public void animateFinishLevel(boolean win) {
+	public void animateFinishLevel(boolean win, boolean finishCat) {
 		pause();
 		
 		Dialog dialog = new Dialog("", this.main.skin);
-		if(win) dialog.text("Congratulations!");
+		if(win) dialog.getContentTable().row();
 		else dialog.text("Oh no!");
 		dialog.getContentTable().row();
-		if(win) dialog.text("Level complete!");
+		if(win && !finishCat) dialog.text("Level complete!");
+		else if(finishCat) dialog.text(cat.getType()+" complete!");
 		else dialog.text("You lost!");
 		dialog.getContentTable().row();
 		
 		if(win) {
 			Table starsTable = getStars(stars);
 			dialog.getContentTable().add(starsTable);
+			if(finishCat) {
+				dialog.getContentTable().row();
+				dialog.text("Try to get more stars in each level!");
+			}
 		} else {
 			Table sadFaceTable = getSadFace();
 			dialog.getContentTable().add(sadFaceTable);
@@ -254,7 +268,7 @@ public class Play implements Screen, InputProcessor{
 		        // Do your work
 		    	main.setScreen(new Levels(main, cat));
 		    }
-		}, 2);
+		}, 3);
 		
 	}
 	
@@ -270,13 +284,13 @@ public class Play implements Screen, InputProcessor{
 		for(int i = 1; i <=numStars; i++) {
 			Image win_star = new Image();
 			win_star.setDrawable(new TextureRegionDrawable(new TextureRegion(yellow_star)));
-			starsTable.add(win_star).padTop(50);
+			starsTable.add(win_star).padTop(30).padBottom(30);
 		}
 		
 		for(int i = 1; i <= loseStars; i++) {
 			Image lose_star = new Image();
 			lose_star.setDrawable(new TextureRegionDrawable(new TextureRegion(gray_star)));
-			starsTable.add(lose_star).padTop(50);
+			starsTable.add(lose_star).padTop(30).padBottom(30);
 		}
 		
 		return starsTable;
