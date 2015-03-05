@@ -15,11 +15,11 @@ import com.google.gson.JsonSyntaxException;
 
 public class DataProcessor {
 	
-	public static void getData(LevelState levelState){
+	public static void getData(Data levelState){
 		JsonParser jp = new JsonParser();
         JsonElement root = null;
 		try {
-			root = jp.parse(new InputStreamReader((InputStream) DataProcessor.class.getResourceAsStream("jsongrunnur.json"), "UTF-8"));
+			root = jp.parse(new InputStreamReader((InputStream) DataProcessor.class.getResourceAsStream("db.json"), "UTF-8"));
 		} catch (JsonIOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -41,5 +41,9 @@ public class DataProcessor {
 	    }
         else
         	return;
+	}
+	
+	public void setData(Data levelState){
+		
 	}
 }

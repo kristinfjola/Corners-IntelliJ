@@ -2,7 +2,7 @@ package data;
 
 import java.util.List;
 
-public class LevelState {
+public class Data {
 	private LevelStars math;
 	private LevelStars flags;
 	private LevelStars colors;
@@ -18,12 +18,18 @@ public class LevelState {
 	}*/
 	
 	public LevelStars getStarsByString(String category){
-		if(category == "Math")
+		if(category == "Math"){
+			math.setCategorieName(category);
 			return getMath();
-		if(category == "Flags")
+		}
+		if(category == "Flags"){
+			flags.setCategorieName(category);
 			return getFlags();
-		else
+		}
+		else{
+			colors.setCategorieName(category);
 			return getColors();
+		}
 	}
 	
 	public LevelStars getMath() {

@@ -26,7 +26,7 @@ import com.corners.game.MainActivity;
 
 import data.DataProcessor;
 import data.LevelStars;
-import data.LevelState;
+import data.Data;
 
 public class Levels implements Screen{
 
@@ -205,9 +205,9 @@ public class Levels implements Screen{
 	}
 	
 	private void processData(Category category) {
-		 LevelState levelState = new LevelState(); 
-		 DataProcessor.getData(levelState);
-		 stars = levelState.getStarsByString(category.getType());
+		 Data data = new Data();
+		 DataProcessor.getData(data);
+		 stars = data.getStarsByString(category.getType());
 	}
 
 	private void setAllProcessors() {
