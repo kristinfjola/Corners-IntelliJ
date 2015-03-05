@@ -19,11 +19,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.corners.game.MainActivity;
@@ -119,7 +123,6 @@ public class Play implements Screen, InputProcessor{
 	public void win(){
 		questionsAnswered = 0;
 		totalSecondsWasted = 0;
-		stars = 3;
 		level++;
 		setCorrectProgressBar();
 		animateFinishLevel();
@@ -214,10 +217,15 @@ public class Play implements Screen, InputProcessor{
 	public void animateFinishLevel() {
 		pause();
 		
-		Dialog dialog = new Dialog("Level completed!", this.main.skin);
+		Dialog dialog = new Dialog("", this.main.skin);
+		dialog.text("Congratulations!");
 		dialog.getContentTable().row();
+		dialog.text("Level complete!");
 		dialog.getContentTable().row();
-		dialog.text("Congratulations!"); 
+		
+		Table starsTable = getStars(stars);
+		
+		dialog.getContentTable().add(starsTable);
 		dialog.show(this.stage);
 		Timer.schedule(new Task(){
 		    @Override
@@ -227,6 +235,30 @@ public class Play implements Screen, InputProcessor{
 		    }
 		}, 2);
 		
+	}
+	
+	public Table getStars(int numStars) {
+		int maxStars = 3;
+		int loseStars = maxStars-numStars;
+		
+		Table starsTable = new Table();
+		
+		Texture yellow_star = new Texture("stars/star_yellow.png");
+		Texture gray_star = new Texture("stars/star_gray.png");
+		
+		for(int i = 1; i <=numStars; i++) {
+			Image win_star = new Image();
+			win_star.setDrawable(new TextureRegionDrawable(new TextureRegion(yellow_star)));
+			starsTable.add(win_star).padTop(50);
+		}
+		
+		for(int i = 1; i <= loseStars; i++) {
+			Image lose_star = new Image();
+			lose_star.setDrawable(new TextureRegionDrawable(new TextureRegion(gray_star)));
+			starsTable.add(lose_star).padTop(50);
+		}
+		
+		return starsTable;
 	}
 	
 	public void moveQuestionOverAnswer() {
