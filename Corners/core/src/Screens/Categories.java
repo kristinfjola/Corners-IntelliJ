@@ -33,9 +33,7 @@ public class Categories implements Screen {
 	float screenHeight;
 	Skin skin;
 	Stage stage;
-	private InputProcessor inputProcessor;
-	InfoBar infoBar;
-	
+	private InputProcessor inputProcessor;	
 	
 	/**
 	 * Constructor. Creates the the interface and sets the
@@ -50,7 +48,6 @@ public class Categories implements Screen {
 		stage = new Stage();
 		this.screenWidth = Gdx.graphics.getWidth();
 		this.screenHeight = Gdx.graphics.getHeight();
-		infoBar = new InfoBar(main);
 		
 		addBackToProcessor();
 		setAllProcessors();    
@@ -64,11 +61,14 @@ public class Categories implements Screen {
 		stage.addActor(table);
 		
 		//Setting up the info bar
-		infoBar.setLeftText("2.1/3");
+		double tempStars = 2.6;
+		int tempLevels = 8;
+		InfoBar infoBar = new InfoBar(main);
+		//infoBar.setLeftText(tempStars+"/3");
 		infoBar.setMiddleText("Categories");
-		infoBar.setRightText("8/27");
-		infoBar.setLeftImage("stars");
-		infoBar.setRightImage("levels");
+		infoBar.setRightText(tempLevels+"/27");
+		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
+		//infoBar.setRightImage("levels");
 		table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
 	
 		final TextButton btnMath = new TextButton("Math", skin, main.screenSizeGroup+"-L");

@@ -11,6 +11,7 @@ import boxes.Box;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -21,7 +22,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -29,7 +29,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.corners.game.MainActivity;
@@ -51,7 +50,9 @@ public class Play implements Screen, InputProcessor{
     float origX;
     float origY;
     InfoBar infoBar;
-    
+    Table table;
+    InputProcessor inputProcessor;
+
     // swipe
     Vector3 touchPos;
     boolean swipeQuestion = false;
@@ -84,25 +85,21 @@ public class Play implements Screen, InputProcessor{
 		this.level = level;
 		this.state = State.RUN;
 		stage = new Stage();
-		Gdx.input.setInputProcessor(this);
+		addPauseToProcessor();
+		setAllProcessors(); 
 		
-		//Setting up the info bar
-		Table table = new Table();
+		table = new Table();
 		table.top();
 		table.setFillParent(true);
+		
+		//Setting up the info bar
+		double tempStars = 1;
 		stage.addActor(table);
-		infoBar.setLeftText("2/3");
+		//infoBar.setLeftText(tempStars+"/3");
 		infoBar.setMiddleText("Level "+level);
 		infoBar.setRightText("");
-		infoBar.setLeftImage("stars");
+		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
 		infoBar.setRightImage("pause");
-		ClickListener pauseListener = new ClickListener() {
-			@Override
-			public void clicked (InputEvent event, float x, float y) {
-				System.out.println("CLICK! You just clicked Pause!");
-			}
-		};
-		infoBar.setRightListener(pauseListener);
 	 	table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
 
 		origX = screenWidth/2 - cat.getQuestion().getRec().getWidth()/2;
@@ -555,5 +552,60 @@ public class Play implements Screen, InputProcessor{
 		batch.end();
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
+	}
+	
+	private void addPauseToProcessor() {
+		 inputProcessor = new InputProcessor() {	
+			 @Override
+			public boolean touchUp(int screenX, int screenY, int pointer, int button) { return false; }
+			
+			@Override
+			public boolean touchDragged(int screenX, int screenY, int pointer) {
+				return false;
+			}
+			
+			@Override
+			public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+				if(screenX>screenWidth-screenHeight/10 && screenY<screenHeight/10) {
+					table.reset();
+					table.top();
+					table.setFillParent(true);
+					if(state == State.RUN) {
+						pause();
+						infoBar.setRightImage("play");
+					}
+					else {
+						resume();
+						infoBar.setRightImage("pause");
+					}
+					table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
+				}
+				return false;
+			}
+			
+			@Override
+			public boolean scrolled(int amount) { return false; }
+			
+			@Override
+			public boolean mouseMoved(int screenX, int screenY) { return false; }
+			
+			@Override
+			public boolean keyUp(int keycode) { return false; }
+			
+			@Override
+			public boolean keyTyped(char character) { return false; }
+			
+			@Override
+			public boolean keyDown(int keycode) { return false; }
+		};
+	}
+	
+	private void setAllProcessors() {
+		Gdx.input.setCatchBackKey(true);
+		
+		InputMultiplexer multiplexer = new InputMultiplexer();
+		multiplexer.addProcessor(this);
+		multiplexer.addProcessor(inputProcessor);
+		Gdx.input.setInputProcessor(multiplexer); 	
 	}
 }

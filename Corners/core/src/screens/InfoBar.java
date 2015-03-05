@@ -6,13 +6,11 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.corners.game.MainActivity;
 
@@ -27,55 +25,41 @@ public class InfoBar {
 	String rightText="";
 	String leftImage="empty";
 	String rightImage="empty";
-	ClickListener leftListener;
-	ClickListener rightListener;
+	String starAmount;
 	
 	public InfoBar(MainActivity main) {
 		this.main = main;
 		barWidth = screenWidth;
 	 	barHeight = screenHeight/10;
-	 	leftListener = new ClickListener() {
-	 		public void clicked (InputEvent event, float x, float y) {}
-		};
-		rightListener = new ClickListener() {
-			public void clicked (InputEvent event, float x, float y) {}
-		};
 	}
 	
 	public Table getInfoBar(){
+		Table infoBarTable = new Table(main.skin);
 		Pixmap pm = new Pixmap(1, 1, Format.RGBA8888);
 	 	pm.setColor(new Color(20/255f, 120/255f, 113/255f, 1));
 	 	pm.fillRectangle(0,0,1,1);
-	 
-	 	Table infoBarTable = new Table(main.skin);
 	 	infoBarTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(pm))));
 	 	
 	 	Button leftButton = new Button(main.skin);
 	 	Label leftLabel = new Label(leftText, main.skin, main.screenSizeGroup+"-M");
 	 	leftLabel.setAlignment(Align.center);
-	 	leftButton.stack(new Image(new Texture("barInfo/"+leftImage+".png")), leftLabel).expand().fill();
+	 	leftButton.stack(new Image(new Texture("infoBar/"+leftImage+".png")), leftLabel).expand().fill();
+	 	
+	 	Label middleLabel = new Label(middleText, main.skin, main.screenSizeGroup+"-L");
+	 	middleLabel.setAlignment(Align.center);
 	 	
 	 	Button rightButton = new Button(main.skin);
 	 	Label rightLabel = new Label(rightText, main.skin, main.screenSizeGroup+"-M");
 	 	rightLabel.setAlignment(Align.center);
-	 	rightButton.stack(new Image(new Texture("barInfo/"+rightImage+".png")), rightLabel).expand().fill();
-	 	rightButton.addListener(rightListener);
+	 	rightButton.stack(new Image(new Texture("infoBar/"+rightImage+".png")), rightLabel).expand().fill();
 	 	
 	 	infoBarTable.add(leftButton).size(barHeight).expand().left();
-	 	infoBarTable.add(middleText).expand();
+	 	infoBarTable.add(middleLabel).expand();
 	 	infoBarTable.add(rightButton).size(barHeight).expand().right();
 	 	
 	 	return infoBarTable;
 	}
-	
-	public float getHeight(){
-		return barHeight;
-	}
-	
-	public float getWidth() {
-		return barWidth;
-	}
-	
+
 	public void setLeftText(String leftText) {
 		this.leftText = leftText;
 	}
@@ -96,11 +80,18 @@ public class InfoBar {
 		this.rightImage = rightImage;
 	}
 	
-	public void setLeftListener(ClickListener leftListener) {
-		this.leftListener = leftListener;
-	}
-	
-	public void setRightListener(ClickListener rightListener) {
-		this.rightListener = rightListener;
+	public String getStarAmount(double stars) {
+		String starAmount="";
+		
+		double doubleStars = stars*2;
+		double roundedDoubleStars = Math.round(doubleStars); 
+		double roundedStars = roundedDoubleStars/2;
+		
+		starAmount+=(int) Math.floor(roundedStars)+"-";
+		
+		if(roundedStars>Math.floor(roundedStars)) {
+			starAmount+="half-";
+		}
+		return starAmount;
 	}
 }

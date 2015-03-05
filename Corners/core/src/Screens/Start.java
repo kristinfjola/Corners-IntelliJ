@@ -29,7 +29,6 @@ public class Start implements Screen{
 	float screenWidth = Gdx.graphics.getWidth();
 	float screenHeight = Gdx.graphics.getHeight();
 	Texture carl = new Texture("carl/carl4.jpg");
-	InfoBar infoBar;
 	
 	/**
 	 * Constructor. Creates the the interface and sets the
@@ -43,7 +42,6 @@ public class Start implements Screen{
 		batch = new SpriteBatch();
 		skin = main.skin;
 		Gdx.input.setInputProcessor(stage);
-		infoBar = new InfoBar(main);
 	}
 	
 	/**
@@ -59,6 +57,7 @@ public class Start implements Screen{
 		String screenSizeGroup = main.screenSizeGroup;
 		
 		//Setting up the info bar
+		InfoBar infoBar = new InfoBar(main);
 		infoBar.setMiddleText("Corners");
 	 	table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
 

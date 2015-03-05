@@ -73,13 +73,15 @@ public class Levels implements Screen{
 		setAllProcessors();
 		
 		//Setting up the info bar
-		infoBar.setLeftText("2.8/3");
+		double tempStars = 1.8;
+		int tempLevels = 4;
+		InfoBar infoBar = new InfoBar(main);
+		//infoBar.setLeftText(tempStars+"/3");
 		infoBar.setMiddleText(cat.getType());
-		infoBar.setRightText("8/9");
-		infoBar.setLeftImage("stars");
-		infoBar.setRightImage("levels");
+		infoBar.setRightText(tempLevels+"/9");
+		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
+		//infoBar.setRightImage("levels");
 	 	container.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
-
 	 	
 		int cnt = 1;
 		Table tableLevels = new Table();
