@@ -246,7 +246,7 @@ public class Play implements Screen, InputProcessor{
 			Table starsTable = getStars(stars);
 			dialog.getContentTable().add(starsTable);
 		} else {
-			Table sadFaceTable = getSadFaceTable();
+			Table sadFaceTable = getSadFace();
 			dialog.getContentTable().add(sadFaceTable);
 		}
 		
@@ -285,7 +285,7 @@ public class Play implements Screen, InputProcessor{
 		return starsTable;
 	}
 	
-	public Table getSadFaceTable() {
+	public Table getSadFace() {
 		Table sadFaceTable = new Table();
 		
 		Texture sad_face = new Texture("faces/sad_face.png");
