@@ -74,7 +74,7 @@ public class Levels implements Screen{
 		
 		//Setting up the info bar
 		double tempStars = stars.getAverageStars();
-		int tempLevels = 4;
+		int tempLevels = stars.getLevelsFinished();
 		InfoBar infoBar = new InfoBar(main);
 		infoBar.setMiddleText(cat.getType());
 		infoBar.setRightText(tempLevels+"/9");
