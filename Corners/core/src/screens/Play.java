@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -446,71 +447,55 @@ public class Play implements Screen, InputProcessor{
 		return false;
 	}
 	
-	public void update() { 
-		// swipe question
-		if(Gdx.input.isTouched()) {
-			touchPos = new Vector3();
-			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			if(lockPos || touchOverlapsQuestion(touchPos)){
-				if(lockPos) {
-					camera.unproject(touchPos);
-				}
-				
-				if(cat.getQuestion().getRec().x - origX < 30 && 
-						cat.getQuestion().getRec().x - origX > -30) {
-					xDirection = "none";
-				} else {
-					if(cat.getQuestion().getRec().x > origX) {
-						xDirection = "right";
-					} else {
-						xDirection = "left";
-					}
-				}
-				if(cat.getQuestion().getRec().y - origY < 30 &&
-						cat.getQuestion().getRec().y - origY > -30) {
-					yDirection = "none";
-				} else {
-					if(cat.getQuestion().getRec().y > origY) {
-						yDirection = "up";
-					} else {
-						yDirection = "down";
-					}
-				}
-				
-				cat.getQuestion().getRec().x = touchPos.x - cat.getQuestion().getRec().getWidth() / 2;
-				cat.getQuestion().getRec().y = touchPos.y - cat.getQuestion().getRec().getHeight() / 2;
-				lockPos = true;
-				swipeQuestion = true;
-				hitWrong = false;
+	public void checkUpperBoundaries(String axis) {
+		Rectangle rec = cat.getQuestion().getRec();
+		
+		if(axis == "x") {
+			if(rec.x > screenWidth-rec.getWidth()) {
+				rec.x = screenWidth-rec.getWidth();
+			}
+		} else if(axis == "y") {
+			//screenHeight/10 is the height of the infoBar
+			if(rec.y > screenHeight-rec.getHeight()-screenHeight/10) {
+				rec.y = screenHeight-rec.getHeight()-screenHeight/10;
+			}
+		}	
+	}
+	
+	public void checkLowerBoundaries(String axis) {
+		Rectangle rec = cat.getQuestion().getRec();
+		
+		if(axis == "x") {
+			if(rec.x < 0) {
+				rec.x = 0;
+			}
+		} else if(axis == "y") {
+			if(rec.y < 0) {
+				rec.y = 0;
 			}
 		}
+	}
+	
+	public void swipeQuestionAfterTouchUp() {
+		Rectangle rec = cat.getQuestion().getRec();
 		
-		// swipe question smoothly after touchUp
 		if(touchUp && swipeQuestion && !hitWrong) {
 			if(xDirection != "none") {
 				if(xDirection == "right") {
-					cat.getQuestion().getRec().x += 6;
-					if(cat.getQuestion().getRec().x > screenWidth-cat.getQuestion().getRec().getWidth()) {
-						cat.getQuestion().getRec().x = screenWidth-cat.getQuestion().getRec().getWidth();
-					}
+					rec.x += 6;
+					checkUpperBoundaries("x");
 				} else {
-					cat.getQuestion().getRec().x -= 6;
-					if(cat.getQuestion().getRec().x < 0) {
-						cat.getQuestion().getRec().x = 0;
-					}
+					rec.x -= 6;
+					checkLowerBoundaries("x");
 				}
 			}
 			if(yDirection != "none") {
 				if(yDirection == "up") {
-					cat.getQuestion().getRec().y += 12;
-					if(cat.getQuestion().getRec().y > screenHeight-cat.getQuestion().getRec().getHeight()) {
-						cat.getQuestion().getRec().y = screenHeight-cat.getQuestion().getRec().getHeight();
-					}
+					rec.y += 12;
+					checkUpperBoundaries("y");
 				} else {
-					cat.getQuestion().getRec().y -= 12;
-					if(cat.getQuestion().getRec().y < 0) {
-						cat.getQuestion().getRec().y = 0;
-					}
+					rec.y -= 12;
+					checkLowerBoundaries("y");
 				}
 			}
 			
@@ -524,8 +509,31 @@ public class Play implements Screen, InputProcessor{
 				}
 			}
 		}
-		
-		// hit answer
+	}
+	
+	public void setDirections() {
+		Rectangle rec = cat.getQuestion().getRec();
+		if(rec.x - origX < 30 && rec.x - origX > -30) {
+			xDirection = "none";
+		} else {
+			if(rec.x > origX) {
+				xDirection = "right";
+			} else {
+				xDirection = "left";
+			}
+		}
+		if(rec.y - origY < 30 && rec.y - origY > -30) {
+			yDirection = "none";
+		} else {
+			if(rec.y > origY) {
+				yDirection = "up";
+			} else {
+				yDirection = "down";
+			}
+		}
+	}
+	
+	public void handleHitBox() {
 		Box hit = cat.checkIfHitAnswer();
 		if(hit != null && !delayTime){
 			questionsAnswered++;
@@ -543,6 +551,35 @@ public class Play implements Screen, InputProcessor{
 			hitWrong = true;
 			loose();
 		}
+	}
+	
+	public void update() { 
+		Rectangle rec = cat.getQuestion().getRec();
+		
+		// swipe question
+		if(Gdx.input.isTouched()) {
+			touchPos = new Vector3();
+			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+			if(lockPos || touchOverlapsQuestion(touchPos)){
+				if(lockPos) {
+					camera.unproject(touchPos);
+				}
+				
+				setDirections();
+				
+				rec.x = touchPos.x - rec.getWidth() / 2;
+				rec.y = touchPos.y - rec.getHeight() / 2;
+				lockPos = true;
+				swipeQuestion = true;
+				hitWrong = false;
+			}
+		}
+		
+		// swipe question smoothly after touchUp
+		swipeQuestionAfterTouchUp();
+		
+		// hit answer
+		handleHitBox();
 		
 		// check time
 		if(secondsPassed > progressBar.getMaxValue()){
