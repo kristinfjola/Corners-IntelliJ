@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -28,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.corners.game.MainActivity;
@@ -48,7 +50,7 @@ public class Play implements Screen, InputProcessor{
     int nrOfQuestions;
     float origX;
     float origY;
-    Extra extra;
+    InfoBar infoBar;
     
     // swipe
     Vector3 touchPos;
@@ -77,12 +79,32 @@ public class Play implements Screen, InputProcessor{
 	 */
 	public Play(MainActivity main, Category cat, int level){
 		this.main = main;
-		extra = new Extra(main);
+		infoBar = new InfoBar(main);
 		this.cat = cat;
 		this.level = level;
 		this.state = State.RUN;
 		stage = new Stage();
 		Gdx.input.setInputProcessor(this);
+		
+		//Setting up the info bar
+		Table table = new Table();
+		table.top();
+		table.setFillParent(true);
+		stage.addActor(table);
+		infoBar.setLeftText("2/3");
+		infoBar.setMiddleText("Level "+level);
+		infoBar.setRightText("");
+		infoBar.setLeftImage("stars");
+		infoBar.setRightImage("pause");
+		ClickListener pauseListener = new ClickListener() {
+			@Override
+			public void clicked (InputEvent event, float x, float y) {
+				System.out.println("CLICK! You just clicked Pause!");
+			}
+		};
+		infoBar.setRightListener(pauseListener);
+	 	table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
+
 		origX = screenWidth/2 - cat.getQuestion().getRec().getWidth()/2;
 	    origY = screenHeight/2 - cat.getQuestion().getRec().getHeight()/2;
  	    Gdx.input.setCatchBackKey(true);
@@ -296,7 +318,7 @@ public class Play implements Screen, InputProcessor{
 	}
 	
 	public void saveStars(){
-		// TODO: vista stj�rnufj�lda fyrir bor�
+		// TODO: save staramount for levels
 	}
 	
 	public void updateStars(){
@@ -507,9 +529,7 @@ public class Play implements Screen, InputProcessor{
 		Gdx.gl.glClearColor(21/255f, 149/255f, 136/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
-		
-		extra.draw(batch, "L", "Level "+level, "R");
-		
+				
 		// draw question and answers
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();

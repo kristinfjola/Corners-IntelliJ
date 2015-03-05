@@ -34,7 +34,7 @@ public class Levels implements Screen{
 	final float screenWidth = Gdx.graphics.getWidth();
 	final float screenHeight = Gdx.graphics.getHeight();
 	InputProcessor inputProcessor; 
-	Extra extra;
+	InfoBar infoBar;
 	SpriteBatch batch;
 	
 	/**
@@ -46,7 +46,7 @@ public class Levels implements Screen{
 	public Levels(MainActivity main, Category category){
 		this.main = main;
 		cat = category;
-		extra = new Extra(main);
+		infoBar = new InfoBar(main);
 		batch = new SpriteBatch();
  	    Gdx.input.setCatchBackKey(true);
  	    addBackToProcessor(); 
@@ -75,9 +75,16 @@ public class Levels implements Screen{
 
 		setAllProcessors();
 		
+		//Setting up the info bar
+		infoBar.setLeftText("2.8/3");
+		infoBar.setMiddleText(cat.getType());
+		infoBar.setRightText("8/9");
+		infoBar.setLeftImage("stars");
+		infoBar.setRightImage("levels");
+	 	container.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
+
 		int cnt = 1;
 		Table tableLevels = new Table();
-		tableLevels.padTop(screenHeight/7);
 		tableLevels.defaults().size(screenWidth/4.2f,screenHeight/6f);
 		for (int rows = 0; rows < 3; rows++) {
 			tableLevels.row();
@@ -108,7 +115,6 @@ public class Levels implements Screen{
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		extra.draw(batch, "L", cat.getType(), "R");
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();		
 	}
