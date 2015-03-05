@@ -48,6 +48,15 @@ public class LevelStars {
 		this.averageStars = sumStars / count;
 	}
 	
+	public int getLevelsFinished(){
+		int finished = 0;
+		for(int i = 0; i < stars.length; i++){
+			if(stars[i] != -1 && stars[i] != 0){
+				finished++;
+			}
+		}
+		return finished;
+	}
 
 	/*public int getLevelnumber() {
 		return levelnumber;

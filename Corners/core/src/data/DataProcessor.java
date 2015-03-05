@@ -31,10 +31,11 @@ public class DataProcessor {
 			e.printStackTrace();
 		}
         if(root != null){
-			JsonObject categorie = root.getAsJsonObject();
-			JsonArray math = categorie.getAsJsonArray("Math");
-			JsonArray colors = categorie.getAsJsonArray("Colors");
-			JsonArray flags = categorie.getAsJsonArray("Flags");
+			JsonObject category = root.getAsJsonObject();
+			JsonArray math = category.getAsJsonArray("Math");
+			JsonArray colors = category.getAsJsonArray("Colors");
+			JsonArray flags = category.getAsJsonArray("Flags");
+			JsonElement name = category.get("name");
 			levelState.setMath(new LevelStars(math));
 			levelState.setFlags(new LevelStars(flags));
 			levelState.setColors(new LevelStars(colors));

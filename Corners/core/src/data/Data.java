@@ -7,16 +7,16 @@ public class Data {
 	private LevelStars flags;
 	private LevelStars colors;
 	private double averageStars;
-	
-	/*public int[] levelStarsToArray(){
-		List<LevelStars> levelStars = getLevelStars();
-		int[] starsArray = new int[levelStars.size()];
-		for(int i = 0; i < levelStars.size(); i++){
-			starsArray[i] = levelStars.get(i).getStars();
-		}
-		return starsArray;
-	}*/
-	
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public LevelStars getStarsByString(String category){
 		if(category == "Math"){
 			math.setCategorieName(category);
@@ -61,16 +61,21 @@ public class Data {
 	}
 
 	public double getAverageStars() {
+		calcAverageStars();
 		return averageStars;
 	}
 	
-	/*public void calcAverageStars() {
-		double sumStars = 0;
-		int[] starsArray = levelStarsToArray();
-		for(int stars : starsArray){
-			sumStars += stars;
-		}
-		this.averageStars = sumStars/starsArray.length;
-	}*/
+	public void calcAverageStars() {
+		double count = finished(math) + finished(colors) + finished(flags);
+		double sumStars = allStars(math) + allStars(colors) + allStars(flags);
+		this.averageStars = sumStars/count;
+	}
 	
+	public double finished(LevelStars cat){
+		return cat.getLevelsFinished();
+	}
+	
+	public double allStars(LevelStars cat){
+		return cat.getAverageStars() * cat.getLevelsFinished();
+	}
 }
