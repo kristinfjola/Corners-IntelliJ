@@ -147,7 +147,7 @@ public class Play implements Screen, InputProcessor{
 		totalSecondsWasted = 0;
 		level++;
 		setCorrectProgressBar();
-		animateFinishLevel();
+		animateFinishLevel(true);
 		saveStars();
 	}
 	
@@ -171,12 +171,7 @@ public class Play implements Screen, InputProcessor{
 		setWrongProgressBar();
 		refreshProgressBar(true);
 		delayTime = true;
-		Timer.schedule(new Task(){
-		    @Override
-		    public void run() {
-		    	main.setScreen(new Levels(main, cat));
-		    }
-		}, 1);
+		animateFinishLevel(false);
 	}
 	
 	public void resetTime(){
@@ -236,18 +231,25 @@ public class Play implements Screen, InputProcessor{
 	    stage.addActor(progressBar);
 	}
 	
-	public void animateFinishLevel() {
+	public void animateFinishLevel(boolean win) {
 		pause();
 		
 		Dialog dialog = new Dialog("", this.main.skin);
-		dialog.text("Congratulations!");
+		if(win) dialog.text("Congratulations!");
+		else dialog.text("Oh no!");
 		dialog.getContentTable().row();
-		dialog.text("Level complete!");
+		if(win) dialog.text("Level complete!");
+		else dialog.text("You lost!");
 		dialog.getContentTable().row();
 		
-		Table starsTable = getStars(stars);
+		if(win) {
+			Table starsTable = getStars(stars);
+			dialog.getContentTable().add(starsTable);
+		} else {
+			Table sadFaceTable = getSadFaceTable();
+			dialog.getContentTable().add(sadFaceTable);
+		}
 		
-		dialog.getContentTable().add(starsTable);
 		dialog.show(this.stage);
 		Timer.schedule(new Task(){
 		    @Override
@@ -281,6 +283,18 @@ public class Play implements Screen, InputProcessor{
 		}
 		
 		return starsTable;
+	}
+	
+	public Table getSadFaceTable() {
+		Table sadFaceTable = new Table();
+		
+		Texture sad_face = new Texture("faces/sad_face.png");
+		
+		Image sad = new Image();
+		sad.setDrawable(new TextureRegionDrawable(new TextureRegion(sad_face)));
+		sadFaceTable.add(sad).padTop(50);
+		
+		return sadFaceTable;
 	}
 	
 	public void moveQuestionOverAnswer() {
