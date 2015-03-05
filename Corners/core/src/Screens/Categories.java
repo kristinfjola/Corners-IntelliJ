@@ -6,14 +6,15 @@
 
 package screens;
 
+import logic.Category;
 import logic.Colors;
 import logic.Flags;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,6 +26,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.corners.game.MainActivity;
 
+import data.Data;
+import data.DataProcessor;
+import data.LevelStars;
+
 public class Categories implements Screen {
 	Texture carl; //the character, let's call it Carl
 	SpriteBatch batch;
@@ -33,7 +38,8 @@ public class Categories implements Screen {
 	float screenHeight;
 	Skin skin;
 	Stage stage;
-	private InputProcessor inputProcessor;	
+	private InputProcessor inputProcessor;
+	Data data;
 	
 	/**
 	 * Constructor. Creates the the interface and sets the
@@ -50,7 +56,8 @@ public class Categories implements Screen {
 		this.screenHeight = Gdx.graphics.getHeight();
 		
 		addBackToProcessor();
-		setAllProcessors();    
+		setAllProcessors();
+		processData();
 		
 		skin = main.skin;
 		
@@ -61,8 +68,8 @@ public class Categories implements Screen {
 		stage.addActor(table);
 		
 		//Setting up the info bar
-		double tempStars = 2.6;
-		int tempLevels = 8;
+		double tempStars = data.getAverageStars();
+		int tempLevels = data.getAllFinished();
 		InfoBar infoBar = new InfoBar(main);
 		//infoBar.setLeftText(tempStars+"/3");
 		infoBar.setMiddleText("Categories");
@@ -159,6 +166,12 @@ public class Categories implements Screen {
 		stage.dispose();
 	}
 
+	private void processData() {
+		 data = new Data();
+		 DataProcessor.getData(data);
+	}
+
+	
 	private void addBackToProcessor() {
 		 inputProcessor = new InputProcessor() {
 				

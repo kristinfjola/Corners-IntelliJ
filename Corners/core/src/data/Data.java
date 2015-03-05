@@ -1,7 +1,5 @@
 package data;
 
-import java.util.List;
-
 public class Data {
 	private LevelStars math;
 	private LevelStars flags;
@@ -66,12 +64,16 @@ public class Data {
 	}
 	
 	public void calcAverageStars() {
-		double count = finished(math) + finished(colors) + finished(flags);
+		int count = getAllFinished();
 		double sumStars = allStars(math) + allStars(colors) + allStars(flags);
 		this.averageStars = sumStars/count;
 	}
 	
-	public double finished(LevelStars cat){
+	public int getAllFinished(){
+		return finished(math) + finished(colors) + finished(flags);
+	}
+	
+	public int finished(LevelStars cat){
 		return cat.getLevelsFinished();
 	}
 	

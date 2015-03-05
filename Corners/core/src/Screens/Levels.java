@@ -73,10 +73,9 @@ public class Levels implements Screen{
 		setAllProcessors();
 		
 		//Setting up the info bar
-		double tempStars = 1.8;
+		double tempStars = stars.getAverageStars();
 		int tempLevels = 4;
 		InfoBar infoBar = new InfoBar(main);
-		//infoBar.setLeftText(tempStars+"/3");
 		infoBar.setMiddleText(cat.getType());
 		infoBar.setRightText(tempLevels+"/9");
 		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");

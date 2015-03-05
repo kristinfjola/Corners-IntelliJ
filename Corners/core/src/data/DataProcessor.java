@@ -35,7 +35,7 @@ public class DataProcessor {
 			JsonArray math = category.getAsJsonArray("Math");
 			JsonArray colors = category.getAsJsonArray("Colors");
 			JsonArray flags = category.getAsJsonArray("Flags");
-			JsonElement name = category.get("name");
+			JsonElement nameJson = category.get("name");
 			levelState.setMath(new LevelStars(math));
 			levelState.setFlags(new LevelStars(flags));
 			levelState.setColors(new LevelStars(colors));
