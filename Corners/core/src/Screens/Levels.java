@@ -159,26 +159,27 @@ public class Levels implements Screen{
 		
 		if(stars.getStars()[level] > -1) {
 			button = new TextButton(""+level, skin, main.screenSizeGroup+"-L"+"-level-yellow");
+			button.addListener(new ClickListener() {	
+				/**
+				 * Sends the user to a new play screen
+				 * 
+				 * @param event
+				 * @param x
+				 * @param y
+				 */
+				@Override
+				public void clicked (InputEvent event, float x, float y) {
+					main.play = new Play(main, cat, level);
+		            main.setScreen(main.play);
+				}
+			});	
 		}
 		else {
 			button = new TextButton(""+level, skin, main.screenSizeGroup+"-L"+"-level-grey");
 		}
 		
 		button.setName("Level" + Integer.toString(level));
-		button.addListener(new ClickListener() {	
-			/**
-			 * Sends the user to a new play screen
-			 * 
-			 * @param event
-			 * @param x
-			 * @param y
-			 */
-			@Override
-			public void clicked (InputEvent event, float x, float y) {
-				main.play = new Play(main, cat, level);
-	            main.setScreen(main.play);
-			}
-		});		
+			
 		return button;
 	}
 	
