@@ -11,6 +11,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Array;
 
+import data.Data;
+import data.DataProcessor;
+import data.LevelStars;
+
 public class Category {
 	
 	Box question;
@@ -189,4 +193,14 @@ public class Category {
 		return type;
 	}
 	
+	public LevelStars getStars(){
+		Data data = new Data();
+		DataProcessor.getData(data);
+		return data.getStarsByString(getType());
+	}
+	
+	public int getStarsByLevel(int level){
+		LevelStars stars = getStars();
+		return stars.getStarsByLevel(level);
+	}
 }

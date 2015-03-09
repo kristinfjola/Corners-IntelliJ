@@ -5,7 +5,7 @@ public class Data {
 	private LevelStars flags;
 	private LevelStars colors;
 	private double averageStars;
-	private String name;
+	private String name; //name of avatar
 
 	public String getName() {
 		return name;

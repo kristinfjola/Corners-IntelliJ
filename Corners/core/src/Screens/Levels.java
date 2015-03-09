@@ -24,9 +24,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.corners.game.MainActivity;
 
-import data.DataProcessor;
 import data.LevelStars;
-import data.Data;
+
 
 public class Levels implements Screen{
 
@@ -204,9 +203,7 @@ public class Levels implements Screen{
 	}
 	
 	private void processData(Category category) {
-		 Data data = new Data();
-		 DataProcessor.getData(data);
-		 stars = data.getStarsByString(category.getType());
+		stars = category.getStars();
 	}
 
 	private void setAllProcessors() {

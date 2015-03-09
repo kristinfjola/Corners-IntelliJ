@@ -27,6 +27,11 @@ public class LevelStars {
 		return stars;
 	}
 	
+	public int getStarsByLevel(int level) {
+		return stars[level];
+	}
+	
+	
 	public void setStars(int[] stars) {
 		this.stars = stars;
 	}

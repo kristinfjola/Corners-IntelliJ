@@ -97,7 +97,7 @@ public class Play implements Screen, InputProcessor{
 		table.setFillParent(true);
 		
 		//Setting up the info bar
-		double tempStars = 1;
+		double tempStars = cat.getStarsByLevel(level);
 		stage.addActor(table);
 		//infoBar.setLeftText(tempStars+"/3");
 		infoBar.setMiddleText("Level "+level);
