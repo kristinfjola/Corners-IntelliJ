@@ -166,12 +166,17 @@ public class Categories implements Screen {
 		stage.dispose();
 	}
 
+	/**
+	 * Gets the data from the database
+	 */
 	private void processData() {
 		 data = new Data();
 		 DataProcessor.getData(data);
 	}
 
-	
+	/**
+	 * Creates a input processor that catches the back key 
+	 */
 	private void addBackToProcessor() {
 		 inputProcessor = new InputProcessor() {
 				
@@ -227,7 +232,9 @@ public class Categories implements Screen {
 			};
 	}
 	
-	
+	/**
+	 * Adds the game stage and the back button processors to a multiplexer
+	 */
 	private void setAllProcessors() {
 		Gdx.input.setCatchBackKey(true);
 		
