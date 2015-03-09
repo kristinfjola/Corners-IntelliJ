@@ -74,15 +74,18 @@ public class LevelStars {
 	 * Function that calculates the average stars of a category
 	 */
 	public void calcAverageStars() {
-		double count = 0.0;
+		int count = 0;
 		double sumStars = 0.0;
 		for(int i = 0; i < stars.length; i++){
 			if(stars[i] != -1 && stars[i] != 0){
-				count = count + 1.0;
+				count++;
 				sumStars += stars[i];
 			}
 		}
-		this.averageStars = sumStars / count;
+		if(count == 0)
+			this.averageStars = 0;
+		else
+			this.averageStars = sumStars / count;
 	}
 	
 	/**
