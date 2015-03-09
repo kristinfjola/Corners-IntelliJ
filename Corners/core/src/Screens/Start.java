@@ -22,13 +22,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.corners.game.MainActivity;
 
 public class Start implements Screen{
-	MainActivity main;
-	Stage stage;
-	SpriteBatch batch;
-	Skin skin;
-	float screenWidth = Gdx.graphics.getWidth();
-	float screenHeight = Gdx.graphics.getHeight();
-	Texture carl = new Texture("carl/carl4.jpg");
+	private MainActivity main;
+	private Stage stage;
+	private SpriteBatch batch;
+	private Skin skin;
+	private float screenWidth = Gdx.graphics.getWidth();
+	private float screenHeight = Gdx.graphics.getHeight();
+	private Texture carl = new Texture("carl/carl4.jpg");
 	
 	/**
 	 * Constructor. Creates the the interface and sets the
