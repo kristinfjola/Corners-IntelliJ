@@ -49,12 +49,15 @@ public class DataProcessor {
 			levelState.setMath(new LevelStars(math));
 			levelState.setFlags(new LevelStars(flags));
 			levelState.setColors(new LevelStars(colors));
+			levelState.setName(nameJson.toString());
 	    }
         else
         	return;
 	}
 	
 	/**
+	 * Not implemented jet
+	 * 
 	 * @param levelState
 	 */
 	public void setData(Data levelState){

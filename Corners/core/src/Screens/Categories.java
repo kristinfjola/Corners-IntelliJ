@@ -6,7 +6,6 @@
 
 package screens;
 
-import logic.Category;
 import logic.Colors;
 import logic.Flags;
 
@@ -28,7 +27,6 @@ import com.corners.game.MainActivity;
 
 import data.Data;
 import data.DataProcessor;
-import data.LevelStars;
 
 public class Categories implements Screen {
 	Texture carl; //the character, let's call it Carl
@@ -214,6 +212,9 @@ public class Categories implements Screen {
 					return false;
 				}
 				
+				/**
+				 * Handles the back event
+				 */
 				@Override
 				public boolean keyDown(int keycode) {
 					if(keycode == Keys.BACK){

@@ -15,7 +15,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -39,7 +38,6 @@ public class Levels implements Screen{
 	final float screenHeight = Gdx.graphics.getHeight();
 	private InputProcessor inputProcessor; 
 	private InfoBar infoBar;
-	private SpriteBatch batch;
 	private LevelStars stars;
 	
 	/**
@@ -53,7 +51,6 @@ public class Levels implements Screen{
 		this.cat = category;
 		this.infoBar = new InfoBar(main);
 		setUpCat();
-		this.batch = new SpriteBatch();
  	    Gdx.input.setCatchBackKey(true);
  	    addBackToProcessor(); 
  	    processData(category);
