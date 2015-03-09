@@ -13,9 +13,6 @@ import boxes.Box;
 import boxes.MathBox;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Array;
@@ -60,6 +57,7 @@ public class Math extends Category{
 		return null;
 	}
 	
+	@Override
 	public Box checkIfHitBox() {
 		for(Box answer : answers){
 			MathBox a = (MathBox) answer;
@@ -71,11 +69,21 @@ public class Math extends Category{
 		return null;
 	}
 	
+	/**
+	 * Sets text and answer for question
+	 * @param ans - answer to question
+	 * @param str - text for question
+	 */
 	public void generateQuestion(int ans, String str){
 		((MathBox) question).setText(str);
 		((MathBox) question).setNumber(ans);
 	}
 	
+	/**
+	 * Sets answer for question
+	 * @param ans - answer to question
+	 * @param str - text for question
+	 */
 	public void generateCorrectAnswer(int ans, String str){
 		Random rand = new Random();
 		int randomBox = rand.nextInt(4);
@@ -83,6 +91,10 @@ public class Math extends Category{
 		((MathBox) answers.get(randomBox)).setNumber(ans);
 	}
 	
+	/**
+	 * Creates answers for levels 2-7
+	 * @param ans - answer to question
+	 */
 	public void generateAnswersForLevels2to7(int ans){
 		// answers
 		List<Integer> numbers = new ArrayList<Integer>();
@@ -108,7 +120,6 @@ public class Math extends Category{
 		generateAnswersForLevels2to7(ans);
 		generateCorrectAnswer(ans, Integer.toString(ans));
 	}
-	
 	
 	@Override
 	public void generate2ndLevelQuestions(){
@@ -273,7 +284,7 @@ public class Math extends Category{
 		generateQuestion(ans, strQuestion);
 		generateCorrectAnswer(ans, strAnswer);
 	}
-	
+
 	@Override
 	public void generate9thLevelQuestions() {
 		// x and /: question to question
@@ -337,6 +348,10 @@ public class Math extends Category{
 		generateCorrectAnswer(ans, strAnswer);
 	}
 	
+	/**
+	 * @param num
+	 * @return a random divisor for num
+	 */
 	private int getRandomDivisor(int num){
 		List<Integer> divisors = new ArrayList<Integer>(); 
 		for (int i = 2; i < num / 2; i++) {

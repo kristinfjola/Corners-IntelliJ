@@ -21,13 +21,15 @@ public class Category {
 	Array<Box> answers;
 	int qWidth;
 	int qHeight;
-	//int screenWidth = 480;
-    //int screenHeight = 800;
 	int screenWidth = Gdx.graphics.getWidth();
     int screenHeight = Gdx.graphics.getHeight();
     BitmapFont bmFont;
     String type;
     
+    /**
+     * Generates questions for level
+     * @param level
+     */
     public void generateNewQuestion(int level){
 		switch(level){
 			case 1: generate1stLevelQuestions();
@@ -35,47 +37,74 @@ public class Category {
 			case 2: generate2ndLevelQuestions();
 					break;
 			case 3: generate3rdLevelQuestions();
-				break;
+					break;
 			case 4: generate4thLevelQuestions();
-				break;
+					break;
 			case 5: generate5thLevelQuestions();
-				break;
+					break;
 			case 6: generate6thLevelQuestions();
-				break;
+					break;
 			case 7: generate7thLevelQuestions();
-				break;
+					break;
 			case 8: generate8thLevelQuestions();
-				break;
+					break;
 			case 9: generate9thLevelQuestions();
-				break;
+					break;
 			default: break;
 		}
 	}
     
+    /**
+     * Generates questions for first level of current category
+     */
     public void generate1stLevelQuestions() {
 	}
     
+    /**
+     * Generates questions for 2nd level of current category
+     */
     public void generate2ndLevelQuestions() {
 	}
 
+    /**
+     * Generates questions for 3rd level of current category
+     */
     public void generate3rdLevelQuestions() {
 	}
 
+    /**
+     * Generates questions for 4th level of current category
+     */
     public void generate4thLevelQuestions() {
 	}
 
+    /**
+     * Generates questions for 5th level of current category
+     */
     public void generate5thLevelQuestions() {
 	}
 
+    /**
+     * Generates questions for 6th level of current category
+     */
     public void generate6thLevelQuestions() {
 	}
 
+    /**
+     * Generates questions for 7th level of current category
+     */
     public void generate7thLevelQuestions() {
 	}
 
+    /**
+     * Generates questions for 8th level of current category
+     */
     public void generate8thLevelQuestions() {
 	}
     
+    /**
+     * Generates questions for 9th level of current category
+     */
     public void generate9thLevelQuestions() {
 	}
 
@@ -181,24 +210,40 @@ public class Category {
 		this.screenHeight = screenHeight;
 	}
 
+	/**
+	 * @return font for category
+	 */
 	public BitmapFont getBmFont() {
 		return bmFont;
 	}
 
+	/**
+	 * @param bmFont
+	 */
 	public void setBmFont(BitmapFont bmFont) {
 		this.bmFont = bmFont;
 	}
 	
+	/**
+	 * @return type of category
+	 */
 	public String getType() {
 		return type;
 	}
 	
+	/**
+	 * @return stars received for current category
+	 */
 	public LevelStars getStars(){
 		Data data = new Data();
 		DataProcessor.getData(data);
 		return data.getStarsByString(getType());
 	}
 	
+	/**
+	 * @param level stars received for level in category
+	 * @return
+	 */
 	public int getStarsByLevel(int level){
 		LevelStars stars = getStars();
 		return stars.getStarsByLevel(level);

@@ -227,6 +227,7 @@ public class Categories implements Screen {
 			};
 	}
 	
+	
 	private void setAllProcessors() {
 		Gdx.input.setCatchBackKey(true);
 		
