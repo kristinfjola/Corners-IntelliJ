@@ -36,10 +36,10 @@ public class Levels implements Screen{
 	private Category cat;
 	final float screenWidth = Gdx.graphics.getWidth();
 	final float screenHeight = Gdx.graphics.getHeight();
-	InputProcessor inputProcessor; 
-	InfoBar infoBar;
-	SpriteBatch batch;
-	LevelStars stars;
+	private InputProcessor inputProcessor; 
+	private InfoBar infoBar;
+	private SpriteBatch batch;
+	private LevelStars stars;
 	
 	/**
 	 * Constructor that sets the private variable and starts the screen.
@@ -49,9 +49,9 @@ public class Levels implements Screen{
 	 */
 	public Levels(MainActivity main, Category category){
 		this.main = main;
-		cat = category;
-		infoBar = new InfoBar(main);
-		batch = new SpriteBatch();
+		this.cat = category;
+		this.infoBar = new InfoBar(main);
+		this.batch = new SpriteBatch();
  	    Gdx.input.setCatchBackKey(true);
  	    addBackToProcessor(); 
  	    processData(category);
@@ -78,7 +78,6 @@ public class Levels implements Screen{
 		infoBar.setMiddleText(cat.getType());
 		infoBar.setRightText(tempLevels+"/9");
 		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
-		//infoBar.setRightImage("levels");
 	 	container.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
 	 	
 		int cnt = 1;
@@ -99,10 +98,6 @@ public class Levels implements Screen{
 			}
 		}
 		container.add(tableLevels).expand().fill();
-	}
-	
-	@Override
-	public void show() {
 	}
 
 	/**
@@ -137,6 +132,10 @@ public class Levels implements Screen{
 
 	@Override
 	public void hide() {
+	}
+	
+	@Override
+	public void show() {
 	}
 
 	/**
@@ -184,6 +183,10 @@ public class Levels implements Screen{
 	}
 	
 
+	/**
+	 * @param level
+	 * @return table of stars that fit the number of stars in the database
+	 */
 	public Table getStarTable(int level) {
 		Table starTable = new Table();
 		int numberOfStars = stars.getStars()[level];
@@ -196,16 +199,22 @@ public class Levels implements Screen{
 			else {
 				starTable.add(new Image(main.emptyStar)).size(screenWidth/4.2f/3);
 			}
-			
 		}
-		
 		return starTable;
 	}
 	
+	/**
+	 * Sets the stars variable with appropriate values for the category
+	 * 
+	 * @param category
+	 */
 	private void processData(Category category) {
 		stars = category.getStars();
 	}
 
+	/**
+	 * Adds the game stage and the back button processors to a multiplexer
+	 */
 	private void setAllProcessors() {
 		Gdx.input.setCatchBackKey(true);
 		
@@ -215,6 +224,9 @@ public class Levels implements Screen{
 		Gdx.input.setInputProcessor(multiplexer); 	
 	}
 	
+	/**
+	 * Creates a input processor that catches the back key 
+	 */
 	private void addBackToProcessor() {
 		 inputProcessor = new InputProcessor() {
 				
@@ -261,6 +273,9 @@ public class Levels implements Screen{
 				}
 				
 				@Override
+				/**
+				 * Switches screens if the back button is pressed
+				 */
 				public boolean keyDown(int keycode) {
 					if(keycode == Keys.BACK){
 						main.setScreen(new Categories(main));
