@@ -1,4 +1,9 @@
-
+/**
+ * @author 	Steinunn Fridgeirsdottir
+ * @date 	26.02.2015
+ * @goal 	DataProcessor processes the data from a json file
+ * 			and adds to data transfer objects.
+ */
 package data;
 
 import java.io.InputStream;
@@ -15,6 +20,11 @@ import com.google.gson.JsonSyntaxException;
 
 public class DataProcessor {
 	
+	/**
+	 * Processes the data for a json file and adds to Data object
+	 * 
+	 * @param levelState
+	 */
 	public static void getData(Data levelState){
 		JsonParser jp = new JsonParser();
         JsonElement root = null;
@@ -44,6 +54,9 @@ public class DataProcessor {
         	return;
 	}
 	
+	/**
+	 * @param levelState
+	 */
 	public void setData(Data levelState){
 		
 	}
