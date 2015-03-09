@@ -148,6 +148,9 @@ public class Play implements Screen, InputProcessor{
 		draw();
 	}
 	
+	/**
+	 * Resets the level and notifies user that he has won
+	 */
 	public void win(){
 		questionsAnswered = 0;
 		totalSecondsWasted = 0;
@@ -159,15 +162,20 @@ public class Play implements Screen, InputProcessor{
 		} else {
 			showFinishLevelDialog(true, true);
 		}
-		
-		saveStars();
 	}
 	
+	/**
+	 * Moves question to center
+	 */
 	public void moveQuestionToStartPos(){
 		cat.getQuestion().getRec().x = origX;
 		cat.getQuestion().getRec().y = origY;
 	}
 	
+	/**
+	 * @param touchPos
+	 * @return true if you touch the question
+	 */
 	public boolean touchOverlapsQuestion(Vector3 touchPos){
 		camera.unproject(touchPos);
 		if(touchPos.x >= cat.getQuestion().getRec().x 
@@ -179,6 +187,9 @@ public class Play implements Screen, InputProcessor{
 		return false;
 	}
 	
+	/**
+	 * notifies user when he looses a level
+	 */
 	public void loose(){
 		setWrongProgressBar();
 		refreshProgressBar(true);
@@ -186,23 +197,35 @@ public class Play implements Screen, InputProcessor{
 		showFinishLevelDialog(false, false);
 	}
 	
+	/**
+	 * resets time on progress bar
+	 */
 	public void resetTime(){
 		progressBar.setValue(0);
 		startTime = System.nanoTime();
 	}
 	
+	/**
+	 * sets first question
+	 */
 	public void startQuestion(){
 		moveQuestionToStartPos();
 		cat.generateNewQuestion(level);
 		resetTime();
 	}
 	
+	/**
+	 * sets new question
+	 */
 	public void getNewQuestion(){
 		startQuestion();
 		setNormalProgressBar();
 		refreshProgressBar(false);	
 	}
 	
+	/**
+	 * draws the progressbar
+	 */
 	public void drawProgressBar(){
 		long endTime = System.nanoTime();
 		if(!delayTime){
@@ -213,6 +236,9 @@ public class Play implements Screen, InputProcessor{
 		time.draw(batch, Long.toString(timeLeft), progressBar.getWidth(), screenHeight/5 - screenHeight/100);
 	}
 	
+	/**
+	 * notifies user that his answer was correct
+	 */
 	public void displayRightAnswerAndGetNewQuestion(){
 		setCorrectProgressBar();
 		refreshProgressBar(true);	
@@ -227,6 +253,9 @@ public class Play implements Screen, InputProcessor{
 		updateStars();
 	}
 	
+	/**
+	 * sets up progress bar
+	 */
 	public void createProgressBar(){
 		main.skin.add("bg", new Texture(Gdx.files.internal("progressBar/background.png")));
 		main.skin.add("bg_wrong", new Texture(Gdx.files.internal("progressBar/background_wrong.png")));
@@ -331,12 +360,19 @@ public class Play implements Screen, InputProcessor{
 		return sadFaceTable;
 	}
 	
+	/**
+	 * places question on top of answer
+	 */
 	public void moveQuestionOverAnswer() {
 		if(xDirection == "left" ) {
 			cat.getQuestion().getRec().x = 0;
 		}
 	}
 		
+	/**
+	 * sets new progress bar
+	 * @param delay
+	 */
 	public void refreshProgressBar(boolean delay){
 		progressBar.remove();
 		progressBar = new ProgressBar(0, maxTime, 0.5f, false, progressBarStyle);
@@ -347,28 +383,38 @@ public class Play implements Screen, InputProcessor{
 	    stage.addActor(progressBar);
 	}
 	
+	/**
+	 * sets normal progress bar
+	 */
 	public void setNormalProgressBar(){
 		progressBarStyle.background = main.skin.getDrawable("bg");
 		progressBarStyle.knob = main.skin.getDrawable("knob");
 		progressBarStyle.knobBefore = progressBarStyle.knob;
 	}
 	
+	/**
+	 * sets the progress bar that notifies the user
+	 * when he has won
+	 */
 	public void setCorrectProgressBar(){
 		progressBarStyle.background = main.skin.getDrawable("bg_correct");
 		progressBarStyle.knob = main.skin.getDrawable("knob_correct");
 		progressBarStyle.knobBefore = progressBarStyle.knob;
 	}
 	
+	/**
+	 * sets the progress bar that notifies the user
+	 * when he has lost
+	 */
 	public void setWrongProgressBar(){
 		progressBarStyle.background = main.skin.getDrawable("bg_wrong");
 		progressBarStyle.knob = main.skin.getDrawable("knob_wrong");
 		progressBarStyle.knobBefore = progressBarStyle.knob;
 	}
 	
-	public void saveStars(){
-		// TODO: save staramount for levels
-	}
-	
+	/**
+	 * calculates stars for finishing the level within the time limit 
+	 */
 	public void updateStars(){
 		totalSecondsWasted += secondsPassed;
 		
@@ -383,9 +429,6 @@ public class Play implements Screen, InputProcessor{
 		} else if(totalSecondsWasted >= oneStar && stars == 1){
 			stars = 0;
 		}
-		
-		System.out.println("total secs wasted: " + totalSecondsWasted);
-		System.out.println("stars: " + stars);
 	}
 	
 	@Override
