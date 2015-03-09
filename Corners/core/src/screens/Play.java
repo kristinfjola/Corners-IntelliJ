@@ -440,6 +440,7 @@ public class Play implements Screen, InputProcessor{
 	/**
 	 * pauses the game
 	 */
+	@Override
 	public void pause() {
 		oldSecondsPassed = secondsPassed;
 		delayTime = true;
@@ -449,6 +450,7 @@ public class Play implements Screen, InputProcessor{
 	/**
 	 * resumes the game
 	 */
+	@Override
 	public void resume() {
 		startTime = System.nanoTime();
 		delayTime = false;
