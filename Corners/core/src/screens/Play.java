@@ -68,6 +68,7 @@ public class Play implements Screen, InputProcessor{
     long startTime = 0;	
     long secondsPassed;
     long totalSecondsWasted = 0;
+    long oldSecondsPassed = 0;
     ProgressBar progressBar;
     ProgressBarStyle progressBarStyle;
     BitmapFont time;
@@ -201,7 +202,7 @@ public class Play implements Screen, InputProcessor{
 	public void drawProgressBar(){
 		long endTime = System.nanoTime();
 		if(!delayTime){
-			secondsPassed = (endTime - startTime)/1000000000;  
+			secondsPassed = oldSecondsPassed + (endTime - startTime)/1000000000;  
 		}
 		progressBar.setValue(secondsPassed);
 		long timeLeft = (maxTime - secondsPassed) >= 0 ? (maxTime - secondsPassed) : 0;
@@ -377,13 +378,14 @@ public class Play implements Screen, InputProcessor{
 
 	@Override
 	public void pause() {
-		refreshProgressBar(true);
+		oldSecondsPassed = secondsPassed;
 		delayTime = true;
 		this.state = State.PAUSE;
 	}
 
 	@Override
 	public void resume() {
+		startTime = System.nanoTime();
 		delayTime = false;
 		this.state = State.RUN;
 	}
@@ -603,6 +605,9 @@ public class Play implements Screen, InputProcessor{
 		batch.end();
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
+		
+		System.out.println("delay: "+delayTime);
+		System.out.println("secondsPassed: "+secondsPassed);
 	}
 	
 	private void addPauseToProcessor() {
