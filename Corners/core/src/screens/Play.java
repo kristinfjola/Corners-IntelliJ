@@ -100,7 +100,6 @@ public class Play implements Screen, InputProcessor{
 		//Setting up the info bar
 		double tempStars = cat.getStarsByLevel(level);
 		stage.addActor(table);
-		//infoBar.setLeftText(tempStars+"/3");
 		infoBar.setMiddleText("Level "+level);
 		infoBar.setRightText("");
 		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
@@ -121,6 +120,11 @@ public class Play implements Screen, InputProcessor{
  	    startQuestion();
 	}
 	
+	/**
+	 * @author eddabjorkkonradsdottir
+	 * 
+	 * handles the state of the game - pause/run
+	 */
 	public enum State {
 		PAUSE,
 		RUN
@@ -150,10 +154,10 @@ public class Play implements Screen, InputProcessor{
 		setCorrectProgressBar();
 		
 		if(level < maxNumLevels) { 
-			animateFinishLevel(true, false);
+			showFinishLevelDialog(true, false);
 			level++;
 		} else {
-			animateFinishLevel(true, true);
+			showFinishLevelDialog(true, true);
 		}
 		
 		saveStars();
@@ -179,7 +183,7 @@ public class Play implements Screen, InputProcessor{
 		setWrongProgressBar();
 		refreshProgressBar(true);
 		delayTime = true;
-		animateFinishLevel(false, false);
+		showFinishLevelDialog(false, false);
 	}
 	
 	public void resetTime(){
@@ -239,7 +243,16 @@ public class Play implements Screen, InputProcessor{
 	    stage.addActor(progressBar);
 	}
 	
-	public void animateFinishLevel(boolean win, boolean finishCat) {
+	/**
+	 * Shows a pop-up screen with information whether the player
+	 * finished a level or a category, and how many stars earned
+	 * in the corresponding level.
+	 * 
+	 * @param win - true if hit right answer
+	 * @param finishCat - true if the level is the last level in the
+	 * category (there for the player has finished the category)
+	 */
+	public void showFinishLevelDialog(boolean win, boolean finishCat) {
 		pause();
 		
 		Dialog dialog = new Dialog("", this.main.skin);
@@ -274,6 +287,11 @@ public class Play implements Screen, InputProcessor{
 		
 	}
 	
+	/**
+	 * @param numStars - number of stars earned
+	 * @return table of pictures of the stars 
+	 * 					(both earned and lost)
+	 */
 	public Table getStars(int numStars) {
 		int maxStars = 3;
 		int loseStars = maxStars-numStars;
@@ -298,6 +316,9 @@ public class Play implements Screen, InputProcessor{
 		return starsTable;
 	}
 	
+	/**
+	 * @return table with a picture of a sad smiley face
+	 */
 	public Table getSadFace() {
 		Table sadFaceTable = new Table();
 		
@@ -376,14 +397,18 @@ public class Play implements Screen, InputProcessor{
 		
 	}
 
-	@Override
+	/**
+	 * pauses the game
+	 */
 	public void pause() {
 		oldSecondsPassed = secondsPassed;
 		delayTime = true;
 		this.state = State.PAUSE;
 	}
 
-	@Override
+	/**
+	 * resumes the game
+	 */
 	public void resume() {
 		startTime = System.nanoTime();
 		delayTime = false;
@@ -449,6 +474,12 @@ public class Play implements Screen, InputProcessor{
 		return false;
 	}
 	
+	/**
+	 * Checks if the question box has gone out of upper
+	 * boundaries of the screen
+	 * 
+	 * @param axis - y or x axis
+	 */
 	public void checkUpperBoundaries(String axis) {
 		Rectangle rec = cat.getQuestion().getRec();
 		
@@ -464,6 +495,12 @@ public class Play implements Screen, InputProcessor{
 		}	
 	}
 	
+	/**
+	 * Checks if the question box has gone out of lower
+	 * boundaries of the screen
+	 * 
+	 * @param axis - y or x axis
+	 */
 	public void checkLowerBoundaries(String axis) {
 		Rectangle rec = cat.getQuestion().getRec();
 		
@@ -478,6 +515,10 @@ public class Play implements Screen, InputProcessor{
 		}
 	}
 	
+	/**
+	 * Swipes the question smoothly after the user has let go
+	 * of the question box (after touchUp)
+	 */
 	public void swipeQuestionAfterTouchUp() {
 		Rectangle rec = cat.getQuestion().getRec();
 		
@@ -513,6 +554,10 @@ public class Play implements Screen, InputProcessor{
 		}
 	}
 	
+	/**
+	 * Sets the direction of the question box
+	 * (in which direction it is swiped)
+	 */
 	public void setDirections() {
 		Rectangle rec = cat.getQuestion().getRec();
 		if(rec.x - origX < 30 && rec.x - origX > -30) {
@@ -535,6 +580,10 @@ public class Play implements Screen, InputProcessor{
 		}
 	}
 	
+	/**
+	 * Handles when the question has hit a answer box,
+	 * whether the answer is right or wrong
+	 */
 	public void handleHitBox() {
 		Box hit = cat.checkIfHitAnswer();
 		if(hit != null && !delayTime){
@@ -547,7 +596,6 @@ public class Play implements Screen, InputProcessor{
 		}
 		
 		//if hit wrong answer then move question to the middle
-		//TODO: we need to make our own overlaps function so this looks good:
 		Box hitBox = cat.checkIfHitBox();
 		if(hitBox != null && hit == null && !delayTime) {
 			hitWrong = true;
@@ -555,6 +603,10 @@ public class Play implements Screen, InputProcessor{
 		}
 	}
 	
+	/**
+	 * The update loop of the game - runs when the game is in
+	 * RUN state
+	 */
 	public void update() { 
 		Rectangle rec = cat.getQuestion().getRec();
 		
@@ -589,6 +641,9 @@ public class Play implements Screen, InputProcessor{
 		}
 	}
 	
+	/**
+	 * Draws everything on the screen
+	 */
 	public void draw() {
 		Gdx.gl.glClearColor(21/255f, 149/255f, 136/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -605,9 +660,6 @@ public class Play implements Screen, InputProcessor{
 		batch.end();
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
-		
-		System.out.println("delay: "+delayTime);
-		System.out.println("secondsPassed: "+secondsPassed);
 	}
 	
 	private void addPauseToProcessor() {
