@@ -9,6 +9,7 @@ import boxes.Box;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 
 import data.Data;
@@ -23,8 +24,11 @@ public class Category {
 	int qHeight;
 	int screenWidth = Gdx.graphics.getWidth();
     int screenHeight = Gdx.graphics.getHeight();
-    BitmapFont bmFont;
     String type;
+    int playScreenHeight;
+    int playScreenWidth;
+    Skin skin;
+    String screenSizeGroup;
     
     /**
      * Generates questions for level
@@ -209,20 +213,6 @@ public class Category {
 	public void setScreenHeight(int screenHeight) {
 		this.screenHeight = screenHeight;
 	}
-
-	/**
-	 * @return font for category
-	 */
-	public BitmapFont getBmFont() {
-		return bmFont;
-	}
-
-	/**
-	 * @param bmFont
-	 */
-	public void setBmFont(BitmapFont bmFont) {
-		this.bmFont = bmFont;
-	}
 	
 	/**
 	 * @return type of category
@@ -247,5 +237,39 @@ public class Category {
 	public int getStarsByLevel(int level){
 		LevelStars stars = getStars();
 		return stars.getStarsByLevel(level);
+	}
+	
+	/**
+	 * @param width of the screen in Play (without the infoBar and progressBar)
+	 */
+	public void setPlayScreenWidth(int width) {
+		playScreenWidth = width;
+	}
+	
+	/**
+	 * @param height of the screen in Play (without the infoBar and progressBar)
+	 */
+	public void setPlayScreenHeight(int height) {
+		playScreenHeight = height;
+	}
+	
+	/**
+	 * @param skin
+	 */
+	public void setSkin(Skin skin) {
+		this.skin = skin;
+	}
+	
+	/**
+	 * @param screenSizeGroup
+	 */
+	public void setScreenSizeGroup(String screenSizeGroup) {
+		this.screenSizeGroup = screenSizeGroup;
+	}
+	
+	/**
+	 * Sets up the question and possible answer boxes
+	 */
+	public void setUpBoxes() {
 	}
 }

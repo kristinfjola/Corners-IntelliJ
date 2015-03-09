@@ -19,15 +19,22 @@ import com.badlogic.gdx.utils.Array;
 
 public class Math extends Category{
 	/**
-	 * 	Creates a new Math category, delivers a question and possible answers
+	 * 	Creates a new Math category
 	 */
-	public Math(BitmapFont bmFont){
+	public Math(){
 		type = "Math";
-		this.bmFont = bmFont;
 		qWidth = (int) (screenWidth/3.5);
 		qHeight = (int) (screenWidth/3.5);
-		int[] xcoords = {0, 0, screenWidth-qWidth, screenWidth-qWidth}; 
-		int[] ycoords = {0, (screenHeight-screenHeight/10)-qHeight, (screenHeight-screenHeight/10)-qHeight, 0};
+	}
+	
+	/**
+	 * Delivers a question and possible answers
+	 */
+	public void setUpBoxes() {		
+		BitmapFont bmFont = (this.skin).getFont(this.screenSizeGroup+"-M");
+		
+		int[] xcoords = {0, 0, playScreenWidth-qWidth, playScreenWidth-qWidth}; 
+		int[] ycoords = {0, playScreenHeight-qHeight, playScreenHeight-qHeight, 0};
 		//answers
  	    answers = new Array<Box>();
  	    for(int i = 0; i < 4; i++){

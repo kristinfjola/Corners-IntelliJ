@@ -29,6 +29,7 @@ public class Start implements Screen{
 	private float screenWidth = Gdx.graphics.getWidth();
 	private float screenHeight = Gdx.graphics.getHeight();
 	private Texture carl = new Texture("carl/carl4.jpg");
+	Table table;
 	
 	/**
 	 * Constructor. Creates the the interface and sets the
@@ -49,17 +50,14 @@ public class Start implements Screen{
 	 */
 	@Override
 	public void show() {
-		Table table = new Table();
+		this.table = new Table();
 		table.top();
 		table.setFillParent(true);
 		stage.addActor(table);
 		
 		String screenSizeGroup = main.screenSizeGroup;
 		
-		//Setting up the info bar
-		InfoBar infoBar = new InfoBar(main);
-		infoBar.setMiddleText("Corners");
-	 	table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
+		setUpInfoBar();
 
 		final TextButton btnCategories = new TextButton("Play", skin, screenSizeGroup+"-L");
 		btnCategories.addListener(new ChangeListener() {
@@ -138,5 +136,14 @@ public class Start implements Screen{
 	@Override
 	public void dispose() {
 		stage.dispose();
+	}
+	
+	/**
+	 * Sets up the info bar
+	 */
+	public void setUpInfoBar() {
+		InfoBar infoBar = new InfoBar(main);
+		infoBar.setMiddleText("Corners");
+	 	table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
 	}
 }

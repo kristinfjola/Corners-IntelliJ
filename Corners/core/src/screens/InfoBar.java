@@ -1,3 +1,11 @@
+/**
+ * @author: Johanna Agnes Magnusdottir
+ * @date	02.03.2015
+ * @goal: 	The display of the info bar that is on the top of each screen. 
+ * 			It tells you where in the game you are (what category, what level, etc.)
+ * 			and other information such as average amount of stars/levels
+ */
+
 package screens;
 
 import com.badlogic.gdx.Gdx;
@@ -25,14 +33,21 @@ public class InfoBar {
 	String rightText="";
 	String leftImage="empty";
 	String rightImage="empty";
-	String starAmount;
 	
+	/**
+	 * Constructor. Creates the the interface and sets the private variables
+	 */
 	public InfoBar(MainActivity main) {
 		this.main = main;
 		barWidth = screenWidth;
 	 	barHeight = screenHeight/10;
 	}
 	
+	/**
+	 * Sets up the infoBar table, adds the corresponding 
+	 * elements to it in the right place
+	 * @return infoBar table
+	 */
 	public Table getInfoBar(){
 		Table infoBarTable = new Table(main.skin);
 		Pixmap pm = new Pixmap(1, 1, Format.RGBA8888);
@@ -60,26 +75,46 @@ public class InfoBar {
 	 	return infoBarTable;
 	}
 
+	/**
+	 * @param leftText, the text that should be in the left corner of the infoBar
+	 */
 	public void setLeftText(String leftText) {
 		this.leftText = leftText;
 	}
 	
+	/**
+	 * @param middleText, the text that should be in the middle of the infoBar
+	 */
 	public void setMiddleText(String middleText) {
 		this.middleText = middleText;
 	}
 	
+	/**
+	 * @param rightText, the text that should be in the right corner of the infoBar
+	 */
 	public void setRightText(String rightText) {
 		this.rightText = rightText;
 	}
 	
+	/**
+	 * @param leftImage, the image that should be in the left corner of the infoBar
+	 */
 	public void setLeftImage(String leftImage) {
 		this.leftImage = leftImage;
 	}
 	
+	/**
+	 * @param rightImage, the image that should be in the right corner of the infoBar
+	 */
 	public void setRightImage(String rightImage) {
 		this.rightImage = rightImage;
 	}
 	
+	/**
+	 * Rounds stars to the nearest half integer and puts together a string
+	 * @param stars
+	 * @return string that refers to the correct image based on the number stars
+	 */
 	public String getStarAmount(double stars) {
 		String starAmount="";
 		

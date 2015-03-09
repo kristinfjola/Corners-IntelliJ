@@ -46,10 +46,13 @@ public class Play implements Screen, InputProcessor{
     int screenWidth = Gdx.graphics.getWidth();
     int screenHeight = Gdx.graphics.getHeight();
     int level;
+    
     int questionsAnswered = 0;
     int nrOfQuestions;
     float origX;
     float origY;
+    
+    // infoBar
     InfoBar infoBar;
     Table table;
     InputProcessor inputProcessor;
@@ -85,31 +88,23 @@ public class Play implements Screen, InputProcessor{
 	 */
 	public Play(MainActivity main, Category cat, int level){
 		this.main = main;
-		infoBar = new InfoBar(main);
+		this.infoBar = new InfoBar(main);
 		this.cat = cat;
 		this.level = level;
 		this.state = State.RUN;
-		stage = new Stage();
+		this.stage = new Stage();
+		this.table = new Table();
+		this.table.top().setFillParent(true);
+		
 		addPauseToProcessor();
 		setAllProcessors(); 
 		
-		table = new Table();
-		table.top();
-		table.setFillParent(true);
-		
-		//Setting up the info bar
-		double tempStars = cat.getStarsByLevel(level);
-		stage.addActor(table);
-		infoBar.setMiddleText("Level "+level);
-		infoBar.setRightText("");
-		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
-		infoBar.setRightImage("pause");
-	 	table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
-
+		setUpInfoBar();
+	
 		origX = screenWidth/2 - cat.getQuestion().getRec().getWidth()/2;
 	    origY = screenHeight/2 - cat.getQuestion().getRec().getHeight()/2;
  	    Gdx.input.setCatchBackKey(true);
-	    time = cat.getBmFont();
+	    time = main.skin.getFont(main.screenSizeGroup+"-M");
 	    time.setColor(Color.BLACK);
 	    maxTime = 10;
 	    nrOfQuestions = 9;
@@ -233,7 +228,10 @@ public class Play implements Screen, InputProcessor{
 		}
 		progressBar.setValue(secondsPassed);
 		long timeLeft = (maxTime - secondsPassed) >= 0 ? (maxTime - secondsPassed) : 0;
-		time.draw(batch, Long.toString(timeLeft), progressBar.getWidth(), screenHeight/5 - screenHeight/100);
+		
+		float xCoord = screenWidth/2-(time.getBounds(Long.toString(timeLeft)).width)/2;
+		float yCoord = screenHeight-infoBar.barHeight-progressBar.getPrefHeight()*1.1f;
+		time.draw(batch, Long.toString(timeLeft), xCoord, yCoord);
 	}
 	
 	/**
@@ -266,8 +264,8 @@ public class Play implements Screen, InputProcessor{
  	    progressBarStyle = new ProgressBarStyle(main.skin.getDrawable("bg"), main.skin.getDrawable("knob"));
  	    progressBarStyle.knobBefore = progressBarStyle.knob;
  	    progressBar = new ProgressBar(0, maxTime, 0.5f, false, progressBarStyle);
-	    progressBar.setPosition(screenWidth/4, screenHeight/5);
-	    progressBar.setSize(screenWidth/2, progressBar.getPrefHeight());
+ 	    progressBar.setPosition(0,screenHeight-screenHeight/10-progressBar.getPrefHeight());
+	    progressBar.setSize(screenWidth, progressBar.getPrefHeight());
 	    progressBar.setAnimateDuration(1);
 	    stage.addActor(progressBar);
 	}
@@ -376,8 +374,8 @@ public class Play implements Screen, InputProcessor{
 	public void refreshProgressBar(boolean delay){
 		progressBar.remove();
 		progressBar = new ProgressBar(0, maxTime, 0.5f, false, progressBarStyle);
-	    progressBar.setPosition(screenWidth/4, screenHeight/5);
-	    progressBar.setSize(screenWidth/2, progressBar.getPrefHeight());
+		progressBar.setPosition(0,screenHeight-screenHeight/10-progressBar.getPrefHeight());
+	    progressBar.setSize(screenWidth, progressBar.getPrefHeight());
 	    progressBar.setAnimateDuration(delay ? 0 : 1);
 	    progressBar.setValue(secondsPassed);
 	    stage.addActor(progressBar);
@@ -437,7 +435,6 @@ public class Play implements Screen, InputProcessor{
 
 	@Override
 	public void resize(int width, int height) {
-		
 	}
 
 	/**
@@ -460,7 +457,6 @@ public class Play implements Screen, InputProcessor{
 
 	@Override
 	public void hide() {
-		
 	}
 
 	@Override
@@ -718,6 +714,9 @@ public class Play implements Screen, InputProcessor{
 				return false;
 			}
 			
+			/**
+			 * Sets a listener to the pause/play button
+			 */
 			@Override
 			public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 				if(screenX>screenWidth-screenHeight/10 && screenY<screenHeight/10) {
@@ -764,5 +763,19 @@ public class Play implements Screen, InputProcessor{
 		multiplexer.addProcessor(this);
 		multiplexer.addProcessor(inputProcessor);
 		Gdx.input.setInputProcessor(multiplexer); 	
+	}
+	
+	/**
+	 * Sets up the info bar
+	 */
+	public void setUpInfoBar() {
+		double tempStars = cat.getStarsByLevel(level);
+		stage.addActor(table);
+		infoBar.setMiddleText("Level "+level);
+		infoBar.setRightText("");
+		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
+		infoBar.setRightImage("pause");
+	 	table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
+
 	}
 }

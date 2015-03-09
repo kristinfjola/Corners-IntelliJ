@@ -14,6 +14,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -51,6 +52,7 @@ public class Levels implements Screen{
 		this.main = main;
 		this.cat = category;
 		this.infoBar = new InfoBar(main);
+		setUpCat();
 		this.batch = new SpriteBatch();
  	    Gdx.input.setCatchBackKey(true);
  	    addBackToProcessor(); 
@@ -71,15 +73,8 @@ public class Levels implements Screen{
 
 		setAllProcessors();
 		
-		//Setting up the info bar
-		double tempStars = stars.getAverageStars();
-		int tempLevels = stars.getLevelsFinished();
-		InfoBar infoBar = new InfoBar(main);
-		infoBar.setMiddleText(cat.getType());
-		infoBar.setRightText(tempLevels+"/9");
-		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
-	 	container.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
-	 	
+		setUpInfoBar();
+
 		int cnt = 1;
 		Table tableLevels = new Table();
 		tableLevels.defaults().size(screenWidth/4.2f,screenHeight/6f);
@@ -284,5 +279,33 @@ public class Levels implements Screen{
 				}
 			};
 	}
+	
+	/**
+	 * Sets up the info bar
+	 */
+	public void setUpInfoBar() {
+		double tempStars = stars.getAverageStars();
+		int tempLevels = stars.getLevelsFinished();
+		InfoBar infoBar = new InfoBar(main);
+		infoBar.setMiddleText(cat.getType());
+		infoBar.setRightText(tempLevels+"/9");
+		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
+	 	container.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
+	}
+	
+	/**
+	 * Sends the skin, screen size group and the size of the play screen into the category
+	 */
+	public void setUpCat() {
+		cat.setSkin(main.skin);
+		cat.setScreenSizeGroup(main.screenSizeGroup);
+		
+		float playScreenWidth = screenWidth;
+		float pBarHeight = (new Image(new Texture("progressBar/background.png"))).getPrefHeight();
+		float playScreenHeight = screenHeight-infoBar.barHeight-pBarHeight;
+		cat.setPlayScreenWidth((int) playScreenWidth);
+		cat.setPlayScreenHeight((int) playScreenHeight);
 
+		cat.setUpBoxes();
+	}
 }

@@ -40,6 +40,7 @@ public class Categories implements Screen {
 	Stage stage;
 	private InputProcessor inputProcessor;
 	Data data;
+	Table table;
 	
 	/**
 	 * Constructor. Creates the the interface and sets the
@@ -62,25 +63,18 @@ public class Categories implements Screen {
 		skin = main.skin;
 		
 		// Create a table that fills the screen. Everything else will go inside this table.
-		Table table = new Table();
+		this.table = new Table();
 		table.top();
 		table.setFillParent(true);
 		stage.addActor(table);
 		
-		//Setting up the info bar
-		double tempStars = data.getAverageStars();
-		int tempLevels = data.getAllFinished();
-		InfoBar infoBar = new InfoBar(main);
-		infoBar.setMiddleText("Categories");
-		infoBar.setRightText(tempLevels+"/27");
-		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
-		table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
-	
+		setUpInfoBar();
+		
 		final TextButton btnMath = new TextButton("Math", skin, main.screenSizeGroup+"-L");
 		btnMath.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				// TODO senda inn rétt, hlutfallslegt font og búa það til
-				main.levels = new Levels(main, new logic.Math(main.skin.getFont(main.screenSizeGroup+"-M")));
+				main.levels = new Levels(main, new logic.Math());
 				main.setScreen(main.levels);
 			}
 		});
@@ -240,5 +234,18 @@ public class Categories implements Screen {
 		multiplexer.addProcessor(stage);
 		multiplexer.addProcessor(inputProcessor);
 		Gdx.input.setInputProcessor(multiplexer); 	
+	}
+	
+	/**
+	 * Sets up the info bar
+	 */
+	public void setUpInfoBar() {
+		double tempStars = data.getAverageStars();
+		int tempLevels = data.getAllFinished();
+		InfoBar infoBar = new InfoBar(main);
+		infoBar.setMiddleText("Categories");
+		infoBar.setRightText(tempLevels+"/27");
+		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
+		table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
 	}
 }
