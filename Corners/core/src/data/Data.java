@@ -1,3 +1,9 @@
+/**
+ * @author 	Steinunn Fridgeirsdottir
+ * @date 	26.02.2015
+ * @goal 	Data is a data transfer object that keep track of the state ands stars of
+ * 			all the categories in the game. It also holds the name of the avatar.
+ */
 package data;
 
 public class Data {
@@ -7,76 +13,124 @@ public class Data {
 	private double averageStars;
 	private String name; //name of avatar
 
+	/**
+	 * @return name of avatar
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * @param name - the name of the avatar
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * @param category
+	 * @return stars of the levels in category as LevelStar object
+	 */
 	public LevelStars getStarsByString(String category){
 		if(category == "Math"){
-			math.setCategorieName(category);
+			math.setCategoryName(category);
 			return getMath();
 		}
 		if(category == "Flags"){
-			flags.setCategorieName(category);
+			flags.setCategoryName(category);
 			return getFlags();
 		}
 		else{
-			colors.setCategorieName(category);
+			colors.setCategoryName(category);
 			return getColors();
 		}
 	}
 	
+	/**
+	 * @return LevelStars object for Math
+	 */
 	public LevelStars getMath() {
 		return math;
 	}
 
+	/**
+	 * @param math
+	 */
 	public void setMath(LevelStars math) {
 		this.math = math;
 	}
 
+	/**
+	 * @return LevelStars object for Flags
+	 */
 	public LevelStars getFlags() {
 		return flags;
 	}
 
+	/**
+	 * @param flags
+	 */
 	public void setFlags(LevelStars flags) {
 		this.flags = flags;
 	}
 
+	/**
+	 * @return LevelStars object for Colors
+	 */
 	public LevelStars getColors() {
 		return colors;
 	}
 
+	/**
+	 * @param colors
+	 */
 	public void setColors(LevelStars colors) {
 		this.colors = colors;
 	}
 
+	/**
+	 * @param averageStars
+	 */
 	public void setAverageStars(double averageStars) {
 		this.averageStars = averageStars;
 	}
 
+	/**
+	 * @return avegrage stars of all the levels
+	 */
 	public double getAverageStars() {
 		calcAverageStars();
 		return averageStars;
 	}
 	
+	/**
+	 * Function that calculates the average stars of all the levels combined
+	 */
 	public void calcAverageStars() {
 		int count = getAllFinished();
 		double sumStars = allStars(math) + allStars(colors) + allStars(flags);
 		this.averageStars = sumStars/count;
 	}
 	
+	/**
+	 * @return number of finished levels in all the categories
+	 */
 	public int getAllFinished(){
 		return finished(math) + finished(colors) + finished(flags);
 	}
 	
+	/**
+	 * @param cat - Levels stars objevt of a category
+	 * @return number of levels finished in a category
+	 */
 	public int finished(LevelStars cat){
 		return cat.getLevelsFinished();
 	}
 	
+	/**
+	 * @param cat - LevelStars object of a category
+	 * @return sum of the stars in the category
+	 */
 	public double allStars(LevelStars cat){
 		return cat.getAverageStars() * cat.getLevelsFinished();
 	}
