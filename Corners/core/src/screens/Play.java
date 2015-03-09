@@ -705,6 +705,9 @@ public class Play implements Screen, InputProcessor{
 		stage.draw();
 	}
 	
+	/**
+	 * Creates new processor that handles the pause button
+	 */
 	private void addPauseToProcessor() {
 		 inputProcessor = new InputProcessor() {	
 			 @Override
@@ -751,6 +754,9 @@ public class Play implements Screen, InputProcessor{
 		};
 	}
 	
+	/**
+	 * Adds all the processors of the class to a multiplexer
+	 */
 	private void setAllProcessors() {
 		Gdx.input.setCatchBackKey(true);
 		

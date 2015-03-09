@@ -71,11 +71,9 @@ public class Categories implements Screen {
 		double tempStars = data.getAverageStars();
 		int tempLevels = data.getAllFinished();
 		InfoBar infoBar = new InfoBar(main);
-		//infoBar.setLeftText(tempStars+"/3");
 		infoBar.setMiddleText("Categories");
 		infoBar.setRightText(tempLevels+"/27");
 		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
-		//infoBar.setRightImage("levels");
 		table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
 	
 		final TextButton btnMath = new TextButton("Math", skin, main.screenSizeGroup+"-L");
