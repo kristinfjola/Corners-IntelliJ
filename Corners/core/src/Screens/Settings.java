@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.corners.game.MainActivity;
 
 public class Settings implements Screen{
@@ -31,6 +32,9 @@ public class Settings implements Screen{
 	Skin skin;
 	Stage stage;
 	SpriteBatch batch;
+	float screenWidth = Gdx.graphics.getWidth();
+	float screenHeight = Gdx.graphics.getHeight();
+	TextButton btnLogin;
 	
 	/**
 	 * Constructor that sets the private variables and starts the screen
@@ -41,13 +45,45 @@ public class Settings implements Screen{
 		this.main = main;
 		batch = new SpriteBatch();
 		stage = new Stage();
+		skin = this.main.skin;
+		main.facebookService.setScreen(this);
 		Gdx.input.setInputProcessor(stage);
 	}
 	
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
+		Table table = new Table();
+		table.top();
+		table.setFillParent(true);
+		stage.addActor(table);
 		
+		String screenSizeGroup = main.screenSizeGroup;
+		
+		
+		
+		btnLogin = new TextButton("Login", skin, screenSizeGroup+"-L");
+		updateLoginBtn();
+		table.add(btnLogin).padTop(screenHeight/2.4f).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
+	}
+	
+	public void updateLoginBtn(){
+		if(main.facebookService.isLoggedIn()){
+			btnLogin.setText("logout");
+			btnLogin.addListener(new ChangeListener() {
+				public void changed (ChangeEvent event, Actor actor) {
+					System.out.println("logout clicked: is logging out");
+					main.facebookService.logOut();
+				}
+			});
+		} else {
+			btnLogin.setText("login");
+			btnLogin.addListener(new ChangeListener() {
+				public void changed (ChangeEvent event, Actor actor) {
+					System.out.println("login clicked: is logging in");
+					main.facebookService.logIn();
+				}
+			});
+		}
 	}
 
 	/**

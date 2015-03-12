@@ -30,6 +30,8 @@ public class MainActivity extends Game {
 	public Texture fullStar;
 	public Texture emptyStar;
 	
+	public FacebookService facebookService;
+	
 	@Override
 	/** Method called once when the application is created. **/
 	public void create () {
@@ -92,5 +94,9 @@ public class MainActivity extends Game {
 		else if(510 <= screenWidth && screenWidth < 630) return "screen540";
 		else if(630 <= screenWidth && screenWidth < 900) return "screen720";
 		else return "screen1080"; //900 <= screenWidth
+	}
+
+	public void setFacebookService(FacebookService facebookService) {
+		this.facebookService = facebookService;
 	}
 }

@@ -64,8 +64,6 @@ public class Start implements Screen{
 		final TextButton btnCategories = new TextButton("Play", skin, screenSizeGroup+"-L");
 		btnCategories.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				System.out.println("Clicked! Is checked: " + btnCategories.isChecked());
-				System.out.println("start");
 				dispose();
 				main.categories = new Categories(main);
 				main.setScreen(main.categories);
@@ -73,8 +71,14 @@ public class Start implements Screen{
 		});
 		
 		TextButton btnSettings = new TextButton("Settings", skin, screenSizeGroup+"-L");
+		btnSettings.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				dispose();
+				main.settings = new Settings(main);
+				main.setScreen(main.settings);
+			}
+		});
 		TextButton btnFriends = new TextButton("Friends", skin, screenSizeGroup+"-L");
-		// TODO Add listeners
 		
 		table.add(btnCategories).padTop(screenHeight/2.4f).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
 		table.add(btnSettings).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
