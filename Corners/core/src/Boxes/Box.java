@@ -27,6 +27,10 @@ public class Box {
 		this.rec.height = height;
     }
     
+    /**
+     * Draws the box with right texture and height/width
+     * @param batch
+     */
     public void draw(SpriteBatch batch){
     	batch.draw(texture, rec.x, rec.y, rec.width, rec.height);
     }
@@ -73,10 +77,17 @@ public class Box {
 		this.screenHeight = screenHeight;
 	}
 
+	/**
+	 * 
+	 * @return the texture of the box
+	 */
 	public Texture getTexture() {
 		return texture;
 	}
 
+	/**
+	 * @param texture
+	 */
 	public void setTexture(Texture texture) {
 		this.texture = texture;
 	}

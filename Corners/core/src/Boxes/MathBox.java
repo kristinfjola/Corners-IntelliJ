@@ -53,10 +53,18 @@ public class MathBox extends Box{
 		this.number = number;
 	}
 
+	/**
+	 * 
+	 * @return the text of the box
+	 */
 	public String getText() {
 		return text;
 	}
 
+	/**
+	 * 
+	 * @param text
+	 */
 	public void setText(String text) {
 		this.text = text;
 	}

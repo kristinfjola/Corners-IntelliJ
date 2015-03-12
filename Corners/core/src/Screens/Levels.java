@@ -14,7 +14,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -23,6 +23,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.corners.game.MainActivity;
+
+import data.LevelStars;
+
 
 public class Levels implements Screen{
 
@@ -33,9 +36,9 @@ public class Levels implements Screen{
 	private Category cat;
 	final float screenWidth = Gdx.graphics.getWidth();
 	final float screenHeight = Gdx.graphics.getHeight();
-	InputProcessor inputProcessor; 
-	Extra extra;
-	SpriteBatch batch;
+	private InputProcessor inputProcessor; 
+	private InfoBar infoBar;
+	private LevelStars stars;
 	
 	/**
 	 * Constructor that sets the private variable and starts the screen.
@@ -45,21 +48,13 @@ public class Levels implements Screen{
 	 */
 	public Levels(MainActivity main, Category category){
 		this.main = main;
-		cat = category;
-		extra = new Extra(main);
-		batch = new SpriteBatch();
+		this.cat = category;
+		this.infoBar = new InfoBar(main);
+		setUpCat();
  	    Gdx.input.setCatchBackKey(true);
  	    addBackToProcessor(); 
+ 	    processData(category);
 		create();
-	}
-
-	private void setAllProcessors() {
-		Gdx.input.setCatchBackKey(true);
-		
-		InputMultiplexer multiplexer = new InputMultiplexer();
-		multiplexer.addProcessor(stage);
-		multiplexer.addProcessor(inputProcessor);
-		Gdx.input.setInputProcessor(multiplexer); 	
 	}
 
 	/**
@@ -75,9 +70,10 @@ public class Levels implements Screen{
 
 		setAllProcessors();
 		
+		setUpInfoBar();
+
 		int cnt = 1;
 		Table tableLevels = new Table();
-		tableLevels.padTop(screenHeight/7);
 		tableLevels.defaults().size(screenWidth/4.2f,screenHeight/6f);
 		for (int rows = 0; rows < 3; rows++) {
 			tableLevels.row();
@@ -95,10 +91,6 @@ public class Levels implements Screen{
 		}
 		container.add(tableLevels).expand().fill();
 	}
-	
-	@Override
-	public void show() {
-	}
 
 	/**
 	 * Renders the stuff on the screen 
@@ -108,7 +100,6 @@ public class Levels implements Screen{
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		extra.draw(batch, "L", cat.getType(), "R");
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();		
 	}
@@ -134,6 +125,10 @@ public class Levels implements Screen{
 	@Override
 	public void hide() {
 	}
+	
+	@Override
+	public void show() {
+	}
 
 	/**
 	 * Disposes the screen
@@ -153,52 +148,77 @@ public class Levels implements Screen{
 	public TextButton getLevelButton(final int level) {
 		TextButton button;
 		
-		if(level == 1) {
+		if(stars.getStars()[level] > -1) {
 			button = new TextButton(""+level, skin, main.screenSizeGroup+"-L"+"-level-yellow");
+			button.addListener(new ClickListener() {	
+				/**
+				 * Sends the user to a new play screen
+				 * 
+				 * @param event
+				 * @param x
+				 * @param y
+				 */
+				@Override
+				public void clicked (InputEvent event, float x, float y) {
+					main.play = new Play(main, cat, level);
+		            main.setScreen(main.play);
+				}
+			});	
 		}
 		else {
 			button = new TextButton(""+level, skin, main.screenSizeGroup+"-L"+"-level-grey");
 		}
 		
 		button.setName("Level" + Integer.toString(level));
-		button.addListener(new ClickListener() {	
-			/**
-			 * Sends the user to a new play screen
-			 * 
-			 * @param event
-			 * @param x
-			 * @param y
-			 */
-			@Override
-			public void clicked (InputEvent event, float x, float y) {
-				main.play = new Play(main, cat, level);
-	            main.setScreen(main.play);
-			}
-		});		
+			
 		return button;
 	}
 	
 
+	/**
+	 * @param level
+	 * @return table of stars that fit the number of stars in the database
+	 */
 	public Table getStarTable(int level) {
 		Table starTable = new Table();
-		
-		// TODO Get stars from db
-		int numberOfStars = 2;
+		int numberOfStars = stars.getStars()[level];
 		int cntStars = 0;
-		
 		for (int star = 0; star < 3; star++) {
-			if(level == 1 && cntStars != numberOfStars) { //taka ut level==1
+			if(cntStars < numberOfStars) {
 				starTable.add(new Image(main.fullStar)).size(screenWidth/4.2f/3);
+				cntStars++;
 			}
 			else {
 				starTable.add(new Image(main.emptyStar)).size(screenWidth/4.2f/3);
 			}
-			cntStars++;
 		}
-		
 		return starTable;
 	}
 	
+	/**
+	 * Sets the stars variable with appropriate values for the category
+	 * 
+	 * @param category
+	 */
+	private void processData(Category category) {
+		stars = category.getStars();
+	}
+
+	/**
+	 * Adds the game stage and the back button processors to a multiplexer
+	 */
+	private void setAllProcessors() {
+		Gdx.input.setCatchBackKey(true);
+		
+		InputMultiplexer multiplexer = new InputMultiplexer();
+		multiplexer.addProcessor(stage);
+		multiplexer.addProcessor(inputProcessor);
+		Gdx.input.setInputProcessor(multiplexer); 	
+	}
+	
+	/**
+	 * Creates a input processor that catches the back key 
+	 */
 	private void addBackToProcessor() {
 		 inputProcessor = new InputProcessor() {
 				
@@ -245,6 +265,9 @@ public class Levels implements Screen{
 				}
 				
 				@Override
+				/**
+				 * Switches screens if the back button is pressed
+				 */
 				public boolean keyDown(int keycode) {
 					if(keycode == Keys.BACK){
 						main.setScreen(new Categories(main));
@@ -253,5 +276,33 @@ public class Levels implements Screen{
 				}
 			};
 	}
+	
+	/**
+	 * Sets up the info bar
+	 */
+	public void setUpInfoBar() {
+		double tempStars = stars.getAverageStars();
+		int tempLevels = stars.getLevelsFinished();
+		InfoBar infoBar = new InfoBar(main);
+		infoBar.setMiddleText(cat.getType());
+		infoBar.setRightText(tempLevels+"/9");
+		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
+	 	container.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
+	}
+	
+	/**
+	 * Sends the skin, screen size group and the size of the play screen into the category
+	 */
+	public void setUpCat() {
+		cat.setSkin(main.skin);
+		cat.setScreenSizeGroup(main.screenSizeGroup);
+		
+		float playScreenWidth = screenWidth;
+		float pBarHeight = (new Image(new Texture("progressBar/background.png"))).getPrefHeight();
+		float playScreenHeight = screenHeight-infoBar.barHeight-pBarHeight;
+		cat.setPlayScreenWidth((int) playScreenWidth);
+		cat.setPlayScreenHeight((int) playScreenHeight);
 
+		cat.setUpBoxes();
+	}
 }

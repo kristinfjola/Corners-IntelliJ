@@ -13,53 +13,42 @@ import boxes.Box;
 import boxes.MathBox;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Array;
 
 public class Math extends Category{
 	/**
-	 * 	Creates a new Math category, delivers a question and possible answers
+	 * 	Creates a new Math category
 	 */
-	public Math(BitmapFont bmFont){
+	public Math(){
 		type = "Math";
-		this.bmFont = bmFont;
-		// TODO gera flottari hlutfall
 		qWidth = (int) (screenWidth/3.5);
 		qHeight = (int) (screenWidth/3.5);
-		int[] xcoords = {0, 0, screenWidth-qWidth, screenWidth-qWidth}; 
-		int[] ycoords = {0, screenHeight-qHeight, screenHeight-qHeight, 0}; 
-
+	}
+	
+	/**
+	 * Delivers a question and possible answers
+	 */
+	public void setUpBoxes() {		
+		BitmapFont bmFont = (this.skin).getFont(this.screenSizeGroup+"-M");
+		
+		int[] xcoords = {0, 0, playScreenWidth-qWidth, playScreenWidth-qWidth}; 
+		int[] ycoords = {0, playScreenHeight-qHeight, playScreenHeight-qHeight, 0};
 		//answers
  	    answers = new Array<Box>();
  	    for(int i = 0; i < 4; i++){
- 	    	/*Pixmap pm = new Pixmap(qWidth, qHeight, Format.RGBA8888);
- 	 	    pm.setColor(new Color(255/255f,197/255f,1/255f,1));
- 	 		pm.fillRectangle(0,0,qWidth, qHeight);
- 	 		pm.setColor(Color.BLACK);
- 	 		pm.drawRectangle(0,0,qWidth, qHeight);*/
- 	    	
  	    	MathBox box = new MathBox(qWidth, qHeight, 2, "1+1", bmFont);
  	 	    box.getRec().x = xcoords[i];
  	 	  	box.getRec().y = ycoords[i];
- 	 	  	//box.setTexture(new Texture(pm));
  	 	  	box.setTexture(new Texture(Gdx.files.internal("mathBoxes/aBox"+(i+1)+".png")));
  	 	    answers.add(box);
  	    }
  	    
  	    //question
- 	    /*Pixmap pm = new Pixmap(qWidth, qHeight, Format.RGBA8888);
-	    pm.setColor(Color.LIGHT_GRAY);
-		pm.fillRectangle(0,0,qWidth, qHeight);
-		pm.setColor(Color.BLACK);
-		pm.drawRectangle(0,0,qWidth, qHeight);*/
  		question = new MathBox(qWidth, qHeight, 2, "2+2", bmFont);
   	    question.getRec().x = screenWidth / 2 - qWidth / 2;
   	    question.getRec().y = screenHeight / 2 - qHeight / 2;
-  	    //question.setTexture(new Texture(pm));
   	    question.setTexture(new Texture(Gdx.files.internal("mathBoxes/qBox.png")));
 	}
 	
@@ -75,6 +64,7 @@ public class Math extends Category{
 		return null;
 	}
 	
+	@Override
 	public Box checkIfHitBox() {
 		for(Box answer : answers){
 			MathBox a = (MathBox) answer;
@@ -86,11 +76,21 @@ public class Math extends Category{
 		return null;
 	}
 	
+	/**
+	 * Sets text and answer for question
+	 * @param ans - answer to question
+	 * @param str - text for question
+	 */
 	public void generateQuestion(int ans, String str){
 		((MathBox) question).setText(str);
 		((MathBox) question).setNumber(ans);
 	}
 	
+	/**
+	 * Sets answer for question
+	 * @param ans - answer to question
+	 * @param str - text for question
+	 */
 	public void generateCorrectAnswer(int ans, String str){
 		Random rand = new Random();
 		int randomBox = rand.nextInt(4);
@@ -98,6 +98,10 @@ public class Math extends Category{
 		((MathBox) answers.get(randomBox)).setNumber(ans);
 	}
 	
+	/**
+	 * Creates answers for levels 2-7
+	 * @param ans - answer to question
+	 */
 	public void generateAnswersForLevels2to7(int ans){
 		// answers
 		List<Integer> numbers = new ArrayList<Integer>();
@@ -123,7 +127,6 @@ public class Math extends Category{
 		generateAnswersForLevels2to7(ans);
 		generateCorrectAnswer(ans, Integer.toString(ans));
 	}
-	
 	
 	@Override
 	public void generate2ndLevelQuestions(){
@@ -227,6 +230,7 @@ public class Math extends Category{
 		generateCorrectAnswer(ans, Integer.toString(ans));
 	}
 
+	@Override
 	public void generate8thLevelQuestions(){
 		// + and -: question to question
 		Random rand = new Random();
@@ -288,7 +292,7 @@ public class Math extends Category{
 		generateQuestion(ans, strQuestion);
 		generateCorrectAnswer(ans, strAnswer);
 	}
-	
+
 	@Override
 	public void generate9thLevelQuestions() {
 		// x and /: question to question
@@ -352,6 +356,10 @@ public class Math extends Category{
 		generateCorrectAnswer(ans, strAnswer);
 	}
 	
+	/**
+	 * @param num
+	 * @return a random divisor for num
+	 */
 	private int getRandomDivisor(int num){
 		List<Integer> divisors = new ArrayList<Integer>(); 
 		for (int i = 2; i < num / 2; i++) {

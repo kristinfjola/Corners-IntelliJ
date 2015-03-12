@@ -8,14 +8,9 @@ package screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -25,14 +20,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.corners.game.MainActivity;
 
 public class Start implements Screen{
-	MainActivity main;
-	Stage stage;
-	SpriteBatch batch;
-	Skin skin;
-	float screenWidth = Gdx.graphics.getWidth();
-	float screenHeight = Gdx.graphics.getHeight();
-	Texture carl = new Texture("carl/carl4.jpg");
-	Extra extra;
+	private MainActivity main;
+	private Stage stage;
+	private SpriteBatch batch;
+	private Skin skin;
+	private float screenWidth = Gdx.graphics.getWidth();
+	private float screenHeight = Gdx.graphics.getHeight();
+	private Texture carl = new Texture("carl/carl4.jpg");
+	Table table;
 	
 	/**
 	 * Constructor. Creates the the interface and sets the
@@ -46,7 +41,6 @@ public class Start implements Screen{
 		batch = new SpriteBatch();
 		skin = main.skin;
 		Gdx.input.setInputProcessor(stage);
-		extra = new Extra(main);
 	}
 	
 	/**
@@ -54,13 +48,15 @@ public class Start implements Screen{
 	 */
 	@Override
 	public void show() {
-		Table table = new Table();
+		this.table = new Table();
 		table.top();
 		table.setFillParent(true);
 		stage.addActor(table);
 		
 		String screenSizeGroup = main.screenSizeGroup;
 		
+		setUpInfoBar();
+
 		final TextButton btnCategories = new TextButton("Play", skin, screenSizeGroup+"-L");
 		btnCategories.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
@@ -80,7 +76,7 @@ public class Start implements Screen{
 		});
 		TextButton btnFriends = new TextButton("Friends", skin, screenSizeGroup+"-L");
 		
-		table.add(btnCategories).padTop(screenHeight/2.4f).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
+		table.add(btnCategories).padTop(screenHeight/3f).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
 		table.add(btnSettings).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
 		table.add(btnFriends).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
 		
@@ -97,9 +93,8 @@ public class Start implements Screen{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);	
 		
 		batch.begin();
-		batch.draw(carl, screenWidth/4, screenHeight*3/5, screenWidth/2, screenWidth/2);		
+		batch.draw(carl, screenWidth*0.25f, screenHeight*0.6f, screenWidth*0.5f, screenWidth*0.5f);	
 		batch.end();
-		extra.draw(batch, "L", "Corners", "R");
 		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
@@ -143,5 +138,14 @@ public class Start implements Screen{
 	@Override
 	public void dispose() {
 		stage.dispose();
+	}
+	
+	/**
+	 * Sets up the info bar
+	 */
+	public void setUpInfoBar() {
+		InfoBar infoBar = new InfoBar(main);
+		infoBar.setMiddleText("Corners");
+	 	table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
 	}
 }

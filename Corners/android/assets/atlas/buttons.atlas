@@ -38,3 +38,16 @@ levelButtonGrey
   orig: 411, 170
   offset: 0, 0
   index: -1
+
+emptyImg.png
+size: 80,80
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+empty
+  rotate: false
+  xy: 0, 0
+  size: 42, 42
+  orig: 42, 42
+  offset: 0, 0
+  index: -1
