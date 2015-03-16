@@ -61,7 +61,7 @@ public class FacebookServiceImpl implements FacebookService{
                             	System.out.println("success yeahhh");
                             }
                         }
-                        screen.updateLoginBtn();
+                        screen.setLoginListener();
                     }
                 }
         );
@@ -78,7 +78,7 @@ public class FacebookServiceImpl implements FacebookService{
 	public void logOut() {
 		 if (isLoggedIn()) {
             Session.getActiveSession().closeAndClearTokenInformation();
-            screen.updateLoginBtn();
+            screen.setLoginListener();
         }
 	}
     

@@ -1,12 +1,12 @@
 package com.corners.game.android;
 
 import android.os.Bundle;
-
+import android.content.Intent;
+import android.content.IntentFilter;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.corners.game.MainActivity;
 import com.facebook.AppEventsLogger;
-import android.content.Intent;
 
 public class AndroidLauncher extends AndroidApplication {
 	protected FacebookServiceImpl facebookService;
@@ -28,6 +28,9 @@ public class AndroidLauncher extends AndroidApplication {
         mainActivity.setFacebookService(facebookService);  
         initialize(mainActivity, cfg);
 		
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.media.RINGER_MODE_CHANGED");
+        registerReceiver(new RingerModeHelper(mainActivity,this.getContext()) , filter);
 	}
 	
 	@Override

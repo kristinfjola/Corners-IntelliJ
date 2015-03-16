@@ -14,6 +14,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -35,7 +36,6 @@ import com.badlogic.gdx.utils.Timer.Task;
 import com.corners.game.MainActivity;
 
 import data.Data;
-import data.DataProcessor;
 
 public class Play implements Screen, InputProcessor{
 
@@ -85,6 +85,12 @@ public class Play implements Screen, InputProcessor{
     
     // levels
     private int maxNumLevels = 9;
+    
+    // sound
+    Sound correctAnswerSound = Gdx.audio.newSound(Gdx.files.internal("sounds/correctAnswer.mp3"));
+    Sound wrongAnswerSound = Gdx.audio.newSound(Gdx.files.internal("sounds/wrongAnswer.mp3"));
+    Sound levelFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
+    Sound categoryFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
 	
 	/**
 	 * @param main - main activity of the game
@@ -160,8 +166,10 @@ public class Play implements Screen, InputProcessor{
 		if(level < maxNumLevels) { 
 			showFinishLevelDialog(true, false);
 			level++;
+			levelFinishedSound.play(main.volume);
 		} else {
 			showFinishLevelDialog(true, true);
+			categoryFinishedSound.play(main.volume);
 		}
 	}
 	
@@ -196,6 +204,7 @@ public class Play implements Screen, InputProcessor{
 		refreshProgressBar(true);
 		delayTime = true;
 		showFinishLevelDialog(false, false);
+		wrongAnswerSound.play(main.volume);
 	}
 	
 	/**
@@ -236,7 +245,7 @@ public class Play implements Screen, InputProcessor{
 		long timeLeft = (maxTime - secondsPassed) >= 0 ? (maxTime - secondsPassed) : 0;
 		
 		float xCoord = screenWidth/2-(time.getBounds(Long.toString(timeLeft)).width)/2;
-		float yCoord = screenHeight-infoBar.barHeight-progressBar.getPrefHeight()*1.1f;
+		float yCoord = screenHeight-infoBar.barHeight-progressBar.getPrefHeight()*1.5f;
 		time.draw(batch, Long.toString(timeLeft), xCoord, yCoord);
 	}
 	
@@ -255,6 +264,7 @@ public class Play implements Screen, InputProcessor{
 		    }
 		}, 1);
 		updateStars();
+		correctAnswerSound.play(main.volume);
 	}
 	
 	/**
