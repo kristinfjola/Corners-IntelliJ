@@ -35,7 +35,6 @@ import com.badlogic.gdx.utils.Timer.Task;
 import com.corners.game.MainActivity;
 
 import data.Data;
-import data.DataProcessor;
 
 public class Play implements Screen, InputProcessor{
 
@@ -49,7 +48,7 @@ public class Play implements Screen, InputProcessor{
     private int screenWidth = Gdx.graphics.getWidth();
     private int screenHeight = Gdx.graphics.getHeight();
     private int level;
-    private Data data;
+    public Data data;
     
     private int questionsAnswered = 0;
     private int nrOfQuestions;

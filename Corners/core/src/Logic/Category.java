@@ -309,4 +309,9 @@ public class Category {
 		LevelStars levelStars = getStars();
 		return levelStars.getLevelsFinished();
 	}
+	
+	public boolean isSoundOn(){
+		data = getData();
+		return data.isSoundOn();
+	}
 }

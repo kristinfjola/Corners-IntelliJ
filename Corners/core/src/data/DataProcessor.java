@@ -28,6 +28,8 @@ public class DataProcessor {
 		JsonParser jp = new JsonParser();
         JsonElement root = null;
         String string = "";
+        
+        //Load in a db file
         try{
         	FileHandle file = Gdx.files.internal("db/db.json");
         	string = file.readString();
@@ -35,6 +37,8 @@ public class DataProcessor {
         catch(Exception e){
         	e.printStackTrace();
         }
+        
+        //Get a readable db file
         try{
         	FileHandle file = Gdx.files.local("db/db.json");
         	string = file.readString();
@@ -42,6 +46,8 @@ public class DataProcessor {
         catch(Exception e){
         	e.printStackTrace();
         }
+        
+        //Parse the db file
 		try {
 			root = jp.parse(string);
 		} catch (JsonIOException e) {
@@ -54,26 +60,26 @@ public class DataProcessor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		//Load the root into a json object
         if(root != null){
 			JsonObject category = root.getAsJsonObject();
 			JsonArray math = category.getAsJsonArray("Math");
 			JsonArray colors = category.getAsJsonArray("Colors");
 			JsonArray flags = category.getAsJsonArray("Flags");
-			JsonElement nameJson = category.get("Name");
+			JsonArray reset = category.getAsJsonArray("Reset");
+			JsonElement name = category.get("Name");
+			JsonElement sound = category.get("Sound");
 			
 			data.setMath(new LevelStars(math));
 			data.setFlags(new LevelStars(flags));
 			data.setColors(new LevelStars(colors));
-			data.setName(nameJson.toString().replaceAll("\"", ""));
+			data.setReset(new LevelStars(reset));
+			data.setName(name.toString().replaceAll("\"", ""));
+			data.setSound(sound.getAsBoolean());
 	    }
         else
         	return;
-		
-		/*Preferences prefs = Gdx.app.getPreferences("Level data");
-		
-		prefs.putString("Data", "Langur strengur");
-		String name = prefs.getString("name", "No name stored");
-		prefs.putBoolean("Sound On", true);*/
 	}
 	
 	/**
@@ -105,6 +111,8 @@ public class DataProcessor {
 		jData.setColors(data.getColors().getStars());
 		jData.setFlags(data.getFlags().getStars());
 		jData.setName(data.getName());
+		jData.setSound(data.getSound() == true ? 1 : 0);
+		jData.setReset(data.getReset().getStars());
 		
 		return jData;
 	}
@@ -120,11 +128,12 @@ public class DataProcessor {
 	}
 	
 	public static void resetLevel(Data data, String category){
-		LevelStars stars = data.getStarsByString(category);
-		int[] array = {0,0,-1,-1,-1,-1,-1,-1,-1,-1};
-		JsonArray jarray = new JsonArray();
-		LevelStars resetStars = new LevelStars(new JsonArray());
+		LevelStars resetStars = data.getReset();
 		if(category == "Math")
+			data.setMath(resetStars);
+		if(category == "Colors")
+			data.setMath(resetStars);
+		if(category == "Flags")
 			data.setMath(resetStars);
 	}
 	
