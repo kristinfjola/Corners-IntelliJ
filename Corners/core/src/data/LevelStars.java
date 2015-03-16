@@ -6,12 +6,15 @@
  */
 package data;
 
+import java.util.Arrays;
+
 import com.google.gson.JsonArray;
 
 public class LevelStars {
+
+	private String categoryName;
 	private int[] stars;
 	private double averageStars;
-	private String categoryName;
 	
 	/**
 	 * @param array
@@ -45,7 +48,7 @@ public class LevelStars {
 	public int[] getStars() {
 		return stars;
 	}
-	
+
 	/**
 	 * @param level
 	 * @return star count of level
@@ -93,11 +96,34 @@ public class LevelStars {
 	 */
 	public int getLevelsFinished(){
 		int finished = 0;
-		for(int i = 0; i < stars.length; i++){
+		for(int i = 1; i < stars.length; i++){
 			if(stars[i] != -1 && stars[i] != 0){
 				finished++;
 			}
 		}
 		return finished;
 	}
+	
+	
+	public void addAverageStars(){
+		stars[0] = (int)getAverageStars();
+	}
+	
+	public void updateStars(int level, int newStars){
+		stars[level] = newStars;
+	}
+	
+	public int getStarsOfALevel(int level){
+		return stars[level];
+	}
+
+	@Override
+	public String toString() {
+		return "LevelStars [categoryName=" + categoryName + ", stars="
+				+ Arrays.toString(stars) + ", averageStars=" + averageStars
+				+ "]";
+	}
+
+
+	
 }

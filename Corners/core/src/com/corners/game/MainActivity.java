@@ -19,6 +19,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import data.Data;
+
 public class MainActivity extends Game {
 	public Categories categories;
 	public Levels levels;
@@ -29,6 +31,7 @@ public class MainActivity extends Game {
 	public String screenSizeGroup;
 	public Texture fullStar;
 	public Texture emptyStar;
+	public Data data;
 	
 	public FacebookService facebookService;
 	

@@ -134,4 +134,16 @@ public class Data {
 	public double allStars(LevelStars cat){
 		return cat.getAverageStars() * cat.getLevelsFinished();
 	}
+	
+	@Override
+	public String toString() {
+		return "Data [math=" + math.toString() + ", flags=" + flags.toString() + ", colors=" + colors.toString()
+				+ ", averageStars=" + averageStars + ", name=" + name + "]";
+	}
+
+	public void addAverageStars(){
+		math.addAverageStars();
+		colors.addAverageStars();
+		flags.addAverageStars();
+	}
 }

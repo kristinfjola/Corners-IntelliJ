@@ -6,6 +6,7 @@
 
 package screens;
 
+import logic.Category;
 import logic.Colors;
 import logic.Flags;
 
@@ -29,16 +30,16 @@ import data.Data;
 import data.DataProcessor;
 
 public class Categories implements Screen {
-	Texture carl; //the character, let's call it Carl
-	SpriteBatch batch;
-	MainActivity main;
-	float screenWidth;
-	float screenHeight;
-	Skin skin;
-	Stage stage;
+	private Texture carl; //the character, let's call it Carl
+	private SpriteBatch batch;
+	private MainActivity main;
+	private float screenWidth;
+	private float screenHeight;
+	private Skin skin;
+	private Stage stage;
 	private InputProcessor inputProcessor;
-	Data data;
-	Table table;
+	public Data data;
+	private Table table;
 	
 	/**
 	 * Constructor. Creates the the interface and sets the
@@ -160,8 +161,9 @@ public class Categories implements Screen {
 	 * Gets the data from the database
 	 */
 	private void processData() {
+		 Category category = new Category();
 		 data = new Data();
-		 DataProcessor.getData(data);
+		 data = category.getData();
 	}
 
 	/**
