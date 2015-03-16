@@ -427,6 +427,13 @@ public class Play implements Screen, InputProcessor{
 		} else if(totalSecondsWasted >= oneStar && stars == 1){
 			stars = 0;
 		}
+		
+		//update picture in info bar
+		table.reset();
+		table.top();
+		table.setFillParent(true);
+		infoBar.setLeftImage(""+stars+"-stars");
+		table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
 	}
 	
 	@Override
@@ -771,11 +778,10 @@ public class Play implements Screen, InputProcessor{
 	 * Sets up the info bar
 	 */
 	public void setUpInfoBar() {
-		double tempStars = cat.getStarsByLevel(level);
 		stage.addActor(table);
 		infoBar.setMiddleText("Level "+level);
 		infoBar.setRightText("");
-		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
+		infoBar.setLeftImage("3-stars");
 		infoBar.setRightImage("pause");
 	 	table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
 
