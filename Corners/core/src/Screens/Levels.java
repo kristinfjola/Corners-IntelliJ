@@ -219,61 +219,54 @@ public class Levels implements Screen{
 	 * Creates a input processor that catches the back key 
 	 */
 	private void addBackToProcessor() {
-		 inputProcessor = new InputProcessor() {
+		inputProcessor = new InputProcessor() {
+			
+			@Override
+			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+				return false;
+			}
 				
-				@Override
-				public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-					// TODO Auto-generated method stub
-					return false;
-				}
+			@Override
+			public boolean touchDragged(int screenX, int screenY, int pointer) {
+				return false;
+			}
 				
-				@Override
-				public boolean touchDragged(int screenX, int screenY, int pointer) {
-					// TODO Auto-generated method stub
-					return false;
-				}
+			@Override
+			public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+				return false;
+			}
 				
-				@Override
-				public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-					// TODO Auto-generated method stub
-					return false;
-				}
+			@Override
+			public boolean scrolled(int amount) {
+				return false;
+			}
 				
-				@Override
-				public boolean scrolled(int amount) {
-					// TODO Auto-generated method stub
-					return false;
-				}
+			@Override
+			public boolean mouseMoved(int screenX, int screenY) {
+				return false;
+			}
 				
-				@Override
-				public boolean mouseMoved(int screenX, int screenY) {
-					// TODO Auto-generated method stub
-					return false;
-				}
+			@Override
+			public boolean keyUp(int keycode) {
+				return false;
+			}
 				
-				@Override
-				public boolean keyUp(int keycode) {
-					// TODO Auto-generated method stub
-					return false;
+			@Override
+			public boolean keyTyped(char character) {
+				return false;
+			}
+			
+			/**
+			 * Handles the back event
+			 */
+			@Override
+			public boolean keyDown(int keycode) {
+				if(keycode == Keys.BACK){
+					main.setScreen(new Categories(main));
 				}
-				
-				@Override
-				public boolean keyTyped(char character) {
-					// TODO Auto-generated method stub
-					return false;
-				}
-				
-				@Override
-				/**
-				 * Switches screens if the back button is pressed
-				 */
-				public boolean keyDown(int keycode) {
-					if(keycode == Keys.BACK){
-						main.setScreen(new Categories(main));
-			        }
-			        return false;
-				}
-			};
+				return false;
+			}
+		};
 	}
 	
 	/**
