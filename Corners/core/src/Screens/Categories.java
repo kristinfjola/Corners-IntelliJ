@@ -32,8 +32,6 @@ public class Categories implements Screen {
 	private Texture carl; //the character, let's call it Carl
 	private SpriteBatch batch;
 	private MainActivity main;
-	private float screenWidth;
-	private float screenHeight;
 	private Skin skin;
 	private Stage stage;
 	private InputProcessor inputProcessor;
@@ -51,8 +49,8 @@ public class Categories implements Screen {
 		this.batch = new SpriteBatch();
 		this.carl = new Texture("carl/carl4.jpg");
 		stage = new Stage();
-		this.screenWidth = Gdx.graphics.getWidth();
-		this.screenHeight = Gdx.graphics.getHeight();
+		this.main.scrWidth = Gdx.graphics.getWidth();
+		this.main.scrHeight = Gdx.graphics.getHeight();
 		
 		addBackToProcessor();
 		setAllProcessors();
@@ -98,11 +96,11 @@ public class Categories implements Screen {
 			}
 		});
 		
-		table.add(btnMath).width(this.screenWidth/1.5f).height(this.screenHeight/8).padTop(screenHeight/3f).padBottom(this.screenHeight/20);
+		table.add(btnMath).width(this.main.scrWidth/1.5f).height(this.main.scrHeight/8).padTop(main.scrHeight/3f).padBottom(this.main.scrHeight/20);
 		table.row();
-		table.add(btnColors).width(this.screenWidth/1.5f).height(this.screenHeight/8).padBottom(this.screenHeight/20);
+		table.add(btnColors).width(this.main.scrWidth/1.5f).height(this.main.scrHeight/8).padBottom(this.main.scrHeight/20);
 		table.row();
-		table.add(btnFlags).width(this.screenWidth/1.5f).height(this.screenHeight/8).padBottom(this.screenHeight/20);
+		table.add(btnFlags).width(this.main.scrWidth/1.5f).height(this.main.scrHeight/8).padBottom(this.main.scrHeight/20);
 		table.row();
 		
 	}
@@ -117,7 +115,7 @@ public class Categories implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         batch.begin();
-		batch.draw(carl, screenWidth*0.25f, screenHeight*0.6f, screenWidth*0.5f, screenWidth*0.5f);	
+		batch.draw(carl, main.scrWidth*0.25f, main.scrHeight*0.6f, main.scrWidth*0.5f, main.scrWidth*0.5f);	
         batch.end();
 		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -240,6 +238,6 @@ public class Categories implements Screen {
 		infoBar.setMiddleText("Categories");
 		infoBar.setRightText(tempLevels+"/27");
 		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
-		table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
+		table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 	}
 }

@@ -27,8 +27,6 @@ public class Start implements Screen{
 	private Stage stage;
 	private SpriteBatch batch;
 	private Skin skin;
-	private float screenWidth = Gdx.graphics.getWidth();
-	private float screenHeight = Gdx.graphics.getHeight();
 	private Texture carl = new Texture("carl/carl4.jpg");
 	Table table;
 	private InputProcessor inputProcessor;
@@ -60,12 +58,10 @@ public class Start implements Screen{
 		table.top();
 		table.setFillParent(true);
 		stage.addActor(table);
-		
-		String screenSizeGroup = main.screenSizeGroup;
-		
+				
 		setUpInfoBar();
 
-		final TextButton btnCategories = new TextButton("Play", skin, screenSizeGroup+"-L");
+		final TextButton btnCategories = new TextButton("Play", skin, main.screenSizeGroup+"-L");
 		btnCategories.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				dispose();
@@ -75,7 +71,7 @@ public class Start implements Screen{
 			}
 		});
 		
-		TextButton btnSettings = new TextButton("Settings", skin, screenSizeGroup+"-L");
+		TextButton btnSettings = new TextButton("Settings", skin, main.screenSizeGroup+"-L");
 		btnSettings.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				dispose();
@@ -84,16 +80,16 @@ public class Start implements Screen{
 				//main.actionResolver.showToast("Tap screen to open !AlertBox!", 5000);
 			}
 		});
-		TextButton btnFriends = new TextButton("Friends", skin, screenSizeGroup+"-L");
+		TextButton btnFriends = new TextButton("Friends", skin, main.screenSizeGroup+"-L");
 		btnFriends.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				// nothing
 			}
 		});
 		
-		table.add(btnCategories).padTop(screenHeight/3f).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
-		table.add(btnSettings).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
-		table.add(btnFriends).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
+		table.add(btnCategories).padTop(main.scrHeight/3f).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
+		table.add(btnSettings).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
+		table.add(btnFriends).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
 		
 	}
 
@@ -108,7 +104,7 @@ public class Start implements Screen{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);	
 		
 		batch.begin();
-		batch.draw(carl, screenWidth*0.25f, screenHeight*0.6f, screenWidth*0.5f, screenWidth*0.5f);	
+		batch.draw(carl, main.scrWidth*0.25f, main.scrHeight*0.6f, main.scrWidth*0.5f, main.scrWidth*0.5f);	
 		batch.end();
 		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -161,7 +157,7 @@ public class Start implements Screen{
 	public void setUpInfoBar() {
 		InfoBar infoBar = new InfoBar(main);
 		infoBar.setMiddleText("Corners");
-	 	table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
+	 	table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 	}
 	
 	/**

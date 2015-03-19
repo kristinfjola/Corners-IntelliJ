@@ -16,21 +16,28 @@ import screens.Start;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class MainActivity extends Game {
+	public float scrWidth;
+	public float scrHeight;
+	
 	public Categories categories;
 	public Levels levels;
 	public Play play;
 	public Settings settings;
 	public Start start;
+	
 	public Skin skin;
 	public String screenSizeGroup;
+	public Category cat;
+	
 	public Texture fullStar;
 	public Texture emptyStar;
-	public Category cat;
 	
 	public FacebookService facebookService;
 	public ActionResolver actionResolver;
@@ -40,20 +47,42 @@ public class MainActivity extends Game {
 	public float volume;
 	public boolean settingsVolume;
 	public boolean phoneVolume;
+	public Sound clickedSound;
+	public Sound correctAnswerSound;
+    public Sound wrongAnswerSound;
+    public Sound levelFinishedSound;
+    public Sound categoryFinishedSound;
 	
+    // sound slider drawables
+    public Drawable backgroundOn;
+	public Drawable backgroundOff;
+	public Drawable knob;
 	@Override
 	/** Method called once when the application is created. **/
 	public void create () {
+		scrWidth = Gdx.graphics.getWidth();
+		scrHeight= Gdx.graphics.getHeight();
 		skin = getSkin();
 		screenSizeGroup = getScreenSizeGroup();
-		start = new Start(this);
-        setScreen(start);
-        fullStar = new Texture("stars/star_yellow.png");
-		emptyStar = new Texture("stars/star_gray.png");	
 		this.cat = new Category();
 		settingsVolume = cat.isSoundOn();
-		System.out.println(settingsVolume);
+		updateVolume();
 		
+		start = new Start(this);
+        setScreen(start);
+        
+        fullStar = new Texture("stars/star_yellow.png");
+		emptyStar = new Texture("stars/star_gray.png");	
+		
+		clickedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/clicked.mp3"));
+		correctAnswerSound = Gdx.audio.newSound(Gdx.files.internal("sounds/correctAnswer.mp3"));
+	    wrongAnswerSound = Gdx.audio.newSound(Gdx.files.internal("sounds/wrongAnswer.mp3"));
+	    levelFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
+	    categoryFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
+	    
+	    setUpDrawables();
+	    
+	    System.out.println(settingsVolume);
 		//actionResolver.showToast("Toast example", 5000);
 	}
 
@@ -143,5 +172,30 @@ public class MainActivity extends Game {
 		else {
 			volume = 0.0f;
 		}
+	}
+	
+	public void setUpDrawables() {
+		//TODO get right drawables
+		/*
+		Pixmap pm1 = new Pixmap((int)(scrWidth/4.5f),(int)(scrWidth/9f),Format.RGBA8888);
+		pm1.setColor(Color.GREEN);
+		pm1.fill();
+		backgroundOn = new TextureRegionDrawable(new TextureRegion(new Texture(pm1)));
+		
+		Pixmap pm2 = new Pixmap((int)(scrWidth/4.5f),(int)(scrWidth/9f),Format.RGBA8888);
+		pm2.setColor(Color.RED);
+		pm2.fill();
+		backgroundOff = new TextureRegionDrawable(new TextureRegion(new Texture(pm2)));
+		
+		Pixmap pm3 = new Pixmap((int)(scrWidth/9f),(int)(scrWidth/9f),Format.RGBA8888);
+		pm3.setColor(new Color(60/255f,60/255f,60/255f,1));
+		pm3.fill();
+		knob = new TextureRegionDrawable(new TextureRegion(new Texture(pm3)));
+		*/
+		
+		backgroundOn = skin.getDrawable("backgroundOn");
+		backgroundOff = skin.getDrawable("backgroundOff");
+		knob = skin.getDrawable("sliderKnob");
+		
 	}
 }
