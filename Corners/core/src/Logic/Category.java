@@ -315,6 +315,11 @@ public class Category {
 		return data.isSoundOn();
 	}
 	
+	public void setSound(boolean bool){
+		data.setSound(bool);
+		saveData(data);
+	}
+	
 	public void updateStars(int level, int newStars){
 		LevelStars stars = getStars();
 		stars.updateStars(level, newStars);

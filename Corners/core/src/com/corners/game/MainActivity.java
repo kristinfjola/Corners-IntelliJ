@@ -7,6 +7,7 @@
 
 package com.corners.game;
 
+import logic.Category;
 import screens.Categories;
 import screens.Levels;
 import screens.Play;
@@ -19,8 +20,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import data.Data;
-
 public class MainActivity extends Game {
 	public Categories categories;
 	public Levels levels;
@@ -31,7 +30,7 @@ public class MainActivity extends Game {
 	public String screenSizeGroup;
 	public Texture fullStar;
 	public Texture emptyStar;
-	public Data data;
+	public Category cat;
 	
 	public FacebookService facebookService;
 	public ActionResolver actionResolver;
@@ -50,8 +49,10 @@ public class MainActivity extends Game {
 		start = new Start(this);
         setScreen(start);
         fullStar = new Texture("stars/star_yellow.png");
-		emptyStar = new Texture("stars/star_gray.png");		
-		settingsVolume = true; //TODO get last settings from DB
+		emptyStar = new Texture("stars/star_gray.png");	
+		this.cat = new Category();
+		settingsVolume = cat.isSoundOn();
+		System.out.println(settingsVolume);
 		
 		//actionResolver.showToast("Toast example", 5000);
 	}
@@ -128,6 +129,7 @@ public class MainActivity extends Game {
 	 */
 	public void updateSettingsVolume(boolean vol) {
 		settingsVolume = vol;
+		cat.setSound(vol);
 		updateVolume();
 	}
 	

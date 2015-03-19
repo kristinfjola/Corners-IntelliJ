@@ -46,7 +46,6 @@ public class Levels implements Screen{
 	 */
 	public Levels(MainActivity main, Category category){
 		this.main = main;
-		this.main.data = category.getData();
 		this.cat = category;
 		this.infoBar = new InfoBar(main);
 		setUpCat();

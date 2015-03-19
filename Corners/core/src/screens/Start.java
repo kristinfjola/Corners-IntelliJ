@@ -212,6 +212,7 @@ public class Start implements Screen{
 			public boolean keyDown(int keycode) {
 				if(keycode == Keys.BACK){
 					Gdx.app.exit();
+					//dispose();
 				}
 				return false;
 			}
