@@ -317,14 +317,23 @@ public class Play implements Screen, InputProcessor{
 		}
 		
 		dialog.show(this.stage);
-		Timer.schedule(new Task(){
+		Timer.schedule(getLevelsWindow(), 3);
+		
+	}
+	
+	public Task getLevelsWindow(){
+		return new Task(){
 		    @Override
 		    public void run() {
 		        // Do your work
 		    	main.setScreen(new Levels(main, cat));
 		    }
-		}, 3);
-		
+		    
+		    /*@Override
+		    public void cancel(){
+		    	
+		    }*/
+		};
 	}
 	
 	/**
@@ -484,11 +493,13 @@ public class Play implements Screen, InputProcessor{
 	@Override
 	public void dispose() {
 		batch.dispose();
+		stage.dispose();
 	}
 
 	@Override
 	public boolean keyDown(int keycode) {
 		if(keycode == Keys.BACK){
+			Timer.instance().clear();
 			main.setScreen(new Levels(main, cat));
         }
         return false;
@@ -803,7 +814,6 @@ public class Play implements Screen, InputProcessor{
 	public void saveStars(int newStars){
 		int levelWon = level;
 		openNextLevel(levelWon);
-		//cat.updateStars(levelWon, newStars);
 		data.getStarsByString(cat.getType()).updateStars(levelWon, newStars);
 		cat.saveData(data);
 	}
@@ -814,7 +824,6 @@ public class Play implements Screen, InputProcessor{
 		int nextLevelStars = data.getStarsByString(cat.getType()).getStarsOfALevel(levelWon + 1);
 		if(nextLevelStars > -1)
 			return;
-		//cat.updateStars(levelWon + 1, 0);
 		data.getStarsByString(cat.getType()).updateStars(levelWon + 1, 0);
 	}
 }
