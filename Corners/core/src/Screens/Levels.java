@@ -24,8 +24,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.corners.game.MainActivity;
 
-import data.LevelStars;
-
 
 public class Levels implements Screen{
 
@@ -34,11 +32,11 @@ public class Levels implements Screen{
 	private Stage stage;
 	private Table container;
 	private Category cat;
-	final float screenWidth = Gdx.graphics.getWidth();
-	final float screenHeight = Gdx.graphics.getHeight();
+	private final float screenWidth = Gdx.graphics.getWidth();
+	private final float screenHeight = Gdx.graphics.getHeight();
 	private InputProcessor inputProcessor; 
 	private InfoBar infoBar;
-	private LevelStars stars;
+	public int[] stars;
 	
 	/**
 	 * Constructor that sets the private variable and starts the screen.
@@ -48,6 +46,7 @@ public class Levels implements Screen{
 	 */
 	public Levels(MainActivity main, Category category){
 		this.main = main;
+		this.main.data = category.getData();
 		this.cat = category;
 		this.infoBar = new InfoBar(main);
 		setUpCat();
@@ -148,7 +147,7 @@ public class Levels implements Screen{
 	public TextButton getLevelButton(final int level) {
 		TextButton button;
 		
-		if(stars.getStars()[level] > -1) {
+		if(stars[level] > -1) {
 			button = new TextButton(""+level, skin, main.screenSizeGroup+"-L"+"-level-yellow");
 			button.addListener(new ClickListener() {	
 				/**
@@ -181,7 +180,7 @@ public class Levels implements Screen{
 	 */
 	public Table getStarTable(int level) {
 		Table starTable = new Table();
-		int numberOfStars = stars.getStars()[level];
+		int numberOfStars = stars[level];
 		int cntStars = 0;
 		for (int star = 0; star < 3; star++) {
 			if(cntStars < numberOfStars) {
@@ -201,7 +200,7 @@ public class Levels implements Screen{
 	 * @param category
 	 */
 	private void processData(Category category) {
-		stars = category.getStars();
+			stars = category.getStarsArray();
 	}
 
 	/**
@@ -220,73 +219,66 @@ public class Levels implements Screen{
 	 * Creates a input processor that catches the back key 
 	 */
 	private void addBackToProcessor() {
-		 inputProcessor = new InputProcessor() {
+		inputProcessor = new InputProcessor() {
+			
+			@Override
+			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+				return false;
+			}
 				
-				@Override
-				public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-					// TODO Auto-generated method stub
-					return false;
-				}
+			@Override
+			public boolean touchDragged(int screenX, int screenY, int pointer) {
+				return false;
+			}
 				
-				@Override
-				public boolean touchDragged(int screenX, int screenY, int pointer) {
-					// TODO Auto-generated method stub
-					return false;
-				}
+			@Override
+			public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+				return false;
+			}
 				
-				@Override
-				public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-					// TODO Auto-generated method stub
-					return false;
-				}
+			@Override
+			public boolean scrolled(int amount) {
+				return false;
+			}
 				
-				@Override
-				public boolean scrolled(int amount) {
-					// TODO Auto-generated method stub
-					return false;
-				}
+			@Override
+			public boolean mouseMoved(int screenX, int screenY) {
+				return false;
+			}
 				
-				@Override
-				public boolean mouseMoved(int screenX, int screenY) {
-					// TODO Auto-generated method stub
-					return false;
-				}
+			@Override
+			public boolean keyUp(int keycode) {
+				return false;
+			}
 				
-				@Override
-				public boolean keyUp(int keycode) {
-					// TODO Auto-generated method stub
-					return false;
+			@Override
+			public boolean keyTyped(char character) {
+				return false;
+			}
+			
+			/**
+			 * Handles the back event
+			 */
+			@Override
+			public boolean keyDown(int keycode) {
+				if(keycode == Keys.BACK){
+					main.setScreen(new Categories(main));
 				}
-				
-				@Override
-				public boolean keyTyped(char character) {
-					// TODO Auto-generated method stub
-					return false;
-				}
-				
-				@Override
-				/**
-				 * Switches screens if the back button is pressed
-				 */
-				public boolean keyDown(int keycode) {
-					if(keycode == Keys.BACK){
-						main.setScreen(new Categories(main));
-			        }
-			        return false;
-				}
-			};
+				return false;
+			}
+		};
 	}
 	
 	/**
 	 * Sets up the info bar
 	 */
 	public void setUpInfoBar() {
-		double tempStars = stars.getAverageStars();
-		int tempLevels = stars.getLevelsFinished();
+		double averageStars = cat.getAverageStars();
+		int finishedLevels = cat.getLevelsFinished();
 		InfoBar infoBar = new InfoBar(main);
 		infoBar.setMiddleText(cat.getType());
-		infoBar.setRightText(tempLevels+"/9");
-		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
+		infoBar.setRightText(finishedLevels+"/9");
+		infoBar.setLeftImage(infoBar.getStarAmount(averageStars)+"stars");
 	 	container.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
 	}
 	

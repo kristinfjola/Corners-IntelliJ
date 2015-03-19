@@ -19,6 +19,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import data.Data;
+
 public class MainActivity extends Game {
 	public Categories categories;
 	public Levels levels;
@@ -29,8 +31,14 @@ public class MainActivity extends Game {
 	public String screenSizeGroup;
 	public Texture fullStar;
 	public Texture emptyStar;
+	public Data data;
 	
 	public FacebookService facebookService;
+	
+	// sound
+	public float volume;
+	public boolean settingsVolume;
+	public boolean phoneVolume;
 	
 	@Override
 	/** Method called once when the application is created. **/
@@ -41,6 +49,7 @@ public class MainActivity extends Game {
         setScreen(start);
         fullStar = new Texture("stars/star_yellow.png");
 		emptyStar = new Texture("stars/star_gray.png");
+		settingsVolume = true; //TODO get last settings from DB
 	}
 
 	@Override
@@ -98,5 +107,35 @@ public class MainActivity extends Game {
 
 	public void setFacebookService(FacebookService facebookService) {
 		this.facebookService = facebookService;
+	}
+	
+	/**
+	 * Sets the phoneVolume to vol and updates the volume of the app
+	 * @param vol
+	 */
+	public void updatePhoneVolume(boolean vol) {
+		phoneVolume = vol;
+		updateVolume();
+	}
+	
+	/**
+	 * Sets the settingsVolume to vol and updates the volume of the app
+	 * @param vol
+	 */
+	public void updateSettingsVolume(boolean vol) {
+		settingsVolume = vol;
+		updateVolume();
+	}
+	
+	/**
+	 * Updates the volume of the app, according to the phoneVolume and settingsVolume
+	 */
+	private void updateVolume() {
+		if(phoneVolume&settingsVolume) {
+			volume = 1.0f;
+		}
+		else {
+			volume = 0.0f;
+		}
 	}
 }

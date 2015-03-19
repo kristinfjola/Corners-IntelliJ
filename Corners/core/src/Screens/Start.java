@@ -36,6 +36,7 @@ public class Start implements Screen{
 	 * @param main - applicable activity
 	 */
 	public Start(final MainActivity main){
+
 		this.main = main;		
 		stage = new Stage();
 		batch = new SpriteBatch();
