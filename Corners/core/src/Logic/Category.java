@@ -315,8 +315,31 @@ public class Category {
 		return data.isSoundOn();
 	}
 	
+	public void setSound(boolean bool){
+		data.setSound(bool);
+		saveData(data);
+	}
+	
 	public void updateStars(int level, int newStars){
 		LevelStars stars = getStars();
 		stars.updateStars(level, newStars);
+	}
+	
+	public int getPlayScreenHeight(){
+		return this.playScreenHeight;
+	}
+	
+	public int getPlayScreenWidth(){
+		return this.playScreenWidth;
+	}
+	
+	public String getName(){
+		data = getData();
+		return data.getName();
+	}
+	
+	public void setName(String newName){
+		data.setName(newName);
+		saveData(data);
 	}
 }

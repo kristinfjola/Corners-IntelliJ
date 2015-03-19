@@ -76,7 +76,7 @@ public class DataProcessor {
 			data.setColors(new LevelStars(colors));
 			data.setReset(new LevelStars(reset));
 			data.setName(name.toString().replaceAll("\"", ""));
-			data.setSound(sound.getAsBoolean());
+			data.setSound(sound.getAsInt() == 1 ? true : false);
 	    }
         else
         	return;

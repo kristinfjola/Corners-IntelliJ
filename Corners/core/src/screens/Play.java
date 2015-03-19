@@ -45,10 +45,9 @@ public class Play implements Screen, InputProcessor{
 	private OrthographicCamera camera;
 	private Stage stage;
 	private State state;
-    private int screenWidth = Gdx.graphics.getWidth();
-    private int screenHeight = Gdx.graphics.getHeight();
     private int level;
     public Data data;
+    public Dialog pauseDialog;
     
     private int questionsAnswered = 0;
     private int nrOfQuestions;
@@ -111,15 +110,15 @@ public class Play implements Screen, InputProcessor{
 		
 		setUpInfoBar();
 	
-		origX = screenWidth/2 - cat.getQuestion().getRec().getWidth()/2;
-	    origY = screenHeight/2 - cat.getQuestion().getRec().getHeight()/2;
+		origX = main.scrWidth/2 - cat.getQuestion().getRec().getWidth()/2;
+	    origY = main.scrHeight/2 - cat.getQuestion().getRec().getHeight()/2;
  	    Gdx.input.setCatchBackKey(true);
 	    time = main.skin.getFont(main.screenSizeGroup+"-M");
 	    time.setColor(Color.BLACK);
 	    maxTime = 10;
 	    nrOfQuestions = 9;
 		camera = new OrthographicCamera();
- 	    camera.setToOrtho(false, screenWidth, screenHeight);
+ 	    camera.setToOrtho(false, main.scrWidth, main.scrHeight);
  	    batch = new SpriteBatch();
  	    createProgressBar();
  	    startQuestion();
@@ -243,8 +242,8 @@ public class Play implements Screen, InputProcessor{
 		progressBar.setValue(secondsPassed);
 		long timeLeft = (maxTime - secondsPassed) >= 0 ? (maxTime - secondsPassed) : 0;
 		
-		float xCoord = screenWidth/2-(time.getBounds(Long.toString(timeLeft)).width)/2;
-		float yCoord = screenHeight-infoBar.barHeight-progressBar.getPrefHeight()*1.5f;
+		float xCoord = main.scrWidth/2-(time.getBounds(Long.toString(timeLeft)).width)/2;
+		float yCoord = main.scrHeight-infoBar.barHeight-progressBar.getPrefHeight()*1.5f;
 		time.draw(batch, Long.toString(timeLeft), xCoord, yCoord);
 	}
 	
@@ -279,8 +278,8 @@ public class Play implements Screen, InputProcessor{
  	    progressBarStyle = new ProgressBarStyle(main.skin.getDrawable("bg"), main.skin.getDrawable("knob"));
  	    progressBarStyle.knobBefore = progressBarStyle.knob;
  	    progressBar = new ProgressBar(0, maxTime, 0.5f, false, progressBarStyle);
- 	    progressBar.setPosition(0,screenHeight-screenHeight/10-progressBar.getPrefHeight());
-	    progressBar.setSize(screenWidth, progressBar.getPrefHeight());
+ 	    progressBar.setPosition(0,main.scrHeight-main.scrHeight/10-progressBar.getPrefHeight());
+	    progressBar.setSize(main.scrWidth, progressBar.getPrefHeight());
 	    progressBar.setAnimateDuration(1);
 	    stage.addActor(progressBar);
 	}
@@ -319,14 +318,39 @@ public class Play implements Screen, InputProcessor{
 		}
 		
 		dialog.show(this.stage);
-		Timer.schedule(new Task(){
+		Timer.schedule(getLevelsWindow(), 3);
+		
+	}
+	
+	/**
+	 * 
+	 * @return a task that shows the levels window
+	 */
+	public Task getLevelsWindow(){
+		return new Task(){
 		    @Override
 		    public void run() {
-		        // Do your work
 		    	main.setScreen(new Levels(main, cat));
 		    }
-		}, 3);
-		
+		};
+	}
+	
+	/**
+	 * Creates and shows a dialog that fills the screen 
+	 * so that the player can't cheat
+	 */
+	public void showPauseDialog(){
+		pauseDialog = new Dialog("", this.main.skin);
+		pauseDialog.getContentTable().add().height(cat.getPlayScreenHeight()-30);
+		pauseDialog.getContentTable().add().width(cat.getPlayScreenWidth());
+		pauseDialog.show(this.stage);
+	}
+	
+	/**
+	 * Removes the dialog that shows up when you pause
+	 */
+	public void clearPauseDialog(){
+		pauseDialog.remove();
 	}
 	
 	/**
@@ -389,8 +413,8 @@ public class Play implements Screen, InputProcessor{
 	public void refreshProgressBar(boolean delay){
 		progressBar.remove();
 		progressBar = new ProgressBar(0, maxTime, 0.5f, false, progressBarStyle);
-		progressBar.setPosition(0,screenHeight-screenHeight/10-progressBar.getPrefHeight());
-	    progressBar.setSize(screenWidth, progressBar.getPrefHeight());
+		progressBar.setPosition(0,main.scrHeight-main.scrHeight/10-progressBar.getPrefHeight());
+	    progressBar.setSize(main.scrWidth, progressBar.getPrefHeight());
 	    progressBar.setAnimateDuration(delay ? 0 : 1);
 	    progressBar.setValue(secondsPassed);
 	    stage.addActor(progressBar);
@@ -448,7 +472,7 @@ public class Play implements Screen, InputProcessor{
 		table.top();
 		table.setFillParent(true);
 		infoBar.setLeftImage(""+stars+"-stars");
-		table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
+		table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 	}
 	
 	@Override
@@ -466,6 +490,7 @@ public class Play implements Screen, InputProcessor{
 	public void pause() {
 		oldSecondsPassed = secondsPassed;
 		delayTime = true;
+		showPauseDialog();
 		this.state = State.PAUSE;
 	}
 
@@ -476,6 +501,7 @@ public class Play implements Screen, InputProcessor{
 	public void resume() {
 		startTime = System.nanoTime();
 		delayTime = false;
+		clearPauseDialog();
 		this.state = State.RUN;
 	}
 
@@ -486,11 +512,13 @@ public class Play implements Screen, InputProcessor{
 	@Override
 	public void dispose() {
 		batch.dispose();
+		stage.dispose();
 	}
 
 	@Override
 	public boolean keyDown(int keycode) {
 		if(keycode == Keys.BACK){
+			Timer.instance().clear();
 			main.setScreen(new Levels(main, cat));
         }
         return false;
@@ -547,13 +575,13 @@ public class Play implements Screen, InputProcessor{
 		Rectangle rec = cat.getQuestion().getRec();
 		
 		if(axis == "x") {
-			if(rec.x > screenWidth-rec.getWidth()) {
-				rec.x = screenWidth-rec.getWidth();
+			if(rec.x > main.scrWidth-rec.getWidth()) {
+				rec.x = main.scrWidth-rec.getWidth();
 			}
 		} else if(axis == "y") {
 			//screenHeight/10 is the height of the infoBar
-			if(rec.y > screenHeight-rec.getHeight()-screenHeight/10) {
-				rec.y = screenHeight-rec.getHeight()-screenHeight/10;
+			if(rec.y > main.scrHeight-rec.getHeight()-main.scrHeight/10) {
+				rec.y = main.scrHeight-rec.getHeight()-main.scrHeight/10;
 			}
 		}	
 	}
@@ -743,7 +771,7 @@ public class Play implements Screen, InputProcessor{
 			 */
 			@Override
 			public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-				if(screenX>screenWidth-screenHeight/10 && screenY<screenHeight/10) {
+				if(screenX>main.scrWidth-main.scrHeight/10 && screenY<main.scrHeight/10) {
 					table.reset();
 					table.top();
 					table.setFillParent(true);
@@ -755,7 +783,7 @@ public class Play implements Screen, InputProcessor{
 						resume();
 						infoBar.setRightImage("pause");
 					}
-					table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
+					table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 				}
 				return false;
 			}
@@ -798,25 +826,32 @@ public class Play implements Screen, InputProcessor{
 		infoBar.setRightText("");
 		infoBar.setLeftImage("3-stars");
 		infoBar.setRightImage("pause");
-	 	table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
+	 	table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 
 	}
 	
+	/**
+	 * Saves the stars that the player got into the database
+	 * @param newStars - amount of stars that the player got in this level
+	 */
 	public void saveStars(int newStars){
 		int levelWon = level;
 		openNextLevel(levelWon);
-		//cat.updateStars(levelWon, newStars);
 		data.getStarsByString(cat.getType()).updateStars(levelWon, newStars);
 		cat.saveData(data);
 	}
 
+	/**
+	 * Opens the next level if the player won and 
+	 * next level
+	 * @param levelWon
+	 */
 	private void openNextLevel(int levelWon) {
 		if(levelWon == 9)
 			return;
 		int nextLevelStars = data.getStarsByString(cat.getType()).getStarsOfALevel(levelWon + 1);
 		if(nextLevelStars > -1)
 			return;
-		//cat.updateStars(levelWon + 1, 0);
 		data.getStarsByString(cat.getType()).updateStars(levelWon + 1, 0);
 	}
 }
