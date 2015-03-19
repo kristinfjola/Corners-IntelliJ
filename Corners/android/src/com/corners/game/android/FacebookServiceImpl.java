@@ -4,19 +4,35 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import screens.Settings;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
+
 import com.corners.game.FacebookService;
+import com.facebook.FacebookRequestError;
+import com.facebook.Request;
+import com.facebook.RequestBatch;
+import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphObject;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.WebDialog;
 
 public class FacebookServiceImpl implements FacebookService{
     private final AndroidLauncher androidLauncher;
     private final UiLifecycleHelper uiHelper;
     private Settings screen;
+    
    
     public FacebookServiceImpl(AndroidLauncher androidLauncher) {
         this.androidLauncher = androidLauncher;
@@ -41,6 +57,8 @@ public class FacebookServiceImpl implements FacebookService{
 	public void logIn() {
 		List permissions = new ArrayList<String>();
         permissions.add("user_friends");
+        permissions.add("public_profile");
+        permissions.add("email");
 
         Session.openActiveSession(
         		androidLauncher,
@@ -52,7 +70,6 @@ public class FacebookServiceImpl implements FacebookService{
                     @Override
                     public void call(Session session, SessionState state, Exception exception) {
                         if (session.isOpened()) {
-                        	//TwiddleGame.debug("Available Perms " + session.getPermissions());
                             if (!session.getPermissions().contains("user_friends")) {
                                 Session.NewPermissionsRequest newPermissionsRequest = new Session
                                         .NewPermissionsRequest(androidLauncher, Arrays.asList("user_friends"));
@@ -109,4 +126,5 @@ public class FacebookServiceImpl implements FacebookService{
     public void onDestroy() {
         uiHelper.onDestroy();
     }
+ 	
 }

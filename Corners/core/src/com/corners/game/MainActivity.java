@@ -31,6 +31,8 @@ public class MainActivity extends Game {
 	public Texture emptyStar;
 	
 	public FacebookService facebookService;
+	public ActionResolver actionResolver;
+	public ActivityRequestHandler activityRequestHandler;
 	
 	@Override
 	/** Method called once when the application is created. **/
@@ -41,6 +43,8 @@ public class MainActivity extends Game {
         setScreen(start);
         fullStar = new Texture("stars/star_yellow.png");
 		emptyStar = new Texture("stars/star_gray.png");
+		
+		//actionResolver.showToast("Tap screen to open !AlertBox!", 5000);
 	}
 
 	@Override

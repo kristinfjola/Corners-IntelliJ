@@ -41,6 +41,7 @@ public class Start implements Screen{
 		batch = new SpriteBatch();
 		skin = main.skin;
 		Gdx.input.setInputProcessor(stage);
+		main.activityRequestHandler.showFacebook(true);
 	}
 	
 	/**
@@ -61,6 +62,7 @@ public class Start implements Screen{
 		btnCategories.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				dispose();
+				main.activityRequestHandler.showFacebook(false);
 				main.categories = new Categories(main);
 				main.setScreen(main.categories);
 			}
@@ -72,9 +74,15 @@ public class Start implements Screen{
 				dispose();
 				main.settings = new Settings(main);
 				main.setScreen(main.settings);
+				//main.actionResolver.showToast("Tap screen to open !AlertBox!", 5000);
 			}
 		});
 		TextButton btnFriends = new TextButton("Friends", skin, screenSizeGroup+"-L");
+		btnFriends.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				// nothing
+			}
+		});
 		
 		table.add(btnCategories).padTop(screenHeight/3f).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
 		table.add(btnSettings).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
@@ -148,4 +156,6 @@ public class Start implements Screen{
 		infoBar.setMiddleText("Corners");
 	 	table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
 	}
+	
+	
 }
