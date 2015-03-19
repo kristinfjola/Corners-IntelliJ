@@ -47,6 +47,7 @@ public class Play implements Screen, InputProcessor{
 	private State state;
     private int level;
     public Data data;
+    public Dialog pauseDialog;
     
     private int questionsAnswered = 0;
     private int nrOfQuestions;
@@ -321,19 +322,37 @@ public class Play implements Screen, InputProcessor{
 		
 	}
 	
+	/**
+	 * 
+	 * @return a task that shows the levels window
+	 */
 	public Task getLevelsWindow(){
 		return new Task(){
 		    @Override
 		    public void run() {
-		        // Do your work
 		    	main.setScreen(new Levels(main, cat));
 		    }
-		    
-		    /*@Override
-		    public void cancel(){
-		    	
-		    }*/
 		};
+	}
+	
+	/**
+	 * Creates and shows a dialog that fills the screen 
+	 * so that the player can't cheat
+	 */
+	public void showPauseDialog(){
+		pauseDialog = new Dialog("", this.main.skin);
+		pauseDialog.setHeight(cat.getPlayScreenHeight());
+		pauseDialog.setWidth(cat.getPlayScreenWidth());
+		pauseDialog.setX(0);
+		pauseDialog.setY(0);
+		pauseDialog.show(this.stage);
+	}
+	
+	/**
+	 * Removes the dialog that shows up when you pause
+	 */
+	public void clearPauseDialog(){
+		pauseDialog.remove();
 	}
 	
 	/**
@@ -473,6 +492,7 @@ public class Play implements Screen, InputProcessor{
 	public void pause() {
 		oldSecondsPassed = secondsPassed;
 		delayTime = true;
+		showPauseDialog();
 		this.state = State.PAUSE;
 	}
 
@@ -483,6 +503,7 @@ public class Play implements Screen, InputProcessor{
 	public void resume() {
 		startTime = System.nanoTime();
 		delayTime = false;
+		clearPauseDialog();
 		this.state = State.RUN;
 	}
 

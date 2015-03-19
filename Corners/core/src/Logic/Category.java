@@ -324,4 +324,22 @@ public class Category {
 		LevelStars stars = getStars();
 		stars.updateStars(level, newStars);
 	}
+	
+	public int getPlayScreenHeight(){
+		return this.playScreenHeight;
+	}
+	
+	public int getPlayScreenWidth(){
+		return this.playScreenWidth;
+	}
+	
+	public String getName(){
+		data = getData();
+		return data.getName();
+	}
+	
+	public void setName(String newName){
+		data.setName(newName);
+		saveData(data);
+	}
 }
