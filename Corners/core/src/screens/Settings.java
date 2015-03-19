@@ -74,12 +74,13 @@ public class Settings implements Screen{
 		table = new Table();
 		table.top().left();
 		table.setFillParent(true);
+		stage.addActor(table);
+		
+		setUpFacebook();
+		setUpSound();
+		setUpName();
 		
 		String screenSizeGroup = main.screenSizeGroup;
-		
-		btnLogin = new TextButton("Login", skin, screenSizeGroup+"-L");
-		updateLoginBtn();
-		table.add(btnLogin).padTop(screenHeight/2.4f).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
 		
 		btnTest = new TextButton("Test", skin, screenSizeGroup+"-L");
 		table.add(btnTest).size(screenWidth/1.5f, screenHeight/8).row();
@@ -91,32 +92,6 @@ public class Settings implements Screen{
 				//profile_pic = main.facebookService.getProfilePicture(id);
 			}
 		});
-		
-		stage.addActor(table);
-	}
-	
-	public void updateLoginBtn(){
-		if(main.facebookService.isLoggedIn()){
-			btnLogin.setText("logout");
-			btnLogin.addListener(new ChangeListener() {
-				public void changed (ChangeEvent event, Actor actor) {
-					System.out.println("logout clicked: is logging out");
-					main.facebookService.logOut();
-				}
-			});
-		} else {
-			btnLogin.setText("login");
-			btnLogin.addListener(new ChangeListener() {
-				public void changed (ChangeEvent event, Actor actor) {
-					System.out.println("login clicked: is logging in");
-					main.facebookService.logIn();
-				}
-			});
-		}
-		
-		setUpFacebook();
-		setUpSound();
-		setUpName();
 	}
 
 	/**
