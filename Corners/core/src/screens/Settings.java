@@ -42,8 +42,6 @@ public class Settings implements Screen{
 	SpriteBatch batch;
 	float screenWidth = Gdx.graphics.getWidth();
 	float screenHeight = Gdx.graphics.getHeight();
-	TextButton btnLogin;
-	TextButton btnTest;
 	
 	private InputProcessor inputProcessor;
 	Sound clickedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/clicked.mp3"));
@@ -62,8 +60,7 @@ public class Settings implements Screen{
 		batch = new SpriteBatch();
 		stage = new Stage();
 		skin = this.main.skin;
-		Gdx.input.setInputProcessor(stage);
-		main.facebookService.setScreen(this);		
+		Gdx.input.setInputProcessor(stage);	
 		settingsStyle = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-M"), Color.BLACK);
 		addBackToProcessor();
 		setAllProcessors();
@@ -81,17 +78,6 @@ public class Settings implements Screen{
 		setUpName();
 		
 		String screenSizeGroup = main.screenSizeGroup;
-		
-		btnTest = new TextButton("Test", skin, screenSizeGroup+"-L");
-		table.add(btnTest).size(screenWidth/1.5f, screenHeight/8).row();
-		btnTest.addListener(new ChangeListener() {
-			public void changed (ChangeEvent event, Actor actor) {
-				System.out.println("whatup");
-				String id = main.facebookService.getUserId();
-				System.out.println(id);
-				//profile_pic = main.facebookService.getProfilePicture(id);
-			}
-		});
 	}
 
 	/**
@@ -219,7 +205,11 @@ public class Settings implements Screen{
 	}
 	
 	public void setUpFacebook() {
-		labelLogin = new Label("Login", settingsStyle);
+		if(main.facebookService.isLoggedIn()){
+			labelLogin = new Label("Logout", settingsStyle);
+		} else {
+			labelLogin = new Label("Login", settingsStyle);
+		}
 		setLoginListener();
 		table.add(labelLogin).left().pad(screenWidth/12f).padLeft(screenWidth/24f).row();
 		addLine();
@@ -243,29 +233,21 @@ public class Settings implements Screen{
 		table.add(new Label("Name", settingsStyle)).left().pad(screenWidth/12f).padLeft(screenWidth/24f).row();
 		addLine();
 	}
-	
+
 	public void setLoginListener(){
-		if(main.facebookService.isLoggedIn()){
-			labelLogin.setText("Logout");
-			labelLogin.addListener(new ClickListener() {
-				@Override
-				public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-					System.out.println("logout clicked: is logging out");
+		labelLogin.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if(main.facebookService.isLoggedIn()){
+					labelLogin.setText("Login");
 					main.facebookService.logOut();
-					super.touchUp(event, x, y, pointer, button);
-				}
-			});
-		} else {
-			labelLogin.setText("Login");
-			labelLogin.addListener(new ClickListener() {
-				@Override
-				public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-					System.out.println("login clicked: is logging in");
+				} else {
+					labelLogin.setText("Logout");
 					main.facebookService.logIn();
-					super.touchUp(event, x, y, pointer, button);
 				}
-			});
-		}
+				
+			}
+		});
 	}
 	
 	public void setSoundListener() {

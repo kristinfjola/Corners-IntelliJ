@@ -22,6 +22,7 @@ import android.content.IntentFilter;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.corners.game.ActivityRequestHandler;
+import com.corners.game.FacebookUser;
 import com.corners.game.MainActivity;
 import com.facebook.AppEventsLogger;
 import com.facebook.FacebookException;
@@ -83,6 +84,7 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
 
         LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         fbView = vi.inflate(R.layout.main, null);
+        profilePictureView = (ProfilePictureView) fbView.findViewById(R.id.selection_profile_pic);
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
         // trying to connect actual facebook button to login
         /*loginButton.setOnClickListener( loginButton.new LoginClickListener(){
@@ -132,11 +134,19 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
 	}
 	
 	public void setUserInfo(GraphUser user){
-		profilePictureView = (ProfilePictureView) fbView.findViewById(R.id.selection_profile_pic);
+		//profilePictureView = (ProfilePictureView) fbView.findViewById(R.id.selection_profile_pic);
 		profilePictureView.setCropped(true);
 		userNameView = (TextView) fbView.findViewById(R.id.selection_user_name);
 		profilePictureView.setProfileId(user.getId());
         userNameView.setText(user.getName());
+	}
+	
+	public void setProfilePicture(FacebookUser user){
+		//profilePictureView = (ProfilePictureView) fbView.findViewById(R.id.selection_profile_pic);
+		profilePictureView.setCropped(true);
+		userNameView = (TextView) fbView.findViewById(R.id.selection_user_name);
+		profilePictureView.setProfileId(user != null ? user.getId() : "");
+		userNameView.setText(user != null ? user.getFullName() : "");
 	}
 	
 	@Override

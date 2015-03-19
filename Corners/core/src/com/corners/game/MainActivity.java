@@ -36,6 +36,7 @@ public class MainActivity extends Game {
 	public FacebookService facebookService;
 	public ActionResolver actionResolver;
 	public ActivityRequestHandler activityRequestHandler;
+	public FacebookUser user;
 	
 	// sound
 	public float volume;
@@ -52,6 +53,7 @@ public class MainActivity extends Game {
         fullStar = new Texture("stars/star_yellow.png");
 		emptyStar = new Texture("stars/star_gray.png");		
 		settingsVolume = true; //TODO get last settings from DB
+		facebookService.showFacebookUser();
 		
 		//actionResolver.showToast("Toast example", 5000);
 	}
@@ -142,4 +144,14 @@ public class MainActivity extends Game {
 			volume = 0.0f;
 		}
 	}
+
+	public FacebookUser getUser() {
+		return user;
+	}
+
+	public void setUser(FacebookUser user) {
+		this.user = user;
+	}
+	
+	
 }

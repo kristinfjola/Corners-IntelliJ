@@ -7,13 +7,11 @@ public interface FacebookService {
 
 	public boolean isLoggedIn();
 	
-	public void logIn();
+	public FacebookUser logIn();
 	 
 	public void inviteFriends();
 	
 	public void logOut();
-	 
-	public void setScreen(Settings screen);
 	
-	public String getUserId();
+	public void showFacebookUser();
 }
