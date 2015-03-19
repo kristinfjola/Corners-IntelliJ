@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.corners.game.MainActivity;
 
+
 public class Settings implements Screen{
 
 	MainActivity main;
@@ -29,6 +30,7 @@ public class Settings implements Screen{
 	float screenWidth = Gdx.graphics.getWidth();
 	float screenHeight = Gdx.graphics.getHeight();
 	TextButton btnLogin;
+	TextButton btnTest;
 	
 	/**
 	 * Constructor that sets the private variables and starts the screen
@@ -40,6 +42,7 @@ public class Settings implements Screen{
 		batch = new SpriteBatch();
 		stage = new Stage();
 		skin = this.main.skin;
+		//profile_pic = new TextureRegion(new Texture("carl/carl4.jpg"));
 		main.facebookService.setScreen(this);
 		Gdx.input.setInputProcessor(stage);
 	}
@@ -49,7 +52,7 @@ public class Settings implements Screen{
 		Table table = new Table();
 		table.top();
 		table.setFillParent(true);
-		stage.addActor(table);
+		
 		
 		String screenSizeGroup = main.screenSizeGroup;
 		
@@ -58,6 +61,19 @@ public class Settings implements Screen{
 		btnLogin = new TextButton("Login", skin, screenSizeGroup+"-L");
 		updateLoginBtn();
 		table.add(btnLogin).padTop(screenHeight/2.4f).size(screenWidth/1.5f, screenHeight/8).padBottom(screenHeight/20).row();
+		
+		btnTest = new TextButton("Test", skin, screenSizeGroup+"-L");
+		table.add(btnTest).size(screenWidth/1.5f, screenHeight/8).row();
+		btnTest.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				System.out.println("whatup");
+				String id = main.facebookService.getUserId();
+				System.out.println(id);
+				//profile_pic = main.facebookService.getProfilePicture(id);
+			}
+		});
+		
+		stage.addActor(table);
 	}
 	
 	public void updateLoginBtn(){
@@ -87,6 +103,13 @@ public class Settings implements Screen{
 	public void render(float delta) {
 		Gdx.gl.glClearColor(21/255f, 149/255f, 136/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		/*if(main.facebookService.isLoggedIn() && profile_pic != null){
+			batch.begin();
+			batch.draw(profile_pic, screenWidth*0.25f, screenHeight*0.6f, screenWidth*0.5f, screenWidth*0.5f);	
+			batch.end();
+		}*/
+		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 		

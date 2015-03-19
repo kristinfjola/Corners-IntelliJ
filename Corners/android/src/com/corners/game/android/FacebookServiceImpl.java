@@ -4,11 +4,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.json.JSONException;
+
+//import screens.Request;
 import screens.Settings;
+import com.facebook.Request;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.corners.game.FacebookService;
+import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -108,5 +115,22 @@ public class FacebookServiceImpl implements FacebookService{
 
     public void onDestroy() {
         uiHelper.onDestroy();
+    }
+    
+    @Override
+    public String getUserId() {
+    	Session session = Session.getActiveSession();
+		Request request = Request.newGraphPathRequest(session, "me", null);
+		Response response = Request.executeAndWait(request);
+		String id = "";
+		try {
+			System.out.println("nafn: "+response.getGraphObject().getInnerJSONObject().get("name"));
+			id = response.getGraphObject().getInnerJSONObject().get("id").toString();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return id;
     }
 }
