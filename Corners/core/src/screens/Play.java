@@ -341,10 +341,8 @@ public class Play implements Screen, InputProcessor{
 	 */
 	public void showPauseDialog(){
 		pauseDialog = new Dialog("", this.main.skin);
-		pauseDialog.setHeight(cat.getPlayScreenHeight());
-		pauseDialog.setWidth(cat.getPlayScreenWidth());
-		pauseDialog.setX(0);
-		pauseDialog.setY(0);
+		pauseDialog.getContentTable().add().height(cat.getPlayScreenHeight()-30);
+		pauseDialog.getContentTable().add().width(cat.getPlayScreenWidth());
 		pauseDialog.show(this.stage);
 	}
 	
@@ -832,6 +830,10 @@ public class Play implements Screen, InputProcessor{
 
 	}
 	
+	/**
+	 * Saves the stars that the player got into the database
+	 * @param newStars - amount of stars that the player got in this level
+	 */
 	public void saveStars(int newStars){
 		int levelWon = level;
 		openNextLevel(levelWon);
@@ -839,6 +841,11 @@ public class Play implements Screen, InputProcessor{
 		cat.saveData(data);
 	}
 
+	/**
+	 * Opens the next level if the player won and 
+	 * next level
+	 * @param levelWon
+	 */
 	private void openNextLevel(int levelWon) {
 		if(levelWon == 9)
 			return;
