@@ -67,7 +67,11 @@ public class Categories implements Screen {
 		stage.addActor(table);
 		
 		setUpInfoBar();
-		
+	}
+	
+
+	@Override
+	public void show() {
 		final TextButton btnMath = new TextButton("Math", skin, main.screenSizeGroup+"-L");
 		btnMath.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
@@ -100,11 +104,7 @@ public class Categories implements Screen {
 		table.row();
 		table.add(btnFlags).width(this.screenWidth/1.5f).height(this.screenHeight/8).padBottom(this.screenHeight/20);
 		table.row();
-	}
-	
-
-	@Override
-	public void show() {
+		
 	}
 	
 	/**
