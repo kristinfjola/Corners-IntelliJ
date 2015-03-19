@@ -6,8 +6,9 @@ import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
+import org.json.JSONException;
 import screens.Settings;
+import com.facebook.Request;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,9 @@ import com.corners.game.FacebookService;
 import com.facebook.FacebookRequestError;
 import com.facebook.Request;
 import com.facebook.RequestBatch;
+
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.corners.game.FacebookService;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -78,7 +82,7 @@ public class FacebookServiceImpl implements FacebookService{
                             	System.out.println("success yeahhh");
                             }
                         }
-                        screen.updateLoginBtn();
+                        screen.setLoginListener();
                     }
                 }
         );
@@ -95,7 +99,7 @@ public class FacebookServiceImpl implements FacebookService{
 	public void logOut() {
 		 if (isLoggedIn()) {
             Session.getActiveSession().closeAndClearTokenInformation();
-            screen.updateLoginBtn();
+            screen.setLoginListener();
         }
 	}
     
@@ -126,5 +130,21 @@ public class FacebookServiceImpl implements FacebookService{
     public void onDestroy() {
         uiHelper.onDestroy();
     }
- 	
+    
+    @Override
+    public String getUserId() {
+    	Session session = Session.getActiveSession();
+		Request request = Request.newGraphPathRequest(session, "me", null);
+		Response response = Request.executeAndWait(request);
+		String id = "";
+		try {
+			System.out.println("nafn: "+response.getGraphObject().getInnerJSONObject().get("name"));
+			id = response.getGraphObject().getInnerJSONObject().get("id").toString();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return id;
+    }
 }

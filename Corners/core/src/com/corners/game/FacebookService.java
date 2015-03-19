@@ -14,4 +14,6 @@ public interface FacebookService {
 	public void logOut();
 	 
 	public void setScreen(Settings screen);
+	
+	public String getUserId();
 }

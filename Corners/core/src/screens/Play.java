@@ -14,6 +14,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -34,53 +35,61 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.corners.game.MainActivity;
 
+import data.Data;
+
 public class Play implements Screen, InputProcessor{
 
-	MainActivity main;
-	Category cat;
-	SpriteBatch batch;
-	OrthographicCamera camera;
+	private MainActivity main;
+	private Category cat;
+	private SpriteBatch batch;
+	private OrthographicCamera camera;
 	private Stage stage;
 	private State state;
-    boolean hit = false;
-    int screenWidth = Gdx.graphics.getWidth();
-    int screenHeight = Gdx.graphics.getHeight();
-    int level;
+    private int screenWidth = Gdx.graphics.getWidth();
+    private int screenHeight = Gdx.graphics.getHeight();
+    private int level;
+    public Data data;
     
-    int questionsAnswered = 0;
-    int nrOfQuestions;
-    float origX;
-    float origY;
+    private int questionsAnswered = 0;
+    private int nrOfQuestions;
+    private float origX;
+    private float origY;
     
     // infoBar
-    InfoBar infoBar;
-    Table table;
-    InputProcessor inputProcessor;
+    private InfoBar infoBar;
+    private Table table;
+    private InputProcessor inputProcessor;
 
     // swipe
-    Vector3 touchPos;
-    boolean swipeQuestion = false;
-    boolean hitWrong = false;
-    boolean touchUp = false;
-    float sum = 0;
-    String xDirection = "none";
-    String yDirection = "none";
-    boolean lockPos = false;
+    private Vector3 touchPos;
+    private boolean swipeQuestion = false;
+    private boolean hitWrong = false;
+    private boolean touchUp = false;
+    private float sum = 0;
+    private String xDirection = "none";
+    private String yDirection = "none";
+    private boolean lockPos = false;
 
     // time
-    long startTime = 0;	
-    long secondsPassed;
-    long totalSecondsWasted = 0;
-    long oldSecondsPassed = 0;
-    ProgressBar progressBar;
-    ProgressBarStyle progressBarStyle;
-    BitmapFont time;
-    long maxTime;
-    boolean delayTime = false;
-    int stars = 3;
+    private long startTime = 0;	
+    private long secondsPassed;
+    private long totalSecondsWasted = 0;
+    private long oldSecondsPassed = 0;
+    private ProgressBar progressBar;
+    private ProgressBarStyle progressBarStyle;
+    private BitmapFont time;
+    private long maxTime;
+    private boolean delayTime = false;
+    private int stars = 3;
     
     // levels
-    int maxNumLevels = 9;
+    private int maxNumLevels = 9;
+    
+    // sound
+    Sound correctAnswerSound = Gdx.audio.newSound(Gdx.files.internal("sounds/correctAnswer.mp3"));
+    Sound wrongAnswerSound = Gdx.audio.newSound(Gdx.files.internal("sounds/wrongAnswer.mp3"));
+    Sound levelFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
+    Sound categoryFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
 	
 	/**
 	 * @param main - main activity of the game
@@ -98,6 +107,7 @@ public class Play implements Screen, InputProcessor{
 		
 		addPauseToProcessor();
 		setAllProcessors(); 
+		this.data = cat.getData();
 		
 		setUpInfoBar();
 	
@@ -147,6 +157,7 @@ public class Play implements Screen, InputProcessor{
 	 * Resets the level and notifies user that he has won
 	 */
 	public void win(){
+		saveStars(stars);
 		questionsAnswered = 0;
 		totalSecondsWasted = 0;
 		setCorrectProgressBar();
@@ -154,8 +165,10 @@ public class Play implements Screen, InputProcessor{
 		if(level < maxNumLevels) { 
 			showFinishLevelDialog(true, false);
 			level++;
+			levelFinishedSound.play(main.volume);
 		} else {
 			showFinishLevelDialog(true, true);
+			categoryFinishedSound.play(main.volume);
 		}
 	}
 	
@@ -190,6 +203,7 @@ public class Play implements Screen, InputProcessor{
 		refreshProgressBar(true);
 		delayTime = true;
 		showFinishLevelDialog(false, false);
+		wrongAnswerSound.play(main.volume);
 	}
 	
 	/**
@@ -230,7 +244,7 @@ public class Play implements Screen, InputProcessor{
 		long timeLeft = (maxTime - secondsPassed) >= 0 ? (maxTime - secondsPassed) : 0;
 		
 		float xCoord = screenWidth/2-(time.getBounds(Long.toString(timeLeft)).width)/2;
-		float yCoord = screenHeight-infoBar.barHeight-progressBar.getPrefHeight()*1.1f;
+		float yCoord = screenHeight-infoBar.barHeight-progressBar.getPrefHeight()*1.5f;
 		time.draw(batch, Long.toString(timeLeft), xCoord, yCoord);
 	}
 	
@@ -249,6 +263,7 @@ public class Play implements Screen, InputProcessor{
 		    }
 		}, 1);
 		updateStars();
+		correctAnswerSound.play(main.volume);
 	}
 	
 	/**
@@ -427,6 +442,13 @@ public class Play implements Screen, InputProcessor{
 		} else if(totalSecondsWasted >= oneStar && stars == 1){
 			stars = 0;
 		}
+		
+		//update picture in info bar
+		table.reset();
+		table.top();
+		table.setFillParent(true);
+		infoBar.setLeftImage(""+stars+"-stars");
+		table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
 	}
 	
 	@Override
@@ -771,13 +793,30 @@ public class Play implements Screen, InputProcessor{
 	 * Sets up the info bar
 	 */
 	public void setUpInfoBar() {
-		double tempStars = cat.getStarsByLevel(level);
 		stage.addActor(table);
 		infoBar.setMiddleText("Level "+level);
 		infoBar.setRightText("");
-		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
+		infoBar.setLeftImage("3-stars");
 		infoBar.setRightImage("pause");
 	 	table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
 
+	}
+	
+	public void saveStars(int newStars){
+		int levelWon = level;
+		openNextLevel(levelWon);
+		//cat.updateStars(levelWon, newStars);
+		data.getStarsByString(cat.getType()).updateStars(levelWon, newStars);
+		cat.saveData(data);
+	}
+
+	private void openNextLevel(int levelWon) {
+		if(levelWon == 9)
+			return;
+		int nextLevelStars = data.getStarsByString(cat.getType()).getStarsOfALevel(levelWon + 1);
+		if(nextLevelStars > -1)
+			return;
+		//cat.updateStars(levelWon + 1, 0);
+		data.getStarsByString(cat.getType()).updateStars(levelWon + 1, 0);
 	}
 }

@@ -16,7 +16,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import android.os.Bundle;
+import android.content.Intent;
+import android.content.IntentFilter;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.corners.game.ActivityRequestHandler;
@@ -36,6 +38,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
+
 
 public class AndroidLauncher extends AndroidApplication implements ActivityRequestHandler {
 	protected FacebookServiceImpl facebookService;
@@ -104,6 +107,11 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
 
         // Hook it all up
         setContentView(layout);
+
+        // sound
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.media.RINGER_MODE_CHANGED");
+        registerReceiver(new RingerModeHelper(mainActivity,this.getContext()) , filter);
 	}
 	
 	public void checkKeyHash(){

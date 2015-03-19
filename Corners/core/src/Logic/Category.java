@@ -28,6 +28,7 @@ public class Category {
     int playScreenWidth;
     Skin skin;
     String screenSizeGroup;
+    Data data = new Data();
     
     /**
      * Generates questions for level
@@ -172,7 +173,7 @@ public class Category {
 	}
 
 	/**
-	 * @return hight of current question
+	 * @return height of current question
 	 */
 	public int getqHeight() {
 		return qHeight;
@@ -221,24 +222,6 @@ public class Category {
 	}
 	
 	/**
-	 * @return stars received for current category
-	 */
-	public LevelStars getStars(){
-		Data data = new Data();
-		DataProcessor.getData(data);
-		return data.getStarsByString(getType());
-	}
-	
-	/**
-	 * @param level stars received for level in category
-	 * @return
-	 */
-	public int getStarsByLevel(int level){
-		LevelStars stars = getStars();
-		return stars.getStarsByLevel(level);
-	}
-	
-	/**
 	 * @param width of the screen in Play (without the infoBar and progressBar)
 	 */
 	public void setPlayScreenWidth(int width) {
@@ -270,5 +253,70 @@ public class Category {
 	 * Sets up the question and possible answer boxes
 	 */
 	public void setUpBoxes() {
+	}
+
+	
+	/**********************
+	 * DATA CODE
+	 **********************/
+	
+	/**
+	 * 
+	 * @return Data object
+	 */
+	public Data getData(){
+		DataProcessor.getData(data);
+		return data;
+	}
+	
+	/**
+	 * Saves the data to a file in assets
+	 * @param data
+	 */
+	public void saveData(Data data) {
+		DataProcessor.setData(data);
+	}
+	
+	/**
+	 * @param level - stars received for level in category
+	 * @return number of stars in specific level
+	 */
+	public int getStarsByLevel(int level){
+		LevelStars stars = getStars();
+		return stars.getStarsByLevel(level);
+	}
+	
+	/**
+	 * @return stars received for current category
+	 */
+	public LevelStars getStars(){
+		data = getData();
+		return data.getStarsByString(getType());
+	}
+		
+	public int[] getStarsArray(){
+		LevelStars levelStars = getStars();
+		int[] stars = levelStars.getStars();
+		return stars;
+	}
+	
+	public double getAverageStars(){
+		LevelStars levelStars = getStars();
+		return levelStars.getAverageStars();
+	}
+	
+	public int getLevelsFinished(){
+		LevelStars levelStars = getStars();
+		return levelStars.getLevelsFinished();
+	}
+	
+	public boolean isSoundOn(){
+		data = getData();
+		return data.isSoundOn();
+	}
+	
+	public void updateStars(int level, int newStars){
+		LevelStars stars = getStars();
+		stars.updateStars(level, newStars);
 	}
 }

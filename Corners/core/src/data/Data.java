@@ -10,8 +10,10 @@ public class Data {
 	private LevelStars math;
 	private LevelStars flags;
 	private LevelStars colors;
+	private LevelStars reset;
 	private double averageStars;
 	private String name; //name of avatar
+	private Boolean sound;
 
 	/**
 	 * @return name of avatar
@@ -25,6 +27,36 @@ public class Data {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	/**
+	 * @return a reset array for levels
+	 */
+	public LevelStars getReset() {
+		return reset;
+	}
+
+	/**
+	 * @param reset - reset array
+	 */
+	public void setReset(LevelStars reset) {
+		this.reset = reset;
+	}
+
+	/**
+	 * 
+	 * @return true if sound is on, else false
+	 */
+	public Boolean getSound() {
+		return sound;
+	}
+
+	/**
+	 * 
+	 * @param sound
+	 */
+	public void setSound(Boolean sound) {
+		this.sound = sound;
 	}
 
 	/**
@@ -133,5 +165,21 @@ public class Data {
 	 */
 	public double allStars(LevelStars cat){
 		return cat.getAverageStars() * cat.getLevelsFinished();
+	}
+	
+	@Override
+	public String toString() {
+		return "Data [math=" + math.toString() + ", flags=" + flags.toString() + ", colors=" + colors.toString()
+				+ ", averageStars=" + averageStars + ", name=" + name + "]";
+	}
+
+	public void addAverageStars(){
+		math.addAverageStars();
+		colors.addAverageStars();
+		flags.addAverageStars();
+	}
+	
+	public boolean isSoundOn(){
+		return this.sound;
 	}
 }

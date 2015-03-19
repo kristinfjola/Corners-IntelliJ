@@ -7,7 +7,10 @@
 package screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -28,6 +31,7 @@ public class Start implements Screen{
 	private float screenHeight = Gdx.graphics.getHeight();
 	private Texture carl = new Texture("carl/carl4.jpg");
 	Table table;
+	private InputProcessor inputProcessor;
 	
 	/**
 	 * Constructor. Creates the the interface and sets the
@@ -36,12 +40,15 @@ public class Start implements Screen{
 	 * @param main - applicable activity
 	 */
 	public Start(final MainActivity main){
+
 		this.main = main;		
 		stage = new Stage();
 		batch = new SpriteBatch();
 		skin = main.skin;
 		Gdx.input.setInputProcessor(stage);
 		main.activityRequestHandler.showFacebook(true);
+		addBackToProcessor();
+		setAllProcessors();
 	}
 	
 	/**
@@ -157,5 +164,69 @@ public class Start implements Screen{
 	 	table.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
 	}
 	
+	/**
+	 * Creates a input processor that catches the back key 
+	 */
+	private void addBackToProcessor() {
+		inputProcessor = new InputProcessor() {
+			
+			@Override
+			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+				return false;
+			}
+				
+			@Override
+			public boolean touchDragged(int screenX, int screenY, int pointer) {
+				return false;
+			}
+				
+			@Override
+			public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+				return false;
+			}
+				
+			@Override
+			public boolean scrolled(int amount) {
+				return false;
+			}
+				
+			@Override
+			public boolean mouseMoved(int screenX, int screenY) {
+				return false;
+			}
+				
+			@Override
+			public boolean keyUp(int keycode) {
+				return false;
+			}
+				
+			@Override
+			public boolean keyTyped(char character) {
+				return false;
+			}
+			
+			/**
+			 * Handles the back event
+			 */
+			@Override
+			public boolean keyDown(int keycode) {
+				if(keycode == Keys.BACK){
+					Gdx.app.exit();
+				}
+				return false;
+			}
+		};
+	}
 	
+	/**
+	 * Adds the game stage and the back button processors to a multiplexer
+	 */
+	private void setAllProcessors() {
+		Gdx.input.setCatchBackKey(true);
+		
+		InputMultiplexer multiplexer = new InputMultiplexer();
+		multiplexer.addProcessor(stage);
+		multiplexer.addProcessor(inputProcessor);
+		Gdx.input.setInputProcessor(multiplexer); 	
+	}
 }
