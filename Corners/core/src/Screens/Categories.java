@@ -27,7 +27,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.corners.game.MainActivity;
 
 import data.Data;
-import data.DataProcessor;
 
 public class Categories implements Screen {
 	private Texture carl; //the character, let's call it Carl

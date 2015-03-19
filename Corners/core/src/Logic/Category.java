@@ -314,4 +314,9 @@ public class Category {
 		data = getData();
 		return data.isSoundOn();
 	}
+	
+	public void updateStars(int level, int newStars){
+		LevelStars stars = getStars();
+		stars.updateStars(level, newStars);
+	}
 }

@@ -45,7 +45,6 @@ public class Play implements Screen, InputProcessor{
 	private OrthographicCamera camera;
 	private Stage stage;
 	private State state;
-    private boolean hit = false;
     private int screenWidth = Gdx.graphics.getWidth();
     private int screenHeight = Gdx.graphics.getHeight();
     private int level;
@@ -806,6 +805,7 @@ public class Play implements Screen, InputProcessor{
 	public void saveStars(int newStars){
 		int levelWon = level;
 		openNextLevel(levelWon);
+		//cat.updateStars(levelWon, newStars);
 		data.getStarsByString(cat.getType()).updateStars(levelWon, newStars);
 		cat.saveData(data);
 	}
@@ -816,6 +816,7 @@ public class Play implements Screen, InputProcessor{
 		int nextLevelStars = data.getStarsByString(cat.getType()).getStarsOfALevel(levelWon + 1);
 		if(nextLevelStars > -1)
 			return;
+		//cat.updateStars(levelWon + 1, 0);
 		data.getStarsByString(cat.getType()).updateStars(levelWon + 1, 0);
 	}
 }
