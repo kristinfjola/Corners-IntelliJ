@@ -32,8 +32,6 @@ public class Levels implements Screen{
 	private Stage stage;
 	private Table container;
 	private Category cat;
-	private final float screenWidth = Gdx.graphics.getWidth();
-	private final float screenHeight = Gdx.graphics.getHeight();
 	private InputProcessor inputProcessor; 
 	private InfoBar infoBar;
 	public int[] stars;
@@ -46,7 +44,6 @@ public class Levels implements Screen{
 	 */
 	public Levels(MainActivity main, Category category){
 		this.main = main;
-		this.main.data = category.getData();
 		this.cat = category;
 		this.infoBar = new InfoBar(main);
 		setUpCat();
@@ -73,14 +70,14 @@ public class Levels implements Screen{
 
 		int cnt = 1;
 		Table tableLevels = new Table();
-		tableLevels.defaults().size(screenWidth/4.2f,screenHeight/6f);
+		tableLevels.defaults().size(main.scrWidth/4.2f,main.scrHeight/6f);
 		for (int rows = 0; rows < 3; rows++) {
 			tableLevels.row();
 			for (int columns = 0; columns < 3; columns++) {
 				Table level = new Table();
 				level.top();
 				
-				level.add(getLevelButton(cnt)).size(screenWidth/4.2f,screenHeight/6f).expand();
+				level.add(getLevelButton(cnt)).size(main.scrWidth/4.2f,main.scrHeight/6f).expand();
 				level.row();
 				level.add(getStarTable(cnt));
 				
@@ -184,11 +181,11 @@ public class Levels implements Screen{
 		int cntStars = 0;
 		for (int star = 0; star < 3; star++) {
 			if(cntStars < numberOfStars) {
-				starTable.add(new Image(main.fullStar)).size(screenWidth/4.2f/3);
+				starTable.add(new Image(main.fullStar)).size(main.scrWidth/4.2f/3);
 				cntStars++;
 			}
 			else {
-				starTable.add(new Image(main.emptyStar)).size(screenWidth/4.2f/3);
+				starTable.add(new Image(main.emptyStar)).size(main.scrWidth/4.2f/3);
 			}
 		}
 		return starTable;
@@ -279,7 +276,7 @@ public class Levels implements Screen{
 		infoBar.setMiddleText(cat.getType());
 		infoBar.setRightText(finishedLevels+"/9");
 		infoBar.setLeftImage(infoBar.getStarAmount(averageStars)+"stars");
-	 	container.add(infoBar.getInfoBar()).size(screenWidth, screenHeight/10).fill().row();
+	 	container.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 	}
 	
 	/**
@@ -289,9 +286,9 @@ public class Levels implements Screen{
 		cat.setSkin(main.skin);
 		cat.setScreenSizeGroup(main.screenSizeGroup);
 		
-		float playScreenWidth = screenWidth;
+		float playScreenWidth = main.scrWidth;
 		float pBarHeight = (new Image(new Texture("progressBar/background.png"))).getPrefHeight();
-		float playScreenHeight = screenHeight-infoBar.barHeight-pBarHeight;
+		float playScreenHeight = main.scrHeight-infoBar.barHeight-pBarHeight;
 		cat.setPlayScreenWidth((int) playScreenWidth);
 		cat.setPlayScreenHeight((int) playScreenHeight);
 

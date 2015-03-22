@@ -166,20 +166,29 @@ public class Data {
 	public double allStars(LevelStars cat){
 		return cat.getAverageStars() * cat.getLevelsFinished();
 	}
-	
-	@Override
-	public String toString() {
-		return "Data [math=" + math.toString() + ", flags=" + flags.toString() + ", colors=" + colors.toString()
-				+ ", averageStars=" + averageStars + ", name=" + name + "]";
-	}
 
+	/**
+	 * Adds the average stars in each category
+	 * to the database
+	 */
 	public void addAverageStars(){
 		math.addAverageStars();
 		colors.addAverageStars();
 		flags.addAverageStars();
 	}
 	
+	/**
+	 * 
+	 * @return boolean value that states if 
+	 * the sound is on or not from db
+	 */
 	public boolean isSoundOn(){
 		return this.sound;
+	}
+	
+	@Override
+	public String toString() {
+		return "Data [math=" + math.toString() + ", flags=" + flags.toString() + ", colors=" + colors.toString()
+				+ ", averageStars=" + averageStars + ", name=" + name + "]";
 	}
 }

@@ -11,7 +11,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -21,13 +20,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -42,15 +45,20 @@ public class Settings implements Screen{
 	SpriteBatch batch;
 	float screenWidth = Gdx.graphics.getWidth();
 	float screenHeight = Gdx.graphics.getHeight();
-	TextButton btnLogin;
-	TextButton btnTest;
 	
 	private InputProcessor inputProcessor;
-	Sound clickedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/clicked.mp3"));
 	Table table;
+	
+	//Setting up the view
 	LabelStyle settingsStyle;
-	Label labelLogin;
-	Label labelSoundStatus;
+	LabelStyle settingsStyleRight; //TODO change and only have one style
+	TextButton btnLogin;
+	float pad;
+	
+	//Sound slider
+	Slider slider;
+	SliderStyle sliderStyle;
+	int sliderValue;
 	
 	/**
 	 * Constructor that sets the private variables and starts the screen
@@ -62,11 +70,21 @@ public class Settings implements Screen{
 		batch = new SpriteBatch();
 		stage = new Stage();
 		skin = this.main.skin;
-		Gdx.input.setInputProcessor(stage);
-		main.facebookService.setScreen(this);		
 		settingsStyle = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-M"), Color.BLACK);
 		addBackToProcessor();
 		setAllProcessors();
+		main.activityRequestHandler.showFacebook(true);
+		
+		settingsStyle = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-M"), Color.BLACK);
+		settingsStyleRight = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-M"), new Color(45/255f,45/255f,45/255f,1));
+		pad = main.scrWidth/12f;
+		
+		sliderStyle = new SliderStyle();
+		sliderStyle.knob = main.knob;
+		if(main.settingsVolume) sliderStyle.background = main.backgroundOn;
+		else sliderStyle.background = main.backgroundOff;
+		sliderValue=1;
+		slider = new Slider(0,1,0.01f,false,sliderStyle);
 	}
 	
 	@Override
@@ -79,19 +97,7 @@ public class Settings implements Screen{
 		setUpFacebook();
 		setUpSound();
 		setUpName();
-		
 		String screenSizeGroup = main.screenSizeGroup;
-		
-		btnTest = new TextButton("Test", skin, screenSizeGroup+"-L");
-		table.add(btnTest).size(screenWidth/1.5f, screenHeight/8).row();
-		btnTest.addListener(new ChangeListener() {
-			public void changed (ChangeEvent event, Actor actor) {
-				System.out.println("whatup");
-				String id = main.facebookService.getUserId();
-				System.out.println(id);
-				//profile_pic = main.facebookService.getProfilePicture(id);
-			}
-		});
 	}
 
 	/**
@@ -209,79 +215,115 @@ public class Settings implements Screen{
 		Gdx.input.setInputProcessor(multiplexer);
 	}
 	
+	public void setUpFacebook() {
+		Label labelFb = new Label("Facebook", settingsStyle);	
+		
+		btnLogin = new TextButton("Login", skin, main.screenSizeGroup+"-L"+"-facebook");
+		if(main.facebookService.isLoggedIn()){
+			btnLogin.setText("Logout");
+		} else {
+			btnLogin.setText("Login");
+		}
+		setLoginListener();
+		
+		/* trying to move text on button
+		btnLogin.getLabel().setPosition(500, 500);
+		btnLogin.getLabel().setOrigin(200, 200);
+		btnLogin.getLabel().moveBy(300, 300);
+		*/
+		
+		table.add(labelFb).expandX().left().pad(pad).padBottom(pad + main.scrWidth/6f);
+		table.add(btnLogin).expandX().right().pad(pad).padBottom(pad + main.scrWidth/6f).row();
+		addLine();
+	}
+	
+	public void setUpSound() {
+		Label labelSound = new Label("Sound", settingsStyle);		
+		
+		if(main.settingsVolume) {
+			sliderStyle.background = main.backgroundOn;
+			slider.setValue(1);
+		}
+		else {
+			sliderStyle.background = main.backgroundOff;
+			slider.setValue(0);
+		}
+
+		setSoundListener();
+
+		table.add(labelSound).expandX().left().pad(pad);
+		table.add(slider).expandX().right().pad(pad).row();
+		addLine();
+	}
+	
+	public void setUpName() {
+		table.add(new Label("Name", settingsStyle)).expandX().left().pad(pad);
+		table.add(new Label("Carl", settingsStyleRight)).expandX().right().pad(pad).row();
+		addLine();
+	}
+	
 	public void addLine() {
 		Pixmap pm = new Pixmap(1,1,Format.RGBA8888);
 		pm.setColor(new Color(39/255f,39/255f,39/255f,0.5f));
 		pm.fill();
 		Image img = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(pm))));
-		table.center().top();
-		table.add(img).size(screenWidth*0.9f,1).row();
-	}
-	
-	public void setUpFacebook() {
-		labelLogin = new Label("Login", settingsStyle);
-		setLoginListener();
-		table.add(labelLogin).left().pad(screenWidth/12f).padLeft(screenWidth/24f).row();
-		addLine();
-	}
-	
-	public void setUpSound() {
-		Label labelSound = new Label("Sound", settingsStyle);
-		
-		String soundStatus;
-		if(main.settingsVolume) soundStatus = "ON";
-		else soundStatus = "OFF";
-		labelSoundStatus = new Label(soundStatus, settingsStyle);
-		setSoundListener();
-
-		//table.add(labelSound).left().pad(screenWidth/12f);
-		table.add(labelSoundStatus).left().pad(screenWidth/12f).padLeft(screenWidth/24f).row();
-		addLine();
-	}
-	
-	public void setUpName() {
-		table.add(new Label("Name", settingsStyle)).left().pad(screenWidth/12f).padLeft(screenWidth/24f).row();
-		addLine();
+		float lineWidth = main.scrWidth*0.9f;
+		float padLeft = (main.scrWidth-lineWidth)/2;
+		table.add(img).size(lineWidth,1).left().pad(0).padLeft(padLeft).row();
 	}
 	
 	public void setLoginListener(){
-		if(main.facebookService.isLoggedIn()){
-			labelLogin.setText("Logout");
-			labelLogin.addListener(new ClickListener() {
-				@Override
-				public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-					System.out.println("logout clicked: is logging out");
+		btnLogin.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if(main.facebookService.isLoggedIn()){
+					btnLogin.setText("Login");
 					main.facebookService.logOut();
-					super.touchUp(event, x, y, pointer, button);
-				}
-			});
-		} else {
-			labelLogin.setText("Login");
-			labelLogin.addListener(new ClickListener() {
-				@Override
-				public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-					System.out.println("login clicked: is logging in");
+				} else {
+					btnLogin.setText("Logout");
 					main.facebookService.logIn();
-					super.touchUp(event, x, y, pointer, button);
 				}
-			});
-		}
+				
+			}
+		});
 	}
 	
-	public void setSoundListener() {
-		labelSoundStatus.addListener(new ClickListener() {
+	public void setSoundListener() {		
+		slider.addListener(new InputListener() {
 			@Override
-			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				if(main.settingsVolume) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				return true;
+			}
+			
+			@Override
+			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+				if((int)Math.round(slider.getValue())==0) {
+					sliderStyle.background = main.backgroundOff;
 					main.updateSettingsVolume(false);
-					labelSoundStatus.setText("OFF");
+					slider.setValue((int)Math.round(slider.getValue()));
+					sliderValue = (int)slider.getValue();
 				}
-				else {
+				else if((int)Math.round(slider.getValue())==1) { //TODO
+					sliderStyle.background = main.backgroundOn;
 					main.updateSettingsVolume(true);
-					labelSoundStatus.setText("ON");
-					clickedSound.play(main.volume);
+					main.clickedSound.play(main.volume);
+					slider.setValue((int)Math.round(slider.getValue()));
+					sliderValue = (int)slider.getValue();
 				}
-				super.touchUp(event, x, y, pointer, button);
+			}
+			
+			@Override
+			public void touchDragged (InputEvent event, float x, float y, int pointer) {
+				if(sliderValue != slider.getValue()) {
+					if(slider.getValue()==1) {
+						sliderStyle.background = main.backgroundOn;
+						sliderValue = 1;
+					}
+					else {
+						sliderStyle.background = main.backgroundOff;
+						sliderValue = 0;
+					}
+				}
 			}
 		});
 	}

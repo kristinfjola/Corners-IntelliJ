@@ -9,15 +9,11 @@ public interface FacebookService {
 
 	public boolean isLoggedIn();
 	
-	public void logIn();
+	public FacebookUser logIn();
 	 
 	public void inviteFriends();
 	
 	public void logOut();
-	 
-	public void setScreen(Settings screen);
-	
-	public String getUserId();
 	
 	public List<String> getFriendsList();
 	
@@ -28,4 +24,6 @@ public interface FacebookService {
 	public void checkPermission();
 	
 	public List<String> getFriendsListIds();
+	
+	public void showFacebookUser();
 }

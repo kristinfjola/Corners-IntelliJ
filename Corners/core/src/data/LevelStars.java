@@ -104,15 +104,27 @@ public class LevelStars {
 		return finished;
 	}
 	
-	
+	/**
+	 * Adds the value of the average stars of the category to the database
+	 */
 	public void addAverageStars(){
 		stars[0] = (int)getAverageStars();
 	}
 	
+	/**
+	 * Updates the stars in level to the value of newStars
+	 * @param level
+	 * @param newStars
+	 */
 	public void updateStars(int level, int newStars){
 		stars[level] = newStars;
 	}
 	
+	/**
+	 * 
+	 * @param level
+	 * @return the count of stars in a level
+	 */
 	public int getStarsOfALevel(int level){
 		return stars[level];
 	}

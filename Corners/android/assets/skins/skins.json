@@ -39,6 +39,12 @@
         "screen540-L-level-grey": { "font": screen540-L, "up": "levelButtonGrey", "fontColor": black},
         "screen720-L-level-grey": { "font": screen720-L, "up": "levelButtonGrey", "fontColor": black},
         "screen1080-L-level-grey": { "font": screen1080-L, "up": "levelButtonGrey", "fontColor": black},
+        
+        "screen320-L-facebook": { "font": screen320-M, "up": "fbButton", "fontColor": black},
+    	"screen480-L-facebook": { "font": screen480-M, "up": "fbButton", "fontColor": black},
+        "screen540-L-facebook": { "font": screen540-M, "up": "fbButton", "fontColor": black},
+        "screen720-L-facebook": { "font": screen720-M, "up": "fbButton", "fontColor": black},
+        "screen1080-L-facebook": { "font": screen1080-M, "up": "fbButton", "fontColor": black},
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
 		"default": { "font": screen540-L, "fontColor": black },
@@ -55,18 +61,18 @@
         "screen1080-M": { "font": screen1080-M, "fontColor": black},
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
-		"default": { "titleFont": screen540-L, "titleFontColor": black,
-"background": "levelButtonYellow" },
-		"screen320-L": { "titleFont": screen320-L, "titleFontColor": black,
-"background": "levelButtonYellow"},
-    	"screen480-L": { "titleFont": screen480-L, "titleFontColor": black,
-"background": "levelButtonYellow"},
-        "screen540-L": { "titleFont": screen540-L, "titleFontColor": black,
-"background": "levelButtonYellow"},
-        "screen720-L": { "titleFont": screen720-L, "titleFontColor": black,
-"background": "levelButtonYellow"},
-        "screen1080-L": { "titleFont": screen1080-L, "titleFontColor": black,
-"background": "levelButtonYellow"},
+		"default": { "titleFont": screen540-L, "titleFontColor": black, "background": "levelButtonYellow" },
+		"screen320-L": { "titleFont": screen320-L, "titleFontColor": black, "background": "levelButtonYellow"},
+    	"screen480-L": { "titleFont": screen480-L, "titleFontColor": black, "background": "levelButtonYellow"},
+        "screen540-L": { "titleFont": screen540-L, "titleFontColor": black, "background": "levelButtonYellow"},
+        "screen720-L": { "titleFont": screen720-L, "titleFontColor": black, "background": "levelButtonYellow"},
+        "screen1080-L": { "titleFont": screen1080-L, "titleFontColor": black, "background": "levelButtonYellow"},
+        
+        "screen320-CH": { "titleFont": screen320-L, "titleFontColor": black, "background": "levelButtonGrey"},
+    	"screen480-CH": { "titleFont": screen480-L, "titleFontColor": black, "background": "levelButtonGrey"},
+        "screen540-CH": { "titleFont": screen540-L, "titleFontColor": black, "background": "levelButtonGrey"},
+        "screen720-CH": { "titleFont": screen720-L, "titleFontColor": black, "background": "levelButtonGrey"},
+        "screen1080-CH": { "titleFont": screen1080-L, "titleFontColor": black, "background": "levelButtonGrey"},
     },
     
     "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
