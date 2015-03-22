@@ -60,13 +60,14 @@ public class MainActivity extends Game {
     public Drawable backgroundOn;
 	public Drawable backgroundOff;
 	public Drawable knob;
+	
 	@Override
 	/** Method called once when the application is created. **/
 	public void create () {
 		scrWidth = Gdx.graphics.getWidth();
 		scrHeight= Gdx.graphics.getHeight();
 		skin = getSkin();
-		screenSizeGroup = getScreenSizeGroup();
+		initScreenSizeGroup();
 		this.cat = new Category();
 		settingsVolume = cat.isSoundOn();
 		updateVolume();
@@ -77,7 +78,7 @@ public class MainActivity extends Game {
         
         fullStar = new Texture("stars/star_yellow.png");
 		emptyStar = new Texture("stars/star_gray.png");		
-		settingsVolume = true; //TODO get last settings from DB
+		settingsVolume = cat.isSoundOn();
 		
 		clickedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/clicked.mp3"));
 		correctAnswerSound = Gdx.audio.newSound(Gdx.files.internal("sounds/correctAnswer.mp3"));
@@ -85,7 +86,7 @@ public class MainActivity extends Game {
 	    levelFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
 	    categoryFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
 	    
-	    setUpDrawables();
+	    setUpSliderDrawables();
 	    
 	    System.out.println(settingsVolume);
 		//actionResolver.showToast("Toast example", 5000);
@@ -131,17 +132,15 @@ public class MainActivity extends Game {
 	
 	/**
 	 * Check in which screen size group the screen is
-	 * (how big the screen is)
-	 * 
-	 * @return screen size group
+	 * (how big the screen is) and initializes the screenSizeGroup
 	 */
-	public String getScreenSizeGroup(){
+	public void initScreenSizeGroup(){
 		int screenWidth = Gdx.graphics.getWidth();
-		if(screenWidth < 400) return "screen320";
-		else if(400 <= screenWidth && screenWidth < 510) return "screen480";
-		else if(510 <= screenWidth && screenWidth < 630) return "screen540";
-		else if(630 <= screenWidth && screenWidth < 900) return "screen720";
-		else return "screen1080"; //900 <= screenWidth
+		if(screenWidth < 400) screenSizeGroup = "screen320";
+		else if(400 <= screenWidth && screenWidth < 510) screenSizeGroup = "screen480";
+		else if(510 <= screenWidth && screenWidth < 630) screenSizeGroup = "screen540";
+		else if(630 <= screenWidth && screenWidth < 900) screenSizeGroup = "screen720";
+		else screenSizeGroup = "screen1080"; //900 <= screenWidth
 	}
 
 	public void setFacebookService(FacebookService facebookService) {
@@ -188,14 +187,16 @@ public class MainActivity extends Game {
 
 	/**
 	 * @param user
-	 * sets the user's Facebook information
+	 * Sets the user's Facebook information
 	 */
 	public void setUser(FacebookUser user) {
 		this.user = user;
 	}
 	
-	public void setUpDrawables() {
-		//TODO get right drawables
+	/**
+	 * Sets up the drawables for the sound slider
+	 */
+	public void setUpSliderDrawables() {
 		/*
 		Pixmap pm1 = new Pixmap((int)(scrWidth/4.5f),(int)(scrWidth/9f),Format.RGBA8888);
 		pm1.setColor(Color.GREEN);
@@ -215,7 +216,11 @@ public class MainActivity extends Game {
 		
 		backgroundOn = skin.getDrawable("backgroundOn");
 		backgroundOff = skin.getDrawable("backgroundOff");
-		knob = skin.getDrawable("sliderKnob");
+		knob = skin.getDrawable("sliderKnob");	
 		
+		backgroundOn.setMinHeight(scrWidth/12);
+		backgroundOff.setMinHeight(scrWidth/12);
+		knob.setMinHeight(scrWidth/12);
+		knob.setMinWidth(scrWidth/12);
 	}
 }

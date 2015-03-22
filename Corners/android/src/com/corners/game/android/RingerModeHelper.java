@@ -17,6 +17,10 @@ public class RingerModeHelper extends BroadcastReceiver {
 	MainActivity main;
 	AudioManager audioManager;
 	
+	/**
+	 * Constructor. Sets the private variables and updates sound information in the
+	 * MainActivity
+	 */
 	public RingerModeHelper(MainActivity main, Context c) {
 		this.main = main;
 		this.audioManager = (AudioManager)c.getSystemService(Context.AUDIO_SERVICE);

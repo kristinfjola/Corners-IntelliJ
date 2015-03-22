@@ -6,6 +6,8 @@
  */
 package screens;
 
+import logic.Category;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
@@ -18,10 +20,10 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -30,9 +32,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.corners.game.MainActivity;
 
@@ -43,22 +46,21 @@ public class Settings implements Screen{
 	Skin skin;
 	Stage stage;
 	SpriteBatch batch;
-	float screenWidth = Gdx.graphics.getWidth();
-	float screenHeight = Gdx.graphics.getHeight();
+	Category cat;
 	
 	private InputProcessor inputProcessor;
 	Table table;
 	
 	//Setting up the view
 	LabelStyle settingsStyle;
-	LabelStyle settingsStyleRight; //TODO change and only have one style
-	TextButton btnLogin;
+	LabelStyle settingsStyleRight;
+	Label labelLogin;
 	float pad;
-	
-	//Sound slider
 	Slider slider;
 	SliderStyle sliderStyle;
 	int sliderValue;
+	Label nameLabel;
+	TextButton btnLogin;
 	
 	/**
 	 * Constructor that sets the private variables and starts the screen
@@ -70,7 +72,7 @@ public class Settings implements Screen{
 		batch = new SpriteBatch();
 		stage = new Stage();
 		skin = this.main.skin;
-		settingsStyle = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-M"), Color.BLACK);
+		this.cat = new Category();
 		addBackToProcessor();
 		setAllProcessors();
 		main.activityRequestHandler.showFacebook(true);
@@ -78,13 +80,6 @@ public class Settings implements Screen{
 		settingsStyle = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-M"), Color.BLACK);
 		settingsStyleRight = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-M"), new Color(45/255f,45/255f,45/255f,1));
 		pad = main.scrWidth/12f;
-		
-		sliderStyle = new SliderStyle();
-		sliderStyle.knob = main.knob;
-		if(main.settingsVolume) sliderStyle.background = main.backgroundOn;
-		else sliderStyle.background = main.backgroundOff;
-		sliderValue=1;
-		slider = new Slider(0,1,0.01f,false,sliderStyle);
 	}
 	
 	@Override
@@ -97,7 +92,6 @@ public class Settings implements Screen{
 		setUpFacebook();
 		setUpSound();
 		setUpName();
-		String screenSizeGroup = main.screenSizeGroup;
 	}
 
 	/**
@@ -110,7 +104,6 @@ public class Settings implements Screen{
 		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
-		
 	}
 
 	/**
@@ -210,7 +203,7 @@ public class Settings implements Screen{
 	}
 	
 	/**
-	 * set's up an option for logging into Facebook
+	 * Set's up an option for logging into Facebook
 	 */
 	public void setUpFacebook() {
 		Label labelFb = new Label("Facebook", settingsStyle);	
@@ -234,28 +227,42 @@ public class Settings implements Screen{
 		addLine();
 	}
 	
-	public void setUpSound() {
-		Label labelSound = new Label("Sound", settingsStyle);		
-		
+	/**
+	 * Set's up an option for changing the game's sound (on/off)
+	 */
+	public void setUpSound() {	
+		sliderStyle = new SliderStyle();
+		sliderStyle.knob = main.knob;
+		sliderStyle.background = main.backgroundOn;
+		slider = new Slider(0,1,0.01f,false,sliderStyle);		
 		if(main.settingsVolume) {
 			sliderStyle.background = main.backgroundOn;
 			slider.setValue(1);
+			sliderValue = 1;
 		}
 		else {
 			sliderStyle.background = main.backgroundOff;
 			slider.setValue(0);
+			sliderValue = 0;
 		}
 
 		setSoundListener();
 
-		table.add(labelSound).expandX().left().pad(pad);
-		table.add(slider).expandX().right().pad(pad).row();
+		table.add(new Label("Sound", settingsStyle)).expandX().left().pad(pad);		
+		table.add(slider).width(main.scrWidth/5).expandX().right().pad(pad).row();
 		addLine();
 	}
 	
+	/**
+	 * Set's up an option for changing the characters name
+	 */
 	public void setUpName() {
+		nameLabel = new Label(cat.getName(), settingsStyleRight);
+		
+		setNameListener();
+		
 		table.add(new Label("Name", settingsStyle)).expandX().left().pad(pad);
-		table.add(new Label("Carl", settingsStyleRight)).expandX().right().pad(pad).row();
+		table.add(nameLabel).expandX().right().pad(pad).row();
 		addLine();
 	}
 	
@@ -270,7 +277,7 @@ public class Settings implements Screen{
 	}
 	
 	/**
-	 * set's a listener for the Facebook login
+	 * Set's a listener for the Facebook login
 	 */
 	public void setLoginListener(){
 		btnLogin.addListener(new ClickListener() {
@@ -288,6 +295,9 @@ public class Settings implements Screen{
 		});
 	}
 	
+	/**
+	 * Set's a listener for the sound button
+	 */
 	public void setSoundListener() {		
 		slider.addListener(new InputListener() {
 			@Override
@@ -303,7 +313,7 @@ public class Settings implements Screen{
 					slider.setValue((int)Math.round(slider.getValue()));
 					sliderValue = (int)slider.getValue();
 				}
-				else if((int)Math.round(slider.getValue())==1) { //TODO
+				else {
 					sliderStyle.background = main.backgroundOn;
 					main.updateSettingsVolume(true);
 					main.clickedSound.play(main.volume);
@@ -314,8 +324,8 @@ public class Settings implements Screen{
 			
 			@Override
 			public void touchDragged (InputEvent event, float x, float y, int pointer) {
-				if(sliderValue != slider.getValue()) {
-					if(slider.getValue()==1) {
+				if(sliderValue != (int)Math.round(slider.getValue())) {
+					if((int)Math.round(slider.getValue())==1) {
 						sliderStyle.background = main.backgroundOn;
 						sliderValue = 1;
 					}
@@ -327,5 +337,41 @@ public class Settings implements Screen{
 			}
 		});
 	}
-
+	
+	/**
+	 * Set's a listener for displaying a dialog to change the character's name
+	 */
+	public void setNameListener() {
+		/*Drawable cursor = main.skin.getDrawable("empty");
+		Drawable selection = main.skin.getDrawable("empty");
+		Drawable background = main.skin.getDrawable("empty");
+		TextFieldStyle nameStyle = new TextFieldStyle(main.skin.getFont(main.screenSizeGroup+"-M"),
+				Color.BLACK, cursor,selection,background);
+		TextField nameInput = new TextField("", nameStyle);
+		*/
+		
+		final Dialog textInputDialog = new Dialog("", this.main.skin);
+		
+		Label center = new Label("Save", main.skin);
+		center.addListener(new ClickListener() {
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				textInputDialog.remove();
+				super.touchUp(event, x, y, pointer, button);
+			}
+		});
+		textInputDialog.button("Nafn:");
+		textInputDialog.getButtonTable().row();
+		textInputDialog.button("Carl jr").row();
+		textInputDialog.getContentTable().row();
+		textInputDialog.add(center);
+		
+		nameLabel.addListener(new ClickListener() {
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				textInputDialog.show(stage);
+				super.touchUp(event, x, y, pointer, button);
+			}
+		});
+	}
 }
