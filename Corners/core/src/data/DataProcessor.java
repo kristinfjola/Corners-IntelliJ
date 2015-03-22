@@ -29,7 +29,7 @@ public class DataProcessor {
         JsonElement root = null;
         String string = "";
         
-        //Load in a db file
+        //Load in a db file if it does not exist
         try{
         	FileHandle file = Gdx.files.internal("db/db.json");
         	string = file.readString();
@@ -102,6 +102,12 @@ public class DataProcessor {
 		}
 	}
 	
+	/**
+	 * Converts the Data data transfer object to a JsonData data transfer object
+	 * that is easyer to parse to a json object
+	 * @param data
+	 * @return JsonData object with same info as data
+	 */
 	public static JsonData convertData(Data data){
 		addAverageStars(data);
 		
@@ -117,16 +123,32 @@ public class DataProcessor {
 		return jData;
 	}
 	
+	/**
+	 * Adds the over all average stars to the data
+	 * @param data
+	 */
 	private static void addAverageStars(Data data) {
 		data.addAverageStars();
 	}
 	
+	/**
+	 * Resets the level to all levels locked and
+	 * only the first level open with 0 stars
+	 * @param data
+	 */
 	public static void resetAllLevels(Data data){
 		resetLevel(data, "Math");
 		resetLevel(data, "Flags");
 		resetLevel(data, "Colors");
 	}
 	
+	/**
+	 * Resets levels in the specific category to 
+	 * only the first level open with 0 stars and 
+	 * all the other levels locked.
+	 * @param data
+	 * @param category
+	 */
 	public static void resetLevel(Data data, String category){
 		LevelStars resetStars = data.getReset();
 		if(category == "Math")

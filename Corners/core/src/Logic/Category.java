@@ -293,51 +293,93 @@ public class Category {
 		data = getData();
 		return data.getStarsByString(getType());
 	}
-		
+	
+	/**
+	 * 
+	 * @return the array of value of stars in particular category
+	 */
 	public int[] getStarsArray(){
 		LevelStars levelStars = getStars();
 		int[] stars = levelStars.getStars();
 		return stars;
 	}
 	
+	/**
+	 * 
+	 * @return the average stars of a particular category
+	 */
 	public double getAverageStars(){
 		LevelStars levelStars = getStars();
 		return levelStars.getAverageStars();
 	}
 	
+	/**
+	 * 
+	 * @return the count of finished levels in particular category
+	 */
 	public int getLevelsFinished(){
 		LevelStars levelStars = getStars();
 		return levelStars.getLevelsFinished();
 	}
 	
+	/**
+	 * 
+	 * @return true if sound is on, else false
+	 */
 	public boolean isSoundOn(){
 		data = getData();
 		return data.isSoundOn();
 	}
 	
+	/**
+	 * Sets the sound on or off in database
+	 * @param bool
+	 */
 	public void setSound(boolean bool){
 		data.setSound(bool);
 		saveData(data);
 	}
 	
+	/**
+	 * Updates the stars of a level to newStars in a category
+	 * and saves it to the database
+	 * @param level
+	 * @param newStars
+	 */
 	public void updateStars(int level, int newStars){
 		LevelStars stars = getStars();
 		stars.updateStars(level, newStars);
 	}
 	
+	/**
+	 * 
+	 * @return the height of the play screen
+	 */
 	public int getPlayScreenHeight(){
 		return this.playScreenHeight;
 	}
 	
+	/**
+	 * 
+	 * @return the width of the play screen
+	 */
 	public int getPlayScreenWidth(){
 		return this.playScreenWidth;
 	}
 	
+	/**
+	 * 
+	 * @return name of 'Carl' from database
+	 */
 	public String getName(){
 		data = getData();
 		return data.getName();
 	}
 	
+	/**
+	 * Sets the name of the avatar to newName in database
+	 * @param newName 
+	 */
 	public void setName(String newName){
 		data.setName(newName);
 		saveData(data);
