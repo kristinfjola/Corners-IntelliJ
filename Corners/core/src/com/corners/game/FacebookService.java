@@ -25,29 +25,22 @@ public interface FacebookService {
 	public void logOut();
 	
 	/**
-	 * @return
+	 * @return list of facebook friends that use Corners
 	 */
 	public List<String> getFriendsList();
 	
 	/**
-	 * @return
+	 * @return list of scores from facebook friends that use Corners
+	 * 		(the list is in the same order as the list from getFriendsList)
 	 */
 	public List<Integer> getScores();
 	
 	/**
-	 * @param score
+	 * updates the score on facebook - score is the new score
+	 * 
+	 * @param score 
 	 */
 	public void updateScore(int score);
-	
-	/**
-	 * 
-	 */
-	public void checkPermission();
-	
-	/**
-	 * @return
-	 */
-	public List<String> getFriendsListIds();
 	
 	/**
 	 * displays information about the user's Facebook account
