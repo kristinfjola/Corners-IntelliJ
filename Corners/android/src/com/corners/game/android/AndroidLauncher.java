@@ -69,9 +69,7 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
         
         actionResolver = new ActionResolverImpl(this);
         mainActivity.actionResolver = actionResolver;
-        
-        //initialize(mainActivity, cfg);
-        
+
         // -----    two layouts to include facebook ------
         RelativeLayout layout = new RelativeLayout(this);
 
@@ -85,27 +83,16 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
         LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         fbView = vi.inflate(R.layout.main, null);
         profilePictureView = (ProfilePictureView) fbView.findViewById(R.id.selection_profile_pic);
-        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-        // trying to connect actual facebook button to login
-        /*loginButton.setOnClickListener( loginButton.new LoginClickListener(){
-            @Override
-            public void onClick(View v) {
-                //Do whatever u want
-                //super.onClick(v);
-                
-                System.out.println("LOGIN CLICKED");
-            }
-        });*/
-        
-        layout.addView(gameView);
         
         RelativeLayout.LayoutParams fbParams = 
             new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, 
                     RelativeLayout.LayoutParams.WRAP_CONTENT);
         fbParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        fbParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        fbParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         
+        layout.addView(gameView);
         layout.addView(fbView, fbParams);
+        showFacebook(false);
 
         // Hook it all up
         setContentView(layout);

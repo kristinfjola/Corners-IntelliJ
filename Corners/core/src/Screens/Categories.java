@@ -51,6 +51,7 @@ public class Categories implements Screen {
 		stage = new Stage();
 		this.main.scrWidth = Gdx.graphics.getWidth();
 		this.main.scrHeight = Gdx.graphics.getHeight();
+		main.activityRequestHandler.showFacebook(false);
 		
 		addBackToProcessor();
 		setAllProcessors();

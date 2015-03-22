@@ -30,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -51,7 +52,7 @@ public class Settings implements Screen{
 	//Setting up the view
 	LabelStyle settingsStyle;
 	LabelStyle settingsStyleRight; //TODO change and only have one style
-	Label labelLogin;
+	TextButton btnLogin;
 	float pad;
 	
 	//Sound slider
@@ -72,6 +73,7 @@ public class Settings implements Screen{
 		settingsStyle = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-M"), Color.BLACK);
 		addBackToProcessor();
 		setAllProcessors();
+		main.activityRequestHandler.showFacebook(true);
 		
 		settingsStyle = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-M"), Color.BLACK);
 		settingsStyleRight = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-M"), new Color(45/255f,45/255f,45/255f,1));
@@ -214,14 +216,24 @@ public class Settings implements Screen{
 	}
 	
 	public void setUpFacebook() {
+		Label labelFb = new Label("Facebook", settingsStyle);	
+		
+		btnLogin = new TextButton("Login", skin, main.screenSizeGroup+"-L"+"-facebook");
 		if(main.facebookService.isLoggedIn()){
-			labelLogin = new Label("Logout", settingsStyle);
+			btnLogin.setText("Logout");
 		} else {
-			labelLogin = new Label("Login", settingsStyle);
+			btnLogin.setText("Login");
 		}
 		setLoginListener();
-		table.add(labelLogin).expandX().left().pad(pad);
-		table.add(new Label("Connected", settingsStyleRight)).expandX().right().pad(pad).row();
+		
+		/* trying to move text on button
+		btnLogin.getLabel().setPosition(500, 500);
+		btnLogin.getLabel().setOrigin(200, 200);
+		btnLogin.getLabel().moveBy(300, 300);
+		*/
+		
+		table.add(labelFb).expandX().left().pad(pad).padBottom(pad + main.scrWidth/6f);
+		table.add(btnLogin).expandX().right().pad(pad).padBottom(pad + main.scrWidth/6f).row();
 		addLine();
 	}
 	
@@ -261,14 +273,14 @@ public class Settings implements Screen{
 	}
 	
 	public void setLoginListener(){
-		labelLogin.addListener(new ClickListener() {
+		btnLogin.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(main.facebookService.isLoggedIn()){
-					labelLogin.setText("Login");
+					btnLogin.setText("Login");
 					main.facebookService.logOut();
 				} else {
-					labelLogin.setText("Logout");
+					btnLogin.setText("Logout");
 					main.facebookService.logIn();
 				}
 				

@@ -90,3 +90,17 @@ sliderKnob
   orig: 27, 26
   offset: 0, 0
   index: -1
+  
+  
+fb_button.png
+size: 256,140
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+fbButton
+  rotate: false
+  xy: 5, 0
+  size: 411, 170
+  orig: 411, 170
+  offset: 0, 0
+  index: -1

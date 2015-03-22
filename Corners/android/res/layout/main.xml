@@ -4,59 +4,30 @@
         xmlns:facebook="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
+		<!--
 		<com.facebook.widget.LoginButton
             android:id="@+id/login_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="150dp"
             />
-		<!--
-		<com.facebook.widget.ProfilePictureView
-		        android:id="@+id/userImage"
-		        android:layout_width="75dp"
-		        android:layout_height="75dp"
-		        android:layout_marginLeft="18dp"
-		        android:layout_marginTop="18dp" />
 		-->
 		<com.facebook.widget.ProfilePictureView
             android:id="@+id/selection_profile_pic"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center_horizontal"
+            android:layout_marginLeft="35dp"
+		    android:layout_marginTop="100dp"
             facebook:preset_size="small" />
     <TextView
             android:id="@+id/selection_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_gravity="center"
+            android:layout_marginTop="115dp"
             android:textColor="#333"
             android:textSize="18sp" />
-        <!--
-        <com.facebook.widget.LoginButton
-            android:id="@+id/authButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            />
-        <Button
-	        android:id="@+id/buttonLoginLogout"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:text="@string/login" />
-        
-        <TextView
-	        android:id="@+id/instructionsOrLink"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:text="@string/instructions"
-	        android:autoLink="web"
-	        android:linksClickable="true"
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
-	     -->
 
     </LinearLayout>   
