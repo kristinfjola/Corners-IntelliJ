@@ -8,6 +8,7 @@
 package com.corners.game;
 
 import screens.Categories;
+import screens.Friends;
 import screens.Levels;
 import screens.Play;
 import screens.Settings;
@@ -15,6 +16,7 @@ import screens.Start;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -32,6 +34,7 @@ public class MainActivity extends Game {
 	public Texture fullStar;
 	public Texture emptyStar;
 	public Data data;
+	public Friends friends;
 	
 	public FacebookService facebookService;
 	
@@ -39,6 +42,11 @@ public class MainActivity extends Game {
 	public float volume;
 	public boolean settingsVolume;
 	public boolean phoneVolume;
+	public Sound clickedSound;
+	public Sound correctAnswerSound;
+    public Sound wrongAnswerSound;
+    public Sound levelFinishedSound;
+    public Sound categoryFinishedSound;
 	
 	@Override
 	/** Method called once when the application is created. **/
@@ -50,6 +58,12 @@ public class MainActivity extends Game {
         fullStar = new Texture("stars/star_yellow.png");
 		emptyStar = new Texture("stars/star_gray.png");
 		settingsVolume = true; //TODO get last settings from DB
+		
+		clickedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/clicked.mp3"));
+		correctAnswerSound = Gdx.audio.newSound(Gdx.files.internal("sounds/correctAnswer.mp3"));
+	    wrongAnswerSound = Gdx.audio.newSound(Gdx.files.internal("sounds/wrongAnswer.mp3"));
+	    levelFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
+	    categoryFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
 	}
 
 	@Override

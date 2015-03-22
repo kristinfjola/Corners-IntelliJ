@@ -1,8 +1,18 @@
 package com.corners.game.android;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
+
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.corners.game.MainActivity;
@@ -27,6 +37,8 @@ public class AndroidLauncher extends AndroidApplication {
        
         mainActivity.setFacebookService(facebookService);  
         initialize(mainActivity, cfg);
+        
+        checkKeyHash();
 		
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.media.RINGER_MODE_CHANGED");
@@ -71,4 +83,21 @@ public class AndroidLauncher extends AndroidApplication {
         super.onActivityResult(requestCode, resultCode, data);
         facebookService.onActivityResult(requestCode, resultCode, data);       
     }
+    
+    public void checkKeyHash(){
+		// if you want to know which key hash you're using
+		 try {
+	        	PackageInfo info = this.getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_SIGNATURES);
+	        	for (Signature signature : info.signatures) {
+	        	    MessageDigest md = MessageDigest.getInstance("SHA");
+	        	    md.update(signature.toByteArray());
+	        	    Log.e("MY KEY HASH:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+	        	}
+	    	} catch (NameNotFoundException e) {
+	    		Log.e("key hash", "name not found");
+
+	    	} catch (NoSuchAlgorithmException e) {
+	    		Log.e("key hash", "no such algorithm");
+	    	}
+	}
 }
