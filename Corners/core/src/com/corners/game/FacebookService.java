@@ -2,8 +2,6 @@ package com.corners.game;
 
 import java.util.List;
 
-import screens.Settings;
-
 
 public interface FacebookService {
 
