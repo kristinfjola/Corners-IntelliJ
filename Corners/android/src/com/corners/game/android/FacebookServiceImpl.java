@@ -42,6 +42,11 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphObject;
 
+/**
+ * @author Kristin Fjola Tomasdottir
+ * @date 	05.03.2015
+ * @goal 	Functionality for everything regarding the user's Facebook account
+ */
 public class FacebookServiceImpl implements FacebookService{
     private final AndroidLauncher androidLauncher;
     private final UiLifecycleHelper uiHelper;
@@ -106,13 +111,6 @@ public class FacebookServiceImpl implements FacebookService{
                 }
         );
         return user;
-	}
-	
-
-	@Override
-	public void inviteFriends() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
