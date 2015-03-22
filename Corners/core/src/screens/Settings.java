@@ -108,12 +108,6 @@ public class Settings implements Screen{
 		Gdx.gl.glClearColor(21/255f, 149/255f, 136/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		/*if(main.facebookService.isLoggedIn() && profile_pic != null){
-			batch.begin();
-			batch.draw(profile_pic, screenWidth*0.25f, screenHeight*0.6f, screenWidth*0.5f, screenWidth*0.5f);	
-			batch.end();
-		}*/
-		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 		
@@ -215,6 +209,9 @@ public class Settings implements Screen{
 		Gdx.input.setInputProcessor(multiplexer);
 	}
 	
+	/**
+	 * set's up an option for logging into Facebook
+	 */
 	public void setUpFacebook() {
 		Label labelFb = new Label("Facebook", settingsStyle);	
 		
@@ -272,6 +269,9 @@ public class Settings implements Screen{
 		table.add(img).size(lineWidth,1).left().pad(0).padLeft(padLeft).row();
 	}
 	
+	/**
+	 * set's a listener for the Facebook login
+	 */
 	public void setLoginListener(){
 		btnLogin.addListener(new ClickListener() {
 			@Override

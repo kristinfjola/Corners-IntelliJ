@@ -179,10 +179,17 @@ public class MainActivity extends Game {
 		}
 	}
 
+	/**
+	 * @return the user's Facebook information
+	 */
 	public FacebookUser getUser() {
 		return user;
 	}
 
+	/**
+	 * @param user
+	 * sets the user's Facebook information
+	 */
 	public void setUser(FacebookUser user) {
 		this.user = user;
 	}

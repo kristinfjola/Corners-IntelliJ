@@ -1,3 +1,8 @@
+/**
+ * @author  automatically made
+ * @date 	05.02.2015
+ * @goal 	Handles everything for native Android functionality
+ */
 package com.corners.game.android;
 
 import java.security.MessageDigest;
@@ -44,7 +49,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
 
-
 public class AndroidLauncher extends AndroidApplication implements ActivityRequestHandler {
 	protected FacebookServiceImpl facebookService;
 	ActionResolverImpl actionResolver;
@@ -62,15 +66,13 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
         cfg.useAccelerometer = false;
         cfg.useCompass = false;
         cfg.useWakelock = true;
+        
+        //checkKeyHash();
 
         facebookService = new FacebookServiceImpl(this);
         facebookService.onCreate(savedInstanceState);      
-
         MainActivity mainActivity = new MainActivity();
-       
         mainActivity.setFacebookService(facebookService);  
-        
-        //checkKeyHash();
         mainActivity.activityRequestHandler = this;
         
         actionResolver = new ActionResolverImpl(this);
@@ -89,6 +91,7 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
         LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         fbView = vi.inflate(R.layout.main, null);
         profilePictureView = (ProfilePictureView) fbView.findViewById(R.id.selection_profile_pic);
+        userNameView = (TextView) fbView.findViewById(R.id.selection_user_name);
         
         RelativeLayout.LayoutParams fbParams = 
             new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, 
@@ -109,15 +112,17 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
         registerReceiver(new RingerModeHelper(mainActivity,this.getContext()) , filter);
 	}
 	
+	/**
+	 *  prints your Facebook developer key hash
+	 */
 	public void checkKeyHash(){
-		// if you want to know which key hash you're using
 		 try {
-	        	PackageInfo info = this.getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_SIGNATURES);
-	        	for (Signature signature : info.signatures) {
-	        	    MessageDigest md = MessageDigest.getInstance("SHA");
-	        	    md.update(signature.toByteArray());
-	        	    Log.e("MY KEY HASH:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-	        	}
+        	PackageInfo info = this.getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_SIGNATURES);
+        	for (Signature signature : info.signatures) {
+        	    MessageDigest md = MessageDigest.getInstance("SHA");
+        	    md.update(signature.toByteArray());
+        	    Log.e("MY KEY HASH:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+        	}
 	    	} catch (NameNotFoundException e) {
 	    		Log.e("key hash", "name not found");
 
@@ -126,18 +131,12 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
 	    	}
 	}
 	
-	public void setUserInfo(GraphUser user){
-		//profilePictureView = (ProfilePictureView) fbView.findViewById(R.id.selection_profile_pic);
-		profilePictureView.setCropped(true);
-		userNameView = (TextView) fbView.findViewById(R.id.selection_user_name);
-		profilePictureView.setProfileId(user.getId());
-        userNameView.setText(user.getName());
-	}
-	
+	/**
+	 * @param user
+	 * set's the user's profile picture from Facebook
+	 */
 	public void setProfilePicture(FacebookUser user){
-		//profilePictureView = (ProfilePictureView) fbView.findViewById(R.id.selection_profile_pic);
 		profilePictureView.setCropped(true);
-		userNameView = (TextView) fbView.findViewById(R.id.selection_user_name);
 		profilePictureView.setProfileId(user != null ? user.getId() : "");
 		userNameView.setText(user != null ? user.getFullName() : "");
 	}
@@ -181,8 +180,10 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
         facebookService.onActivityResult(requestCode, resultCode, data);       
     }
     
+    /**
+     * handler to show and hide Facebook info
+     */
     protected Handler handler = new Handler() {
-    	// handler to show and hide facebook info
         @Override
         public void handleMessage(Message msg) {
             switch(msg.what) {

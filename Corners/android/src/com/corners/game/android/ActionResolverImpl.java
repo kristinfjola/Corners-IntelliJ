@@ -1,3 +1,8 @@
+/**
+ * @author Kristin Fjola Tomasdottir
+ * @date 	12.03.15
+ * @goal 	Various native Android features
+ */
 package com.corners.game.android;
 
 import com.corners.game.ActionResolver;
@@ -25,27 +30,6 @@ public class ActionResolverImpl implements ActionResolver {
        }
 
 
-      public void showShortToast(final CharSequence toastMessage) {
-               uiThread.post(new Runnable() {
-                       public void run() {
-                               Toast.makeText(appContext, toastMessage, Toast.LENGTH_SHORT)
-                                               .show();
-                       }
-               });
-       }
-
-
-
-       public void showLongToast(final CharSequence toastMessage) {
-               uiThread.post(new Runnable() {
-                       public void run() {
-                               Toast.makeText(appContext, toastMessage, Toast.LENGTH_LONG)
-                                               .show();
-                       }
-               });
-       }
-
-
       @Override
        public void showAlertBox(final String alertBoxTitle,
                        final String alertBoxMessage, final String alertBoxButtonText) {
@@ -66,7 +50,6 @@ public class ActionResolverImpl implements ActionResolver {
 
 	@Override
 	public void showToast(final CharSequence toastMessage, int toastDuration) {
-		// TODO Auto-generated method stub
 		uiThread.post(new Runnable() {
             public void run() {
                     Toast.makeText(appContext, toastMessage, Toast.LENGTH_LONG)

@@ -1,13 +1,12 @@
-package com.corners.game;
-
-import java.util.List;
-
-
 /**
  * @author Kristin Fjola Tomasdottir
  * @date 	05.03.2015
  * @goal 	Functionality for everything regarding the user's Facebook account
  */
+package com.corners.game;
+
+import java.util.List;
+
 public interface FacebookService {
 
 	/**

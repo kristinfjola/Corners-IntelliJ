@@ -1,3 +1,8 @@
+/**
+ * @author Kristin Fjola Tomasdottir
+ * @date 	05.03.2015
+ * @goal 	Functionality for everything regarding the user's Facebook account
+ */
 package com.corners.game.android;
 
 import java.util.ArrayList;
@@ -37,16 +42,10 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphObject;
 
-/**
- * @author Kristin Fjola Tomasdottir
- * @date 	05.03.2015
- * @goal 	Functionality for everything regarding the user's Facebook account
- */
 public class FacebookServiceImpl implements FacebookService{
     private final AndroidLauncher androidLauncher;
     private final UiLifecycleHelper uiHelper;
     private FacebookUser user;
-    
    
     public FacebookServiceImpl(AndroidLauncher androidLauncher) {
         this.androidLauncher = androidLauncher;
@@ -59,20 +58,17 @@ public class FacebookServiceImpl implements FacebookService{
 
 	@Override
 	public boolean isLoggedIn() {
-		System.out.println("checking if logged in");
 		boolean isLoggedIn = Session.getActiveSession() != null && Session.getActiveSession().isOpened();
-		System.out.println("logged in: " + isLoggedIn);
 		return isLoggedIn;
 	}
 
 	@Override
 	public FacebookUser logIn() {
-		System.out.println("logging in");
+		System.out.println("logging in to facebook");
 		List permissions = new ArrayList<String>();
         permissions.add("user_friends");
         permissions.add("user_games_activity");
         permissions.add("friends_games_activity");
-        
         permissions.add("public_profile");
         permissions.add("email");
 
@@ -101,7 +97,6 @@ public class FacebookServiceImpl implements FacebookService{
                             }
                             new GetFacebookUserTask().execute(session);
                         }
-                        
                     }
                 }
         );
@@ -110,9 +105,8 @@ public class FacebookServiceImpl implements FacebookService{
 
 	@Override
 	public void logOut() {
-		System.out.println("trying to log out");
 		 if (isLoggedIn()) {
-			System.out.println("loggin out");
+			System.out.println("logging out of facebook");
             Session.getActiveSession().closeAndClearTokenInformation();
             removeUser();
         }
@@ -126,8 +120,10 @@ public class FacebookServiceImpl implements FacebookService{
 		}
 	}
 	
+	/**
+	 * removing information from Facebook about the user 
+	 */
 	public void removeUser(){
-		System.out.println("removing user");
 		user = null;
 		new SetProfilePicTask().execute(user);
 	}
@@ -160,6 +156,10 @@ public class FacebookServiceImpl implements FacebookService{
         uiHelper.onDestroy();
     }
     
+    /**
+     * @param session - current Facebook session
+     * fetches information about the user's Facebook account
+     */
     public void getFacebookUser(Session session){
 		Request request = Request.newGraphPathRequest(session, "me", null);
 		Response response = Request.executeAndWait(request);
@@ -172,15 +172,16 @@ public class FacebookServiceImpl implements FacebookService{
 		}
     }
     
+    /**
+     * @param jo - JSON object representing the user's Facebook account
+     * @return FacebookUser - information about the user's Facebook account
+     */
     public FacebookUser setUser(JSONObject jo){
     	FacebookUser u = new FacebookUser();
     	try {
 			u.setId(jo.get("id").toString());
 			u.setFirstName(jo.get("first_name").toString());
 			u.setFullName(jo.get("name").toString());
-			u.setGender(jo.get("gender").toString());
-			u.setEmail(jo.get("email").toString());
-			u.setUrl(jo.get("link").toString());
 		} catch (JSONException e) {
 			e.printStackTrace();
 			Log.e("facebook", "could not create user");
@@ -189,29 +190,34 @@ public class FacebookServiceImpl implements FacebookService{
     	return u;    	
     }
     
+    /**
+     * @author Kristin Fjola Tomasdottir
+     * @date 	19.03.2015
+     * @goal 	Fetches information about the user's Facebook account
+     */
     public class GetFacebookUserTask extends AsyncTask<Session, Void, Session> {
     	public GetFacebookUserTask() {}
 		protected Session doInBackground(Session... sessions) {
-			System.out.println("starting GetFacebookUserTask");
 			Session session = sessions[0];
 			getFacebookUser(session);
 			return session;
 		}
-    	protected void onPostExecute(Session session) {
-    		System.out.println("finishing GetFacebookUserTask");
-    	}
+    	protected void onPostExecute(Session session) {}
     }
     
+    /**
+     * @author Kristin Fjola Tomasdottir
+     * @date 	19.03.2015
+     * @goal 	Displays the user's Facebook photo
+     */
     public class SetProfilePicTask extends AsyncTask<FacebookUser, Void, FacebookUser> {
     	public SetProfilePicTask() {}
     	protected FacebookUser doInBackground(FacebookUser... users) {
-    		System.out.println("starting SetProfilePicTask");
     		FacebookUser user = users[0];
     		return user;
     	}
     	protected void onPostExecute(FacebookUser user) {
     		androidLauncher.setProfilePicture(user);
-    		System.out.println("finishing SetProfilePicTask");
     	}
     }
     
@@ -229,7 +235,6 @@ public class FacebookServiceImpl implements FacebookService{
 			}
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -250,7 +255,6 @@ public class FacebookServiceImpl implements FacebookService{
 			}
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -289,7 +293,6 @@ public class FacebookServiceImpl implements FacebookService{
     			}
     			
     		} catch (JSONException e) {
-    			// TODO Auto-generated catch block
     			e.printStackTrace();
     		}
     	}
