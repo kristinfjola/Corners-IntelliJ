@@ -236,7 +236,12 @@ public class FacebookServiceImpl implements FacebookService{
 		return friends;
     }
     
-    @Override
+    /**
+     * used in getScores method - to get score from id
+     * 	 (the list is in the same order as the list from getFriendsList)
+     * 
+	 * @return list of ids of facebook friends
+	 */
     public List<String> getFriendsListIds() {
     	Session session = Session.getActiveSession();
 		Request request = Request.newGraphPathRequest(session, "me/friends", null);
@@ -322,7 +327,9 @@ public class FacebookServiceImpl implements FacebookService{
     	System.out.println("update scores response: "+response);
     }
     
-    @Override
+    /**
+	 * writes permessions for facebook user in console
+	 */
     public void checkPermission() {
     	Session session = Session.getActiveSession();
 		Request request = Request.newGraphPathRequest(session, "me/permissions", null);
