@@ -341,8 +341,9 @@ public class Play implements Screen, InputProcessor{
 	 */
 	public void showPauseDialog(){
 		pauseDialog = new Dialog("", this.main.skin);
-		pauseDialog.getContentTable().add().height(cat.getPlayScreenHeight()-30);
+		pauseDialog.getContentTable().add().height(cat.getPlayScreenHeight());
 		pauseDialog.getContentTable().add().width(cat.getPlayScreenWidth());
+		pauseDialog.moveBy(-40, 40);
 		pauseDialog.show(this.stage);
 	}
 	

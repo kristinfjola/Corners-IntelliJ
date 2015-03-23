@@ -56,6 +56,8 @@ public class Categories implements Screen {
 		addBackToProcessor();
 		setAllProcessors();
 		processData();
+		//addCarl();
+		
 		
 		skin = main.skin;
 		
@@ -68,6 +70,27 @@ public class Categories implements Screen {
 		setUpInfoBar();
 	}
 	
+
+	private void addCarl() {
+		int levelsFinished = 0;
+		levelsFinished = data.getAllFinished();
+		if(levelsFinished < 5){
+			this.carl = new Texture("carl/carl1.jpg");
+		}
+		else if(levelsFinished < 10){
+			this.carl = new Texture("carl/carl2.jpg");
+		}
+		else if(levelsFinished < 15){
+			this.carl = new Texture("carl/carl3.jpg");
+		}
+		else if(levelsFinished < 20){
+			this.carl = new Texture("carl/carl4.jpg");
+		}
+		else{
+			this.carl = new Texture("carl/carl5.jpg");
+		}
+	}
+
 
 	@Override
 	public void show() {
@@ -233,12 +256,12 @@ public class Categories implements Screen {
 	 * Sets up the info bar
 	 */
 	public void setUpInfoBar() {
-		double tempStars = data.getAverageStars();
-		int tempLevels = data.getAllFinished();
+		double avgStars = data.getAverageStars();
+		int finishedLevels = data.getAllFinished();
 		InfoBar infoBar = new InfoBar(main);
 		infoBar.setMiddleText("Categories");
-		infoBar.setRightText(tempLevels+"/27");
-		infoBar.setLeftImage(infoBar.getStarAmount(tempStars)+"stars");
+		infoBar.setRightText(finishedLevels+"/27");
+		infoBar.setLeftImage(infoBar.getStarAmount(avgStars)+"stars");
 		table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 	}
 }

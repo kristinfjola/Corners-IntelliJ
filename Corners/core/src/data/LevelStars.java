@@ -79,7 +79,7 @@ public class LevelStars {
 	public void calcAverageStars() {
 		int count = 0;
 		double sumStars = 0.0;
-		for(int i = 0; i < stars.length; i++){
+		for(int i = 1; i < stars.length; i++){
 			if(stars[i] != -1 && stars[i] != 0){
 				count++;
 				sumStars += stars[i];
