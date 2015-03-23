@@ -72,7 +72,7 @@ public class Friends implements Screen{
 		double stars = 0;
 		int finished_levels = 0;
 		
-		Texture stars_image = new Texture("infoBar/"+this.getStarAmount(stars)+"stars.png");
+		Texture stars_image;
 		
 		for(int i = 0; i < friends.size(); i++) {
 			System.out.println("friend: "+friends.get(i));
@@ -91,6 +91,7 @@ public class Friends implements Screen{
 					finished_levels = Integer.parseInt(score.substring(1));
 				}
 			}
+			stars_image = new Texture("infoBar/"+this.getStarAmount(stars)+"stars.png");
 			//table.add(new Label(""+friends.get(i), friendsStyle)).left().pad(screenWidth/12f).padLeft(screenWidth/24f);
 			if(scores.get(i) != -1) {
 				table.add(new Label(""+friends.get(i), friendsStyle)).left().pad(screenWidth/12f).padLeft(screenWidth/24f);
