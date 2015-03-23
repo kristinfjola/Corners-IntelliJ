@@ -491,7 +491,6 @@ public class Play implements Screen, InputProcessor{
 	public void pause() {
 		oldSecondsPassed = secondsPassed;
 		delayTime = true;
-		showPauseDialog();
 		this.state = State.PAUSE;
 	}
 
@@ -502,7 +501,6 @@ public class Play implements Screen, InputProcessor{
 	public void resume() {
 		startTime = System.nanoTime();
 		delayTime = false;
-		clearPauseDialog();
 		this.state = State.RUN;
 	}
 
@@ -778,10 +776,12 @@ public class Play implements Screen, InputProcessor{
 					table.setFillParent(true);
 					if(state == State.RUN) {
 						pause();
+						showPauseDialog();
 						infoBar.setRightImage("play");
 					}
 					else {
 						resume();
+						clearPauseDialog();
 						infoBar.setRightImage("pause");
 					}
 					table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
