@@ -14,7 +14,9 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -32,10 +34,9 @@ public class Friends implements Screen{
 
 	MainActivity main;
 	Skin skin;
+	InfoBar infoBar;
 	Stage stage;
 	SpriteBatch batch;
-	float screenWidth = Gdx.graphics.getWidth();
-	float screenHeight = Gdx.graphics.getHeight();
 	TextButton btnTest;
 	List<String> friends;
 	LabelStyle friendsStyle;
@@ -53,6 +54,7 @@ public class Friends implements Screen{
 		batch = new SpriteBatch();
 		stage = new Stage();
 		skin = this.main.skin;
+		infoBar = new InfoBar(main);
 		Gdx.input.setInputProcessor(stage);
 		addBackToProcessor();
 		setAllProcessors();
@@ -67,12 +69,14 @@ public class Friends implements Screen{
 		table.setFillParent(true);
 		stage.addActor(table);
 		
+		setUpInfoBar();
+		
 		//list of scores from friends - not used right now
 		List<Integer> scores = main.facebookService.getScores();
 		double stars = 0;
 		int finished_levels = 0;
 		
-		Texture stars_image;
+		String stars_image;
 		
 		for(int i = 0; i < friends.size(); i++) {
 			System.out.println("friend: "+friends.get(i));
@@ -92,14 +96,12 @@ public class Friends implements Screen{
 				}
 			}
 			System.out.println("stars: "+stars);
-			System.out.println("stars amount: "+this.getStarAmount(stars));
-			stars_image = new Texture("infoBar/"+this.getStarAmount(stars)+".png");
+			System.out.println("stars amount: "+infoBar.getStarAmount(stars));
+			stars_image = "infoBar/"+infoBar.getStarAmount(stars)+".png";
 			//table.add(new Label(""+friends.get(i), friendsStyle)).left().pad(screenWidth/12f).padLeft(screenWidth/24f);
 			if(scores.get(i) != -1) {
-				table.add(new Label(""+friends.get(i), friendsStyle)).left().pad(screenWidth/12f).padLeft(screenWidth/24f);
-				Image stars_img = new Image();
-				stars_img.setDrawable(new TextureRegionDrawable(new TextureRegion(stars_image)));
-				table.add(stars_img).right().row();
+				table.add(new Label(""+friends.get(i), friendsStyle)).left().padLeft(main.scrWidth/24f);
+				table.add(new Image(new Texture(stars_image))).size(main.scrWidth/6).right().padRight(main.scrWidth/24f).row();
 			}
 		}
 	}
@@ -212,27 +214,11 @@ public class Friends implements Screen{
 	}
 	
 	/**
-	 * Rounds stars to the nearest half integer and puts together a string
-	 * @param stars
-	 * @return string that refers to the correct image based on the number stars
+	 * Sets up the info bar
 	 */
-	public String getStarAmount(double stars) {
-		String starAmount="";
-		
-		double starsX4 = stars*4;
-		double roundedStarsX4 = Math.round(starsX4); 
-		double roundedStars = roundedStarsX4/4;
-		int wholeStars = (int) Math.floor(roundedStars);
-		
-		starAmount+=""+wholeStars;
-		
-		if(roundedStars-wholeStars==0.25) starAmount+="_25";
-		else if(roundedStars-wholeStars==0.5) starAmount+="_5";
-		else if(roundedStars-wholeStars==0.75) starAmount+="_75";
-		
-		starAmount+="-stars";
-		
-		return starAmount;
+	public void setUpInfoBar() {
+		InfoBar infoBar = new InfoBar(main);
+		infoBar.setMiddleText("High Score");
+	 	table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).expandX().left().row();
 	}
-
 }

@@ -111,7 +111,7 @@ public class InfoBar {
 	}
 	
 	/**
-	 * Rounds stars to the nearest quarter of integer and puts together a string
+	 * Rounds stars to the nearest quarter of an integer and puts together a string
 	 * @param stars
 	 * @return string that refers to the correct image based on the number stars
 	 */

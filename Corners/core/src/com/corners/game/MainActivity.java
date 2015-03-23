@@ -19,6 +19,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -218,9 +219,11 @@ public class MainActivity extends Game {
 		backgroundOff = skin.getDrawable("backgroundOff");
 		knob = skin.getDrawable("sliderKnob");	
 		
-		backgroundOn.setMinHeight(scrWidth/12);
-		backgroundOff.setMinHeight(scrWidth/12);
-		knob.setMinHeight(scrWidth/12);
-		knob.setMinWidth(scrWidth/12);
+		
+		int textHeight = (int)(skin.getFont(screenSizeGroup+"-M").getBounds("Sound").height*1.5f);		
+		backgroundOn.setMinHeight(textHeight);
+		backgroundOff.setMinHeight(textHeight);
+		knob.setMinHeight(textHeight);
+		knob.setMinWidth(textHeight);
 	}
 }

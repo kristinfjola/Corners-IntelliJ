@@ -34,6 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -85,9 +86,11 @@ public class Settings implements Screen{
 	@Override
 	public void show() {
 		table = new Table();
-		table.top().left();
+		table.top();
 		table.setFillParent(true);
 		stage.addActor(table);
+		
+		setUpInfoBar();
 		
 		setUpFacebook();
 		setUpSound();
@@ -202,6 +205,12 @@ public class Settings implements Screen{
 		Gdx.input.setInputProcessor(multiplexer);
 	}
 	
+	public void setUpInfoBar() {
+		InfoBar infoBar = new InfoBar(main);
+		infoBar.setMiddleText("Settings");
+	 	table.add(infoBar.getInfoBar()).expandX().left().size(main.scrWidth, main.scrHeight/10).row();
+	}
+	
 	/**
 	 * Set's up an option for logging into Facebook
 	 */
@@ -221,10 +230,10 @@ public class Settings implements Screen{
 		btnLogin.getLabel().setOrigin(200, 200);
 		btnLogin.getLabel().moveBy(300, 300);
 		*/
-		
-		table.add(labelFb).expandX().left().pad(pad).padBottom(pad + main.scrWidth/6f);
+		table.add(labelFb).expandX().left().pad(pad).padTop(main.scrWidth/4f);
 		//table.add(btnLogin).expandX().right().pad(pad).padBottom(pad + main.scrWidth/6f).row();
-		table.add(btnLogin).width(this.main.scrWidth/2.3f).height(this.main.scrHeight/10).right().pad(pad).padBottom(pad + main.scrWidth/6f).row();
+		table.add(btnLogin).width(this.main.scrWidth/2.3f).height(this.main.scrHeight/10)
+			.expandX().right().pad(pad).padTop(main.scrWidth/4f).row();
 		addLine();
 	}
 	
@@ -351,28 +360,36 @@ public class Settings implements Screen{
 		TextField nameInput = new TextField("", nameStyle);
 		*/
 		
-		final Dialog textInputDialog = new Dialog("", this.main.skin);
+		Pixmap pm = new Pixmap(1,1,Format.RGBA8888);
+		pm.setColor(Color.GRAY);
+		pm.fill();
 		
-		Label center = new Label("Save", main.skin);
-		center.addListener(new ClickListener() {
+		WindowStyle dialogStyle = new WindowStyle();
+		dialogStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(pm)));
+		dialogStyle.titleFont = main.skin.getFont(main.screenSizeGroup+"-M");
+		
+		final Dialog textInputDialog = new Dialog("", dialogStyle);
+		textInputDialog.setHeight(main.scrHeight/3);
+		textInputDialog.setWidth(main.scrWidth/2);
+		
+		Label saveButton = new Label("Save", main.skin);
+		saveButton.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				textInputDialog.remove();
 				super.touchUp(event, x, y, pointer, button);
 			}
 		});
-		textInputDialog.button("Nafn:");
-		textInputDialog.getButtonTable().row();
-		textInputDialog.button("Carl jr").row();
-		textInputDialog.getContentTable().row();
-		textInputDialog.add(center);
+		
+		textInputDialog.getContentTable().add(saveButton).expand();
 		
 		nameLabel.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				textInputDialog.show(stage);
+				stage.addActor(textInputDialog);
 				super.touchUp(event, x, y, pointer, button);
 			}
 		});
+
 	}
 }
