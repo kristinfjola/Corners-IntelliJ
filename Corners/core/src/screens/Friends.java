@@ -5,7 +5,12 @@
  */
 package screens;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -73,14 +78,35 @@ public class Friends implements Screen{
 		
 		//list of scores from friends - not used right now
 		List<Integer> scores = main.facebookService.getScores();
+		Integer my_score_temp = main.facebookService.getMyScore();
+		HashMap<Integer, String> friends_hash_temp = new HashMap<Integer, String>();
+		
+		for(int i = 0; i< scores.size(); i++) {
+			friends_hash_temp.put(scores.get(i), friends.get(i));
+		}
+		//add user to high score list
+		friends_hash_temp.put(my_score_temp, main.facebookService.getUserName());
+		
+		List keys = new ArrayList(friends_hash_temp.keySet());
+		Collections.sort(keys);
+		Collections.reverse(keys);
+		
+		Map<Integer, String> friends_hash = new TreeMap(Collections.reverseOrder());
+		friends_hash.putAll(friends_hash_temp);
+		
 		double stars = 0;
 		int finished_levels = 0;
 		
 		String stars_image;
 		
-		for(int i = 0; i < friends.size(); i++) {
-			System.out.println("friend: "+friends.get(i));
-			String score = Integer.toString(scores.get(i));
+		//TODO: refactora
+		
+		String my_score = Integer.toString(my_score_temp);
+		
+		int i = 0;
+		
+		for (Integer key : friends_hash.keySet()) {
+			String score = Integer.toString(key);
 			if(!score.equals("-1")) { //if permission to see score
 				if(score.length() == 4) {
 					stars = Double.parseDouble(score.substring(0, 3));
@@ -95,13 +121,12 @@ public class Friends implements Screen{
 					finished_levels = Integer.parseInt(score.substring(1));
 				}
 			}
-			System.out.println("stars: "+stars);
-			System.out.println("stars amount: "+infoBar.getStarAmount(stars));
 			stars_image = "infoBar/"+infoBar.getStarAmount(stars)+".png";
-			if(scores.get(i) != -1) {
-				table.add(new Label(""+friends.get(i), friendsStyle)).left().padLeft(main.scrWidth/24f);
-				table.add(new Image(new Texture(stars_image))).size(main.scrWidth/6).right().padRight(main.scrWidth/24f).row();
+			if(key != -1) {
+				table.add(new Label(""+(i+1)+". "+friends_hash.get(key), friendsStyle)).left().padLeft(main.scrWidth/24f);
+				table.add(new Image(new Texture(stars_image))).size(main.scrWidth/6).right().padRight(main.scrWidth/26f).row();
 			}
+			i++;
 		}
 	}
 

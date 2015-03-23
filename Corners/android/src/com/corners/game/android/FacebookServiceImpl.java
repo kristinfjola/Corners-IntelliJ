@@ -189,6 +189,11 @@ public class FacebookServiceImpl implements FacebookService{
     	return u;    	
     }
     
+    @Override
+    public String getUserName() {
+    	return (this.user.getFullName()) != null ? this.user.getFullName() : "";
+    }
+    
     /**
      * @author Kristin Fjola Tomasdottir
      * @date 	19.03.2015
@@ -304,6 +309,30 @@ public class FacebookServiceImpl implements FacebookService{
     	}
     	
     	return scores;
+    }
+    
+    @Override
+    public Integer getMyScore() {
+    	Integer score = 0;
+    	Session session = Session.getActiveSession();
+    	Request request = Request.newGraphPathRequest(session, "me/scores", null);
+		Response response = Request.executeAndWait(request);
+		try {
+			JSONArray data = (JSONArray) response.getGraphObject().getInnerJSONObject().get("data");
+			if(data.length() != 0) {
+				for(int j = 0; j < data.length(); j++) {
+					JSONObject app = (JSONObject) data.getJSONObject(j).get("application");
+					String app_name = (String) app.get("name");
+					if(app_name.equals("Corners")) {
+						score = (Integer) data.getJSONObject(j).get("score");
+					}
+    			}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return score;
     }
     
     @Override
