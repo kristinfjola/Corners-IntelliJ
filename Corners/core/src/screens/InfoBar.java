@@ -111,22 +111,26 @@ public class InfoBar {
 	}
 	
 	/**
-	 * Rounds stars to the nearest half integer and puts together a string
+	 * Rounds stars to the nearest quarter of integer and puts together a string
 	 * @param stars
 	 * @return string that refers to the correct image based on the number stars
 	 */
 	public String getStarAmount(double stars) {
 		String starAmount="";
 		
-		double doubleStars = stars*2;
-		double roundedDoubleStars = Math.round(doubleStars); 
-		double roundedStars = roundedDoubleStars/2;
+		double starsX4 = stars*4;
+		double roundedStarsX4 = Math.round(starsX4); 
+		double roundedStars = roundedStarsX4/4;
+		int wholeStars = (int) Math.floor(roundedStars);
 		
-		starAmount+=(int) Math.floor(roundedStars)+"-";
+		starAmount+=""+wholeStars;
 		
-		if(roundedStars>Math.floor(roundedStars)) {
-			starAmount+="half-";
-		}
+		if(roundedStars-wholeStars==0.25) starAmount+="_25";
+		else if(roundedStars-wholeStars==0.5) starAmount+="_5";
+		else if(roundedStars-wholeStars==0.75) starAmount+="_75";
+		
+		starAmount+="-stars";
+		
 		return starAmount;
 	}
 }

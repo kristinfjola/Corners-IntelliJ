@@ -275,7 +275,7 @@ public class Levels implements Screen{
 		InfoBar infoBar = new InfoBar(main);
 		infoBar.setMiddleText(cat.getType());
 		infoBar.setRightText(finishedLevels+"/9");
-		infoBar.setLeftImage(infoBar.getStarAmount(averageStars)+"stars");
+		infoBar.setLeftImage(infoBar.getStarAmount(averageStars));
 	 	container.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 	}
 	
