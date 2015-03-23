@@ -223,7 +223,8 @@ public class Settings implements Screen{
 		*/
 		
 		table.add(labelFb).expandX().left().pad(pad).padBottom(pad + main.scrWidth/6f);
-		table.add(btnLogin).expandX().right().pad(pad).padBottom(pad + main.scrWidth/6f).row();
+		//table.add(btnLogin).expandX().right().pad(pad).padBottom(pad + main.scrWidth/6f).row();
+		table.add(btnLogin).width(this.main.scrWidth/2.3f).height(this.main.scrHeight/10).right().pad(pad).padBottom(pad + main.scrWidth/6f).row();
 		addLine();
 	}
 	
