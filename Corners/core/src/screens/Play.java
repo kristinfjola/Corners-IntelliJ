@@ -18,6 +18,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -30,6 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
@@ -340,11 +343,18 @@ public class Play implements Screen, InputProcessor{
 	 * so that the player can't cheat
 	 */
 	public void showPauseDialog(){
-		pauseDialog = new Dialog("", this.main.skin);
-		pauseDialog.getContentTable().add().height(cat.getPlayScreenHeight());
-		pauseDialog.getContentTable().add().width(cat.getPlayScreenWidth());
-		pauseDialog.moveBy(-40, 40);
-		pauseDialog.show(this.stage);
+		Pixmap pm = new Pixmap(1,1,Format.RGBA8888);
+		pm.setColor(new Color(21/255f, 149/255f, 136/255f, 1));
+		pm.fill();
+		
+		WindowStyle dialogStyle = new WindowStyle();
+		dialogStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(pm)));
+		dialogStyle.titleFont = main.skin.getFont(main.screenSizeGroup+"-M");
+		
+		pauseDialog = new Dialog("", dialogStyle);
+		pauseDialog.setHeight(cat.getPlayScreenHeight());
+		pauseDialog.setWidth(cat.getPlayScreenWidth());
+		stage.addActor(pauseDialog);
 	}
 	
 	/**
