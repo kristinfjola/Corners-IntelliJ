@@ -76,7 +76,7 @@ public class Friends implements Screen{
 		
 		setUpInfoBar();
 		
-		//list of scores from friends - not used right now
+		//list of scores from friends
 		List<Integer> scores = main.facebookService.getScores();
 		Integer my_score_temp = main.facebookService.getMyScore();
 		HashMap<Integer, String> friends_hash_temp = new HashMap<Integer, String>();
