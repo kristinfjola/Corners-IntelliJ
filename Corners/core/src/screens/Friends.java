@@ -59,7 +59,7 @@ public class Friends implements Screen{
 		addBackToProcessor();
 		setAllProcessors();
 		friends = main.facebookService.getFriendsList();
-		friendsStyle = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-M"), Color.BLACK);
+		friendsStyle = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-S"), Color.BLACK);
 	}
 	
 	@Override
