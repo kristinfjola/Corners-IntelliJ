@@ -91,7 +91,9 @@ public class Friends implements Screen{
 					finished_levels = Integer.parseInt(score.substring(1));
 				}
 			}
-			stars_image = new Texture("infoBar/"+this.getStarAmount(stars)+"stars.png");
+			System.out.println("stars: "+stars);
+			System.out.println("stars amount: "+this.getStarAmount(stars));
+			stars_image = new Texture("infoBar/"+this.getStarAmount(stars)+".png");
 			//table.add(new Label(""+friends.get(i), friendsStyle)).left().pad(screenWidth/12f).padLeft(screenWidth/24f);
 			if(scores.get(i) != -1) {
 				table.add(new Label(""+friends.get(i), friendsStyle)).left().pad(screenWidth/12f).padLeft(screenWidth/24f);
@@ -217,15 +219,19 @@ public class Friends implements Screen{
 	public String getStarAmount(double stars) {
 		String starAmount="";
 		
-		double doubleStars = stars*2;
-		double roundedDoubleStars = Math.round(doubleStars); 
-		double roundedStars = roundedDoubleStars/2;
+		double starsX4 = stars*4;
+		double roundedStarsX4 = Math.round(starsX4); 
+		double roundedStars = roundedStarsX4/4;
+		int wholeStars = (int) Math.floor(roundedStars);
 		
-		starAmount+=(int) Math.floor(roundedStars)+"-";
+		starAmount+=""+wholeStars;
 		
-		if(roundedStars>Math.floor(roundedStars)) {
-			starAmount+="half-";
-		}
+		if(roundedStars-wholeStars==0.25) starAmount+="_25";
+		else if(roundedStars-wholeStars==0.5) starAmount+="_5";
+		else if(roundedStars-wholeStars==0.75) starAmount+="_75";
+		
+		starAmount+="-stars";
+		
 		return starAmount;
 	}
 
