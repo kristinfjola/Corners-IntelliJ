@@ -98,7 +98,6 @@ public class Friends implements Screen{
 			System.out.println("stars: "+stars);
 			System.out.println("stars amount: "+infoBar.getStarAmount(stars));
 			stars_image = "infoBar/"+infoBar.getStarAmount(stars)+".png";
-			//table.add(new Label(""+friends.get(i), friendsStyle)).left().pad(screenWidth/12f).padLeft(screenWidth/24f);
 			if(scores.get(i) != -1) {
 				table.add(new Label(""+friends.get(i), friendsStyle)).left().padLeft(main.scrWidth/24f);
 				table.add(new Image(new Texture(stars_image))).size(main.scrWidth/6).right().padRight(main.scrWidth/24f).row();
