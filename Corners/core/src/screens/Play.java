@@ -254,6 +254,7 @@ public class Play implements Screen, InputProcessor{
 	 * notifies user that his answer was correct
 	 */
 	public void displayRightAnswerAndGetNewQuestion(){
+		oldSecondsPassed = 0;
 		setCorrectProgressBar();
 		refreshProgressBar(true);	
 		delayTime = true;
