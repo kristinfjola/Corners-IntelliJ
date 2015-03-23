@@ -840,6 +840,12 @@ public class Play implements Screen, InputProcessor{
 		openNextLevel(levelWon);
 		data.getStarsByString(cat.getType()).updateStars(levelWon, newStars);
 		cat.saveData(data);
+		//save score on facebook
+		String temp_score = Double.toString(data.getAverageStars());
+		int finished_levels = data.getAllFinished();
+		temp_score = temp_score.replace(".","");
+		String score = temp_score.substring(0, Math.min(3,temp_score.length()))+finished_levels;
+		main.facebookService.updateScore(score);
 	}
 
 	/**

@@ -69,19 +69,35 @@ public class Friends implements Screen{
 		
 		//list of scores from friends - not used right now
 		List<Integer> scores = main.facebookService.getScores();
+		double stars = 0;
+		int finished_levels = 0;
 		
-		//timabundid allir med 3 stjornur:
-		
-		Texture yellow_star = new Texture("stars/star_yellow.png");
+		Texture stars_image = new Texture("infoBar/"+this.getStarAmount(stars)+"stars.png");
 		
 		for(int i = 0; i < friends.size(); i++) {
-			table.add(new Label(friends.get(i), friendsStyle)).left().pad(screenWidth/12f).padLeft(screenWidth/24f);
-			for(int j = 1; j <=3; j++) {
-				Image win_star = new Image();
-				win_star.setDrawable(new TextureRegionDrawable(new TextureRegion(yellow_star)));
-				table.add(win_star).right();
+			System.out.println("friend: "+friends.get(i));
+			String score = Integer.toString(scores.get(i));
+			if(!score.equals("-1")) { //if permission to see score
+				if(score.length() == 4) {
+					stars = Double.parseDouble(score.substring(0, 3));
+					stars = stars / 100;
+					finished_levels = Integer.parseInt(score.substring(3));
+				} else if(score.length() == 3) {
+					stars = Double.parseDouble(score.substring(0, 2));
+					stars = stars / 10;
+					finished_levels = Integer.parseInt(score.substring(2));
+				} else {
+					stars = Double.parseDouble(score.substring(0, 1));
+					finished_levels = Integer.parseInt(score.substring(1));
+				}
 			}
-			table.row();
+			//table.add(new Label(""+friends.get(i), friendsStyle)).left().pad(screenWidth/12f).padLeft(screenWidth/24f);
+			if(scores.get(i) != -1) {
+				table.add(new Label(""+friends.get(i), friendsStyle)).left().pad(screenWidth/12f).padLeft(screenWidth/24f);
+				Image stars_img = new Image();
+				stars_img.setDrawable(new TextureRegionDrawable(new TextureRegion(stars_image)));
+				table.add(stars_img).right().row();
+			}
 		}
 	}
 
@@ -192,6 +208,24 @@ public class Friends implements Screen{
 		Gdx.input.setInputProcessor(multiplexer);
 	}
 	
-	
+	/**
+	 * Rounds stars to the nearest half integer and puts together a string
+	 * @param stars
+	 * @return string that refers to the correct image based on the number stars
+	 */
+	public String getStarAmount(double stars) {
+		String starAmount="";
+		
+		double doubleStars = stars*2;
+		double roundedDoubleStars = Math.round(doubleStars); 
+		double roundedStars = roundedDoubleStars/2;
+		
+		starAmount+=(int) Math.floor(roundedStars)+"-";
+		
+		if(roundedStars>Math.floor(roundedStars)) {
+			starAmount+="half-";
+		}
+		return starAmount;
+	}
 
 }

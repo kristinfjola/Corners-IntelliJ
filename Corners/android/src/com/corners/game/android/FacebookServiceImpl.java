@@ -303,18 +303,14 @@ public class FacebookServiceImpl implements FacebookService{
     		}
     	}
     	
-    	for(int i = 0; i < scores.size(); i++) {
-    		System.out.println("scores:"+scores.get(i));
-    	}
-    	
     	return scores;
     }
     
     @Override
-    public void updateScore(int score) {
+    public void updateScore(String score) {
     	Session session = Session.getActiveSession();
     	Bundle params = new Bundle();
-    	params.putString("score", ""+score);
+    	params.putString("score", score);
     	Request updateScores = new Request(
     	    session,
     	    "/me/scores",

@@ -40,7 +40,7 @@ public interface FacebookService {
 	 * 
 	 * @param score 
 	 */
-	public void updateScore(int score);
+	public void updateScore(String score);
 	
 	/**
 	 * displays information about the user's Facebook account
