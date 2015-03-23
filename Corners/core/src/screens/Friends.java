@@ -123,7 +123,7 @@ public class Friends implements Screen{
 			}
 			stars_image = "infoBar/"+infoBar.getStarAmount(stars)+".png";
 			if(key != -1) {
-				table.add(new Label(""+(i+1)+". "+friends_hash.get(key), friendsStyle)).left().padLeft(main.scrWidth/24f);
+				table.add(new Label(""+(i+1)+". "+friends_hash.get(key)+"  ("+stars+"/"+finished_levels+")", friendsStyle)).left().padLeft(main.scrWidth/24f);
 				table.add(new Image(new Texture(stars_image))).size(main.scrWidth/6).right().padRight(main.scrWidth/26f).row();
 			}
 			i++;
