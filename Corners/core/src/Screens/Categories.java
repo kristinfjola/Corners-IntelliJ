@@ -47,7 +47,6 @@ public class Categories implements Screen {
 	public Categories(final MainActivity main){
 		this.main = main;
 		this.batch = new SpriteBatch();
-		this.carl = new Texture("carl/carl4.jpg");
 		stage = new Stage();
 		this.main.scrWidth = Gdx.graphics.getWidth();
 		this.main.scrHeight = Gdx.graphics.getHeight();
@@ -56,6 +55,7 @@ public class Categories implements Screen {
 		addBackToProcessor();
 		setAllProcessors();
 		processData();
+		addCarl();
 		
 		skin = main.skin;
 		
@@ -104,6 +104,26 @@ public class Categories implements Screen {
 		table.add(btnFlags).width(this.main.scrWidth/1.5f).height(this.main.scrHeight/8).padBottom(this.main.scrHeight/20);
 		table.row();
 		
+	}
+	
+	private void addCarl() {
+		int levelsFinished = 0;
+		levelsFinished = data.getAllFinished();
+		if(levelsFinished < 5){
+			this.carl = new Texture("carl/carl1green.jpg");
+		}
+		else if(levelsFinished < 10){
+			this.carl = new Texture("carl/carl2green.jpg");
+		}
+		else if(levelsFinished < 15){
+			this.carl = new Texture("carl/carl3green.jpg");
+		}
+		else if(levelsFinished < 20){
+			this.carl = new Texture("carl/carl4green.jpg");
+		}
+		else{
+			this.carl = new Texture("carl/carl5green.jpg");
+		}
 	}
 	
 	/**
