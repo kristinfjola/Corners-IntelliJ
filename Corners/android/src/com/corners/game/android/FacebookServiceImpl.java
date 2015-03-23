@@ -166,7 +166,6 @@ public class FacebookServiceImpl implements FacebookService{
 		try{
 			JSONObject JSONuser = response.getGraphObject().getInnerJSONObject();
 			user = setUser(JSONuser);
-			new SetProfilePicTask().execute(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -202,7 +201,9 @@ public class FacebookServiceImpl implements FacebookService{
 			getFacebookUser(session);
 			return session;
 		}
-    	protected void onPostExecute(Session session) {}
+    	protected void onPostExecute(Session session) {
+    		new SetProfilePicTask().execute(user);
+    	}
     }
     
     /**
