@@ -36,6 +36,16 @@ public interface FacebookService {
 	public List<Integer> getScores();
 	
 	/**
+	 * @return user's score from facebook
+	 */
+	public Integer getMyScore();
+	
+	/**
+     * @return user's name on facebook
+     */
+	public String getUserName();
+	
+	/**
 	 * updates the score on facebook - score is the new score
 	 * 
 	 * @param score 
