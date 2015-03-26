@@ -6,16 +6,19 @@
 
 package screens;
 
+import logic.Category;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -27,6 +30,7 @@ public class Start implements Screen{
 	private Stage stage;
 	private SpriteBatch batch;
 	private Skin skin;
+	Category cat;
 	private Texture carl = new Texture("carl/carl4.jpg");
 	Table table;
 	private InputProcessor inputProcessor;
@@ -43,6 +47,7 @@ public class Start implements Screen{
 		stage = new Stage();
 		batch = new SpriteBatch();
 		skin = main.skin;
+		this.cat = new Category();
 		Gdx.input.setInputProcessor(stage);
 		main.activityRequestHandler.showFacebook(false);
 		addBackToProcessor();
@@ -88,7 +93,9 @@ public class Start implements Screen{
 			}
 		});
 		
-		table.add(btnCategories).padTop(main.scrHeight/3f).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
+		table.add(new Label(cat.getName(), main.skin, main.screenSizeGroup+"-M"))
+				.padTop(main.scrHeight*0.4f-main.scrHeight/10).padBottom(main.scrHeight/40).row();
+		table.add(btnCategories).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
 		table.add(btnSettings).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
 		table.add(btnFriends).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
 		
@@ -127,21 +134,15 @@ public class Start implements Screen{
 	}
 
 	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
+	public void pause() {		
 	}
 
 	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-		
+	public void resume() {		
 	}
 
 	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-		
+	public void hide() {		
 	}
 
 	/**

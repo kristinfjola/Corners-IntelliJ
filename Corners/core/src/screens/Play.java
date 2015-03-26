@@ -29,6 +29,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -251,6 +253,16 @@ public class Play implements Screen, InputProcessor{
 	}
 	
 	/**
+	 * draws the number of question you are on
+	 */
+	public void drawNrOfQuestion(){
+		int number = questionsAnswered+1;
+		float xCoord = main.scrWidth/2-(time.getBounds(Long.toString(number)+"/"+nrOfQuestions).width)/2;
+		float yCoord = time.getBounds(Long.toString(number)+"/"+nrOfQuestions).height+progressBar.getPrefHeight()*0.5f;
+		time.draw(batch, Long.toString(number)+"/"+nrOfQuestions, xCoord, yCoord);
+	}
+	
+	/**
 	 * notifies user that his answer was correct
 	 */
 	public void displayRightAnswerAndGetNewQuestion(){
@@ -267,6 +279,9 @@ public class Play implements Screen, InputProcessor{
 		}, 1);
 		updateStars();
 		correctAnswerSound.play(main.volume);
+		//batch.begin();
+		//drawNrOfQuestion();
+		//batch.end();
 	}
 	
 	/**
@@ -309,16 +324,24 @@ public class Play implements Screen, InputProcessor{
 		else dialog.text("You lost!");
 		dialog.getContentTable().row();
 		
+		LabelStyle smallStyle = new LabelStyle();
+		smallStyle.font = main.skin.getFont(main.screenSizeGroup+"-S");
+		smallStyle.fontColor = Color.BLACK;
+		
 		if(win) {
 			Table starsTable = getStars(stars);
-			dialog.getContentTable().add(starsTable);
+			dialog.getContentTable().add(starsTable).row();
 			if(finishCat) {
-				dialog.getContentTable().row();
-				dialog.text("Try to get more stars in each level!");
+				dialog.getContentTable().add(new Label("Try to get more stars in each level!",smallStyle)).row();
 			}
-		} else {
+			dialog.getContentTable().add(new Label(cat.getName()+" says:", smallStyle)).row();
+			dialog.getContentTable().add(new Label("Good job!", smallStyle)).row();
+		}
+		else {
 			Table sadFaceTable = getSadFace();
-			dialog.getContentTable().add(sadFaceTable);
+			dialog.getContentTable().add(sadFaceTable).row();
+			dialog.getContentTable().add(new Label(cat.getName()+" says:", smallStyle)).row();
+			dialog.getContentTable().add(new Label("Better luck next time!", smallStyle)).row();
 		}
 		
 		dialog.show(this.stage);
@@ -758,8 +781,9 @@ public class Play implements Screen, InputProcessor{
 		}
 		cat.getQuestion().draw(batch);	
 		drawProgressBar();
+		drawNrOfQuestion();
 		batch.end();
-		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1/30f));
 		stage.draw();
 	}
 	
