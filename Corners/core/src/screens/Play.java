@@ -469,7 +469,7 @@ public class Play implements Screen, InputProcessor{
 		
 		int threeStars = 20;
 		int twoStars = 45;
-		int oneStar = 80;
+		int oneStar = 75;
 		
 		if(totalSecondsWasted >= threeStars && stars == 3){
 			stars = 2;
