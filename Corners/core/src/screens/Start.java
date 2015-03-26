@@ -82,11 +82,9 @@ public class Start implements Screen{
 		TextButton btnFriends = new TextButton("Friends", skin, main.screenSizeGroup+"-L");
 		btnFriends.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				if(main.facebookService.isLoggedIn()) {
-					dispose();
-					main.friends = new Friends(main);
-					main.setScreen(main.friends);
-				}
+				dispose();
+				main.friends = new Friends(main);
+				main.setScreen(main.friends);
 			}
 		});
 		
