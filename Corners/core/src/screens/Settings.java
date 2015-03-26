@@ -57,11 +57,14 @@ public class Settings implements Screen{
 	LabelStyle settingsStyleRight;
 	Label labelLogin;
 	float pad;
-	Slider slider;
-	SliderStyle sliderStyle;
-	int sliderValue;
+	Slider soundSlider;
+	SliderStyle soundSliderStyle;
+	int soundSliderValue;
 	Label nameLabel;
 	TextButton btnLogin;
+	Slider notificationsSlider;
+	SliderStyle notificationsSliderStyle;
+	int notificationsSliderValue;
 	
 	/**
 	 * Constructor that sets the private variables and starts the screen
@@ -91,10 +94,10 @@ public class Settings implements Screen{
 		stage.addActor(table);
 		
 		setUpInfoBar();
-		
 		setUpFacebook();
 		setUpSound();
 		setUpName();
+		setUpNotifications();
 	}
 
 	/**
@@ -205,6 +208,9 @@ public class Settings implements Screen{
 		Gdx.input.setInputProcessor(multiplexer);
 	}
 	
+	/**
+	 * Set's up the info bar
+	 */
 	public void setUpInfoBar() {
 		InfoBar infoBar = new InfoBar(main);
 		infoBar.setMiddleText("Settings");
@@ -241,25 +247,25 @@ public class Settings implements Screen{
 	 * Set's up an option for changing the game's sound (on/off)
 	 */
 	public void setUpSound() {	
-		sliderStyle = new SliderStyle();
-		sliderStyle.knob = main.knob;
-		sliderStyle.background = main.backgroundOn;
-		slider = new Slider(0,1,0.01f,false,sliderStyle);		
+		soundSliderStyle = new SliderStyle();
+		soundSliderStyle.knob = main.knob;
+		soundSliderStyle.background = main.backgroundOn;
+		soundSlider = new Slider(0,1,0.01f,false,soundSliderStyle);		
 		if(main.settingsVolume) {
-			sliderStyle.background = main.backgroundOn;
-			slider.setValue(1);
-			sliderValue = 1;
+			soundSliderStyle.background = main.backgroundOn;
+			soundSlider.setValue(1);
+			soundSliderValue = 1;
 		}
 		else {
-			sliderStyle.background = main.backgroundOff;
-			slider.setValue(0);
-			sliderValue = 0;
+			soundSliderStyle.background = main.backgroundOff;
+			soundSlider.setValue(0);
+			soundSliderValue = 0;
 		}
 
 		setSoundListener();
 
 		table.add(new Label("Sound", settingsStyle)).expandX().left().pad(pad);		
-		table.add(slider).width(main.scrWidth/5).expandX().right().pad(pad).row();
+		table.add(soundSlider).width(main.scrWidth/5).expandX().right().pad(pad).row();
 		addLine();
 	}
 	
@@ -276,6 +282,35 @@ public class Settings implements Screen{
 		addLine();
 	}
 	
+	/**
+	 * Set's up an option for setting the game's notifications (on/off)
+	 */
+	public void setUpNotifications(){
+		notificationsSliderStyle = new SliderStyle();
+		notificationsSliderStyle.knob = main.knob;
+		notificationsSliderStyle.background = main.backgroundOn;
+		notificationsSlider = new Slider(0,1,0.01f,false,notificationsSliderStyle);		
+		if(main.notificationsService.isOn()) {
+			notificationsSliderStyle.background = main.backgroundOn;
+			notificationsSlider.setValue(1);
+			notificationsSliderValue = 1;
+		}
+		else {
+			notificationsSliderStyle.background = main.backgroundOff;
+			notificationsSlider.setValue(0);
+			notificationsSliderValue = 0;
+		}
+		
+		setNotificationsListener();
+		
+		table.add(new Label("Notifications", settingsStyle)).expandX().left().pad(pad);		
+		table.add(notificationsSlider).width(main.scrWidth/5).expandX().right().pad(pad).row();
+		addLine();
+	}
+	
+	/**
+	 * Adds a line to the layout
+	 */
 	public void addLine() {
 		Pixmap pm = new Pixmap(1,1,Format.RGBA8888);
 		pm.setColor(new Color(39/255f,39/255f,39/255f,0.5f));
@@ -285,6 +320,7 @@ public class Settings implements Screen{
 		float padLeft = (main.scrWidth-lineWidth)/2;
 		table.add(img).size(lineWidth,1).left().pad(0).padLeft(padLeft).row();
 	}
+	
 	
 	/**
 	 * Set's a listener for the Facebook login
@@ -309,7 +345,7 @@ public class Settings implements Screen{
 	 * Set's a listener for the sound button
 	 */
 	public void setSoundListener() {		
-		slider.addListener(new InputListener() {
+		soundSlider.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				return true;
@@ -317,31 +353,73 @@ public class Settings implements Screen{
 			
 			@Override
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-				if((int)Math.round(slider.getValue())==0) {
-					sliderStyle.background = main.backgroundOff;
+				if((int)Math.round(soundSlider.getValue())==0) {
+					soundSliderStyle.background = main.backgroundOff;
 					main.updateSettingsVolume(false);
-					slider.setValue((int)Math.round(slider.getValue()));
-					sliderValue = (int)slider.getValue();
+					soundSlider.setValue((int)Math.round(soundSlider.getValue()));
+					soundSliderValue = (int)soundSlider.getValue();
 				}
 				else {
-					sliderStyle.background = main.backgroundOn;
+					soundSliderStyle.background = main.backgroundOn;
 					main.updateSettingsVolume(true);
 					main.clickedSound.play(main.volume);
-					slider.setValue((int)Math.round(slider.getValue()));
-					sliderValue = (int)slider.getValue();
+					soundSlider.setValue((int)Math.round(soundSlider.getValue()));
+					soundSliderValue = (int)soundSlider.getValue();
 				}
 			}
 			
 			@Override
 			public void touchDragged (InputEvent event, float x, float y, int pointer) {
-				if(sliderValue != (int)Math.round(slider.getValue())) {
-					if((int)Math.round(slider.getValue())==1) {
-						sliderStyle.background = main.backgroundOn;
-						sliderValue = 1;
+				if(soundSliderValue != (int)Math.round(soundSlider.getValue())) {
+					if((int)Math.round(soundSlider.getValue())==1) {
+						soundSliderStyle.background = main.backgroundOn;
+						soundSliderValue = 1;
 					}
 					else {
-						sliderStyle.background = main.backgroundOff;
-						sliderValue = 0;
+						soundSliderStyle.background = main.backgroundOff;
+						soundSliderValue = 0;
+					}
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Set's a listener for the notifications slider
+	 */
+	public void setNotificationsListener() {		
+		notificationsSlider.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				return true;
+			}
+			
+			@Override
+			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+				if((int)Math.round(notificationsSlider.getValue())==0) {
+					notificationsSliderStyle.background = main.backgroundOff;
+					main.notificationsService.cancelNotifications();
+					notificationsSlider.setValue((int)Math.round(notificationsSlider.getValue()));
+					notificationsSliderValue = (int)notificationsSlider.getValue();
+				}
+				else {
+					notificationsSliderStyle.background = main.backgroundOn;
+					main.notificationsService.setNotifications();
+					notificationsSlider.setValue((int)Math.round(notificationsSlider.getValue()));
+					notificationsSliderValue = (int)notificationsSlider.getValue();
+				}
+			}
+			
+			@Override
+			public void touchDragged (InputEvent event, float x, float y, int pointer) {
+				if(notificationsSliderValue != (int)Math.round(notificationsSlider.getValue())) {
+					if((int)Math.round(soundSlider.getValue())==1) {
+						notificationsSliderStyle.background = main.backgroundOn;
+						notificationsSliderValue = 1;
+					}
+					else {
+						notificationsSliderStyle.background = main.backgroundOff;
+						notificationsSliderValue = 0;
 					}
 				}
 			}

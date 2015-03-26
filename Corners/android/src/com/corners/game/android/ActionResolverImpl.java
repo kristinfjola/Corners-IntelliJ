@@ -9,20 +9,25 @@ import com.corners.game.ActionResolver;
 import com.facebook.widget.LoginButton;
 
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Handler;
+import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.Toast;
+import android.support.v4.app.NotificationCompat.Builder;
 
 
 public class ActionResolverImpl implements ActionResolver {
        Handler uiThread;
        Context appContext;
        AndroidLauncher launcher;
-
 
       public ActionResolverImpl(Context appContext) {
                uiThread = new Handler();

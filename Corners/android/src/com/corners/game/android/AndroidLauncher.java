@@ -52,6 +52,7 @@ import android.content.pm.Signature;
 public class AndroidLauncher extends AndroidApplication implements ActivityRequestHandler {
 	protected FacebookServiceImpl facebookService;
 	ActionResolverImpl actionResolver;
+	NotificationsImpl notifications;
 	private final int SHOW = 1;
     private final int HIDE = 0;
     protected View fbView;
@@ -77,6 +78,9 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
         
         actionResolver = new ActionResolverImpl(this);
         mainActivity.actionResolver = actionResolver;
+        
+        notifications = new NotificationsImpl(this);
+        mainActivity.notificationsService = notifications;
 
         // -----    two layouts to include facebook ------
         RelativeLayout layout = new RelativeLayout(this);

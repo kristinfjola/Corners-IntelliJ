@@ -43,9 +43,10 @@ public class MainActivity extends Game {
 	public Friends friends;
 	
 	public FacebookService facebookService;
+	public FacebookUser user;
 	public ActionResolver actionResolver;
 	public ActivityRequestHandler activityRequestHandler;
-	public FacebookUser user;
+	public Notifications notificationsService;
 	
 	// sound
 	public float volume;
@@ -73,6 +74,7 @@ public class MainActivity extends Game {
 		settingsVolume = cat.isSoundOn();
 		updateVolume();
 		facebookService.showFacebookUser();
+		notificationsService.setNotifications();
 		
 		start = new Start(this);
         setScreen(start);
