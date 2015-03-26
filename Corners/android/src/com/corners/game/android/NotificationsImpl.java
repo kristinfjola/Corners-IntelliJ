@@ -87,7 +87,7 @@ public class NotificationsImpl extends BroadcastReceiver implements Notification
 	     calendar.setTimeInMillis(System.currentTimeMillis());
 	     calendar.set(Calendar.HOUR_OF_DAY, 15);
 
-	     am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, pi);
+	     am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
 	}
 	
 	@Override
