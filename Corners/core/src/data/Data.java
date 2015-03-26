@@ -129,7 +129,7 @@ public class Data {
 	}
 
 	/**
-	 * @return avegrage stars of all the levels
+	 * @return average stars of all the levels
 	 */
 	public double getAverageStars() {
 		calcAverageStars();

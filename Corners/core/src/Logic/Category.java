@@ -336,6 +336,7 @@ public class Category {
 	 * @param bool
 	 */
 	public void setSound(boolean bool){
+		data = getData();
 		data.setSound(bool);
 		saveData(data);
 	}
@@ -346,6 +347,7 @@ public class Category {
 	}
 	
 	public void setNotification(boolean bool){
+		data = getData();
 		data.setNotifications(bool);
 		saveData(data);
 	}
@@ -391,6 +393,7 @@ public class Category {
 	 * @param newName 
 	 */
 	public void setName(String newName){
+		data = getData();
 		data.setName(newName);
 		saveData(data);
 	}
