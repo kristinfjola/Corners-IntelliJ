@@ -65,6 +65,12 @@
         "screen540-M": { "font": screen540-M, "fontColor": black},
         "screen720-M": { "font": screen720-M, "fontColor": black},
         "screen1080-M": { "font": screen1080-M, "fontColor": black},
+        
+        "screen320-S": { "font": screen320-S, "fontColor": black},
+    	"screen480-S": { "font": screen480-S, "fontColor": black},
+        "screen540-S": { "font": screen540-S, "fontColor": black},
+        "screen720-S": { "font": screen720-S, "fontColor": black},
+        "screen1080-S": { "font": screen1080-S, "fontColor": black},
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
 		"default": { "titleFont": screen540-L, "titleFontColor": black, "background": "levelButtonYellow" },

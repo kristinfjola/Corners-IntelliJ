@@ -30,13 +30,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.corners.game.MainActivity;
 
@@ -51,6 +51,7 @@ public class Settings implements Screen{
 	
 	private InputProcessor inputProcessor;
 	Table table;
+	Stack stack;
 	
 	//Setting up the view
 	LabelStyle settingsStyle;
@@ -91,7 +92,12 @@ public class Settings implements Screen{
 		table = new Table();
 		table.top();
 		table.setFillParent(true);
-		stage.addActor(table);
+		
+		stack = new Stack();
+		stack.setFillParent(true);
+		stack.add(table);
+		
+		stage.addActor(stack);
 		
 		setUpInfoBar();
 		setUpFacebook();
@@ -430,44 +436,92 @@ public class Settings implements Screen{
 	 * Set's a listener for displaying a dialog to change the character's name
 	 */
 	public void setNameListener() {
-		/*Drawable cursor = main.skin.getDrawable("empty");
-		Drawable selection = main.skin.getDrawable("empty");
-		Drawable background = main.skin.getDrawable("empty");
-		TextFieldStyle nameStyle = new TextFieldStyle(main.skin.getFont(main.screenSizeGroup+"-M"),
-				Color.BLACK, cursor,selection,background);
-		TextField nameInput = new TextField("", nameStyle);
-		*/
-		
-		Pixmap pm = new Pixmap(1,1,Format.RGBA8888);
-		pm.setColor(Color.GRAY);
-		pm.fill();
-		
-		WindowStyle dialogStyle = new WindowStyle();
-		dialogStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(pm)));
-		dialogStyle.titleFont = main.skin.getFont(main.screenSizeGroup+"-M");
-		
-		final Dialog textInputDialog = new Dialog("", dialogStyle);
-		textInputDialog.setHeight(main.scrHeight/3);
-		textInputDialog.setWidth(main.scrWidth/2);
-		
-		Label saveButton = new Label("Save", main.skin);
-		saveButton.addListener(new ClickListener() {
-			@Override
-			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				textInputDialog.remove();
-				super.touchUp(event, x, y, pointer, button);
-			}
-		});
-		
-		textInputDialog.getContentTable().add(saveButton).expand();
+		final Dialog nameDialog = getNameDialog();
+		Label enterNameLabel = new Label("Characters name:", main.skin, main.screenSizeGroup+"-S");
+		final TextField nameInputField = getNameInputField();
+		Label saveNameButton = getSaveNameButton(nameDialog, nameInputField);
+		Label cancelNameButton = getCancelNameButton(nameDialog, nameInputField);
+
+		int pad = (int) (main.scrWidth/30f);
+		nameDialog.getContentTable().add(enterNameLabel).top().left().pad(pad).row();
+		nameDialog.getContentTable().add(nameInputField).expand().top().left().pad(pad).padTop(0).row();
+		nameDialog.getContentTable().add(cancelNameButton).bottom().left().pad(pad);
+		nameDialog.getContentTable().add(saveNameButton).bottom().right().pad(pad).row();
 		
 		nameLabel.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				stage.addActor(textInputDialog);
+				Table t = new Table();
+				t.add(nameDialog).size(main.scrWidth/1.5f,main.scrHeight/4);
+				stack.add(t);
+				stage.setKeyboardFocus(nameInputField);
+				nameInputField.getOnscreenKeyboard().show(true);
+				nameInputField.setText("");
 				super.touchUp(event, x, y, pointer, button);
 			}
 		});
-
+	}
+	
+	public Dialog getNameDialog() {
+		Pixmap pm = new Pixmap(1,1,Format.RGBA8888);
+		pm.setColor(new Color(211/255f,211/255f,211/255f,1));
+		pm.fill();
+		WindowStyle dialogStyle = new WindowStyle();
+		dialogStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(pm)));
+		dialogStyle.titleFont = main.skin.getFont(main.screenSizeGroup+"-S");//ekki notað
+		
+		Dialog nameDialog = new Dialog("", dialogStyle);
+		return nameDialog;
+	}
+	
+	public TextField getNameInputField() {
+		Pixmap black = new Pixmap(1,1,Format.RGBA8888);
+		black.setColor(Color.BLACK);
+		black.fill();
+		Pixmap white = new Pixmap(1,1,Format.RGBA8888);
+		white.setColor(Color.WHITE);
+		white.fill();
+		TextFieldStyle nameInputStyle = new TextFieldStyle();
+		nameInputStyle.font = main.skin.getFont(main.screenSizeGroup+"-S");
+		nameInputStyle.fontColor = Color.BLACK;
+		nameInputStyle.cursor = new TextureRegionDrawable(new TextureRegion(new Texture(black)));
+		nameInputStyle.selection = new TextureRegionDrawable(new TextureRegion(new Texture(black)));
+		nameInputStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(white)));
+		
+		TextField nameInputField = new TextField("", nameInputStyle);
+		nameInputField.setWidth(300);
+		nameInputField.setMaxLength(15);
+		return nameInputField;
+	}
+	
+	public Label getSaveNameButton(final Dialog nameDialog, final TextField nameInputField) {
+		Label saveNameButton = new Label("Save", main.skin, main.screenSizeGroup+"-M");
+		saveNameButton.addListener(new ClickListener() {
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				String name = nameInputField.getText();
+				if(!name.equals("")) {
+					cat.setName(name);
+					nameLabel.setText(name);
+				}
+				nameInputField.getOnscreenKeyboard().show(false);
+				nameDialog.remove();
+				super.touchUp(event, x, y, pointer, button);
+			}
+		});
+		return saveNameButton;
+	}
+	
+	public Label getCancelNameButton(final Dialog nameDialog, final TextField nameInputField) {
+		Label cancelNameButton = new Label("Cancel", main.skin, main.screenSizeGroup+"-M");
+		cancelNameButton.addListener(new ClickListener() {
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				nameInputField.getOnscreenKeyboard().show(false);
+				nameDialog.remove();
+				super.touchUp(event, x, y, pointer, button);
+			}
+		});	
+		return cancelNameButton;
 	}
 }

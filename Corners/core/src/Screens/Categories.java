@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -33,6 +34,7 @@ public class Categories implements Screen {
 	private SpriteBatch batch;
 	private MainActivity main;
 	private Skin skin;
+	Category cat;
 	private Stage stage;
 	private InputProcessor inputProcessor;
 	public Data data;
@@ -58,6 +60,7 @@ public class Categories implements Screen {
 		addCarl();
 		
 		skin = main.skin;
+		this.cat = new Category();
 		
 		// Create a table that fills the screen. Everything else will go inside this table.
 		this.table = new Table();
@@ -97,12 +100,11 @@ public class Categories implements Screen {
 			}
 		});
 		
-		table.add(btnMath).width(this.main.scrWidth/1.5f).height(this.main.scrHeight/8).padTop(main.scrHeight/3f).padBottom(this.main.scrHeight/20);
-		table.row();
-		table.add(btnColors).width(this.main.scrWidth/1.5f).height(this.main.scrHeight/8).padBottom(this.main.scrHeight/20);
-		table.row();
-		table.add(btnFlags).width(this.main.scrWidth/1.5f).height(this.main.scrHeight/8).padBottom(this.main.scrHeight/20);
-		table.row();
+		table.add(new Label(cat.getName(), main.skin, main.screenSizeGroup+"-M"))
+				.padTop(main.scrHeight*0.4f-main.scrHeight/10).padBottom(main.scrHeight/40).row();
+		table.add(btnMath).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
+		table.add(btnColors).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
+		table.add(btnFlags).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
 		
 	}
 	
