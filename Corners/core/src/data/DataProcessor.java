@@ -70,6 +70,7 @@ public class DataProcessor {
 			JsonArray reset = category.getAsJsonArray("Reset");
 			JsonElement name = category.get("Name");
 			JsonElement sound = category.get("Sound");
+			JsonElement notifications = category.get("Notifications");
 			
 			data.setMath(new LevelStars(math));
 			data.setFlags(new LevelStars(flags));
@@ -77,6 +78,7 @@ public class DataProcessor {
 			data.setReset(new LevelStars(reset));
 			data.setName(name.toString().replaceAll("\"", ""));
 			data.setSound(sound.getAsInt() == 1 ? true : false);
+			data.setNotifications(notifications.getAsInt() == 1 ? true : false);
 	    }
         else
         	return;

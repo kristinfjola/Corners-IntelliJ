@@ -14,6 +14,7 @@ public class Data {
 	private double averageStars;
 	private String name; //name of avatar
 	private Boolean sound;
+	private Boolean notifications;
 
 	/**
 	 * @return name of avatar
@@ -186,9 +187,19 @@ public class Data {
 		return this.sound;
 	}
 	
+	
+	public Boolean getNotifications() {
+		return notifications;
+	}
+
+	public void setNotifications(Boolean notifications) {
+		this.notifications = notifications;
+	}
+	
 	@Override
 	public String toString() {
 		return "Data [math=" + math.toString() + ", flags=" + flags.toString() + ", colors=" + colors.toString()
 				+ ", averageStars=" + averageStars + ", name=" + name + "]";
 	}
+
 }

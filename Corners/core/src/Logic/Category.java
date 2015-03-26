@@ -340,6 +340,16 @@ public class Category {
 		saveData(data);
 	}
 	
+	public boolean isNotificationOn(){
+		data = getData();
+		return data.getNotifications();
+	}
+	
+	public void setNotification(boolean bool){
+		data.setNotifications(bool);
+		saveData(data);
+	}
+	
 	/**
 	 * Updates the stars of a level to newStars in a category
 	 * and saves it to the database

@@ -15,6 +15,7 @@ public class JsonData {
 	public int[] Reset;
 	public String Name;
 	public int Sound;
+	public int Notifications;
 	
 	/**
 	 * @return Math - array with the level state of math
@@ -89,6 +90,24 @@ public class JsonData {
 	public void setSound(int sound) {
 		Sound = sound;
 	}
+	
+	/**
+	 * 
+	 * @return if notifications is on or of
+	 *  	1 if they are on and 0 if they are off
+	 */
+	public int getNotifications() {
+		return Notifications;
+	}
+	
+	/**
+	 * 
+	 * @param notifications
+	 */
+	public void setNotifications(int notifications) {
+		Notifications = notifications;
+	}
+	
 	@Override
 	public String toString() {
 		return "JsonData [Math=" + Arrays.toString(Math) + ", Colors="
