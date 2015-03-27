@@ -93,6 +93,8 @@ public class MainActivity extends Game {
 	    
 	    System.out.println(settingsVolume);
 		//actionResolver.showToast("Toast example", 5000);
+	    
+	    notificationsService.cancelNotifications();
 	}
 
 	@Override

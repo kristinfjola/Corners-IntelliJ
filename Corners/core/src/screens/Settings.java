@@ -102,8 +102,8 @@ public class Settings implements Screen{
 		setUpInfoBar();
 		setUpFacebook();
 		setUpSound();
-		setUpName();
 		setUpNotifications();
+		setUpName();
 	}
 
 	/**
@@ -276,19 +276,6 @@ public class Settings implements Screen{
 	}
 	
 	/**
-	 * Set's up an option for changing the characters name
-	 */
-	public void setUpName() {
-		nameLabel = new Label(cat.getName(), settingsStyleRight);
-		
-		setNameListener();
-		
-		table.add(new Label("Name", settingsStyle)).expandX().left().pad(pad);
-		table.add(nameLabel).expandX().right().pad(pad).row();
-		addLine();
-	}
-	
-	/**
 	 * Set's up an option for setting the game's notifications (on/off)
 	 */
 	public void setUpNotifications(){
@@ -311,6 +298,19 @@ public class Settings implements Screen{
 		
 		table.add(new Label("Notifications", settingsStyle)).expandX().left().pad(pad);		
 		table.add(notificationsSlider).width(main.scrWidth/5).expandX().right().pad(pad).row();
+		addLine();
+	}
+	
+	/**
+	 * Set's up an option for changing the characters name
+	 */
+	public void setUpName() {
+		nameLabel = new Label(cat.getName(), settingsStyleRight);
+		
+		setNameListener();
+		
+		table.add(new Label("Name", settingsStyle)).expandX().left().pad(pad);
+		table.add(nameLabel).expandX().right().pad(pad).row();
 		addLine();
 	}
 	
@@ -419,7 +419,7 @@ public class Settings implements Screen{
 			@Override
 			public void touchDragged (InputEvent event, float x, float y, int pointer) {
 				if(notificationsSliderValue != (int)Math.round(notificationsSlider.getValue())) {
-					if((int)Math.round(soundSlider.getValue())==1) {
+					if((int)Math.round(notificationsSlider.getValue())==1) {
 						notificationsSliderStyle.background = main.backgroundOn;
 						notificationsSliderValue = 1;
 					}
@@ -436,23 +436,25 @@ public class Settings implements Screen{
 	 * Set's a listener for displaying a dialog to change the character's name
 	 */
 	public void setNameListener() {
+		int dPad = (int) (main.scrWidth/30f);
+		final int dWidth = (int) (main.scrWidth/1.5f);
+		final int dHeight = (int) (main.scrHeight/4f);
+		
 		final Dialog nameDialog = getNameDialog();
+		
 		Label enterNameLabel = new Label("Characters name:", main.skin, main.screenSizeGroup+"-S");
 		final TextField nameInputField = getNameInputField();
-		Label saveNameButton = getSaveNameButton(nameDialog, nameInputField);
-		Label cancelNameButton = getCancelNameButton(nameDialog, nameInputField);
+		Table cancelSaveTable = getCancelSaveTable(nameDialog, nameInputField, dPad);
 
-		int pad = (int) (main.scrWidth/30f);
-		nameDialog.getContentTable().add(enterNameLabel).top().left().pad(pad).row();
-		nameDialog.getContentTable().add(nameInputField).expand().top().left().pad(pad).padTop(0).row();
-		nameDialog.getContentTable().add(cancelNameButton).bottom().left().pad(pad);
-		nameDialog.getContentTable().add(saveNameButton).bottom().right().pad(pad).row();
+		nameDialog.getContentTable().add(enterNameLabel).expand().top().left().pad(dPad).row();
+		nameDialog.getContentTable().add(nameInputField).width(dWidth-2*dPad).expand().top().left().pad(dPad).row();
+		nameDialog.getContentTable().add(cancelSaveTable).width(dWidth).bottom().left().row();
 		
 		nameLabel.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				Table t = new Table();
-				t.add(nameDialog).size(main.scrWidth/1.5f,main.scrHeight/4);
+				t.add(nameDialog).size(dWidth, dHeight);
 				stack.add(t);
 				stage.setKeyboardFocus(nameInputField);
 				nameInputField.getOnscreenKeyboard().show(true);
@@ -482,7 +484,7 @@ public class Settings implements Screen{
 		white.setColor(Color.WHITE);
 		white.fill();
 		TextFieldStyle nameInputStyle = new TextFieldStyle();
-		nameInputStyle.font = main.skin.getFont(main.screenSizeGroup+"-S");
+		nameInputStyle.font = main.skin.getFont(main.screenSizeGroup+"-L");
 		nameInputStyle.fontColor = Color.BLACK;
 		nameInputStyle.cursor = new TextureRegionDrawable(new TextureRegion(new Texture(black)));
 		nameInputStyle.selection = new TextureRegionDrawable(new TextureRegion(new Texture(black)));
@@ -492,6 +494,17 @@ public class Settings implements Screen{
 		nameInputField.setWidth(300);
 		nameInputField.setMaxLength(15);
 		return nameInputField;
+	}
+	
+	public Table getCancelSaveTable(Dialog nameDialog, TextField nameInputField, int dPad) {
+		Label cancelNameButton = getCancelNameButton(nameDialog, nameInputField);
+		Label saveNameButton = getSaveNameButton(nameDialog, nameInputField);
+		
+		Table cancelSaveTable = new Table();
+		cancelSaveTable.add(cancelNameButton).expand().left().pad(dPad);
+		cancelSaveTable.add(saveNameButton).expand().right().pad(dPad).row();
+		
+		return cancelSaveTable;
 	}
 	
 	public Label getSaveNameButton(final Dialog nameDialog, final TextField nameInputField) {
