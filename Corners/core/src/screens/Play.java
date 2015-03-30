@@ -55,6 +55,7 @@ public class Play implements Screen, InputProcessor{
     
     private int questionsAnswered = 0;
     private int nrOfQuestions;
+    private int questionStatusDisplay = 0;
     private float origX;
     private float origY;
     
@@ -223,6 +224,7 @@ public class Play implements Screen, InputProcessor{
 		moveQuestionToStartPos();
 		cat.generateNewQuestion(level);
 		resetTime();
+		questionStatusDisplay++;
 	}
 	
 	/**
@@ -254,10 +256,9 @@ public class Play implements Screen, InputProcessor{
 	 * draws the number of question you are on
 	 */
 	public void drawNrOfQuestion(){
-		int number = questionsAnswered+1;
-		float xCoord = main.scrWidth/2-(time.getBounds(Long.toString(number)+"/"+nrOfQuestions).width)/2;
-		float yCoord = time.getBounds(Long.toString(number)+"/"+nrOfQuestions).height+progressBar.getPrefHeight()*0.5f;
-		time.draw(batch, Long.toString(number)+"/"+nrOfQuestions, xCoord, yCoord);
+		float xCoord = main.scrWidth/2-(time.getBounds(Long.toString(questionStatusDisplay)+"/"+nrOfQuestions).width)/2;
+		float yCoord = time.getBounds(Long.toString(questionStatusDisplay)+"/"+nrOfQuestions).height+progressBar.getPrefHeight()*1.5f;
+		time.draw(batch, Long.toString(questionStatusDisplay)+"/"+nrOfQuestions, xCoord, yCoord);
 	}
 	
 	/**

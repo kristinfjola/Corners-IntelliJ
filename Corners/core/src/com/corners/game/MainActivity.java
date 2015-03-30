@@ -14,6 +14,7 @@ import screens.Levels;
 import screens.Play;
 import screens.Settings;
 import screens.Start;
+import screens.Character;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -39,6 +40,7 @@ public class MainActivity extends Game {
 	public Skin skin;
 	public String screenSizeGroup;
 	public Category cat;
+	public Character character;
 	
 	public Texture fullStar;
 	public Texture emptyStar;
@@ -76,6 +78,7 @@ public class MainActivity extends Game {
 		initScreenSizeGroup();
 		this.cat = new Category();
 		this.data = new DataHelper();
+		this.character = new Character(this);
 		settingsVolume = data.isSoundOn();
 		updateVolume();
 		facebookService.showFacebookUser();

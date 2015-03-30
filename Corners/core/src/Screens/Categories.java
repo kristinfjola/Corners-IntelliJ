@@ -53,7 +53,8 @@ public class Categories implements Screen {
 		
 		addBackToProcessor();
 		setAllProcessors();
-		addCarl();
+		//addCarl();
+		carl = main.character.getCharacterImg();
 		
 		skin = main.skin;
 		this.cat = new Category();
@@ -104,7 +105,7 @@ public class Categories implements Screen {
 		
 	}
 	
-	private void addCarl() {
+	/*private void addCarl() {
 		int levelsFinished = 0;
 		levelsFinished = main.data.getAllFinished();
 		if(levelsFinished < 5){
@@ -122,7 +123,7 @@ public class Categories implements Screen {
 		else{
 			this.carl = new Texture("carl/carl5green.jpg");
 		}
-	}
+	}*/
 	
 	/**
 	 * Renders all the cool stuff on the screen every delta time

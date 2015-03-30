@@ -31,7 +31,7 @@ public class Start implements Screen{
 	private SpriteBatch batch;
 	private Skin skin;
 	Category cat;
-	private Texture carl = new Texture("carl/carl4.jpg");
+	private Texture carl;
 	Table table;
 	private InputProcessor inputProcessor;
 	
@@ -48,10 +48,15 @@ public class Start implements Screen{
 		batch = new SpriteBatch();
 		skin = main.skin;
 		this.cat = new Category();
+		carl = main.character.getCharacterImg();
 		Gdx.input.setInputProcessor(stage);
 		main.activityRequestHandler.showFacebook(false);
 		addBackToProcessor();
 		setAllProcessors();
+		
+		System.out.println("TEST getCharacterNumber "+main.character.getCharacterNumber());
+		System.out.println("TEST getLevelsFinished "+main.character.getLevelsFinished());
+		System.out.println("TEST getNrOfLevelsToNext "+main.character.getNrOfLevelsToNext());
 	}
 	
 	/**
