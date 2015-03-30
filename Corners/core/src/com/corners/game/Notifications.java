@@ -16,9 +16,4 @@ public interface Notifications {
 	 * turns off notifications
 	 */
 	public void cancelNotifications();
-	
-	/**
-	 * @return whether notifications are on
-	 */
-	public boolean isOn();
 }

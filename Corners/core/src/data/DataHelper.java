@@ -1,3 +1,8 @@
+/**
+ * @author 	Kristin Fjola Tomasdottir
+ * @date 	30.03.2015
+ * @goal 	DataHelper contains functions to access and change the database
+ */
 package data;
 
 import logic.Category;
@@ -52,10 +57,17 @@ public class DataHelper {
 		saveData();
 	}
 	
+	/**
+	 * @return true if notifications are on, else false
+	 */
 	public boolean isNotificationOn(){
 		return data.getNotifications();
 	}
 	
+	/**
+	 * @param bool
+	 * sets notifications on to bool
+	 */
 	public void setNotification(boolean bool){
 		data.setNotifications(bool);
 		saveData();

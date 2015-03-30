@@ -120,6 +120,7 @@ public class DataProcessor {
 		jData.setFlags(data.getFlags().getStars());
 		jData.setName(data.getName());
 		jData.setSound(data.getSound() == true ? 1 : 0);
+		jData.setNotifications(data.getNotifications() == true ? 1 : 0);
 		jData.setReset(data.getReset().getStars());
 		
 		return jData;

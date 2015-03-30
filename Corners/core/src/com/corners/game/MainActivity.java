@@ -79,7 +79,6 @@ public class MainActivity extends Game {
 		settingsVolume = data.isSoundOn();
 		updateVolume();
 		facebookService.showFacebookUser();
-		notificationsService.setNotifications();
 		
 		start = new Start(this);
         setScreen(start);
@@ -98,8 +97,6 @@ public class MainActivity extends Game {
 	    
 	    System.out.println(settingsVolume);
 		//actionResolver.showToast("Toast example", 5000);
-	    
-	    notificationsService.cancelNotifications();
 	}
 
 	@Override

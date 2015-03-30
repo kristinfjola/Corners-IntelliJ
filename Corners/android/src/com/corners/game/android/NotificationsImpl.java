@@ -25,10 +25,8 @@ import android.support.v4.app.NotificationCompat;
 public class NotificationsImpl extends BroadcastReceiver implements Notifications{    
 	int mId = 0;
 	public Context context;
-	public boolean on = true;
 	
-	public NotificationsImpl() {
-    }
+	public NotificationsImpl() {}
 	
 	public NotificationsImpl(AndroidLauncher androidLauncher) {
         this.context = androidLauncher;
@@ -88,6 +86,7 @@ public class NotificationsImpl extends BroadcastReceiver implements Notification
 	     calendar.set(Calendar.HOUR_OF_DAY, 15);
 
 	     am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+	     //am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 10, pi);
 	}
 	
 	@Override
@@ -97,11 +96,6 @@ public class NotificationsImpl extends BroadcastReceiver implements Notification
 	    PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
 	    AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 	    alarmManager.cancel(sender);
-	}
-
-	@Override
-	public boolean isOn() {
-		return on;
 	}
 
 }

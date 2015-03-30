@@ -187,11 +187,17 @@ public class Data {
 		return this.sound;
 	}
 	
-	
+	/**
+	 * @return true if notifications are on, else false
+	 */
 	public Boolean getNotifications() {
 		return notifications;
 	}
 
+	/**
+	 * @param bool
+	 * sets notifications on to bool
+	 */
 	public void setNotifications(Boolean notifications) {
 		this.notifications = notifications;
 	}

@@ -283,7 +283,7 @@ public class Settings implements Screen{
 		notificationsSliderStyle.knob = main.knob;
 		notificationsSliderStyle.background = main.backgroundOn;
 		notificationsSlider = new Slider(0,1,0.01f,false,notificationsSliderStyle);		
-		if(main.notificationsService.isOn()) {
+		if(main.data.isNotificationOn()) {
 			notificationsSliderStyle.background = main.backgroundOn;
 			notificationsSlider.setValue(1);
 			notificationsSliderValue = 1;
@@ -405,15 +405,18 @@ public class Settings implements Screen{
 				if((int)Math.round(notificationsSlider.getValue())==0) {
 					notificationsSliderStyle.background = main.backgroundOff;
 					main.notificationsService.cancelNotifications();
+					main.data.setNotification(false);
 					notificationsSlider.setValue((int)Math.round(notificationsSlider.getValue()));
 					notificationsSliderValue = (int)notificationsSlider.getValue();
 				}
 				else {
 					notificationsSliderStyle.background = main.backgroundOn;
 					main.notificationsService.setNotifications();
+					main.data.setNotification(true);
 					notificationsSlider.setValue((int)Math.round(notificationsSlider.getValue()));
 					notificationsSliderValue = (int)notificationsSlider.getValue();
 				}
+				System.out.println("notifications db: " + main.data.isNotificationOn());
 			}
 			
 			@Override
