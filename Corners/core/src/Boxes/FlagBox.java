@@ -6,24 +6,56 @@
  */
 package boxes;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 public class FlagBox extends Box{
 
 	private String country;
 	private String capital;
+	private BitmapFont bmFont;
+	private String text;
 	
 	/**
 	 * @param width	- width of box
 	 * @param height - height of box
 	 * @param country - country to display on box
 	 */
-	public FlagBox(int width, int height, String country, String capital){
+	public FlagBox(int width, int height, String country, String capital, BitmapFont bmFont){
 		super(width, height);
-		//this.country = country;
-		//this.capital = capital;
 		this.setCountry(country);
 		this.setCapital(capital);
+		this.bmFont = bmFont;
+		this.bmFont.setColor(Color.BLACK);
 	}
 
+	public BitmapFont getBmFont() {
+		return bmFont;
+	}
+
+	public void setBmFont(BitmapFont bmFont) {
+		this.bmFont = bmFont;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	@Override
+	public void draw(SpriteBatch batch){
+		super.draw(batch);
+		if(this.text != null){
+			float plusY = bmFont.getBounds(text).height+ (rec.height-bmFont.getBounds(text).height)/2;
+			float plusX = (rec.width-bmFont.getBounds(text).width)/2;
+			bmFont.draw(batch, text, rec.x + plusX, rec.y + plusY);
+		}
+    }
+	
 	/**
 	 * @return country for box
 	 */

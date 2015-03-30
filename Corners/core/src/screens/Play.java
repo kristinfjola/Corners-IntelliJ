@@ -887,7 +887,12 @@ public class Play implements Screen, InputProcessor{
 		String temp_score = Double.toString(main.data.getAverageStars(cat));
 		int finished_levels = main.data.getAllFinished();
 		temp_score = temp_score.replace(".","");
-		String score = temp_score.substring(0, Math.min(3,temp_score.length()))+finished_levels;
+		if(temp_score.length() >= 3) {
+			temp_score = temp_score.substring(0, 3);
+		}
+		//format of score: stars777levels - 777 splits between stars and score
+		//facebook will only accept number as score, not string
+		String score = temp_score.substring(0, Math.min(3,temp_score.length()))+"777"+finished_levels;
 		main.facebookService.updateScore(score);
 	}
 
