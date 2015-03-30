@@ -207,23 +207,6 @@ public class MainActivity extends Game {
 	 * Sets up the drawables for the sound slider
 	 */
 	public void setUpSliderDrawables() {
-		/*
-		Pixmap pm1 = new Pixmap((int)(scrWidth/4.5f),(int)(scrWidth/9f),Format.RGBA8888);
-		pm1.setColor(Color.GREEN);
-		pm1.fill();
-		backgroundOn = new TextureRegionDrawable(new TextureRegion(new Texture(pm1)));
-		
-		Pixmap pm2 = new Pixmap((int)(scrWidth/4.5f),(int)(scrWidth/9f),Format.RGBA8888);
-		pm2.setColor(Color.RED);
-		pm2.fill();
-		backgroundOff = new TextureRegionDrawable(new TextureRegion(new Texture(pm2)));
-		
-		Pixmap pm3 = new Pixmap((int)(scrWidth/9f),(int)(scrWidth/9f),Format.RGBA8888);
-		pm3.setColor(new Color(60/255f,60/255f,60/255f,1));
-		pm3.fill();
-		knob = new TextureRegionDrawable(new TextureRegion(new Texture(pm3)));
-		*/
-		
 		backgroundOn = skin.getDrawable("backgroundOn");
 		backgroundOff = skin.getDrawable("backgroundOff");
 		knob = skin.getDrawable("sliderKnob");	

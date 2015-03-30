@@ -216,6 +216,7 @@ public class Start implements Screen{
 				if(keycode == Keys.BACK){
 					Gdx.app.exit();
 					//dispose();
+					main.activityRequestHandler.unregisterRingerReceiver();
 				}
 				return false;
 			}

@@ -58,6 +58,7 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
     protected View fbView;
     private ProfilePictureView profilePictureView;
     private TextView userNameView;
+    RingerModeHelper ringerModeHelper;
     
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -113,7 +114,8 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
         // sound
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.media.RINGER_MODE_CHANGED");
-        registerReceiver(new RingerModeHelper(mainActivity,this.getContext()) , filter);
+        ringerModeHelper = new RingerModeHelper(mainActivity,this.getContext());
+        registerReceiver(ringerModeHelper , filter);
 	}
 	
 	/**
@@ -208,5 +210,10 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
 	@Override
 	public void showFacebook(boolean show) {
 		handler.sendEmptyMessage(show ? SHOW : HIDE);
+	}
+	
+	@Override
+	public void unregisterRingerReceiver() {
+		unregisterReceiver(ringerModeHelper);
 	}
 }

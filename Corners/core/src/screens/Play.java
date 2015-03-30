@@ -120,7 +120,7 @@ public class Play implements Screen, InputProcessor{
 	    time = main.skin.getFont(main.screenSizeGroup+"-M");
 	    time.setColor(Color.BLACK);
 	    maxTime = 10;
-	    nrOfQuestions = 1;
+	    nrOfQuestions = 1; //TODO
 		camera = new OrthographicCamera();
  	    camera.setToOrtho(false, main.scrWidth, main.scrHeight);
  	    batch = new SpriteBatch();
@@ -315,13 +315,16 @@ public class Play implements Screen, InputProcessor{
 		pause();
 
 		Dialog dialog = new Dialog("", this.main.skin);
-		
 		if(win) {
 			Table starsTable = getStars(stars);
 			if(finishCat) {
-				dialog.getContentTable().add(new Label(cat.getType()+" complete!", largeStyle)).row();
+				if(true /*TODO firstTimeFinishCAt*/)
+					dialog.getContentTable().add(new Label(cat.getType()+" complete!", largeStyle)).row();
+				//else
+				//	dialog.getContentTable().add(new Label("Level complete!", largeStyle)).row();
 				dialog.getContentTable().add(starsTable).row();
-				dialog.getContentTable().add(new Label("Try to get more stars in each level!",smallStyle)).row();
+				if(main.data.getAverageStars(this.cat) != 3.0f)
+					dialog.getContentTable().add(new Label("Try to get more stars in each level!",smallStyle)).row();
 				dialog.getContentTable().add(" ").row();
 			}
 			else {

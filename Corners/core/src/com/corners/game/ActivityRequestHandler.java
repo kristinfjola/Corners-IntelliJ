@@ -11,4 +11,9 @@ public interface ActivityRequestHandler {
 	 * shows and hides Facebook information
 	 */
 	public void showFacebook(boolean show);
+	
+	/**
+	 * Unregisters the ringermode receiver
+	 */
+	public void unregisterRingerReceiver();
 }
