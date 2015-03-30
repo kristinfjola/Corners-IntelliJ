@@ -7,6 +7,7 @@ package com.corners.game.android;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -15,6 +16,9 @@ import org.json.JSONObject;
 
 import org.json.JSONObject;
 import org.json.JSONException;
+
+import screens.Friends;
+
 import com.facebook.Request;
 
 import android.app.Activity;
@@ -29,6 +33,7 @@ import android.widget.Toast;
 
 import com.corners.game.FacebookService;
 import com.corners.game.FacebookUser;
+import com.corners.game.MainActivity;
 import com.facebook.FacebookRequestError;
 import com.facebook.Request;
 import com.facebook.RequestBatch;
@@ -211,6 +216,42 @@ public class FacebookServiceImpl implements FacebookService{
     	}
     }
     
+    public void callFriendsListThread(Friends friendsScreen) {
+    	new GetFacebookFriendsTask(friendsScreen).execute();
+    }
+    
+    public class GetFacebookFriendsTask extends AsyncTask<Void, Void, List<String>> {
+    	public GetFacebookFriendsTask(Friends screen) {
+    		this.screen = screen;
+    	}
+    	private Friends screen;
+    	protected List<String> doInBackground(Void...voids) {
+    		List<String> friends = getFriendsList();
+    		return friends;
+    	}
+    	protected void onPostExecute(List<String> friends) {
+    		new GetScoresTask(screen).execute(friends);
+    	}
+    }
+    
+    public class GetScoresTask extends AsyncTask<List<String>, Void, List<String>> {
+    	public GetScoresTask(Friends screen) {
+    		this.screen = screen;
+    	}
+    	private Friends screen;
+    	private List<Integer> scores = new ArrayList<Integer>();
+    	private Integer my_score = 0;
+    	protected List<String> doInBackground(List<String>...lists) {
+    		List<String> friends = lists[0];
+    		scores = getScores();
+			my_score = getMyScore();
+			return friends;
+    	}
+    	protected void onPostExecute(List<String> friends) {
+    		screen.showFriends(friends, scores, my_score);
+    	}
+    }
+    
     /**
      * @author Kristin Fjola Tomasdottir
      * @date 	19.03.2015
@@ -317,6 +358,7 @@ public class FacebookServiceImpl implements FacebookService{
     	Session session = Session.getActiveSession();
     	Request request = Request.newGraphPathRequest(session, "me/scores", null);
 		Response response = Request.executeAndWait(request);
+		System.out.println(response);
 		try {
 			JSONArray data = (JSONArray) response.getGraphObject().getInnerJSONObject().get("data");
 			if(data.length() != 0) {
@@ -337,6 +379,7 @@ public class FacebookServiceImpl implements FacebookService{
     
     @Override
     public void updateScore(String score) {
+    	System.out.println("update score: "+ score);
     	Session session = Session.getActiveSession();
     	Bundle params = new Bundle();
     	params.putString("score", score);

@@ -39,7 +39,6 @@ public class Friends implements Screen{
 	Stage stage;
 	SpriteBatch batch;
 	TextButton btnTest;
-	List<String> friends;
 	LabelStyle friendsStyle;
 	LabelStyle friendsStyleM;
 	
@@ -65,7 +64,6 @@ public class Friends implements Screen{
 		Gdx.input.setInputProcessor(stage);
 		addBackToProcessor();
 		setAllProcessors();
-		friends = main.facebookService.isLoggedIn() ? main.facebookService.getFriendsList() : new ArrayList<String>();
 		friendsStyleM = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-M"), Color.BLACK);
 		friendsStyle = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-S"), Color.BLACK);
 		names = new ArrayList<String>();
@@ -81,64 +79,70 @@ public class Friends implements Screen{
 		setUpInfoBar();
 		
 		if(main.facebookService.isLoggedIn()){
-			//list of scores from friends
-			List<Integer> scores = main.facebookService.getScores();
-			Integer my_score_temp = main.facebookService.getMyScore();
-			HashMap<String, Integer> friends_hash_temp = new HashMap<String, Integer>();
-			
-			for(int i = 0; i< scores.size(); i++) {
-				if(scores.get(i) != -1) friends_hash_temp.put(friends.get(i), scores.get(i));
-			}
-			//add user to high score list
-			friends_hash_temp.put(main.facebookService.getUserName(),my_score_temp);
-			
-			HashMap<String, Double> stars_hash = getStarsFromScore(friends_hash_temp);
-			HashMap<String, Integer> levels_hash = getLevelsFromScore(friends_hash_temp);
-			
-			String stars_image = "";
-			
-			HashMap<String, Double> high_score_hash = getHighscoreHash(stars_hash, levels_hash);
-			
-			List<Double> high_score = getHighScoreList(high_score_hash);
-			
-			for(int i = 0; i < high_score.size(); i++) {
-				List<String> names_list = getKeysByValue(high_score_hash, high_score.get(i));
-				String name = "";
-				//prevent from getting the same key for many values
-				for(int j = 0; j < names_list.size(); j++) {
-					if(!names.contains(names_list.get(j))) {
-						name = names_list.get(j);
-						names.add(name);
-					}
-				}
-				stars = stars_hash.get(name);
-				finished_levels = levels_hash.get(name);
-				stars_image = "infoBar/"+infoBar.getStarAmount(stars)+".png";
-				table.add(new Label(""+(i+1)+". "+name+"  ("+stars+"/"+finished_levels+")", friendsStyle)).left().padLeft(main.scrWidth/24f);
-				table.add(new Image(new Texture(stars_image))).size(main.scrWidth/6).right().padRight(main.scrWidth/26f).row();
-			}
+			//FOKKING VIRKAR EKKI MEÐ STJÖRNUMYNDUNUM !!! (er að vinna í því hehe)
+			//main.facebookService.callFriendsListThread(this);
+			this.showFriends(main.facebookService.getFriendsList(), main.facebookService.getScores(), main.facebookService.getMyScore());
 		} else {
 			table.add(new Label("Oops! You're not logged into",friendsStyleM)).left().padTop(main.scrWidth/18f).padLeft(main.scrWidth/24f).row();
 			table.add(new Label("facebook!",friendsStyleM)).left().padLeft(main.scrWidth/24f).row();
 			table.add(new Label("Go to Settings on the start screen and log", friendsStyle)).left().padLeft(main.scrWidth/24f).padTop(main.scrWidth/24f).row();
 			table.add(new Label("into facebook to see your friends!", friendsStyle)).left().padLeft(main.scrWidth/24f).row();
 		}
+	}
+	
+	public void showFriends(List<String> friends, List<Integer> scores, Integer myScore) {
+		HashMap<String, Integer> friends_hash_temp = new HashMap<String, Integer>();
 		
+		for(int i = 0; i< scores.size(); i++) {
+			if(scores.get(i) != -1) friends_hash_temp.put(friends.get(i), scores.get(i));
+		}
+		//add user to high score list
+		friends_hash_temp.put(main.facebookService.getUserName(),myScore);
+		
+		HashMap<String, Double> stars_hash = getStarsFromScore(friends_hash_temp);
+		HashMap<String, Integer> levels_hash = getLevelsFromScore(friends_hash_temp);
+		
+		String stars_image = "";
+		
+		HashMap<String, Double> high_score_hash = getHighscoreHash(stars_hash, levels_hash);
+		
+		List<Double> high_score = getHighScoreList(high_score_hash);
+		
+		for(int i = 0; i < high_score.size(); i++) {
+			List<String> names_list = getKeysByValue(high_score_hash, high_score.get(i));
+			String name = "";
+			//prevent from getting the same key for many values
+			for(int j = 0; j < names_list.size(); j++) {
+				if(!names.contains(names_list.get(j))) {
+					name = names_list.get(j);
+					names.add(name);
+				}
+			}
+			stars = stars_hash.get(name);
+			finished_levels = levels_hash.get(name);
+			stars_image = "infoBar/"+infoBar.getStarAmount(stars)+".png";
+			System.out.println("stars image url: "+stars_image);
+			table.add(new Label(""+(i+1)+". "+name+"  ("+stars+"/"+finished_levels+")", friendsStyle)).left().padLeft(main.scrWidth/24f);
+			table.add(new Image(new Texture(stars_image))).size(main.scrWidth/6).right().padRight(main.scrWidth/26f).row();
+		}
 	}
 	
 	public HashMap<String, Double> getStarsFromScore(HashMap<String, Integer> friends) {
 		double stars = 0;
+		String stars_string = "";
 		HashMap<String, Double> stars_hash = new HashMap<String, Double>();
 		for (String key : friends.keySet()) {
 			String score = Integer.toString(friends.get(key));
-			if(score.length() == 4) {
-				stars = Double.parseDouble(score.substring(0, 3));
-				stars = stars / 100;
-			} else if(score.length() == 3) {
-				stars = Double.parseDouble(score.substring(0, 2));
+			int i = 0;
+			while(!score.substring(i, i+3).equals("777")) {
+				stars_string += score.substring(i, i+1);
+				i++;
+			}
+			stars = Double.parseDouble(stars_string);
+			if(stars_string.length() == 2) {
 				stars = stars / 10;
-			} else {
-				stars = Double.parseDouble(score.substring(0, 1));
+			} else if(stars_string.length() == 3) {
+				stars = stars / 100;
 			}
 			stars_hash.put(key, stars);
 		}
@@ -148,16 +152,23 @@ public class Friends implements Screen{
 	
 	public HashMap<String, Integer> getLevelsFromScore(HashMap<String, Integer> friends) {
 		int finished_levels = 0;
+		String string_levels = "";
+		int split_index = 0;
 		HashMap<String, Integer> levels = new HashMap<String, Integer>();
 		for (String key : friends.keySet()) {
 			String score = Integer.toString(friends.get(key));
-			if(score.length() == 4) {
-				finished_levels = Integer.parseInt(score.substring(3));
-			} else if(score.length() == 3) {
-				finished_levels = Integer.parseInt(score.substring(2));
-			} else {
-				finished_levels = Integer.parseInt(score.substring(1));
+			for(int i = 0; i < score.length(); i++) {
+				if(score.substring(i, i+3).equals("777")) {
+					split_index = i;
+					break;
+				}
 			}
+			int j = split_index+3;
+			while(j < score.length()) {
+				string_levels += score.substring(j);
+				j++;
+			}
+			finished_levels = Integer.parseInt(string_levels);
 			levels.put(key, finished_levels);
 		}
 		
