@@ -51,7 +51,6 @@ public class Play implements Screen, InputProcessor{
 	private Stage stage;
 	private State state;
     private int level;
-    public Data data;
     public Dialog pauseDialog;
     
     private int questionsAnswered = 0;
@@ -111,7 +110,6 @@ public class Play implements Screen, InputProcessor{
 		
 		addPauseToProcessor();
 		setAllProcessors(); 
-		this.data = cat.getData();
 		
 		setUpInfoBar();
 	
@@ -334,13 +332,13 @@ public class Play implements Screen, InputProcessor{
 			if(finishCat) {
 				dialog.getContentTable().add(new Label("Try to get more stars in each level!",smallStyle)).row();
 			}
-			dialog.getContentTable().add(new Label(cat.getName()+" says:", smallStyle)).row();
+			dialog.getContentTable().add(new Label(main.data.getName()+" says:", smallStyle)).row();
 			dialog.getContentTable().add(new Label("Good job!", smallStyle)).row();
 		}
 		else {
 			Table sadFaceTable = getSadFace();
 			dialog.getContentTable().add(sadFaceTable).row();
-			dialog.getContentTable().add(new Label(cat.getName()+" says:", smallStyle)).row();
+			dialog.getContentTable().add(new Label(main.data.getName()+" says:", smallStyle)).row();
 			dialog.getContentTable().add(new Label("Better luck next time!", smallStyle)).row();
 		}
 		
@@ -873,11 +871,11 @@ public class Play implements Screen, InputProcessor{
 	public void saveStars(int newStars){
 		int levelWon = level;
 		openNextLevel(levelWon);
-		data.getStarsByString(cat.getType()).updateStars(levelWon, newStars);
-		cat.saveData(data);
+		main.data.getStarsByString(cat.getType()).updateStars(levelWon, newStars);
+		main.data.saveData();
 		//save score on facebook
-		String temp_score = Double.toString(data.getAverageStars());
-		int finished_levels = data.getAllFinished();
+		String temp_score = Double.toString(main.data.getAverageStars(cat));
+		int finished_levels = main.data.getAllFinished();
 		temp_score = temp_score.replace(".","");
 		String score = temp_score.substring(0, Math.min(3,temp_score.length()))+finished_levels;
 		main.facebookService.updateScore(score);
@@ -891,9 +889,9 @@ public class Play implements Screen, InputProcessor{
 	private void openNextLevel(int levelWon) {
 		if(levelWon == 9)
 			return;
-		int nextLevelStars = data.getStarsByString(cat.getType()).getStarsOfALevel(levelWon + 1);
+		int nextLevelStars = main.data.getStarsByString(cat.getType()).getStarsOfALevel(levelWon + 1);
 		if(nextLevelStars > -1)
 			return;
-		data.getStarsByString(cat.getType()).updateStars(levelWon + 1, 0);
+		main.data.getStarsByString(cat.getType()).updateStars(levelWon + 1, 0);
 	}
 }

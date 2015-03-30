@@ -197,7 +197,7 @@ public class Levels implements Screen{
 	 * @param category
 	 */
 	private void processData(Category category) {
-			stars = category.getStarsArray();
+			stars = main.data.getStarsArray(category);
 	}
 
 	/**
@@ -270,8 +270,8 @@ public class Levels implements Screen{
 	 * Sets up the info bar
 	 */
 	public void setUpInfoBar() {
-		double averageStars = cat.getAverageStars();
-		int finishedLevels = cat.getLevelsFinished();
+		double averageStars = main.data.getAverageStars(cat);
+		int finishedLevels = main.data.getLevelsFinished(cat);
 		InfoBar infoBar = new InfoBar(main);
 		infoBar.setMiddleText(cat.getType());
 		infoBar.setRightText(finishedLevels+"/9");

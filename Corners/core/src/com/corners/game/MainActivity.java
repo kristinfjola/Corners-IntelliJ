@@ -24,6 +24,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
+import data.DataHelper;
+
 public class MainActivity extends Game {
 	public float scrWidth;
 	public float scrHeight;
@@ -41,12 +43,14 @@ public class MainActivity extends Game {
 	public Texture fullStar;
 	public Texture emptyStar;
 	public Friends friends;
-	
-	public FacebookService facebookService;
 	public FacebookUser user;
+	
+	// services
+	public FacebookService facebookService;
 	public ActionResolver actionResolver;
 	public ActivityRequestHandler activityRequestHandler;
 	public Notifications notificationsService;
+	public DataHelper data;
 	
 	// sound
 	public float volume;
@@ -71,7 +75,8 @@ public class MainActivity extends Game {
 		skin = getSkin();
 		initScreenSizeGroup();
 		this.cat = new Category();
-		settingsVolume = cat.isSoundOn();
+		this.data = new DataHelper();
+		settingsVolume = data.isSoundOn();
 		updateVolume();
 		facebookService.showFacebookUser();
 		notificationsService.setNotifications();
@@ -81,7 +86,7 @@ public class MainActivity extends Game {
         
         fullStar = new Texture("stars/star_yellow.png");
 		emptyStar = new Texture("stars/star_gray.png");		
-		settingsVolume = cat.isSoundOn();
+		settingsVolume = data.isSoundOn();
 		
 		clickedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/clicked.mp3"));
 		correctAnswerSound = Gdx.audio.newSound(Gdx.files.internal("sounds/correctAnswer.mp3"));
@@ -167,7 +172,7 @@ public class MainActivity extends Game {
 	 */
 	public void updateSettingsVolume(boolean vol) {
 		settingsVolume = vol;
-		cat.setSound(vol);
+		data.setSound(vol);
 		updateVolume();
 	}
 	

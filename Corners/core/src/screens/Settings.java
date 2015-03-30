@@ -305,7 +305,7 @@ public class Settings implements Screen{
 	 * Set's up an option for changing the characters name
 	 */
 	public void setUpName() {
-		nameLabel = new Label(cat.getName(), settingsStyleRight);
+		nameLabel = new Label(main.data.getName(), settingsStyleRight);
 		
 		setNameListener();
 		
@@ -514,7 +514,7 @@ public class Settings implements Screen{
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				String name = nameInputField.getText();
 				if(!name.equals("")) {
-					cat.setName(name);
+					main.data.setName(name);
 					nameLabel.setText(name);
 				}
 				nameInputField.getOnscreenKeyboard().show(false);

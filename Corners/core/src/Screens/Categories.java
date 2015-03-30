@@ -27,8 +27,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.corners.game.MainActivity;
 
-import data.Data;
-
 public class Categories implements Screen {
 	private Texture carl; //the character, let's call it Carl
 	private SpriteBatch batch;
@@ -37,7 +35,6 @@ public class Categories implements Screen {
 	Category cat;
 	private Stage stage;
 	private InputProcessor inputProcessor;
-	public Data data;
 	private Table table;
 	
 	/**
@@ -46,7 +43,7 @@ public class Categories implements Screen {
 	 * 
 	 * @param main - applicable activity
 	 */
-	public Categories(final MainActivity main){
+	public Categories(MainActivity main){
 		this.main = main;
 		this.batch = new SpriteBatch();
 		stage = new Stage();
@@ -56,7 +53,6 @@ public class Categories implements Screen {
 		
 		addBackToProcessor();
 		setAllProcessors();
-		processData();
 		addCarl();
 		
 		skin = main.skin;
@@ -100,7 +96,7 @@ public class Categories implements Screen {
 			}
 		});
 		
-		table.add(new Label(cat.getName(), main.skin, main.screenSizeGroup+"-M"))
+		table.add(new Label(main.data.getName(), main.skin, main.screenSizeGroup+"-M"))
 				.padTop(main.scrHeight*0.4f-main.scrHeight/10).padBottom(main.scrHeight/40).row();
 		table.add(btnMath).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
 		table.add(btnColors).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
@@ -110,7 +106,7 @@ public class Categories implements Screen {
 	
 	private void addCarl() {
 		int levelsFinished = 0;
-		levelsFinished = data.getAllFinished();
+		levelsFinished = main.data.getAllFinished();
 		if(levelsFinished < 5){
 			this.carl = new Texture("carl/carl1green.jpg");
 		}
@@ -174,15 +170,6 @@ public class Categories implements Screen {
 	 */
 	public void dispose() {
 		stage.dispose();
-	}
-
-	/**
-	 * Gets the data from the database
-	 */
-	private void processData() {
-		 Category category = new Category();
-		 data = new Data();
-		 data = category.getData();
 	}
 
 	/**
@@ -255,8 +242,8 @@ public class Categories implements Screen {
 	 * Sets up the info bar
 	 */
 	public void setUpInfoBar() {
-		double tempStars = data.getAverageStars();
-		int tempLevels = data.getAllFinished();
+		double tempStars = main.data.getAllAverageStars();
+		int tempLevels = main.data.getAllFinished();
 		InfoBar infoBar = new InfoBar(main);
 		infoBar.setMiddleText("Categories");
 		infoBar.setRightText(tempLevels+"/27");

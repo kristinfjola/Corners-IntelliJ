@@ -41,7 +41,7 @@ public class Start implements Screen{
 	 * 
 	 * @param main - applicable activity
 	 */
-	public Start(final MainActivity main){
+	public Start(MainActivity main){
 
 		this.main = main;		
 		stage = new Stage();
@@ -93,7 +93,7 @@ public class Start implements Screen{
 			}
 		});
 		
-		table.add(new Label(cat.getName(), main.skin, main.screenSizeGroup+"-M"))
+		table.add(new Label(main.data.getName(), main.skin, main.screenSizeGroup+"-M"))
 				.padTop(main.scrHeight*0.4f-main.scrHeight/10).padBottom(main.scrHeight/40).row();
 		table.add(btnCategories).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
 		table.add(btnSettings).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
