@@ -183,7 +183,7 @@ public class Friends implements Screen{
 			}
 			int j = split_index+3;
 			while(j < score.length()) {
-				string_levels += score.substring(j);
+				string_levels += score.substring(j, j+1);
 				j++;
 			}
 			finished_levels = Integer.parseInt(string_levels);
