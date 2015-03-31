@@ -5,18 +5,14 @@
  */
 package logic;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import boxes.Box;
 import boxes.FlagBox;
-import boxes.MathBox;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
 public class Flags extends Category{
@@ -56,7 +52,10 @@ public class Flags extends Category{
 	/**
 	 * Delivers a question and possible answers
 	 */
-	public void setUpBoxes() {		
+	public void setUpBoxes() {	
+		qWidth = playScreenWidth*2/7;
+		qHeight = playScreenHeight/8;
+		
 		int[] xcoords = {0, 0, playScreenWidth-qWidth, playScreenWidth-qWidth}; 
 		int[] ycoords = {0, playScreenHeight-qHeight, playScreenHeight-qHeight, 0};
 		BitmapFont bmFont = (this.skin).getFont(this.screenSizeGroup+"-M");
@@ -71,7 +70,7 @@ public class Flags extends Category{
  	    }
  	    
  	    //question
- 		question = new FlagBox(qWidth+100, qHeight, "Bla", "Bla", bmFont);
+ 		question = new FlagBox(qWidth+playScreenWidth/6, qHeight, "Bla", "Bla", bmFont);
   	    question.getRec().x = screenWidth / 2 - qWidth / 2;
   	    question.getRec().y = screenHeight / 2 - qHeight / 2;
   	    question.setTexture(new Texture(Gdx.files.internal("mathBoxes/qBox.png")));
