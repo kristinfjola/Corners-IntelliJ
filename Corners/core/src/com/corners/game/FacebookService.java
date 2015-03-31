@@ -58,6 +58,4 @@ public interface FacebookService {
 	 * displays information about the user's Facebook account
 	 */
 	public void showFacebookUser();
-	
-	public void callFriendsListThread(Friends friendsScreen);
 }

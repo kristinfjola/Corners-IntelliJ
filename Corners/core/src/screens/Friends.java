@@ -79,15 +79,33 @@ public class Friends implements Screen{
 		setUpInfoBar();
 		
 		if(main.facebookService.isLoggedIn()){
-			//FOKKING VIRKAR EKKI MEÐ STJÖRNUMYNDUNUM !!! (er að vinna í því hehe)
-			//main.facebookService.callFriendsListThread(this);
-			this.showFriends(main.facebookService.getFriendsList(), main.facebookService.getScores(), main.facebookService.getMyScore());
+			getInfoFromFacebookAndShow();
 		} else {
-			table.add(new Label("Oops! You're not logged into",friendsStyleM)).left().padTop(main.scrWidth/18f).padLeft(main.scrWidth/24f).row();
-			table.add(new Label("facebook!",friendsStyleM)).left().padLeft(main.scrWidth/24f).row();
-			table.add(new Label("Go to Settings on the start screen and log", friendsStyle)).left().padLeft(main.scrWidth/24f).padTop(main.scrWidth/24f).row();
-			table.add(new Label("into facebook to see your friends!", friendsStyle)).left().padLeft(main.scrWidth/24f).row();
+		table.add(new Label("Oops! You're not logged into",friendsStyleM)).left().padTop(main.scrWidth/18f).padLeft(main.scrWidth/24f).row();
+		table.add(new Label("facebook!",friendsStyleM)).left().padLeft(main.scrWidth/24f).row();
+		table.add(new Label("Go to Settings on the start screen and log", friendsStyle)).left().padLeft(main.scrWidth/24f).padTop(main.scrWidth/24f).row();
+		table.add(new Label("into facebook to see your friends!", friendsStyle)).left().padLeft(main.scrWidth/24f).row();
 		}
+	}
+	
+	public void getInfoFromFacebookAndShow() {
+		new Thread(new Runnable() {
+		   @Override
+		   public void run() {
+		      // do something important here, asynchronously to the rendering thread
+			  final List<String> friends = main.facebookService.getFriendsList();
+		      final List<Integer> scores = main.facebookService.getScores();
+			  final int my_score = main.facebookService.getMyScore();
+		      // post a Runnable to the rendering thread that processes the result
+		      Gdx.app.postRunnable(new Runnable() {
+		         @Override
+		         public void run() {
+		            // process the result, e.g. add it to an Array<Result> field of the ApplicationListener.
+		        	 showFriends(friends, scores, my_score);
+		         }
+		      });
+		   }
+		}).start();
 	}
 	
 	public void showFriends(List<String> friends, List<Integer> scores, Integer myScore) {
@@ -121,9 +139,9 @@ public class Friends implements Screen{
 			stars = stars_hash.get(name);
 			finished_levels = levels_hash.get(name);
 			stars_image = "infoBar/"+infoBar.getStarAmount(stars)+".png";
-			System.out.println("stars image url: "+stars_image);
 			table.add(new Label(""+(i+1)+". "+name+"  ("+stars+"/"+finished_levels+")", friendsStyle)).left().padLeft(main.scrWidth/24f);
 			table.add(new Image(new Texture(stars_image))).size(main.scrWidth/6).right().padRight(main.scrWidth/26f).row();
+			
 		}
 	}
 	

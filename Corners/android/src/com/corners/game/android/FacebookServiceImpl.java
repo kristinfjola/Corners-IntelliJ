@@ -216,42 +216,6 @@ public class FacebookServiceImpl implements FacebookService{
     	}
     }
     
-    public void callFriendsListThread(Friends friendsScreen) {
-    	new GetFacebookFriendsTask(friendsScreen).execute();
-    }
-    
-    public class GetFacebookFriendsTask extends AsyncTask<Void, Void, List<String>> {
-    	public GetFacebookFriendsTask(Friends screen) {
-    		this.screen = screen;
-    	}
-    	private Friends screen;
-    	protected List<String> doInBackground(Void...voids) {
-    		List<String> friends = getFriendsList();
-    		return friends;
-    	}
-    	protected void onPostExecute(List<String> friends) {
-    		new GetScoresTask(screen).execute(friends);
-    	}
-    }
-    
-    public class GetScoresTask extends AsyncTask<List<String>, Void, List<String>> {
-    	public GetScoresTask(Friends screen) {
-    		this.screen = screen;
-    	}
-    	private Friends screen;
-    	private List<Integer> scores = new ArrayList<Integer>();
-    	private Integer my_score = 0;
-    	protected List<String> doInBackground(List<String>...lists) {
-    		List<String> friends = lists[0];
-    		scores = getScores();
-			my_score = getMyScore();
-			return friends;
-    	}
-    	protected void onPostExecute(List<String> friends) {
-    		screen.showFriends(friends, scores, my_score);
-    	}
-    }
-    
     /**
      * @author Kristin Fjola Tomasdottir
      * @date 	19.03.2015
