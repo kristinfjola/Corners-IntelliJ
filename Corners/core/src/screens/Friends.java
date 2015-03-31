@@ -147,9 +147,9 @@ public class Friends implements Screen{
 	
 	public HashMap<String, Double> getStarsFromScore(HashMap<String, Integer> friends) {
 		double stars = 0;
-		String stars_string = "";
 		HashMap<String, Double> stars_hash = new HashMap<String, Double>();
 		for (String key : friends.keySet()) {
+			String stars_string = "";
 			String score = Integer.toString(friends.get(key));
 			int i = 0;
 			while(!score.substring(i, i+3).equals("777")) {
@@ -170,10 +170,10 @@ public class Friends implements Screen{
 	
 	public HashMap<String, Integer> getLevelsFromScore(HashMap<String, Integer> friends) {
 		int finished_levels = 0;
-		String string_levels = "";
 		int split_index = 0;
 		HashMap<String, Integer> levels = new HashMap<String, Integer>();
 		for (String key : friends.keySet()) {
+			String string_levels = "";
 			String score = Integer.toString(friends.get(key));
 			for(int i = 0; i < score.length(); i++) {
 				if(score.substring(i, i+3).equals("777")) {
