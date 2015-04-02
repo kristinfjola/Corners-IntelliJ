@@ -467,6 +467,9 @@ public class Settings implements Screen{
 		});
 	}
 	
+	/**
+	 * @return dialog for the user so he can edit the character's name
+	 */
 	public Dialog getNameDialog() {
 		Pixmap pm = new Pixmap(1,1,Format.RGBA8888);
 		pm.setColor(new Color(211/255f,211/255f,211/255f,1));
@@ -479,6 +482,9 @@ public class Settings implements Screen{
 		return nameDialog;
 	}
 	
+	/**
+	 * @return text input for the user to edit it's characters name
+	 */
 	public TextField getNameInputField() {
 		Pixmap black = new Pixmap(1,1,Format.RGBA8888);
 		black.setColor(Color.BLACK);
@@ -499,6 +505,13 @@ public class Settings implements Screen{
 		return nameInputField;
 	}
 	
+	/**
+	 * @param nameDialog
+	 * @param nameInputField
+	 * @param dPad is the padding around each button
+	 * @return table that has a cancel and save button to open/close the nameDialog and save
+	 * the text in nameInputField
+	 */
 	public Table getCancelSaveTable(Dialog nameDialog, TextField nameInputField, int dPad) {
 		Label cancelNameButton = getCancelNameButton(nameDialog, nameInputField);
 		Label saveNameButton = getSaveNameButton(nameDialog, nameInputField);
@@ -510,6 +523,12 @@ public class Settings implements Screen{
 		return cancelSaveTable;
 	}
 	
+	/**
+	 * @param nameDialog
+	 * @param nameInputField
+	 * @return button that if pressed it saves the name in nameInputField, closes
+	 * the dialog nameDialog and removes the keyboard associated with nameInputField
+	 */
 	public Label getSaveNameButton(final Dialog nameDialog, final TextField nameInputField) {
 		Label saveNameButton = new Label("Save", main.skin, main.screenSizeGroup+"-M");
 		saveNameButton.addListener(new ClickListener() {
@@ -528,6 +547,12 @@ public class Settings implements Screen{
 		return saveNameButton;
 	}
 	
+	/**
+	 * @param nameDialog
+	 * @param nameInputField
+	 * @return button that if pressed it closes the dialog nameDialog and removes the 
+	 * keyboard associated with nameInputField
+	 */
 	public Label getCancelNameButton(final Dialog nameDialog, final TextField nameInputField) {
 		Label cancelNameButton = new Label("Cancel", main.skin, main.screenSizeGroup+"-M");
 		cancelNameButton.addListener(new ClickListener() {

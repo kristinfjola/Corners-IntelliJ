@@ -1,3 +1,10 @@
+/**
+ * @author 	Johanna Agnes Magnusdottir
+ * @date 	30.03.2015
+ * @goal 	Holds on to information regarding the user's character (image and 
+ * 			amount of level needed to "grow up"
+ */
+
 package screens;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -13,11 +20,14 @@ public class Character {
 	 * character 4: levels 20-27
 	 */
 	
-	MainActivity main;
-	Texture[] imgs;
-	int totalLevels;
-	int[] levelsSplit;
+	private MainActivity main;
+	private Texture[] imgs;
+	private int totalLevels;
+	private int[] levelsSplit;
 	
+	/**
+	 * Constructor. Creates the the interface and sets the private variables
+	 */
 	public Character(MainActivity main) {
 		this.main = main;
 		
@@ -30,6 +40,12 @@ public class Character {
 		}
 	}
 	
+	/**
+	 * sets the private variable levelSplit based on the total amount of levels
+	 * the game offers
+	 * @param percentage hold the amount of percentage of how many levels need 
+	 * to be finished in order to "grow up"
+	 */
 	public void setUpLevelsSplit(Float[] percentage) {
 		levelsSplit = new int[percentage.length];
 		for(int i=0; i<percentage.length; i++) {
@@ -37,10 +53,16 @@ public class Character {
 		}
 	}
 	
+	/**
+	 * @return texture image of the user's current character
+	 */
 	public Texture getCharacterImg() {
 		return imgs[getCharacterNumber()];
 	}
 	
+	/**
+	 * @return the number of the user's current character (0-4)
+	 */
 	public int getCharacterNumber() {
 		int levelsFinished = getLevelsFinished();
 		
@@ -50,11 +72,18 @@ public class Character {
 		return 4;
 	}
 	
+	/**
+	 * @return the total amount of levels finished
+	 */
 	public int getLevelsFinished() {
 		int levelsFinished = main.data.getAllFinished();
 		return levelsFinished;
 	}
 
+	/**
+	 * @return the amount of levels needed to finish in order to "grow up" and 
+	 * get the next character available
+	 */
 	public int getNrOfLevelsToNext() {
 		int characterNumber = getCharacterNumber();
 		
