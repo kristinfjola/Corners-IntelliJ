@@ -5,7 +5,9 @@
  */
 package com.corners.game;
 
-public interface ActionResolver {
+import screens.Play;
+
+public interface Dialogs {
     /**
      * @param toastMessage
      * @param toastDuration
@@ -17,7 +19,8 @@ public interface ActionResolver {
      * @param alertBoxTitle
      * @param alertBoxMessage
      * @param alertBoxButtonText
-     * displays an alert with alertBoxMessage
+     * @param playScreen
+     * displays directions to play on playScreen
      */
-    public void showAlertBox(String alertBoxTitle, String alertBoxMessage, String alertBoxButtonText);
+    public void showDirections(String alertBoxTitle, String alertBoxMessage, String alertBoxButtonText, Play playScreen);
 }

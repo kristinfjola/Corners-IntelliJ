@@ -158,6 +158,11 @@ public class Levels implements Screen{
 				public void clicked (InputEvent event, float x, float y) {
 					main.play = new Play(main, cat, level);
 		            main.setScreen(main.play);
+		            
+		            if(level==1){
+		            	main.actionResolver.showDirections("Corners", "Swipe the question to the correct corner!", "Got it!", main.play);
+		            	main.play.pause();
+		            }
 				}
 			});	
 		}
