@@ -9,21 +9,23 @@ package com.corners.game;
 
 import logic.Category;
 import screens.Categories;
+import screens.Character;
 import screens.Friends;
 import screens.Levels;
 import screens.Play;
 import screens.Settings;
 import screens.Start;
-import screens.Character;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import data.DataHelper;
 
@@ -207,15 +209,46 @@ public class MainActivity extends Game {
 	 * Sets up the drawables for the sound slider
 	 */
 	public void setUpSliderDrawables() {
-		backgroundOn = skin.getDrawable("backgroundOn");
-		backgroundOff = skin.getDrawable("backgroundOff");
-		knob = skin.getDrawable("sliderKnob");	
+		int textHeight = (int)(skin.getFont(screenSizeGroup+"-M").getBounds("Sound").height*1.5f);
 		
-		
-		int textHeight = (int)(skin.getFont(screenSizeGroup+"-M").getBounds("Sound").height*1.5f);		
+		backgroundOn = new NinePatchDrawable(getPatch("patch/backgroundOn.9.png",textHeight,Integer.MAX_VALUE));
+		backgroundOn.setRightWidth(0);
+		backgroundOn.setLeftWidth(0);
 		backgroundOn.setMinHeight(textHeight);
+		
+		backgroundOff = new NinePatchDrawable(getPatch("patch/backgroundOff.9.png",textHeight,Integer.MAX_VALUE));
+		backgroundOff.setRightWidth(0);
+		backgroundOff.setLeftWidth(0);
 		backgroundOff.setMinHeight(textHeight);
+		
+		knob = new NinePatchDrawable(getPatch("patch/sliderKnob.9.png",textHeight,Integer.MAX_VALUE));
 		knob.setMinHeight(textHeight);
 		knob.setMinWidth(textHeight);
+	}
+	
+	/**
+	 * @param fname is the directory to the 9patch
+	 * @param maxHeight is the max height the patch should have
+	 * @param maxWidth is the max width the patch should have
+	 * @return a 9patch with the max height of maxHeight and where the stretchable area
+	 * is a 1x1 pixel in the center
+	 */
+	public NinePatch getPatch(String fname, float maxHeight, float maxWidth) {
+		Texture texture = new Texture(Gdx.files.internal(fname));
+	    int width = texture.getWidth()-2;
+	    int height = texture.getHeight()-2;
+	    int left = (width-1)/2;
+	    int right = (width-1)/2;
+	    int top = (height-1)/2;
+	    int bottom = (height-1)/2;
+	    TextureRegion region = new TextureRegion(texture,1,1,width,height);
+	    NinePatch patch = new NinePatch(region,left,right,top,bottom);
+
+	    float scale;
+	    if(maxHeight<maxWidth) scale = maxHeight/height;
+	    else scale = maxWidth/width;
+	    if(scale<1) patch.scale(scale,scale);
+	    
+	    return patch;
 	}
 }

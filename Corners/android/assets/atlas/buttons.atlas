@@ -52,46 +52,6 @@ empty
   offset: 0, 0
   index: -1
 
-backgroundOn.png
-size: 80,80
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
-backgroundOn
-  rotate: false
-  xy: 0, 0
-  size: 140, 35
-  orig: 140, 35
-  offset: 0, 0
-  index: -1
-
-backgroundOff.png
-size: 80,80
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
-backgroundOff
-  rotate: false
-  xy: 0, 0
-  size: 140, 35
-  orig: 140, 35
-  offset: 0, 0
-  index: -1
-
-sliderKnob.png
-size: 80,80
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
-sliderKnob
-  rotate: false
-  xy: 0, 0
-  size: 27, 26
-  orig: 27, 26
-  offset: 0, 0
-  index: -1
-  
-  
 fb_button.png
 size: 256,140
 format: RGBA8888
