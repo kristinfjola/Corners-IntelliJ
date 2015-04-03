@@ -51,7 +51,7 @@ import android.content.pm.Signature;
 
 public class AndroidLauncher extends AndroidApplication implements ActivityRequestHandler {
 	protected FacebookServiceImpl facebookService;
-	ActionResolverImpl actionResolver;
+	DialogsImpl dialogs;
 	NotificationsImpl notifications;
 	private final int SHOW = 1;
     private final int HIDE = 0;
@@ -77,8 +77,8 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
         mainActivity.setFacebookService(facebookService);  
         mainActivity.activityRequestHandler = this;
         
-        actionResolver = new ActionResolverImpl(this);
-        mainActivity.actionResolver = actionResolver;
+        dialogs = new DialogsImpl(this);
+        mainActivity.actionResolver = dialogs;
         
         notifications = new NotificationsImpl(this);
         mainActivity.notificationsService = notifications;
@@ -97,6 +97,7 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
         fbView = vi.inflate(R.layout.main, null);
         profilePictureView = (ProfilePictureView) fbView.findViewById(R.id.selection_profile_pic);
         userNameView = (TextView) fbView.findViewById(R.id.selection_user_name);
+
         
         RelativeLayout.LayoutParams fbParams = 
             new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, 
@@ -116,6 +117,11 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
         filter.addAction("android.media.RINGER_MODE_CHANGED");
         ringerModeHelper = new RingerModeHelper(mainActivity,this.getContext());
         registerReceiver(ringerModeHelper , filter);
+        
+        
+        System.out.println("x: " + profilePictureView.getX());
+        System.out.println("y: " + profilePictureView.getY());
+        System.out.println("bottom: " + profilePictureView.getBottom());
 	}
 	
 	/**

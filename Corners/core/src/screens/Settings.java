@@ -229,11 +229,11 @@ public class Settings implements Screen{
 	public void setUpFacebook() {
 		Label labelFb = new Label("Facebook", settingsStyle);	
 		
-		btnLogin = new TextButton("Login", skin, main.screenSizeGroup+"-L"+"-facebook");
+		btnLogin = new TextButton("Log in", skin, main.screenSizeGroup+"-L"+"-facebook");
 		if(main.facebookService.isLoggedIn()){
-			btnLogin.setText("Logout");
+			btnLogin.setText("Log out");
 		} else {
-			btnLogin.setText("Login");
+			btnLogin.setText("Log in");
 		}
 		setLoginListener();
 		
@@ -242,10 +242,11 @@ public class Settings implements Screen{
 		btnLogin.getLabel().setOrigin(200, 200);
 		btnLogin.getLabel().moveBy(300, 300);
 		*/
-		table.add(labelFb).expandX().left().pad(pad).padTop(main.scrWidth/4f);
+		//table.add(labelFb).expandX().left().pad(pad).padTop(main.scrWidth/4f);
+		table.add(labelFb).expandX().left().pad(pad).padBottom(main.scrWidth/6f);
 		//table.add(btnLogin).expandX().right().pad(pad).padBottom(pad + main.scrWidth/6f).row();
-		table.add(btnLogin).width(this.main.scrWidth/2.3f).height(this.main.scrHeight/10)
-			.expandX().right().pad(pad).padTop(main.scrWidth/4f).row();
+		//table.add(btnLogin).width(this.main.scrWidth/2.3f).height(this.main.scrHeight/10).expandX().right().pad(pad).padTop(main.scrWidth/4f).row();
+		table.add(btnLogin).width(this.main.scrWidth/2.3f).height(this.main.scrHeight/10).expandX().right().pad(pad).padBottom(main.scrWidth/6f).row();
 		addLine();
 	}
 	
@@ -336,10 +337,10 @@ public class Settings implements Screen{
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(main.facebookService.isLoggedIn()){
-					btnLogin.setText("Login");
+					btnLogin.setText("Log in");
 					main.facebookService.logOut();
 				} else {
-					btnLogin.setText("Logout");
+					btnLogin.setText("Log out");
 					main.facebookService.logIn();
 				}
 				
