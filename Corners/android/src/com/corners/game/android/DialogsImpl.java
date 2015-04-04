@@ -9,6 +9,7 @@ import screens.Play;
 
 import com.corners.game.Dialogs;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
@@ -21,12 +22,12 @@ public class DialogsImpl implements Dialogs {
        Handler uiThread;
        Context appContext;
        AndroidLauncher launcher;
+       ProgressDialog progress;
 
       public DialogsImpl(Context appContext) {
                uiThread = new Handler();
                this.appContext = appContext;
        }
-
 
       @Override
       public void showDirections(final String alertBoxTitle, final String alertBoxMessage, final String alertBoxButtonText, final Play playScreen) {
@@ -70,6 +71,31 @@ public class DialogsImpl implements Dialogs {
             public void run() {
                     Toast.makeText(appContext, toastMessage, Toast.LENGTH_LONG)
                                     .show();
+            }
+		});
+	}
+	
+	@Override
+	public void showProgressBar() {
+		LayoutInflater inflater = (LayoutInflater) appContext.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater.inflate(R.layout.directions_layout, null);
+		 uiThread.post(new Runnable() {
+             public void run() {
+            	 //show(Context context, CharSequence title, CharSequence message, boolean indeterminate, boolean cancelable, DialogInterface.OnCancelListener cancelListener)
+         		progress = new ProgressDialog(appContext);
+            	progress.setMessage("Loading friends... ");
+         		progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+         		progress.setIndeterminate(true);
+         		progress.show();
+             }
+		});
+	}
+	
+	@Override
+	public void hideProgressBar() {
+		uiThread.post(new Runnable() {
+            public void run() {
+            	progress.dismiss();
             }
 		});
 	}

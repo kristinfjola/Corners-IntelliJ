@@ -23,4 +23,8 @@ public interface Dialogs {
      * displays directions to play on playScreen
      */
     public void showDirections(String alertBoxTitle, String alertBoxMessage, String alertBoxButtonText, Play playScreen);
+    
+    public void showProgressBar();
+    
+    public void hideProgressBar();
 }

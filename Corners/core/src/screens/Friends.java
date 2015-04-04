@@ -92,18 +92,18 @@ public class Friends implements Screen{
 		new Thread(new Runnable() {
 		   @Override
 		   public void run() {
-		      // do something important here, asynchronously to the rendering thread
-			  final List<String> friends = main.facebookService.getFriendsList();
-		      final List<Integer> scores = main.facebookService.getScores();
-			  final int my_score = main.facebookService.getMyScore();
-		      // post a Runnable to the rendering thread that processes the result
-		      Gdx.app.postRunnable(new Runnable() {
-		         @Override
-		         public void run() {
-		            // process the result, e.g. add it to an Array<Result> field of the ApplicationListener.
-		        	 showFriends(friends, scores, my_score);
-		         }
-		      });
+			   main.actionResolver.showProgressBar();
+			   final List<String> friends = main.facebookService.getFriendsList();
+			   final List<Integer> scores = main.facebookService.getScores();
+			   final int my_score = main.facebookService.getMyScore();
+			   
+			   Gdx.app.postRunnable(new Runnable() {
+				   @Override
+				   public void run() {
+					   showFriends(friends, scores, my_score);
+					   main.actionResolver.hideProgressBar();
+				   }
+			   });
 		   }
 		}).start();
 	}
