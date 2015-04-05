@@ -135,6 +135,7 @@ public class Categories implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         batch.begin();
+        batch.draw(main.background, 0, 0, main.scrWidth, main.scrHeight);
 		batch.draw(carl, main.scrWidth*0.25f, main.scrHeight*0.6f, main.scrWidth*0.5f, main.scrWidth*0.5f);	
         batch.end();
 		

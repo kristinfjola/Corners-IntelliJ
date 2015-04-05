@@ -232,6 +232,11 @@ public class Friends implements Screen{
 	public void render(float delta) {
 		Gdx.gl.glClearColor(21/255f, 149/255f, 136/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		batch.begin();
+        batch.draw(main.background, 0, 0, main.scrWidth, main.scrHeight);
+		batch.end();
+        
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 	}

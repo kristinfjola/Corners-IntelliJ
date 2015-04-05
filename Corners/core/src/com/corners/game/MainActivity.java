@@ -46,6 +46,7 @@ public class MainActivity extends Game {
 	
 	public Texture fullStar;
 	public Texture emptyStar;
+	public Texture background;
 	public Friends friends;
 	public FacebookUser user;
 	
@@ -81,6 +82,7 @@ public class MainActivity extends Game {
 		this.cat = new Category();
 		this.data = new DataHelper();
 		this.character = new Character(this);
+		this.background = new Texture("background/grass.png");
 		settingsVolume = data.isSoundOn();
 		updateVolume();
 		facebookService.showFacebookUser();

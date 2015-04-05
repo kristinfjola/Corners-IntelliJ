@@ -15,6 +15,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -32,9 +33,10 @@ public class Levels implements Screen{
 	private Stage stage;
 	private Table container;
 	private Category cat;
-	private InputProcessor inputProcessor; 
+	private InputProcessor inputProcessor;
 	private InfoBar infoBar;
 	public int[] stars;
+	private SpriteBatch batch;
 	
 	/**
 	 * Constructor that sets the private variable and starts the screen.
@@ -58,6 +60,7 @@ public class Levels implements Screen{
 	 */
 	public void create(){
 		stage = new Stage();
+		this.batch = new SpriteBatch();
 		skin = main.skin;
 
 		container = new Table();
@@ -96,6 +99,11 @@ public class Levels implements Screen{
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		batch.begin();
+        batch.draw(main.background, 0, 0, main.scrWidth, main.scrHeight);
+        batch.end();
+        
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();		
 	}

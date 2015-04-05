@@ -36,7 +36,7 @@ public class Character {
 		
 		imgs = new Texture[levelsSplit.length];
 		for(int i=0; i<levelsSplit.length; i++) {
-			imgs[i] = new Texture("carl/carl"+i+".jpg");
+			imgs[i] = new Texture("carl/piggy"+i+".png");
 		}
 	}
 	

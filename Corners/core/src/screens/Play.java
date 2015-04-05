@@ -782,6 +782,7 @@ public class Play implements Screen, InputProcessor{
 		// draw question and answers
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
+		batch.draw(main.background, 0, 0, main.scrWidth, main.scrHeight);
 		for(Box answer : cat.getAnswers()){
 			answer.draw(batch);
 		}
