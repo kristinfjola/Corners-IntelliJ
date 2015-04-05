@@ -85,6 +85,7 @@ public class MainActivity extends Game {
 		this.background = new Texture("background/grass.png");
 		settingsVolume = data.isSoundOn();
 		updateVolume();
+		setNotifications();
 		facebookService.showFacebookUser();
 		
 		start = new Start(this);
@@ -252,5 +253,16 @@ public class MainActivity extends Game {
 	    if(scale<1) patch.scale(scale,scale);
 	    
 	    return patch;
+	}
+	
+	/**
+	 * turns on notifications and makes sure that they're on the first
+	 * time the user opens the app
+	 */
+	public void setNotifications(){
+		notificationsService.cancelNotifications();
+		if(data.isNotificationOn()){
+			notificationsService.setNotifications();
+		}
 	}
 }
