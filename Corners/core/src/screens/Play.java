@@ -369,7 +369,7 @@ public class Play implements Screen, InputProcessor{
 	 */
 	public void showPauseDialog(){
 		Pixmap pm = new Pixmap(1,1,Format.RGBA8888);
-		pm.setColor(new Color(21/255f, 149/255f, 136/255f, 1));
+		pm.setColor(new Color(140/255f, 202/255f, 82/255f, 1));
 		pm.fill();
 		
 		WindowStyle dialogStyle = new WindowStyle();
