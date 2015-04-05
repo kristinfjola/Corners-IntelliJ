@@ -71,7 +71,7 @@ public class Start implements Screen{
 				
 		setUpInfoBar();
 		
-		Drawable btn = new NinePatchDrawable(main.getPatch("buttons/mainButton.9.png",Integer.MAX_VALUE,Integer.MAX_VALUE));
+		Drawable btn = new NinePatchDrawable(main.getPatch("buttons/mainButton.9.png",Integer.MAX_VALUE,main.scrHeight/8));
 		TextButtonStyle style = new TextButtonStyle(btn, btn, btn, main.skin.getFont(main.screenSizeGroup+"-L"));
 		style.fontColor = Color.BLACK;
 
