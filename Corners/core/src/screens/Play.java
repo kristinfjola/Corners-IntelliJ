@@ -54,6 +54,7 @@ public class Play implements Screen, InputProcessor{
     private int questionsAnswered = 0;
     private int nrOfQuestions;
     private int questionStatusDisplay = 0;
+    private int oldStars = 0 ;
     private float origX;
     private float origY;
     
@@ -118,7 +119,7 @@ public class Play implements Screen, InputProcessor{
 	    time = main.skin.getFont(main.screenSizeGroup+"-M");
 	    time.setColor(Color.BLACK);
 	    maxTime = 10;
-	    nrOfQuestions = 9; //TODO
+	    nrOfQuestions = 1; //TODO
 		camera = new OrthographicCamera();
  	    camera.setToOrtho(false, main.scrWidth, main.scrHeight);
  	    batch = new SpriteBatch();
@@ -158,6 +159,7 @@ public class Play implements Screen, InputProcessor{
 	 * Resets the level and notifies user that he has won
 	 */
 	public void win(){
+		oldStars = main.data.getStarsByString(cat.getType()).getStarsOfALevel(level);
 		saveStars(stars);
 		questionsAnswered = 0;
 		totalSecondsWasted = 0;
@@ -311,26 +313,20 @@ public class Play implements Screen, InputProcessor{
 		LabelStyle largeStyle = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-L"), Color.BLACK);
 		
 		pause();
-
 		Dialog dialog = new Dialog("", this.main.skin);
 		if(win) {
 			Table starsTable = getStars(stars);
-			if(finishCat) {
-				if(true /*TODO firstTimeFinishCAt*/)
+			Image happyFace = new Image(new TextureRegionDrawable(new TextureRegion(new Texture("faces/happycarl.png"))));			
+			boolean firstTimeFinish = oldStars<=0;
+			if(finishCat && firstTimeFinish) {
 					dialog.getContentTable().add(new Label(cat.getType()+" complete!", largeStyle)).row();
-				//else
-				//	dialog.getContentTable().add(new Label("Level complete!", largeStyle)).row();
-				dialog.getContentTable().add(starsTable).row();
-				if(main.data.getAverageStars(this.cat) != 3.0f)
-					dialog.getContentTable().add(new Label("Try to get more stars in each level!",smallStyle)).row();
-				dialog.getContentTable().add(" ").row();
 			}
 			else {
 				dialog.getContentTable().add(new Label("Level complete!", largeStyle)).row();
-				dialog.getContentTable().add(starsTable).row();
 			}
-			dialog.getContentTable().add(new Label(main.data.getName()+" says:", smallStyle)).row();
-			dialog.getContentTable().add().row();
+			dialog.getContentTable().add(starsTable).row();
+			dialog.getContentTable().add(happyFace).row();
+			dialog.getContentTable().add(new Label(main.data.getName()+" says:", smallStyle)).row();			
 			if(main.character.getNrOfLevelsToNext()!=0) {
 				String bla = "Good job! Only "+main.character.getNrOfLevelsToNext()+" more";
 				String bla2 = "levels 'till I grow up!";
@@ -340,13 +336,12 @@ public class Play implements Screen, InputProcessor{
 			else {
 				dialog.getContentTable().add(new Label("Good job!", smallStyle));
 			}
-			
 		}
 		else {
+			Image sadFace = new Image(new TextureRegionDrawable(new TextureRegion(new Texture("faces/sadcarl.png"))));	
 			dialog.getContentTable().add(new Label("Oh no!", largeStyle)).row();
 			dialog.getContentTable().add(new Label("You lost!", largeStyle)).row();
-			Table sadFaceTable = getSadFace();
-			dialog.getContentTable().add(sadFaceTable).row();
+			dialog.getContentTable().add(sadFace).row();
 			dialog.getContentTable().add(new Label(main.data.getName()+" says:", smallStyle)).row();
 			dialog.getContentTable().add(new Label("Better luck next time!", smallStyle)).row();
 		}
@@ -421,21 +416,6 @@ public class Play implements Screen, InputProcessor{
 		}
 		
 		return starsTable;
-	}
-	
-	/**
-	 * @return table with a picture of a sad smiley face
-	 */
-	public Table getSadFace() {
-		Table sadFaceTable = new Table();
-		
-		Texture sad_face = new Texture("faces/sad_face.png");
-		
-		Image sad = new Image();
-		sad.setDrawable(new TextureRegionDrawable(new TextureRegion(sad_face)));
-		sadFaceTable.add(sad).padTop(50);
-		
-		return sadFaceTable;
 	}
 	
 	/**

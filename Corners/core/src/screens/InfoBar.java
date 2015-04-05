@@ -69,9 +69,9 @@ public class InfoBar {
 	 	rightLabel.setAlignment(Align.center);
 	 	rightButton.stack(new Image(new Texture("infoBar/"+rightImage+".png")), rightLabel).expand().fill();
 	 	
-	 	infoBarTable.add(leftButton).size(barHeight).expand().left();
+	 	infoBarTable.add(leftButton).size(barHeight).padLeft(main.scrWidth/40).expand().left();
 	 	infoBarTable.add(middleLabel).expand();
-	 	infoBarTable.add(rightButton).size(barHeight).expand().right();
+	 	infoBarTable.add(rightButton).size(barHeight).padRight(main.scrWidth/40).expand().right();
 	 	
 	 	return infoBarTable;
 	}

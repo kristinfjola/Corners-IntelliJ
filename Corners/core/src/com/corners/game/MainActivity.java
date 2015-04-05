@@ -213,17 +213,17 @@ public class MainActivity extends Game {
 	public void setUpSliderDrawables() {
 		int textHeight = (int)(skin.getFont(screenSizeGroup+"-M").getBounds("Sound").height*1.5f);
 		
-		backgroundOn = new NinePatchDrawable(getPatch("patch/backgroundOn.9.png",textHeight,Integer.MAX_VALUE));
+		backgroundOn = new NinePatchDrawable(getPatch("slider/backgroundOn.9.png",textHeight,Integer.MAX_VALUE));
 		backgroundOn.setRightWidth(0);
 		backgroundOn.setLeftWidth(0);
 		backgroundOn.setMinHeight(textHeight);
 		
-		backgroundOff = new NinePatchDrawable(getPatch("patch/backgroundOff.9.png",textHeight,Integer.MAX_VALUE));
+		backgroundOff = new NinePatchDrawable(getPatch("slider/backgroundOff.9.png",textHeight,Integer.MAX_VALUE));
 		backgroundOff.setRightWidth(0);
 		backgroundOff.setLeftWidth(0);
 		backgroundOff.setMinHeight(textHeight);
 		
-		knob = new NinePatchDrawable(getPatch("patch/sliderKnob.9.png",textHeight,Integer.MAX_VALUE));
+		knob = new NinePatchDrawable(getPatch("slider/sliderKnob.9.png",textHeight,Integer.MAX_VALUE));
 		knob.setMinHeight(textHeight);
 		knob.setMinWidth(textHeight);
 	}
@@ -232,8 +232,8 @@ public class MainActivity extends Game {
 	 * @param fname is the directory to the 9patch
 	 * @param maxHeight is the max height the patch should have
 	 * @param maxWidth is the max width the patch should have
-	 * @return a 9patch with the max height of maxHeight and where the stretchable area
-	 * is a 1x1 pixel in the center
+	 * @return a 9patch with the max height of maxHeight, max width maxWidth
+	 * and where the stretchable area is a 1x1 pixel in the center
 	 */
 	public NinePatch getPatch(String fname, float maxHeight, float maxWidth) {
 		Texture texture = new Texture(Gdx.files.internal(fname));
