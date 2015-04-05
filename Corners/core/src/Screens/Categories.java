@@ -15,6 +15,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,7 +25,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.corners.game.MainActivity;
 
 public class Categories implements Screen {
@@ -67,11 +71,14 @@ public class Categories implements Screen {
 		
 		setUpInfoBar();
 	}
-	
 
 	@Override
 	public void show() {
-		final TextButton btnMath = new TextButton("Math", skin, main.screenSizeGroup+"-L");
+		Drawable btn = new NinePatchDrawable(main.getPatch("buttons/mainButton.9.png",Integer.MAX_VALUE,Integer.MAX_VALUE));
+		TextButtonStyle style = new TextButtonStyle(btn, btn, btn, main.skin.getFont(main.screenSizeGroup+"-L"));
+		style.fontColor = Color.BLACK;
+		
+		final TextButton btnMath = new TextButton("Math",style);
 		btnMath.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				main.levels = new Levels(main, new logic.Math());
@@ -79,7 +86,7 @@ public class Categories implements Screen {
 			}
 		});
 
-		final TextButton btnColors = new TextButton("Colors", skin, main.screenSizeGroup+"-L");
+		final TextButton btnColors = new TextButton("Colors",style);
 		btnColors.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("COLORS!");
@@ -88,7 +95,7 @@ public class Categories implements Screen {
 			}
 		});
 		
-		final TextButton btnFlags = new TextButton("Flags", skin, main.screenSizeGroup+"-L");
+		final TextButton btnFlags = new TextButton("Flags",style);
 		btnFlags.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("FLAGS!");
