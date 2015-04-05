@@ -29,23 +29,7 @@ public class FlagBox extends Box{
 		this.bmFont = bmFont;
 		this.bmFont.setColor(Color.BLACK);
 	}
-
-	public BitmapFont getBmFont() {
-		return bmFont;
-	}
-
-	public void setBmFont(BitmapFont bmFont) {
-		this.bmFont = bmFont;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
+	
 	@Override
 	public void draw(SpriteBatch batch){
 		super.draw(batch);
@@ -55,6 +39,34 @@ public class FlagBox extends Box{
 			bmFont.draw(batch, text, rec.x + plusX, rec.y + plusY);
 		}
     }
+
+	/**
+	 * @return Bitmap of box
+	 */
+	public BitmapFont getBmFont() {
+		return bmFont;
+	}
+
+	/**
+	 * @param bmFont
+	 */
+	public void setBmFont(BitmapFont bmFont) {
+		this.bmFont = bmFont;
+	}
+
+	/**
+	 * @return text of box
+	 */
+	public String getText() {
+		return text;
+	}
+
+	/**
+	 * @param text
+	 */
+	public void setText(String text) {
+		this.text = text;
+	}
 	
 	/**
 	 * @return country for box

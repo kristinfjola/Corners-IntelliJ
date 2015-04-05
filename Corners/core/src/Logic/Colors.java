@@ -39,6 +39,7 @@ public class Colors extends Category {
 		pm.fill();
 	}
 	
+	@Override
 	public void setUpBoxes() {
 		qWidth = playScreenWidth/4;
 		qHeight = playScreenHeight/6;
@@ -90,7 +91,11 @@ public class Colors extends Category {
 		return null;
 	}
 
-	
+	/**
+	 * @param color - color of the question
+	 * @param isText - is the  question a text question
+	 * @param background - background color of the question
+	 */
 	private void generateQuestion(CorColor color, boolean isText, Color background) {
 		((ColorBox) question).setColor(color.getColor());
 		((ColorBox) question).setName(color.getName());
@@ -99,6 +104,10 @@ public class Colors extends Category {
 			((ColorBox) question).setText(color.getName());
 	}
 	
+	/**
+	 * @param colors - colors that are available to be answers
+	 * @param isText - true if the box is supposed to have text on it, else false 
+	 */
 	private void generateAnswers(CorColor[] colors, boolean isText) {
 		// answers
 		boolean[] alreadyAnAnswer = new boolean[colors.length];
@@ -125,7 +134,10 @@ public class Colors extends Category {
 		
 	}
 	
-
+	/**
+	 * @param color - color of the box
+	 * @param isText - true if text is on the box, else false
+	 */
 	private void generateCorrectAnswer(CorColor color, boolean isText) {
 		for(int i = 0; i < 4; i++){
 			Boolean isAlreadyInBox = ((ColorBox) answers.get(i)).getColor().equals(color.getColor());
@@ -143,6 +155,10 @@ public class Colors extends Category {
 		}
 	}
 	
+	/**
+	 * @param to - the count of colors to get
+	 * @return CorColor array with colors from 0 to 'to'
+	 */
 	public CorColor[] getColors(int to){
 		CorColor[] colorsDTO = new CorColor[to];
 		for(int i = 0; i < to; i++){

@@ -40,8 +40,6 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.corners.game.MainActivity;
 
-import data.Data;
-
 public class Play implements Screen, InputProcessor{
 
 	private MainActivity main;
@@ -904,7 +902,7 @@ public class Play implements Screen, InputProcessor{
 	private void openNextLevel(int levelWon) {
 		if(levelWon == 9)
 			return;
-		//make a getStarsOfALevel function in DataHelper
+		//TODO: make a getStarsOfALevel function in DataHelper
 		int nextLevelStars = main.data.getStarsByString(cat.getType()).getStarsOfALevel(levelWon + 1);
 		if(nextLevelStars > -1)
 			return;

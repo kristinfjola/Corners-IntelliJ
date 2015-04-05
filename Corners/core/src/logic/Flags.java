@@ -49,9 +49,7 @@ public class Flags extends Category{
 		return null;
 	}
 	
-	/**
-	 * Delivers a question and possible answers
-	 */
+	@Override
 	public void setUpBoxes() {	
 		qWidth = playScreenWidth*2/7;
 		qHeight = playScreenHeight/8;
@@ -77,6 +75,10 @@ public class Flags extends Category{
 	}
 
 	
+	/**
+	 * @param country
+	 * @param isCapital
+	 */
 	public void generateQuestion(Flag country, Boolean isCapital){
 		((FlagBox) question).setCountry(country.getCountry());
 		((FlagBox) question).setCapital(country.getCapital());
@@ -84,9 +86,12 @@ public class Flags extends Category{
 			((FlagBox) question).setText(country.getCapital());
 		else
 			((FlagBox) question).setText(country.getCountry());
-			//((FlagBox) question).setTexture(new Texture(Gdx.files.internal("flags/"+country.getFlag())));
 	}
 	
+	/**
+	 * @param flags
+	 * @param isText
+	 */
 	public void generateAnswers(Flag[] flags, Boolean isText){
 		// answers
 		boolean[] alreadyAnAnswer = new boolean[flags.length];
@@ -110,6 +115,10 @@ public class Flags extends Category{
 		}
 	}
 	
+	/**
+	 * @param country
+	 * @param isText
+	 */
 	public void generateCorrectAnswer(Flag country, Boolean isText){
 		for(int i = 0; i < 4; i++){
 			Boolean isAlreadyInBox = ((FlagBox) answers.get(i)).getCountry().equals(country.getCountry());
@@ -126,6 +135,10 @@ public class Flags extends Category{
 			((FlagBox) answers.get(randomBox)).setTexture(new Texture(Gdx.files.internal("flags/"+country.getFlag())));
 	}
 	
+	/**
+	 * @param to - count of flags
+	 * @return Flag array with flags from 0 to 'to'
+	 */
 	public Flag[] allFlags(int to){
 		String[] countries = new String[]{"Sweden", "Norway", "Denmark", "Finland", "Iceland", "Greenland", "Faroe Islands", "Aland Islands",
 				 "Greece", "Spain", "France", "Germany", "Austria", "Belgium", "Ireland", "Italy", "Luxembourg",
@@ -142,6 +155,9 @@ public class Flags extends Category{
 				"Vaduz", "Vilnius", "Skopje", "Valletta", "Chisinau", "Monaco", "Podgorica",
 				"Warsaw", "Bucharest", "Moscow", "San Marino", "Belgrade", "Bratislava", "Lubljana", "Kiev",
 				"Vatican City", "Andorra la Vella", "Addis Ababa", "Edinburgh", "Cardiff"}; //52
+		if(to == -1){
+			to = countries.length;
+		}
 		Flag[] flags = new Flag[to];
 		for(int i = 0; i < to; i++){
 			flags[i] = new Flag(countries[i], capitals[i], countries[i] + ".png");
@@ -151,26 +167,38 @@ public class Flags extends Category{
 	}
 	
 	/**
-	 * Group toghether Scandinavian countries
-	 * @return Flag array with the scandinavian countries
+	 * Group together Scandinavian countries
+	 * @return Flag array with the Scandinavian countries
 	 */
 	public Flag[] getScandinavia(){
 		Flag[] flags = allFlags(8);
 		return flags;
 	}
 	
+	/**
+	 * Group together Western countries
+	 * @return Flag array with western Europe flags
+	 */
 	public Flag[] getWesternEurope(){
 		Flag[] flags = allFlags(20);
 		return flags;
 	}
 	
+	/**
+	 * Group together Europe countries
+	 * @return Flag array with Europe flags
+	 */
 	public Flag[] getEurope(){
 		Flag[] flags = allFlags(45);
 		return flags;
 	}
 	
+	/**
+	 * Get all flags available
+	 * @return Flag array with all the flags
+	 */
 	public Flag[] getAllCountries(){
-		Flag[] flags = allFlags(52);
+		Flag[] flags = allFlags(-1);
 		return flags;
 	}
 
