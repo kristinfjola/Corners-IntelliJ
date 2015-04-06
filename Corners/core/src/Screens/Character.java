@@ -43,6 +43,7 @@ public class Character {
 	/**
 	 * sets the private variable levelSplit based on the total amount of levels
 	 * the game offers
+	 * levelsSplit = {4,8,13,20,27}
 	 * @param percentage hold the amount of percentage of how many levels need 
 	 * to be finished in order to "grow up"
 	 */
@@ -90,5 +91,13 @@ public class Character {
 		if(characterNumber == levelsSplit.length-1) return 0;
 		int levelsToNext = levelsSplit[characterNumber];
 		return levelsToNext-getLevelsFinished();
+	}
+	
+	public boolean characterGrew() {
+		int levels = getLevelsFinished();
+		for(int i=0; i<levelsSplit.length-1; i++) {
+			if(levels==levelsSplit[i]) return true;
+		}
+		return false;
 	}
 }

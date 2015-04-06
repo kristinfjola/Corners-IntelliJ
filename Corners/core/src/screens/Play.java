@@ -53,10 +53,12 @@ public class Play implements Screen, InputProcessor{
     
     private int questionsAnswered = 0;
     private int nrOfQuestions;
-    private int questionStatusDisplay = 0;
-    private int oldStars = 0 ;
     private float origX;
     private float origY;
+    
+    // end dialog
+    private int questionStatusDisplay = 0;
+    private int thisLevelOldStars = 0 ;
     
     // infoBar
     private InfoBar infoBar;
@@ -119,7 +121,7 @@ public class Play implements Screen, InputProcessor{
 	    time = main.skin.getFont(main.screenSizeGroup+"-M");
 	    time.setColor(Color.BLACK);
 	    maxTime = 10;
-	    nrOfQuestions = 1; //TODO
+	    nrOfQuestions = 9;
 		camera = new OrthographicCamera();
  	    camera.setToOrtho(false, main.scrWidth, main.scrHeight);
  	    batch = new SpriteBatch();
@@ -159,7 +161,7 @@ public class Play implements Screen, InputProcessor{
 	 * Resets the level and notifies user that he has won
 	 */
 	public void win(){
-		oldStars = main.data.getStarsByString(cat.getType()).getStarsOfALevel(level);
+		thisLevelOldStars = main.data.getStarsByString(cat.getType()).getStarsOfALevel(level);
 		saveStars(stars);
 		questionsAnswered = 0;
 		totalSecondsWasted = 0;
@@ -317,7 +319,7 @@ public class Play implements Screen, InputProcessor{
 		if(win) {
 			Table starsTable = getStars(stars);
 			Image happyFace = new Image(new TextureRegionDrawable(new TextureRegion(new Texture("faces/happycarl.png"))));			
-			boolean firstTimeFinish = oldStars<=0;
+			boolean firstTimeFinish = thisLevelOldStars<=0;
 			if(finishCat && firstTimeFinish) {
 					dialog.getContentTable().add(new Label(cat.getType()+" complete!", largeStyle)).row();
 			}
@@ -326,12 +328,15 @@ public class Play implements Screen, InputProcessor{
 			}
 			dialog.getContentTable().add(starsTable).row();
 			dialog.getContentTable().add(happyFace).row();
-			dialog.getContentTable().add(new Label(main.data.getName()+" says:", smallStyle)).row();			
-			if(main.character.getNrOfLevelsToNext()!=0) {
-				String bla = "Good job! Only "+main.character.getNrOfLevelsToNext()+" more";
-				String bla2 = "levels 'till I grow up!";
-				dialog.getContentTable().add(new Label(bla, smallStyle)).row();
-				dialog.getContentTable().add(new Label(bla2, smallStyle)).row();
+			dialog.getContentTable().add(new Label(main.data.getName()+" says:", smallStyle)).row();
+			if(main.character.characterGrew()) {
+				dialog.getContentTable().add(new Label("I just grew up! Good job!", smallStyle)).row();
+			}
+			else if(main.character.getNrOfLevelsToNext()!=0) {
+				String text1 = "Good job! Only "+main.character.getNrOfLevelsToNext()+" more";
+				String text2 = "levels 'till I grow up!";
+				dialog.getContentTable().add(new Label(text1, smallStyle)).row();
+				dialog.getContentTable().add(new Label(text2, smallStyle)).row();
 			}
 			else {
 				dialog.getContentTable().add(new Label("Good job!", smallStyle));
