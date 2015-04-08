@@ -23,7 +23,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -33,9 +32,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.corners.game.MainActivity;
@@ -443,131 +439,13 @@ public class Settings implements Screen{
 	/**
 	 * Set's a listener for displaying a dialog to change the character's name
 	 */
-	public void setNameListener() {
-		int dPad = (int) (main.scrWidth/30f);
-		final int dWidth = (int) (main.scrWidth/1.5f);
-		final int dHeight = (int) (main.scrHeight/4f);
-		
-		final Dialog nameDialog = getNameDialog();
-		
-		Label enterNameLabel = new Label("Characters name:", main.skin, main.screenSizeGroup+"-S");
-		final TextField nameInputField = getNameInputField();
-		Table cancelSaveTable = getCancelSaveTable(nameDialog, nameInputField, dPad);
-
-		nameDialog.getContentTable().add(enterNameLabel).expand().top().left().pad(dPad).row();
-		nameDialog.getContentTable().add(nameInputField).width(dWidth-2*dPad).expand().top().left().pad(dPad).row();
-		nameDialog.getContentTable().add(cancelSaveTable).width(dWidth).bottom().left().row();
-		
+	public void setNameListener() {		
 		nameLabel.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				Table t = new Table();
-				t.add(nameDialog).size(dWidth, dHeight);
-				stack.add(t);
-				stage.setKeyboardFocus(nameInputField);
-				nameInputField.getOnscreenKeyboard().show(true);
-				nameInputField.setText("");
+				main.actionResolver.showCharNameDialog("Sláðu inn nafn karakters", main, nameLabel);
 				super.touchUp(event, x, y, pointer, button);
 			}
 		});
-	}
-	
-	/**
-	 * @return dialog for the user so he can edit the character's name
-	 */
-	public Dialog getNameDialog() {
-		Pixmap pm = new Pixmap(1,1,Format.RGBA8888);
-		pm.setColor(new Color(211/255f,211/255f,211/255f,1));
-		pm.fill();
-		WindowStyle dialogStyle = new WindowStyle();
-		dialogStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(pm)));
-		dialogStyle.titleFont = main.skin.getFont(main.screenSizeGroup+"-S");//ekki notað
-		
-		Dialog nameDialog = new Dialog("", dialogStyle);
-		return nameDialog;
-	}
-	
-	/**
-	 * @return text input for the user to edit it's characters name
-	 */
-	public TextField getNameInputField() {
-		Pixmap black = new Pixmap(1,1,Format.RGBA8888);
-		black.setColor(Color.BLACK);
-		black.fill();
-		Pixmap white = new Pixmap(1,1,Format.RGBA8888);
-		white.setColor(Color.WHITE);
-		white.fill();
-		TextFieldStyle nameInputStyle = new TextFieldStyle();
-		nameInputStyle.font = main.skin.getFont(main.screenSizeGroup+"-L");
-		nameInputStyle.fontColor = Color.BLACK;
-		nameInputStyle.cursor = new TextureRegionDrawable(new TextureRegion(new Texture(black)));
-		nameInputStyle.selection = new TextureRegionDrawable(new TextureRegion(new Texture(black)));
-		nameInputStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(white)));
-		
-		TextField nameInputField = new TextField("", nameInputStyle);
-		nameInputField.setWidth(300);
-		nameInputField.setMaxLength(15);
-		return nameInputField;
-	}
-	
-	/**
-	 * @param nameDialog
-	 * @param nameInputField
-	 * @param dPad is the padding around each button
-	 * @return table that has a cancel and save button to open/close the nameDialog and save
-	 * the text in nameInputField
-	 */
-	public Table getCancelSaveTable(Dialog nameDialog, TextField nameInputField, int dPad) {
-		Label cancelNameButton = getCancelNameButton(nameDialog, nameInputField);
-		Label saveNameButton = getSaveNameButton(nameDialog, nameInputField);
-		
-		Table cancelSaveTable = new Table();
-		cancelSaveTable.add(cancelNameButton).expand().left().pad(dPad);
-		cancelSaveTable.add(saveNameButton).expand().right().pad(dPad).row();
-		
-		return cancelSaveTable;
-	}
-	
-	/**
-	 * @param nameDialog
-	 * @param nameInputField
-	 * @return button that if pressed it saves the name in nameInputField, closes
-	 * the dialog nameDialog and removes the keyboard associated with nameInputField
-	 */
-	public Label getSaveNameButton(final Dialog nameDialog, final TextField nameInputField) {
-		Label saveNameButton = new Label("Save", main.skin, main.screenSizeGroup+"-M");
-		saveNameButton.addListener(new ClickListener() {
-			@Override
-			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				String name = nameInputField.getText();
-				if(!name.equals("")) {
-					main.data.setName(name);
-					nameLabel.setText(name);
-				}
-				nameInputField.getOnscreenKeyboard().show(false);
-				nameDialog.remove();
-				super.touchUp(event, x, y, pointer, button);
-			}
-		});
-		return saveNameButton;
-	}
-	
-	/**
-	 * @param nameDialog
-	 * @param nameInputField
-	 * @return button that if pressed it closes the dialog nameDialog and removes the 
-	 * keyboard associated with nameInputField
-	 */
-	public Label getCancelNameButton(final Dialog nameDialog, final TextField nameInputField) {
-		Label cancelNameButton = new Label("Cancel", main.skin, main.screenSizeGroup+"-M");
-		cancelNameButton.addListener(new ClickListener() {
-			@Override
-			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				nameInputField.getOnscreenKeyboard().show(false);
-				nameDialog.remove();
-				super.touchUp(event, x, y, pointer, button);
-			}
-		});	
-		return cancelNameButton;
 	}
 }

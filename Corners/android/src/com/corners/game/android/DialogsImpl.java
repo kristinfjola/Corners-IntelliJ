@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.corners.game.Dialogs;
 import com.corners.game.MainActivity;
 
@@ -172,5 +173,35 @@ public class DialogsImpl implements Dialogs {
     			  dialog.show();
     		  }
     	  });
+      }
+      
+      public void showCharNameDialog(final String title, final MainActivity main, final Label label) {
+    	  uiThread.post(new Runnable() {
+    		  public void run() {
+    			  AlertDialog.Builder dialog = new AlertDialog.Builder(appContext, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+    			  dialog.setTitle(title);
+    			  
+    			  LayoutInflater factory = LayoutInflater.from(appContext);
+    			  final View view = factory.inflate(R.layout.name_input_layout, null);
+ 
+    			  dialog.setView(view);
+    			  dialog.setNeutralButton("Save", getNamePopupListener(view, main, label));    			  
+    			  dialog.show();
+    		  }
+    	  });
+      }
+      
+      private DialogInterface.OnClickListener getNamePopupListener(final View view, final MainActivity main,
+    		  final Label label) {
+    	  DialogInterface.OnClickListener popupClickListener = new DialogInterface.OnClickListener() {		
+    		  @Override
+    		  public void onClick(DialogInterface dialog, int whichButton) {
+    			  TextView text = (TextView) view.findViewById(R.id.nameInput);
+    			  String newName = text.getText().toString();
+    			  main.data.setName(newName);
+    			  label.setText(newName);
+    		  }
+    	  };
+    	  return popupClickListener;
       }
 }
