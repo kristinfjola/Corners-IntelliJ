@@ -24,6 +24,9 @@ public class Colors extends Category {
 	String[] colorNames = { "Blue", "Yellow", "Green", "Red", "Purple", "Pink", "Black",
 			"Magneta", "Maroon", "Navy", "Olive", "Orange", "Cyan",
 			"Teal", "White", "Dark gray", "Light gray" };
+	Boolean[] lightColor = {true, true, true, true, true, true, false,
+			true, true, false, false, true, true, 
+			true, true, false, true};
 	Pixmap pm;
 	
 	/**
@@ -160,11 +163,11 @@ public class Colors extends Category {
 	 * @return CorColor array with colors from 0 to 'to'
 	 */
 	public CorColor[] getColors(int to){
-		CorColor[] colorsDTO = new CorColor[to];
+		CorColor[] corColors = new CorColor[to];
 		for(int i = 0; i < to; i++){
-			colorsDTO[i] = new CorColor(colorColors[i], colorNames[i]);
+			corColors[i] = new CorColor(colorColors[i], colorNames[i], lightColor[i]);
 		}
-		return colorsDTO;
+		return corColors;
 	}
 	
 	@Override
