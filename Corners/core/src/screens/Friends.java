@@ -138,7 +138,7 @@ public class Friends implements Screen{
 			}
 			stars = stars_hash.get(name);
 			finished_levels = levels_hash.get(name);
-			stars_image = "infoBar/"+infoBar.getStarAmount(stars)+".png";
+			stars_image = "stars/"+main.getStarAmount(stars)+".png";
 			table.add(new Label(""+(i+1)+". "+name+"  ("+stars+"/"+finished_levels+")", friendsStyle)).left().padLeft(main.scrWidth/24f);
 			table.add(new Image(new Texture(stars_image))).size(main.scrWidth/6).right().padRight(main.scrWidth/26f).row();
 			

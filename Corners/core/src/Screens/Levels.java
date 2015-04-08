@@ -155,19 +155,12 @@ public class Levels implements Screen{
 		if(stars[level] > -1) {
 			button = new TextButton(""+level, skin, main.screenSizeGroup+"-L"+"-level-yellow");
 			button.addListener(new ClickListener() {	
-				/**
-				 * Sends the user to a new play screen
-				 * 
-				 * @param event
-				 * @param x
-				 * @param y
-				 */
 				@Override
 				public void clicked (InputEvent event, float x, float y) {
 					main.play = new Play(main, cat, level);
 		            main.setScreen(main.play);
 		            
-		            if(level==1){
+		            if(main.data.getAllFinished()<1){
 		            	main.actionResolver.showDirections("Corners", "Swipe the question to the correct corner!", "Got it!", main.play);
 		            	main.play.pause();
 		            }
@@ -288,7 +281,7 @@ public class Levels implements Screen{
 		InfoBar infoBar = new InfoBar(main);
 		infoBar.setMiddleText(cat.getType());
 		infoBar.setRightText(finishedLevels+"/9");
-		infoBar.setLeftImage(infoBar.getStarAmount(averageStars));
+		infoBar.setLeftImage("stars/"+main.getStarAmount(averageStars)+".png");
 	 	container.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 	}
 	

@@ -265,4 +265,29 @@ public class MainActivity extends Game {
 			notificationsService.setNotifications();
 		}
 	}
+	
+	/**
+	 * Rounds stars to the nearest quarter of an integer and puts together a string
+	 * @param stars
+	 * @return string that refers to the correct image based on the number stars, 
+	 * e.g. "1_75-stars"
+	 */
+	public String getStarAmount(double stars) {
+		String starAmount="";
+		
+		double starsX4 = stars*4;
+		double roundedStarsX4 = Math.round(starsX4); 
+		double roundedStars = roundedStarsX4/4;
+		int wholeStars = (int) Math.floor(roundedStars);
+		
+		starAmount+=""+wholeStars;
+		
+		if(roundedStars-wholeStars==0.25) starAmount+="_25";
+		else if(roundedStars-wholeStars==0.5) starAmount+="_5";
+		else if(roundedStars-wholeStars==0.75) starAmount+="_75";
+		
+		starAmount+="-stars";
+		
+		return starAmount;
+	}
 }

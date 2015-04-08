@@ -31,8 +31,8 @@ public class InfoBar {
 	String leftText="";
 	String middleText="";
 	String rightText="";
-	String leftImage="empty";
-	String rightImage="empty";
+	String leftImage="infoBar/empty.png";
+	String rightImage="infoBar/empty.png";
 	
 	/**
 	 * Constructor. Creates the the interface and sets the private variables
@@ -59,7 +59,7 @@ public class InfoBar {
 	 	Button leftButton = new Button(main.skin);
 	 	Label leftLabel = new Label(leftText, main.skin, main.screenSizeGroup+"-M");
 	 	leftLabel.setAlignment(Align.center);
-	 	leftButton.stack(new Image(new Texture("infoBar/"+leftImage+".png")), leftLabel).expand().fill();
+	 	leftButton.stack(new Image(new Texture(leftImage)), leftLabel).expand().fill();
 	 	
 	 	Label middleLabel = new Label(middleText, main.skin, main.screenSizeGroup+"-L");
 	 	middleLabel.setAlignment(Align.center);
@@ -67,7 +67,7 @@ public class InfoBar {
 	 	Button rightButton = new Button(main.skin);
 	 	Label rightLabel = new Label(rightText, main.skin, main.screenSizeGroup+"-M");
 	 	rightLabel.setAlignment(Align.center);
-	 	rightButton.stack(new Image(new Texture("infoBar/"+rightImage+".png")), rightLabel).expand().fill();
+	 	rightButton.stack(new Image(new Texture(rightImage)), rightLabel).expand().fill();
 	 	
 	 	infoBarTable.add(leftButton).size(barHeight).padLeft(main.scrWidth/40).expand().left();
 	 	infoBarTable.add(middleLabel).expand();
@@ -109,29 +109,5 @@ public class InfoBar {
 	 */
 	public void setRightImage(String rightImage) {
 		this.rightImage = rightImage;
-	}
-	
-	/**
-	 * Rounds stars to the nearest quarter of an integer and puts together a string
-	 * @param stars
-	 * @return string that refers to the correct image based on the number stars
-	 */
-	public String getStarAmount(double stars) {
-		String starAmount="";
-		
-		double starsX4 = stars*4;
-		double roundedStarsX4 = Math.round(starsX4); 
-		double roundedStars = roundedStarsX4/4;
-		int wholeStars = (int) Math.floor(roundedStars);
-		
-		starAmount+=""+wholeStars;
-		
-		if(roundedStars-wholeStars==0.25) starAmount+="_25";
-		else if(roundedStars-wholeStars==0.5) starAmount+="_5";
-		else if(roundedStars-wholeStars==0.75) starAmount+="_75";
-		
-		starAmount+="-stars";
-		
-		return starAmount;
 	}
 }

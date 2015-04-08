@@ -311,48 +311,37 @@ public class Play implements Screen, InputProcessor{
 	 * category (there for the player has finished the category)
 	 */
 	public void showFinishLevelDialog(boolean win, boolean finishCat) {
-		LabelStyle smallStyle = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-S"), Color.BLACK);
-		LabelStyle largeStyle = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-L"), Color.BLACK);
-		
 		pause();
-		Dialog dialog = new Dialog("", this.main.skin);
 		if(win) {
-			Table starsTable = getStars(stars);
-			Image happyFace = new Image(new TextureRegionDrawable(new TextureRegion(new Texture("faces/happycarl.png"))));			
-			boolean firstTimeFinish = thisLevelOldStars<=0;
-			if(finishCat && firstTimeFinish) {
-					dialog.getContentTable().add(new Label(cat.getType()+" complete!", largeStyle)).row();
-			}
-			else {
-				dialog.getContentTable().add(new Label("Level complete!", largeStyle)).row();
-			}
-			dialog.getContentTable().add(starsTable).row();
-			dialog.getContentTable().add(happyFace).row();
-			dialog.getContentTable().add(new Label(main.data.getName()+" says:", smallStyle)).row();
+			String message = main.data.getName()+" says: \n";		
 			if(main.character.characterGrew()) {
-				dialog.getContentTable().add(new Label("I just grew up! Good job!", smallStyle)).row();
+				message += "I just grew up! Good job! \n";
 			}
 			else if(main.character.getNrOfLevelsToNext()!=0) {
-				String text1 = "Good job! Only "+main.character.getNrOfLevelsToNext()+" more";
-				String text2 = "levels 'till I grow up!";
-				dialog.getContentTable().add(new Label(text1, smallStyle)).row();
-				dialog.getContentTable().add(new Label(text2, smallStyle)).row();
+				message += "Good job! Only "+main.character.getNrOfLevelsToNext()+" more \nlevels 'till I grow up!";
 			}
 			else {
-				dialog.getContentTable().add(new Label("Good job!", smallStyle));
+				message += "Good job!";
+			}
+			
+			if(finishCat && thisLevelOldStars<=0) {
+				String title = cat.getType()+" complete!";
+				String starsImgDir = "stars/"+main.getStarAmount(stars)+".png";
+				main.actionResolver.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message, main, cat);
+			}
+			else {
+				String title = "Level complete!";
+				String starsImgDir = "stars/"+main.getStarAmount(stars)+".png";
+				main.actionResolver.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message, main, cat);
 			}
 		}
 		else {
-			Image sadFace = new Image(new TextureRegionDrawable(new TextureRegion(new Texture("faces/sadcarl.png"))));	
-			dialog.getContentTable().add(new Label("Oh no!", largeStyle)).row();
-			dialog.getContentTable().add(new Label("You lost!", largeStyle)).row();
-			dialog.getContentTable().add(sadFace).row();
-			dialog.getContentTable().add(new Label(main.data.getName()+" says:", smallStyle)).row();
-			dialog.getContentTable().add(new Label("Better luck next time!", smallStyle)).row();
+			String title = "Oh no! You lost!";
+			String message = main.data.getName()+" says: \n"+"Better luck next time!";
+			main.actionResolver.showEndLevelDialog(title, "", "faces/sadcarl.png",message, main, cat);
 		}
-		
-		dialog.show(this.stage);
 		Timer.schedule(getLevelsWindow(), 3);
+		//TODO virkar ekki að fara í levels glugga þegar ýtt er á ok
 	}
 	
 	/**
@@ -497,7 +486,7 @@ public class Play implements Screen, InputProcessor{
 		table.reset();
 		table.top();
 		table.setFillParent(true);
-		infoBar.setLeftImage(""+stars+"-stars");
+		infoBar.setLeftImage("stars/"+stars+"-stars"+".png");
 		table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 	}
 	
@@ -769,7 +758,9 @@ public class Play implements Screen, InputProcessor{
 		batch.begin();
 		batch.draw(main.background, 0, 0, main.scrWidth, main.scrHeight);
 		for(Box answer : cat.getAnswers()){
+			//batch.setColor(Color.RED);
 			answer.draw(batch);
+			//batch.setColor(Color.WHITE);
 		}
 		cat.getQuestion().draw(batch);	
 		drawProgressBar();
@@ -804,12 +795,12 @@ public class Play implements Screen, InputProcessor{
 					if(state == State.RUN) {
 						pause();
 						showPauseDialog();
-						infoBar.setRightImage("play");
+						infoBar.setRightImage("infoBar/play.png");
 					}
 					else {
 						resume();
 						clearPauseDialog();
-						infoBar.setRightImage("pause");
+						infoBar.setRightImage("infoBar/pause.png");
 					}
 					table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 				}
@@ -852,8 +843,8 @@ public class Play implements Screen, InputProcessor{
 		stage.addActor(table);
 		infoBar.setMiddleText("Level "+level);
 		infoBar.setRightText("");
-		infoBar.setLeftImage("3-stars");
-		infoBar.setRightImage("pause");
+		infoBar.setLeftImage("stars/3-stars.png");
+		infoBar.setRightImage("infoBar/pause.png");
 	 	table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 
 	}

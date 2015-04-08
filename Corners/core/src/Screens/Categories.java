@@ -256,7 +256,7 @@ public class Categories implements Screen {
 		InfoBar infoBar = new InfoBar(main);
 		infoBar.setMiddleText("Categories");
 		infoBar.setRightText(tempLevels+"/27");
-		infoBar.setLeftImage(infoBar.getStarAmount(tempStars));
+		infoBar.setLeftImage("stars/"+main.getStarAmount(tempStars)+".png");
 		table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 	}
 }

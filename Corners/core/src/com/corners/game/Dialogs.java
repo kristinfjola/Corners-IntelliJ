@@ -5,6 +5,7 @@
  */
 package com.corners.game;
 
+import logic.Category;
 import screens.Play;
 
 public interface Dialogs {
@@ -24,6 +25,8 @@ public interface Dialogs {
      */
     public void showDirections(String alertBoxTitle, String alertBoxMessage, String alertBoxButtonText, Play playScreen);
     
+    public void showEndLevelDialog(String title, String starsImgDir, String charImgDir, String message, MainActivity main, Category cat);
+            
     public void showProgressBar();
     
     public void hideProgressBar();
