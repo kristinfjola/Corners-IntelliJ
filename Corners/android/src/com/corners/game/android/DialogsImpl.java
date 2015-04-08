@@ -110,7 +110,7 @@ public class DialogsImpl implements Dialogs {
       
       @Override
       public void showEndLevelDialog(final String title, final String starsImgDir, final String charImgDir,
-    		  final String message, final MainActivity main, final Category cat) {
+    		  String message, final MainActivity main, final Category cat) {
     	  final DialogInterface.OnClickListener popupClickListener = new DialogInterface.OnClickListener() {		
     		  @Override
     		  public void onClick(DialogInterface dialog, int whichButton) {
@@ -118,8 +118,18 @@ public class DialogsImpl implements Dialogs {
     		  }
     	  };
     	  
-    	  //LayoutInflater inflater = (LayoutInflater) appContext.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		  //final View dialogLayout = inflater.inflate(R.layout.directions_layout, null);
+    	  final String[] messages = new String[3];
+    	  int index = 0;
+    	  for(int i=0; i<messages.length; i++) {
+    		  index = message.indexOf("\n",index);
+	  		  if(index == -1) {
+	  			  messages[i] = "";
+	  		  } else {
+	  			  messages[i] = message.substring(0,index);
+	  			  message = message.substring(index+1);
+	  		  }
+	  	  }
+    	  
     	  uiThread.post(new Runnable() {
     		  public void run() {
     			  AlertDialog.Builder dialog = new AlertDialog.Builder(appContext, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
@@ -148,8 +158,12 @@ public class DialogsImpl implements Dialogs {
     				  e.printStackTrace();
     			  }
     			  
-    			  TextView text = (TextView) view.findViewById(R.id.msgFromChar);
-    			  text.setText(message);
+    			  TextView text0 = (TextView) view.findViewById(R.id.message0);
+    			  text0.setText(messages[0]);
+    			  TextView text1 = (TextView) view.findViewById(R.id.message1);
+    			  text1.setText(messages[1]);
+    			  TextView text2 = (TextView) view.findViewById(R.id.message2);
+    			  text2.setText(messages[2]);
 
     			  dialog.setView(view);
     			  dialog.setNeutralButton("Ok", popupClickListener);

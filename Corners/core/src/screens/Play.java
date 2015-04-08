@@ -313,15 +313,17 @@ public class Play implements Screen, InputProcessor{
 	public void showFinishLevelDialog(boolean win, boolean finishCat) {
 		pause();
 		if(win) {
-			String message = main.data.getName()+" says: \n";		
+			String message = main.data.getName()+" says: \n";
 			if(main.character.characterGrew()) {
 				message += "I just grew up! Good job! \n";
 			}
 			else if(main.character.getNrOfLevelsToNext()!=0) {
-				message += "Good job! Only "+main.character.getNrOfLevelsToNext()+" more \nlevels 'till I grow up!";
+				message += "Good job! Only "+main.character.getNrOfLevelsToNext()+" more \n";
+				if(main.character.getNrOfLevelsToNext()==1) message += "level 'till I grow up! \n";
+				else message += "levels 'till I grow up! \n";
 			}
 			else {
-				message += "Good job!";
+				message += "Good job! \n";
 			}
 			
 			if(finishCat && thisLevelOldStars<=0) {
@@ -337,7 +339,8 @@ public class Play implements Screen, InputProcessor{
 		}
 		else {
 			String title = "Oh no! You lost!";
-			String message = main.data.getName()+" says: \n"+"Better luck next time!";
+			String message = main.data.getName()+" says: \n";
+			message += "Better luck next time! \n";
 			main.actionResolver.showEndLevelDialog(title, "", "faces/sadcarl.png",message, main, cat);
 		}
 		Timer.schedule(getLevelsWindow(), 3);
