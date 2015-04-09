@@ -341,8 +341,8 @@ public class Settings implements Screen{
 		setNameListener(btnEdit);
 		
 		Table charTable = new Table();
-		charTable.add(nameLabel);
-		charTable.add(btnEdit).width(main.scrWidth/18).height(main.scrWidth/18).padLeft(pad/4);
+		charTable.add(nameLabel).pad(pad).padRight(pad/4);
+		charTable.add(btnEdit).width(main.scrWidth/18).height(main.scrWidth/18);
 		table.add(carl).width(main.scrWidth/7).height(main.scrWidth/7).expandX().left().padLeft(pad);
 		table.add(charTable).expandX().right().padRight(pad).row();
 		addLine();
@@ -478,7 +478,7 @@ public class Settings implements Screen{
 		ClickListener listener = new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				main.actionResolver.showCharNameDialog("Enter your character's name", main, nameLabel);
+				main.dialogs.showCharNameDialog("Enter your character's name", main, nameLabel);
 				super.touchUp(event, x, y, pointer, button);
 			}
 		};

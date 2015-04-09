@@ -27,7 +27,7 @@ public interface Dialogs {
      * @param playScreen
      * displays directions to play on playScreen
      */
-    public void showDirections(String alertBoxTitle, String alertBoxMessage, String alertBoxButtonText, Play playScreen);
+    public void showDirections(String alertBoxTitle, String alertBoxMessage, Play playScreen);
     
     public void showEndLevelDialog(String title, String starsImgDir, String charImgDir, String message, Play playScreen);
     

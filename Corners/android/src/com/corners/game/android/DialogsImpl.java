@@ -41,8 +41,7 @@ public class DialogsImpl implements Dialogs {
        }
 
       @Override
-      public void showDirections(final String alertBoxTitle, final String alertBoxMessage, 
-    		  final String alertBoxButtonText, final Play playScreen) {
+      public void showDirections(final String alertBoxTitle, final String alertBoxMessage, final Play playScreen) {
 		  // onClick
     	  final DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {		
     		  @Override
@@ -67,7 +66,7 @@ public class DialogsImpl implements Dialogs {
     			  	.setIcon(R.drawable.temp)
                     //.setTitle(alertBoxTitle)
     			  	.setMessage(alertBoxMessage)
-    			  	.setNeutralButton(alertBoxButtonText, onClickListener)
+    			  	.setNeutralButton("Got it!", onClickListener)
     			  	//.setView(dialogLayout)
     			  	.create();
     			  dialog.setOnDismissListener(onDismissListener);

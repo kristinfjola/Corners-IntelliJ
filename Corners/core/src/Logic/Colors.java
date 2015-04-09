@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Array;
+import com.corners.game.MainActivity;
 
 public class Colors extends Category {
 
@@ -350,4 +351,33 @@ public class Colors extends Category {
 	public void setColors(Color[] colors) {
 		this.colorColors = colors;
 	}
+	
+	@Override
+	public void setDirections(MainActivity main, int level){
+   	String directions = "";
+   	switch(level){
+   		case 1: directions = "Swipe the color in the middle to the matching color in the corners!";
+   				break;
+   		case 2: directions = "level 2";
+   				break;
+   		case 3: directions = "level 3";
+				break;
+   		case 4: directions = "level 4";
+				break;
+   		case 5: directions = "level 5";
+				break;
+   		case 6: directions = "level 6";
+				break;
+   		case 7: directions = "level 7";
+				break;
+   		case 8: directions = "level 8";
+				break;
+   		case 9: directions = "level 9";
+				break;
+   		default: directions = "";
+   				break;
+   		}
+		
+		if(!directions.isEmpty()) super.showDirections(main, directions);
+   }
 }

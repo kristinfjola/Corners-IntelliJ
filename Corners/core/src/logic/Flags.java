@@ -7,6 +7,8 @@ package logic;
 
 import java.util.Random;
 
+import screens.Play;
+
 import boxes.Box;
 import boxes.FlagBox;
 
@@ -14,6 +16,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Array;
+import com.corners.game.MainActivity;
 
 public class Flags extends Category{
 	/**
@@ -318,4 +321,18 @@ public class Flags extends Category{
 		generateAnswers(countries, false);
 		generateCorrectAnswer(countries[randomFlag], false);
 	}
+	
+	@Override
+	 public void setDirections(MainActivity main, int level){
+    	String directions = "";
+		if(main.data.getLevelsFinished(this) == 0 && level == 1){
+			directions = "Swipe the country name in the middle to the correct flag in the corners!";
+		} else if(main.data.getLevelsFinished(this) == 1 && level == 2){
+			directions = "Swipe the capital name to the correct country flag!";
+		} else if(main.data.getLevelsFinished(this) == 6 && level == 7){
+			directions = "Swipe the capital name to the correct country name!";
+		}
+		
+		if(!directions.isEmpty()) super.showDirections(main, directions);
+    }
 }
