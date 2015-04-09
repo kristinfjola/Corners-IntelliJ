@@ -6,6 +6,8 @@
  */
 package screens;
 
+import java.util.List;
+
 import logic.Category;
 
 import com.badlogic.gdx.Gdx;
@@ -24,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -40,6 +43,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.SnapshotArray;
 import com.corners.game.MainActivity;
 
 
@@ -53,7 +58,6 @@ public class Settings implements Screen{
 	
 	private InputProcessor inputProcessor;
 	Table table;
-	Stack stack;
 	
 	//Setting up the view
 	LabelStyle settingsStyle;
@@ -95,14 +99,25 @@ public class Settings implements Screen{
 		table.top();
 		table.setFillParent(true);
 		
-		stack = new Stack();
-		stack.setFillParent(true);
-		stack.add(table);
-		
-		stage.addActor(stack);
+		stage.addActor(table);
 		
 		setUpInfoBar();
-		setUpFacebook();
+		setUpFacebook(true);
+		setUpSound();
+		setUpNotifications();
+		setUpName();
+	}
+	
+	/**
+	 * refreshes all components in table for screen
+	 */
+	public void refreshTable(){
+		table.reset();
+		table.top();
+		table.setFillParent(true);
+		
+		setUpInfoBar();
+		setUpFacebook(false);
 		setUpSound();
 		setUpNotifications();
 		setUpName();
@@ -232,28 +247,34 @@ public class Settings implements Screen{
 	/**
 	 * Set's up an option for logging into Facebook
 	 */
-	public void setUpFacebook() {
+	public void setUpFacebook(boolean firstTime) {
 		Label labelFb = new Label("Facebook", settingsStyle);	
 		
-		btnLogin = new TextButton("Log in", skin, main.screenSizeGroup+"-L"+"-facebook");
-		if(main.facebookService.isLoggedIn()){
-			btnLogin.setText("Log out");
-		} else {
-			btnLogin.setText("Log in");
+		if(firstTime){
+			if(main.facebookService.isLoggedIn()){
+				btnLogin = new TextButton("", skin, main.screenSizeGroup+"-L"+"-fb_logout");
+			} else {
+				btnLogin = new TextButton("", skin, main.screenSizeGroup+"-L"+"-fb_login");
+			}
 		}
 		setLoginListener();
 		
-		/* trying to move text on button
-		btnLogin.getLabel().setPosition(500, 500);
-		btnLogin.getLabel().setOrigin(200, 200);
-		btnLogin.getLabel().moveBy(300, 300);
-		*/
-		//table.add(labelFb).expandX().left().pad(pad).padTop(main.scrWidth/4f);
 		table.add(labelFb).expandX().left().pad(pad).padBottom(main.scrWidth/6f);
-		//table.add(btnLogin).expandX().right().pad(pad).padBottom(pad + main.scrWidth/6f).row();
-		//table.add(btnLogin).width(this.main.scrWidth/2.3f).height(this.main.scrHeight/10).expandX().right().pad(pad).padTop(main.scrWidth/4f).row();
 		table.add(btnLogin).width(this.main.scrWidth/2.3f).height(this.main.scrHeight/10).expandX().right().pad(pad).padBottom(main.scrWidth/6f).row();
 		addLine();
+	}
+	
+	/**
+	 * @param loggedIn
+	 * Changes facebook button to 'log in' or 'logged out'
+	 */
+	public void changeLoginButton(boolean loggedIn){
+		if(loggedIn){
+			btnLogin = new TextButton("", skin, main.screenSizeGroup+"-L"+"-fb_login");
+		} else {
+			btnLogin = new TextButton("", skin, main.screenSizeGroup+"-L"+"-fb_logout");
+		}
+		refreshTable();
 	}
 	
 	/**
@@ -349,11 +370,13 @@ public class Settings implements Screen{
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(main.facebookService.isLoggedIn()){
-					btnLogin.setText("Log in");
+					//btnLogin.setText("Log in");
 					main.facebookService.logOut();
+					changeLoginButton(true);
 				} else {
-					btnLogin.setText("Log out");
+					//btnLogin.setText("Log out");
 					main.facebookService.logIn();
+					changeLoginButton(false);
 				}
 				
 			}

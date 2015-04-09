@@ -15,28 +15,16 @@
 	        android:orientation="vertical"
 	        android:layout_weight="1"
 	        >
-	       <!--  
+	         <!-- 
 		    <com.facebook.widget.LoginButton
 	            android:id="@+id/login_button"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
-	                android:visibility="invisible"
+	                 android:layout_marginTop="150dp"
 	            />
-			<com.facebook.widget.LoginButton
-	            android:id="@+id/login_button2"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:visibility="invisible"
-	            />
+			 -->
 	            
-			<com.facebook.widget.LoginButton
-	            android:id="@+id/login_button3"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:visibility="invisible"
-	            />
 	            
-	            -->
 			<ImageView
         android:contentDescription="@+strings/app_name"
         android:id="@+id/charImg"
