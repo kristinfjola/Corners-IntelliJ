@@ -343,8 +343,8 @@ public class Settings implements Screen{
 		Table charTable = new Table();
 		charTable.add(nameLabel);
 		charTable.add(btnEdit).width(main.scrWidth/18).height(main.scrWidth/18).padLeft(pad/4);
-		table.add(carl).expandX().left().padLeft(pad);
-		table.add(charTable).pad(pad).row();
+		table.add(carl).width(main.scrWidth/7).height(main.scrWidth/7).expandX().left().padLeft(pad);
+		table.add(charTable).expandX().right().padRight(pad).row();
 		addLine();
 	}
 	

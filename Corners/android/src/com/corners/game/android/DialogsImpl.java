@@ -149,19 +149,13 @@ public class DialogsImpl implements Dialogs {
     	  return popupClickListener;
       }
       
-      
-      
-      
-      
       @Override
       public void showEndLevelDialog(final String title, final String starsImgDir, final String charImgDir,
     		  String message, final Play playScreen) {
-    	  final DialogInterface.OnClickListener popupClickListener = new DialogInterface.OnClickListener() {		
-    		  @Override
-    		  public void onClick(DialogInterface dialog, int whichButton) {
-    			  //playScreen.setupLevelsWindow();
-    		  }
-    	  };
+    	  final DialogInterface.OnClickListener popupClickListener = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {				
+			}};
     	  
     	  final String[] messages = new String[3];
     	  int index = 0;
@@ -189,6 +183,7 @@ public class DialogsImpl implements Dialogs {
 	    				  Drawable d = Drawable.createFromStream(stream, null);
 	        			  ImageView image = (ImageView) view.findViewById(R.id.starsImg);
 	        			  image.setImageDrawable(d);
+	        			  
 	    			  } catch (IOException e) {
 	    				  e.printStackTrace();
 	    			  }
@@ -217,67 +212,5 @@ public class DialogsImpl implements Dialogs {
     			  dialog.show();
     		  }
     	  });
-      }
-      
-      @Override
-      public void bla(String title,String starsImgDir, String charImgDir,
-    		  String message, final MainActivity main, final Category cat) {
-    	  final DialogInterface.OnClickListener popupClickListener = new DialogInterface.OnClickListener() {		
-    		  @Override
-    		  public void onClick(DialogInterface dialog, int whichButton) {
-    			  main.setScreen(new Levels(main, cat));
-    			  System.out.println("kom hingað");
-    		  }
-    	  };
-    	  
-    	  final String[] messages = new String[3];
-    	  int index = 0;
-    	  for(int i=0; i<messages.length; i++) {
-    		  index = message.indexOf("\n",index);
-	  		  if(index == -1) {
-	  			  messages[i] = "";
-	  		  } else {
-	  			  messages[i] = message.substring(0,index);
-	  			  message = message.substring(index+1);
-	  		  }
-	  	  }
-    	  
-		  AlertDialog.Builder dialog = new AlertDialog.Builder(appContext, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-		  dialog.setTitle(title);
-		  
-		  LayoutInflater factory = LayoutInflater.from(appContext);
-		  final View view = factory.inflate(R.layout.popup_layout, null);
-		  
-		  if(!starsImgDir.equals("")) {
-			  try {
-				  InputStream stream = appContext.getAssets().open(starsImgDir);
-				  Drawable d = Drawable.createFromStream(stream, null);
-    			  ImageView image = (ImageView) view.findViewById(R.id.starsImg);
-    			  image.setImageDrawable(d);
-			  } catch (IOException e) {
-				  e.printStackTrace();
-			  }
-		  }
-		  
-		  try {
-			  InputStream stream = appContext.getAssets().open(charImgDir);
-			  Drawable d = Drawable.createFromStream(stream, null);
-			  ImageView image = (ImageView) view.findViewById(R.id.charImg);
-			  image.setImageDrawable(d);
-		  } catch (IOException e) {
-			  e.printStackTrace();
-		  }
-		  
-		  TextView text0 = (TextView) view.findViewById(R.id.message0);
-		  text0.setText(messages[0]);
-		  TextView text1 = (TextView) view.findViewById(R.id.message1);
-		  text1.setText(messages[1]);
-		  TextView text2 = (TextView) view.findViewById(R.id.message2);
-		  text2.setText(messages[2]);
-
-		  dialog.setView(view);
-		  dialog.setNeutralButton("Ok", popupClickListener);
-		  
-		  dialog.show();
       }
 }

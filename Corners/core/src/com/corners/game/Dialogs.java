@@ -36,6 +36,4 @@ public interface Dialogs {
     public void showProgressBar();
     
     public void hideProgressBar();
-    
-    public void bla(String title, String starsImgDir, String charImgDir, String message, MainActivity main, Category cat);
 }
