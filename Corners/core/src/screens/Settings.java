@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -29,11 +30,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.corners.game.MainActivity;
 
 
@@ -308,10 +314,16 @@ public class Settings implements Screen{
 	public void setUpName() {
 		nameLabel = new Label(main.data.getName(), settingsStyleRight);
 		
-		setNameListener();
+		Image carl = new Image(new Texture("faces/happycarl.png"));
 		
-		table.add(new Label("Name", settingsStyle)).expandX().left().pad(pad);
-		table.add(nameLabel).expandX().right().pad(pad).row();
+		Image btnEdit = new Image(new Texture("buttons/edit.png"));
+		setNameListener(btnEdit);
+		
+		Table charTable = new Table();
+		charTable.add(nameLabel);
+		charTable.add(btnEdit).width(main.scrWidth/18).height(main.scrWidth/18).padLeft(pad/4);
+		table.add(carl).expandX().left().padLeft(pad);
+		table.add(charTable).pad(pad).row();
 		addLine();
 	}
 	
@@ -439,13 +451,15 @@ public class Settings implements Screen{
 	/**
 	 * Set's a listener for displaying a dialog to change the character's name
 	 */
-	public void setNameListener() {		
-		nameLabel.addListener(new ClickListener() {
+	public void setNameListener(Image btnEdit) {		
+		ClickListener listener = new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				main.actionResolver.showCharNameDialog("Sláðu inn nafn karakters", main, nameLabel);
+				main.actionResolver.showCharNameDialog("Enter your character's name", main, nameLabel);
 				super.touchUp(event, x, y, pointer, button);
 			}
-		});
+		};
+		nameLabel.addListener(listener);
+		btnEdit.addListener(listener);
 	}
 }
