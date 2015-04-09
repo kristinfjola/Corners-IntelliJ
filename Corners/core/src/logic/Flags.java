@@ -11,6 +11,7 @@ import boxes.Box;
 import boxes.FlagBox;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Array;
@@ -73,6 +74,18 @@ public class Flags extends Category{
   	    question.getRec().y = screenHeight / 2 - qHeight / 2;
   	    question.setTexture(new Texture(Gdx.files.internal("mathBoxes/qBox.png")));
 	}
+	
+	public void adjustFontSize(String text, FlagBox box) {
+		if(text.length() >= 14) {
+			BitmapFont bmFont = (this.skin).getFont(this.screenSizeGroup+"-S");
+			bmFont.setColor(Color.BLACK);
+			box.setBmFont(bmFont);
+		}
+	}
+	
+	public String replaceAndInString(String stringBefore) {
+		return (stringBefore.contains(" and ")) ? stringBefore.replace(" and ",  " & ") : stringBefore;
+	}
 
 	
 	/**
@@ -82,10 +95,16 @@ public class Flags extends Category{
 	public void generateQuestion(Flag country, Boolean isCapital){
 		((FlagBox) question).setCountry(country.getCountry());
 		((FlagBox) question).setCapital(country.getCapital());
-		if(isCapital)
-			((FlagBox) question).setText(country.getCapital());
-		else
-			((FlagBox) question).setText(country.getCountry());
+		String quest = "";
+		if(isCapital) {
+			quest = country.getCapital();
+			((FlagBox) question).setText(quest);
+		} else {
+			quest = country.getCountry();
+			quest = replaceAndInString(quest);
+			((FlagBox) question).setText(quest);
+		}
+		adjustFontSize(quest, (FlagBox) question);
 	}
 	
 	/**
@@ -108,10 +127,15 @@ public class Flags extends Category{
 			//TODO: Check if flag is already in a box
 			((FlagBox) answer).setCountry(flags[random].getCountry());
 			((FlagBox) answer).setCapital(flags[random].getCountry());
-			if(isText)
-				((FlagBox) answer).setText(flags[random].getCountry());
-			else
+			if(isText) {
+				String answ = flags[random].getCountry();
+				answ = replaceAndInString(answ);
+				((FlagBox) answer).setText(answ);
+				adjustFontSize(answ, (FlagBox) answer);
+			} else {
 				((FlagBox) answer).setTexture(new Texture(Gdx.files.internal("flags/"+flags[random].getFlag())));
+		
+			}
 		}
 	}
 	
@@ -129,10 +153,14 @@ public class Flags extends Category{
 		int randomBox = rand.nextInt(4);
 		((FlagBox)  answers.get(randomBox)).setCountry(country.getCountry());
 		((FlagBox)  answers.get(randomBox)).setCapital(country.getCapital());
-		if(isText)
-			((FlagBox) answers.get(randomBox)).setText(country.getCountry());
-		else
+		if(isText) {
+			String answ = country.getCountry();
+			answ = replaceAndInString(answ);
+			((FlagBox) answers.get(randomBox)).setText(answ);
+			adjustFontSize(answ, (FlagBox) answers.get(randomBox));
+		} else {
 			((FlagBox) answers.get(randomBox)).setTexture(new Texture(Gdx.files.internal("flags/"+country.getFlag())));
+		}
 	}
 	
 	/**
@@ -148,7 +176,7 @@ public class Flags extends Category{
 				 "Poland", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Ukraine",
 				 "Vatican City", "Andorra", "Ethiopia", "Scotland", "Wales"};
 		
-		String[] capitals = new String[]{"Stockholm", "Oslo", " Copenhagen", "Helsinki", "Reykjavík", "Nuuk", "Tórshavn", "Mariehamn",
+		String[] capitals = new String[]{"Stockholm", "Oslo", " Copenhagen", "Helsinki", "ReykjavÃ­k", "Nuuk", "TÃ³rshavn", "Mariehamn",
 				"Athens", "Madrid", "Paris", "Berlin", "Vienna", "Brussels", "Dublin", "Rome", "Luxembourg",
 				"Amsterdam", "Lisabon", "Bern", "London", "Tirana", "Minsk", "Sarajevo",
 				"Sofia", "Zagreb", "Prague", "Tallinn", "Gibraltar", "Budapest", "Pristina", "Riga", 

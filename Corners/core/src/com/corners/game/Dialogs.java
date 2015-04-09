@@ -16,7 +16,9 @@ public interface Dialogs {
      * @param toastDuration
      * displays a toast with the message toastMessage
      */
-    public void showToast(CharSequence toastMessage, int toastDuration);
+    public void showToast(CharSequence toastMessage);
+    
+    public void removeAllToast();
     
     /**
      * @param alertBoxTitle
@@ -27,7 +29,7 @@ public interface Dialogs {
      */
     public void showDirections(String alertBoxTitle, String alertBoxMessage, String alertBoxButtonText, Play playScreen);
     
-    public void showEndLevelDialog(String title, String starsImgDir, String charImgDir, String message, MainActivity main, Category cat);
+    public void showEndLevelDialog(String title, String starsImgDir, String charImgDir, String message, Play playScreen);
     
     public void showCharNameDialog(String title, MainActivity main, Label label);
             

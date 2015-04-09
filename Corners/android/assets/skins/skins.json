@@ -58,11 +58,17 @@
         "screen720-L-level-grey": { "font": screen720-L, "up": "levelButtonGrey", "fontColor": black},
         "screen1080-L-level-grey": { "font": screen1080-L, "up": "levelButtonGrey", "fontColor": black},
         
-        "screen320-L-facebook": { "font": screen320-M, "up": "fbButton", "fontColor": black},
-    	"screen480-L-facebook": { "font": screen480-M, "up": "fbButton", "fontColor": black},
-        "screen540-L-facebook": { "font": screen540-M, "up": "fbButton", "fontColor": black},
-        "screen720-L-facebook": { "font": screen720-M, "up": "fbButton", "fontColor": black},
-        "screen1080-L-facebook": { "font": screen1080-M, "up": "fbButton", "fontColor": black},
+        "screen320-L-fb_login": { "font": screen320-M, "up": "fb_login_btn", "fontColor": black},
+    	"screen480-L-fb_login": { "font": screen480-M, "up": "fb_login_btn", "fontColor": black},
+        "screen540-L-fb_login": { "font": screen540-M, "up": "fb_login_btn", "fontColor": black},
+        "screen720-L-fb_login": { "font": screen720-M, "up": "fb_login_btn", "fontColor": black},
+        "screen1080-L-fb_login": { "font": screen1080-M, "up": "fb_login_btn", "fontColor": black},
+        
+        "screen320-L-fb_logout": { "font": screen320-M, "up": "fb_logout_btn", "fontColor": black},
+    	"screen480-L-fb_logout": { "font": screen480-M, "up": "fb_logout_btn", "fontColor": black},
+        "screen540-L-fb_logout": { "font": screen540-M, "up": "fb_logout_btn", "fontColor": black},
+        "screen720-L-fb_logout": { "font": screen720-M, "up": "fb_logout_btn", "fontColor": black},
+        "screen1080-L-fb_logout": { "font": screen1080-M, "up": "fb_logout_btn", "fontColor": black},
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
 		"default": { "font": screen540-L, "fontColor": black },
