@@ -5,6 +5,8 @@
  */
 package com.corners.game.android;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -14,11 +16,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.content.Intent;
@@ -48,6 +52,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 
 public class AndroidLauncher extends AndroidApplication implements ActivityRequestHandler {
 	protected FacebookServiceImpl facebookService;
@@ -118,10 +125,14 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
         ringerModeHelper = new RingerModeHelper(mainActivity,this.getContext());
         registerReceiver(ringerModeHelper , filter);
         
-        
-        System.out.println("x: " + profilePictureView.getX());
-        System.out.println("y: " + profilePictureView.getY());
-        System.out.println("bottom: " + profilePictureView.getBottom());
+        // hax to set position of facebook login
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        int height = display.getHeight()/4;
+        ImageView img = (ImageView)findViewById(R.id.charImg);
+        Bitmap bmp=BitmapFactory.decodeResource(getResources(),R.drawable.happycarl);                                                           
+        bmp=Bitmap.createScaledBitmap(bmp, 100,height, true);
+        img.setImageBitmap(bmp);
 	}
 	
 	/**

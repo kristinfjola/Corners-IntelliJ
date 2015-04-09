@@ -64,11 +64,14 @@ public class Play implements Screen, InputProcessor{
     private InfoBar infoBar;
     private Table table;
     private InputProcessor inputProcessor;
+    
+    //progressBar
+    private float progressBarHeight = (new Image(new Texture("progressBar/background.png"))).getPrefHeight();
 
     // swipe
     private Vector3 touchPos;
     private boolean swipeQuestion = false;
-    private boolean hitWrong = false;
+    private boolean hitBox = false;
     private boolean touchUp = false;
     private float sum = 0;
     private String xDirection = "none";
@@ -230,6 +233,18 @@ public class Play implements Screen, InputProcessor{
 		startQuestion();
 		setNormalProgressBar();
 		refreshProgressBar(false);	
+		updateStarsInfoBar();
+	}
+	
+	/**
+	 * updates the stars image in infobar
+	 */
+	public void updateStarsInfoBar() {
+		table.reset();
+		table.top();
+		table.setFillParent(true);
+		infoBar.setLeftImage("stars/"+stars+"-stars"+".png");
+		table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 	}
 	
 	/**
@@ -263,7 +278,7 @@ public class Play implements Screen, InputProcessor{
 	public void displayRightAnswerAndGetNewQuestion(){
 		oldSecondsPassed = 0;
 		setCorrectProgressBar();
-		refreshProgressBar(true);	
+		refreshProgressBar(true);
 		delayTime = true;
 		Timer.schedule(new Task(){
 		    @Override
@@ -473,13 +488,6 @@ public class Play implements Screen, InputProcessor{
 		} else if(totalSecondsWasted >= oneStar && stars == 1){
 			stars = 0;
 		}
-		
-		//update picture in info bar
-		table.reset();
-		table.top();
-		table.setFillParent(true);
-		infoBar.setLeftImage("stars/"+stars+"-stars"+".png");
-		table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 	}
 	
 	@Override
@@ -585,8 +593,8 @@ public class Play implements Screen, InputProcessor{
 			}
 		} else if(axis == "y") {
 			//screenHeight/10 is the height of the infoBar
-			if(rec.y > main.scrHeight-rec.getHeight()-main.scrHeight/10) {
-				rec.y = main.scrHeight-rec.getHeight()-main.scrHeight/10;
+			if(rec.y > main.scrHeight-rec.getHeight()-main.scrHeight/10-progressBarHeight) {
+				rec.y = main.scrHeight-rec.getHeight()-main.scrHeight/10-progressBarHeight;
 			}
 		}	
 	}
@@ -618,7 +626,7 @@ public class Play implements Screen, InputProcessor{
 	public void swipeQuestionAfterTouchUp() {
 		Rectangle rec = cat.getQuestion().getRec();
 		
-		if(touchUp && swipeQuestion && !hitWrong) {
+		if(touchUp && swipeQuestion && !hitBox) {
 			if(xDirection != "none") {
 				if(xDirection == "right") {
 					rec.x += 6;
@@ -683,6 +691,7 @@ public class Play implements Screen, InputProcessor{
 	public void handleHitBox() {
 		Box hit = cat.checkIfHitAnswer();
 		if(hit != null && !delayTime){
+			hitBox = true;
 			questionsAnswered++;
 			if(questionsAnswered >= nrOfQuestions){
 				win();
@@ -692,9 +701,9 @@ public class Play implements Screen, InputProcessor{
 		}
 		
 		//if hit wrong answer then move question to the middle
-		Box hitBox = cat.checkIfHitBox();
-		if(hitBox != null && hit == null && !delayTime) {
-			hitWrong = true;
+		Box _hitBox = cat.checkIfHitBox();
+		if(_hitBox != null && hit == null && !delayTime) {
+			hitBox = true;
 			loose();
 		}
 	}
@@ -721,7 +730,7 @@ public class Play implements Screen, InputProcessor{
 				rec.y = touchPos.y - rec.getHeight() / 2;
 				lockPos = true;
 				swipeQuestion = true;
-				hitWrong = false;
+				hitBox = false;
 			}
 		}
 		
