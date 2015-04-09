@@ -64,6 +64,9 @@ public class Play implements Screen, InputProcessor{
     private InfoBar infoBar;
     private Table table;
     private InputProcessor inputProcessor;
+    
+    //progressBar
+    private float progressBarHeight = (new Image(new Texture("progressBar/background.png"))).getPrefHeight();
 
     // swipe
     private Vector3 touchPos;
@@ -601,8 +604,8 @@ public class Play implements Screen, InputProcessor{
 			}
 		} else if(axis == "y") {
 			//screenHeight/10 is the height of the infoBar
-			if(rec.y > main.scrHeight-rec.getHeight()-main.scrHeight/10) {
-				rec.y = main.scrHeight-rec.getHeight()-main.scrHeight/10;
+			if(rec.y > main.scrHeight-rec.getHeight()-main.scrHeight/10-progressBarHeight) {
+				rec.y = main.scrHeight-rec.getHeight()-main.scrHeight/10-progressBarHeight;
 			}
 		}	
 	}
