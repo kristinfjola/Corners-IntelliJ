@@ -89,12 +89,6 @@ public class Play implements Screen, InputProcessor{
     
     // levels
     private int maxNumLevels = 9;
-    
-    // sound
-    Sound correctAnswerSound = Gdx.audio.newSound(Gdx.files.internal("sounds/correctAnswer.mp3"));
-    Sound wrongAnswerSound = Gdx.audio.newSound(Gdx.files.internal("sounds/wrongAnswer.mp3"));
-    Sound levelFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
-    Sound categoryFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
 	
 	/**
 	 * @param main - main activity of the game
@@ -121,7 +115,7 @@ public class Play implements Screen, InputProcessor{
 	    time = main.skin.getFont(main.screenSizeGroup+"-M");
 	    time.setColor(Color.BLACK);
 	    maxTime = 10;
-	    nrOfQuestions = 9;
+	    nrOfQuestions = 1;
 		camera = new OrthographicCamera();
  	    camera.setToOrtho(false, main.scrWidth, main.scrHeight);
  	    batch = new SpriteBatch();
@@ -170,10 +164,10 @@ public class Play implements Screen, InputProcessor{
 		if(level < maxNumLevels) { 
 			showFinishLevelDialog(true, false);
 			level++;
-			levelFinishedSound.play(main.volume);
+			main.levelFinishedSound.play(main.volume);
 		} else {
 			showFinishLevelDialog(true, true);
-			categoryFinishedSound.play(main.volume);
+			main.categoryFinishedSound.play(main.volume);
 		}
 	}
 	
@@ -208,7 +202,7 @@ public class Play implements Screen, InputProcessor{
 		refreshProgressBar(true);
 		delayTime = true;
 		showFinishLevelDialog(false, false);
-		wrongAnswerSound.play(main.volume);
+		main.wrongAnswerSound.play(main.volume);
 	}
 	
 	/**
@@ -279,7 +273,7 @@ public class Play implements Screen, InputProcessor{
 		    }
 		}, 1);
 		updateStars();
-		correctAnswerSound.play(main.volume);
+		main.correctAnswerSound.play(main.volume);
 	}
 	
 	/**
@@ -316,35 +310,30 @@ public class Play implements Screen, InputProcessor{
 			String message = main.data.getName()+" says: \n";
 			if(main.character.characterGrew()) {
 				message += "I just grew up! Good job! \n";
-			}
-			else if(main.character.getNrOfLevelsToNext()!=0) {
+			} else if(main.character.getNrOfLevelsToNext()!=0) {
 				message += "Good job! Only "+main.character.getNrOfLevelsToNext()+" more \n";
 				if(main.character.getNrOfLevelsToNext()==1) message += "level 'till I grow up! \n";
 				else message += "levels 'till I grow up! \n";
-			}
-			else {
+			} else {
 				message += "Good job! \n";
 			}
 			
 			if(finishCat && thisLevelOldStars<=0) {
 				String title = cat.getType()+" complete!";
 				String starsImgDir = "stars/"+main.getStarAmount(stars)+".png";
-				main.actionResolver.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message, main, cat);
-			}
-			else {
+				main.actionResolver.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message, this);
+			} else {
 				String title = "Level complete!";
 				String starsImgDir = "stars/"+main.getStarAmount(stars)+".png";
-				main.actionResolver.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message, main, cat);
+				main.actionResolver.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message, this);
 			}
-		}
-		else {
+		} else {
 			String title = "Oh no! You lost!";
 			String message = main.data.getName()+" says: \n";
 			message += "Better luck next time! \n";
-			main.actionResolver.showEndLevelDialog(title, "", "faces/sadcarl.png",message, main, cat);
+			main.actionResolver.showEndLevelDialog(title, "", "faces/sadcarl.png",message, this);
 		}
-		Timer.schedule(getLevelsWindow(), 3);
-		//TODO virkar ekki að fara í levels glugga þegar ýtt er á ok
+		Timer.schedule(getLevelsWindow(), 1);
 	}
 	
 	/**
@@ -391,7 +380,7 @@ public class Play implements Screen, InputProcessor{
 	 * @return table of pictures of the stars 
 	 * 					(both earned and lost)
 	 */
-	public Table getStars(int numStars) {
+	/*public Table getStars(int numStars) {
 		int maxStars = 3;
 		int loseStars = maxStars-numStars;
 		
@@ -413,7 +402,7 @@ public class Play implements Screen, InputProcessor{
 		}
 		
 		return starsTable;
-	}
+	}*/
 	
 	/**
 	 * places question on top of answer

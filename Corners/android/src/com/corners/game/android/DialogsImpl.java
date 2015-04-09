@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import logic.Category;
+import screens.Levels;
 import screens.Play;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -32,6 +33,7 @@ public class DialogsImpl implements Dialogs {
        Context appContext;
        AndroidLauncher launcher;
        ProgressDialog progress;
+       Toast backToast;
 
       public DialogsImpl(Context appContext) {
                uiThread = new Handler();
@@ -75,12 +77,18 @@ public class DialogsImpl implements Dialogs {
       }
       
       @Override
-      public void showToast(final CharSequence toastMessage, int toastDuration) {
+      public void showToast(final CharSequence toastMessage) {
     	  uiThread.post(new Runnable() {
     		  public void run() {
-    			  Toast.makeText(appContext, toastMessage, Toast.LENGTH_LONG).show();
+    			  backToast = Toast.makeText(appContext, toastMessage, Toast.LENGTH_LONG);
+    			  backToast.show();
     		  }
     	  });
+      }
+      
+      @Override
+      public void removeAllToast() {
+    	  backToast.cancel();
       }
 	
       @Override
@@ -109,13 +117,49 @@ public class DialogsImpl implements Dialogs {
     	  });
       }
       
+      public void showCharNameDialog(final String title, final MainActivity main, final Label label) {
+    	  uiThread.post(new Runnable() {
+    		  public void run() {
+    			  AlertDialog.Builder dialog = new AlertDialog.Builder(appContext, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+    			  dialog.setTitle(title);
+    			  
+    			  LayoutInflater factory = LayoutInflater.from(appContext);
+    			  final View view = factory.inflate(R.layout.name_input_layout, null);
+ 
+    			  dialog.setView(view);
+    			  dialog.setNeutralButton("Save", getNamePopupListener(view, main, label));    			  
+    			  dialog.show();
+    		  }
+    	  });
+      }
+      
+      private DialogInterface.OnClickListener getNamePopupListener(final View view, final MainActivity main,
+    		  final Label label) {
+    	  DialogInterface.OnClickListener popupClickListener = new DialogInterface.OnClickListener() {		
+    		  @Override
+    		  public void onClick(DialogInterface dialog, int whichButton) {
+    			  TextView text = (TextView) view.findViewById(R.id.nameInput);
+    			  String newName = text.getText().toString();
+    			  if(!newName.equals("")) {
+    				  main.data.setName(newName);
+        			  label.setText(newName);
+    			  }
+    		  }
+    	  };
+    	  return popupClickListener;
+      }
+      
+      
+      
+      
+      
       @Override
       public void showEndLevelDialog(final String title, final String starsImgDir, final String charImgDir,
-    		  String message, final MainActivity main, final Category cat) {
+    		  String message, final Play playScreen) {
     	  final DialogInterface.OnClickListener popupClickListener = new DialogInterface.OnClickListener() {		
     		  @Override
     		  public void onClick(DialogInterface dialog, int whichButton) {
-    			  //main.setScreen(new Levels(main, cat));
+    			  //playScreen.setupLevelsWindow();
     		  }
     	  };
     	  
@@ -175,35 +219,65 @@ public class DialogsImpl implements Dialogs {
     	  });
       }
       
-      public void showCharNameDialog(final String title, final MainActivity main, final Label label) {
-    	  uiThread.post(new Runnable() {
-    		  public void run() {
-    			  AlertDialog.Builder dialog = new AlertDialog.Builder(appContext, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-    			  dialog.setTitle(title);
-    			  
-    			  LayoutInflater factory = LayoutInflater.from(appContext);
-    			  final View view = factory.inflate(R.layout.name_input_layout, null);
- 
-    			  dialog.setView(view);
-    			  dialog.setNeutralButton("Save", getNamePopupListener(view, main, label));    			  
-    			  dialog.show();
-    		  }
-    	  });
-      }
-      
-      private DialogInterface.OnClickListener getNamePopupListener(final View view, final MainActivity main,
-    		  final Label label) {
-    	  DialogInterface.OnClickListener popupClickListener = new DialogInterface.OnClickListener() {		
+      @Override
+      public void bla(String title,String starsImgDir, String charImgDir,
+    		  String message, final MainActivity main, final Category cat) {
+    	  final DialogInterface.OnClickListener popupClickListener = new DialogInterface.OnClickListener() {		
     		  @Override
     		  public void onClick(DialogInterface dialog, int whichButton) {
-    			  TextView text = (TextView) view.findViewById(R.id.nameInput);
-    			  String newName = text.getText().toString();
-    			  if(!newName.equals("")) {
-    				  main.data.setName(newName);
-        			  label.setText(newName);
-    			  }
+    			  main.setScreen(new Levels(main, cat));
+    			  System.out.println("kom hingað");
     		  }
     	  };
-    	  return popupClickListener;
+    	  
+    	  final String[] messages = new String[3];
+    	  int index = 0;
+    	  for(int i=0; i<messages.length; i++) {
+    		  index = message.indexOf("\n",index);
+	  		  if(index == -1) {
+	  			  messages[i] = "";
+	  		  } else {
+	  			  messages[i] = message.substring(0,index);
+	  			  message = message.substring(index+1);
+	  		  }
+	  	  }
+    	  
+		  AlertDialog.Builder dialog = new AlertDialog.Builder(appContext, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+		  dialog.setTitle(title);
+		  
+		  LayoutInflater factory = LayoutInflater.from(appContext);
+		  final View view = factory.inflate(R.layout.popup_layout, null);
+		  
+		  if(!starsImgDir.equals("")) {
+			  try {
+				  InputStream stream = appContext.getAssets().open(starsImgDir);
+				  Drawable d = Drawable.createFromStream(stream, null);
+    			  ImageView image = (ImageView) view.findViewById(R.id.starsImg);
+    			  image.setImageDrawable(d);
+			  } catch (IOException e) {
+				  e.printStackTrace();
+			  }
+		  }
+		  
+		  try {
+			  InputStream stream = appContext.getAssets().open(charImgDir);
+			  Drawable d = Drawable.createFromStream(stream, null);
+			  ImageView image = (ImageView) view.findViewById(R.id.charImg);
+			  image.setImageDrawable(d);
+		  } catch (IOException e) {
+			  e.printStackTrace();
+		  }
+		  
+		  TextView text0 = (TextView) view.findViewById(R.id.message0);
+		  text0.setText(messages[0]);
+		  TextView text1 = (TextView) view.findViewById(R.id.message1);
+		  text1.setText(messages[1]);
+		  TextView text2 = (TextView) view.findViewById(R.id.message2);
+		  text2.setText(messages[2]);
+
+		  dialog.setView(view);
+		  dialog.setNeutralButton("Ok", popupClickListener);
+		  
+		  dialog.show();
       }
 }

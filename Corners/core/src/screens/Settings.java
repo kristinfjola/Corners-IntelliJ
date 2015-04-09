@@ -443,7 +443,7 @@ public class Settings implements Screen{
 		nameLabel.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				main.actionResolver.showCharNameDialog("Sláðu inn nafn karakters", main, nameLabel);
+				main.actionResolver.showCharNameDialog("Enter your characters name:", main, nameLabel);
 				super.touchUp(event, x, y, pointer, button);
 			}
 		});

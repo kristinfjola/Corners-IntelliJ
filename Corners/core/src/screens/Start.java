@@ -27,6 +27,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.corners.game.MainActivity;
 
 public class Start implements Screen{
@@ -38,6 +40,7 @@ public class Start implements Screen{
 	private Texture carl;
 	Table table;
 	private InputProcessor inputProcessor;
+	private boolean backJustClicked;
 	
 	/**
 	 * Constructor. Creates the the interface and sets the
@@ -57,6 +60,7 @@ public class Start implements Screen{
 		main.activityRequestHandler.showFacebook(false);
 		addBackToProcessor();
 		setAllProcessors();
+		backJustClicked = false;
 	}
 	
 	/**
@@ -219,12 +223,28 @@ public class Start implements Screen{
 			@Override
 			public boolean keyDown(int keycode) {
 				if(keycode == Keys.BACK){
-					Gdx.app.exit();
-					//dispose();
-					main.activityRequestHandler.unregisterRingerReceiver();
+					if(backJustClicked) {
+						Gdx.app.exit();
+						main.activityRequestHandler.unregisterRingerReceiver();
+						main.actionResolver.removeAllToast();
+					}
+					else {
+						backJustClicked = true;
+						main.actionResolver.showToast("Press again to exit");
+						Timer.schedule(updateBackJustClicked(), 3.5f);
+					}
 				}
 				return false;
 			}
+		};
+	}
+	
+	public Task updateBackJustClicked(){
+		return new Task(){
+		    @Override
+		    public void run() {
+		    	backJustClicked = false;
+		    }
 		};
 	}
 	
