@@ -177,7 +177,8 @@ public class Flags extends Category{
 				 "Bulgaria", "Croatia", "Czech Republic", "Estonia", "Gibraltar", "Hungary", "Kosovo", "Latvia",
 				 "Liechtenstein", "Lithuania", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", 
 				 "Poland", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Ukraine",
-				 "Vatican City", "Andorra", "Ethiopia", "Scotland", "Wales"};
+				 "Vatican City", "Andorra", "Ethiopia", "Scotland", "Wales", "Armenia", "Bahamas", "China", "Cuba", "East Timor",
+				 "Kiribati", "Lebanon", "Puerto Rico", "South Africa", "Thailand", "Tonga", "United States", "Vanuatu", "Venezuela"};
 		
 		String[] capitals = new String[]{"Stockholm", "Oslo", " Copenhagen", "Helsinki", "Reykjavík", "Nuuk", "Tórshavn", "Mariehamn",
 				"Athens", "Madrid", "Paris", "Berlin", "Vienna", "Brussels", "Dublin", "Rome", "Luxembourg",
@@ -185,7 +186,8 @@ public class Flags extends Category{
 				"Sofia", "Zagreb", "Prague", "Tallinn", "Gibraltar", "Budapest", "Pristina", "Riga", 
 				"Vaduz", "Vilnius", "Skopje", "Valletta", "Chisinau", "Monaco", "Podgorica",
 				"Warsaw", "Bucharest", "Moscow", "San Marino", "Belgrade", "Bratislava", "Lubljana", "Kiev",
-				"Vatican City", "Andorra la Vella", "Addis Ababa", "Edinburgh", "Cardiff"}; //52
+				"Vatican City", "Andorra la Vella", "Addis Ababa", "Edinburgh", "Cardiff", "Yerevan", "Nassau", "Beijing", "Havana", "Dili",
+				"South Tarawa", "Beirut", "San Juan", "Cape Town", "Bangkok", "Nuku'alofa", "Washington, D.C.", "Port Vila", "Caracas"};
 		if(to == -1){
 			to = countries.length;
 		}
