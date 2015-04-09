@@ -198,8 +198,10 @@ public class DialogsImpl implements Dialogs {
     		  public void onClick(DialogInterface dialog, int whichButton) {
     			  TextView text = (TextView) view.findViewById(R.id.nameInput);
     			  String newName = text.getText().toString();
-    			  main.data.setName(newName);
-    			  label.setText(newName);
+    			  if(!newName.equals("")) {
+    				  main.data.setName(newName);
+        			  label.setText(newName);
+    			  }
     		  }
     	  };
     	  return popupClickListener;
