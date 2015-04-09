@@ -118,7 +118,7 @@ public class Play implements Screen, InputProcessor{
 	    time = main.skin.getFont(main.screenSizeGroup+"-M");
 	    time.setColor(Color.BLACK);
 	    maxTime = 10;
-	    nrOfQuestions = 1;
+	    nrOfQuestions = 9;
 		camera = new OrthographicCamera();
  	    camera.setToOrtho(false, main.scrWidth, main.scrHeight);
  	    batch = new SpriteBatch();
