@@ -20,8 +20,9 @@ public class ColorBox extends Box{
 	private BitmapFont bmFont;
 	private String text;
 	private Pixmap pm;
+	private Boolean light;
 
-	
+
 	/**
 	 * @param width
 	 * @param height
@@ -120,5 +121,37 @@ public class ColorBox extends Box{
 	 */
 	public void setText(String text) {
 		this.text = text;
+	}
+	
+	
+	/**
+	 * @return pixmap of box
+	 */
+	public Pixmap getPm() {
+		return pm;
+	}
+
+
+	/**
+	 * @param pm - pixmap for box
+	 */
+	public void setPm(Pixmap pm) {
+		this.pm = pm;
+	}
+
+
+	/**
+	 * @return true if color is light, else false
+	 */
+	public Boolean getLight() {
+		return light;
+	}
+
+
+	/**
+	 * @param light - true if color is light, else false 
+	 */
+	public void setLight(Boolean light) {
+		this.light = light;
 	}
 }
