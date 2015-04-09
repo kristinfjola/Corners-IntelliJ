@@ -64,6 +64,9 @@ public class Play implements Screen, InputProcessor{
     private InfoBar infoBar;
     private Table table;
     private InputProcessor inputProcessor;
+    
+    //progressBar
+    private float progressBarHeight = (new Image(new Texture("progressBar/background.png"))).getPrefHeight();
 
     // swipe
     private Vector3 touchPos;
@@ -236,6 +239,18 @@ public class Play implements Screen, InputProcessor{
 		startQuestion();
 		setNormalProgressBar();
 		refreshProgressBar(false);	
+		updateStarsInfoBar();
+	}
+	
+	/**
+	 * updates the stars image in infobar
+	 */
+	public void updateStarsInfoBar() {
+		table.reset();
+		table.top();
+		table.setFillParent(true);
+		infoBar.setLeftImage("stars/"+stars+"-stars"+".png");
+		table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 	}
 	
 	/**
@@ -269,7 +284,7 @@ public class Play implements Screen, InputProcessor{
 	public void displayRightAnswerAndGetNewQuestion(){
 		oldSecondsPassed = 0;
 		setCorrectProgressBar();
-		refreshProgressBar(true);	
+		refreshProgressBar(true);
 		delayTime = true;
 		Timer.schedule(new Task(){
 		    @Override
@@ -484,13 +499,6 @@ public class Play implements Screen, InputProcessor{
 		} else if(totalSecondsWasted >= oneStar && stars == 1){
 			stars = 0;
 		}
-		
-		//update picture in info bar
-		table.reset();
-		table.top();
-		table.setFillParent(true);
-		infoBar.setLeftImage("stars/"+stars+"-stars"+".png");
-		table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 	}
 	
 	@Override
@@ -596,8 +604,8 @@ public class Play implements Screen, InputProcessor{
 			}
 		} else if(axis == "y") {
 			//screenHeight/10 is the height of the infoBar
-			if(rec.y > main.scrHeight-rec.getHeight()-main.scrHeight/10) {
-				rec.y = main.scrHeight-rec.getHeight()-main.scrHeight/10;
+			if(rec.y > main.scrHeight-rec.getHeight()-main.scrHeight/10-progressBarHeight) {
+				rec.y = main.scrHeight-rec.getHeight()-main.scrHeight/10-progressBarHeight;
 			}
 		}	
 	}
