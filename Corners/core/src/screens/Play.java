@@ -68,7 +68,7 @@ public class Play implements Screen, InputProcessor{
     // swipe
     private Vector3 touchPos;
     private boolean swipeQuestion = false;
-    private boolean hitWrong = false;
+    private boolean hitBox = false;
     private boolean touchUp = false;
     private float sum = 0;
     private String xDirection = "none";
@@ -344,7 +344,7 @@ public class Play implements Screen, InputProcessor{
 			main.actionResolver.showEndLevelDialog(title, "", "faces/sadcarl.png",message, main, cat);
 		}
 		Timer.schedule(getLevelsWindow(), 3);
-		//TODO virkar ekki að fara í levels glugga þegar ýtt er á ok
+		//TODO virkar ekki aÃ° fara Ã­ levels glugga Ã¾egar Ã½tt er Ã¡ ok
 	}
 	
 	/**
@@ -629,7 +629,7 @@ public class Play implements Screen, InputProcessor{
 	public void swipeQuestionAfterTouchUp() {
 		Rectangle rec = cat.getQuestion().getRec();
 		
-		if(touchUp && swipeQuestion && !hitWrong) {
+		if(touchUp && swipeQuestion && !hitBox) {
 			if(xDirection != "none") {
 				if(xDirection == "right") {
 					rec.x += 6;
@@ -694,6 +694,7 @@ public class Play implements Screen, InputProcessor{
 	public void handleHitBox() {
 		Box hit = cat.checkIfHitAnswer();
 		if(hit != null && !delayTime){
+			hitBox = true;
 			questionsAnswered++;
 			if(questionsAnswered >= nrOfQuestions){
 				win();
@@ -703,9 +704,9 @@ public class Play implements Screen, InputProcessor{
 		}
 		
 		//if hit wrong answer then move question to the middle
-		Box hitBox = cat.checkIfHitBox();
-		if(hitBox != null && hit == null && !delayTime) {
-			hitWrong = true;
+		Box _hitBox = cat.checkIfHitBox();
+		if(_hitBox != null && hit == null && !delayTime) {
+			hitBox = true;
 			loose();
 		}
 	}
@@ -732,7 +733,7 @@ public class Play implements Screen, InputProcessor{
 				rec.y = touchPos.y - rec.getHeight() / 2;
 				lockPos = true;
 				swipeQuestion = true;
-				hitWrong = false;
+				hitBox = false;
 			}
 		}
 		
