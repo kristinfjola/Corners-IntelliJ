@@ -5,6 +5,8 @@
  */
 package logic;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import screens.Play;
@@ -20,6 +22,9 @@ import com.badlogic.gdx.utils.Array;
 import com.corners.game.MainActivity;
 
 public class Flags extends Category{
+	
+	List<String> previousQuestions = new ArrayList<String>();
+	
 	/**
 	 * 	Creates a new Flags category, delivers a question and possible answers
 	 */
@@ -108,6 +113,7 @@ public class Flags extends Category{
 			((FlagBox) question).setText(quest);
 		}
 		adjustFontSize(quest, (FlagBox) question);
+		previousQuestions.add(country.getCountry());
 	}
 	
 	/**
@@ -127,7 +133,6 @@ public class Flags extends Category{
 			}
 			//State that this country is in a box.
 			alreadyAnAnswer[random] = true;
-			//TODO: Check if flag is already in a box
 			((FlagBox) answer).setCountry(flags[random].getCountry());
 			((FlagBox) answer).setCapital(flags[random].getCountry());
 			if(isText) {
@@ -170,30 +175,46 @@ public class Flags extends Category{
 	 * @param to - count of flags
 	 * @return Flag array with flags from 0 to 'to'
 	 */
-	public Flag[] allFlags(int to){
-		String[] countries = new String[]{"Sweden", "Norway", "Denmark", "Finland", "Iceland", "Greenland", "Faroe Islands", "Aland Islands",
-				 "Greece", "Spain", "France", "Germany", "Austria", "Belgium", "Ireland", "Italy", "Luxembourg",
-				 "Netherlands", "Portugal", "Switzerland", "United Kingdom", "Albania", "Belarus", "Bosnia and Herzegovina",
+	public Flag[] allFlags(int from, int to){
+		String[] countries = new String[]{
+				 "Sweden", "Norway", "Denmark", "Finland", "Iceland", "Greenland", "Faroe Islands", "Aland Islands",
+				 "United Kingdom", "Germany", "France",
+				 // ^ scandinavia + easy europe 11
+				 "Greece", "Spain", "Austria", "Belgium", "Ireland", "Italy", "Luxembourg", "Netherlands", 
+				 "Portugal", "Switzerland", "Scotland", "Wales", "Vatican City", "Andorra", "San Marino",
+				 // ^ western europe 26
+				 "Albania", "Belarus", "Bosnia and Herzegovina",
 				 "Bulgaria", "Croatia", "Czech Republic", "Estonia", "Gibraltar", "Hungary", "Kosovo", "Latvia",
 				 "Liechtenstein", "Lithuania", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", 
-				 "Poland", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Ukraine",
-				 "Vatican City", "Andorra", "Ethiopia", "Scotland", "Wales", "Armenia", "Bahamas", "China", "Cuba", "East Timor",
-				 "Kiribati", "Lebanon", "Puerto Rico", "South Africa", "Thailand", "Tonga", "United States", "Vanuatu", "Venezuela"};
+				 "Poland", "Romania", "Russia", "Serbia", "Slovakia", "Slovenia", "Ukraine", "Armenia",
+				 // ^ europe 52
+				 "Ethiopia",  "Bahamas", "China", "Cuba", "East Timor", "Kiribati", "Lebanon", "Puerto Rico", 
+				 "South Africa", "Thailand", "Tonga", "United States", "Vanuatu", "Venezuela"
+				 // ^ all countries 66
+				 };
 		
-		String[] capitals = new String[]{"Stockholm", "Oslo", " Copenhagen", "Helsinki", "Reykjavík", "Nuuk", "Tórshavn", "Mariehamn",
-				"Athens", "Madrid", "Paris", "Berlin", "Vienna", "Brussels", "Dublin", "Rome", "Luxembourg",
-				"Amsterdam", "Lisabon", "Bern", "London", "Tirana", "Minsk", "Sarajevo",
+		String[] capitals = new String[]{
+				"Stockholm", "Oslo", " Copenhagen", "Helsinki", "Reykjavik", "Nuuk", "Torshavn", "Mariehamn",
+				"London", "Berlin", "Paris", 
+				// ^ scandinavia + easy europe 11
+				"Athens", "Madrid", "Vienna", "Brussels", "Dublin", "Rome", "Luxembourg", "Amsterdam", 
+				"Lisabon", "Bern", "Edinburgh", "Cardiff", "Vatican City", "Andorra la Vella", "San Marino",
+				// ^ western europe 26
+				"Tirana", "Minsk", "Sarajevo",
 				"Sofia", "Zagreb", "Prague", "Tallinn", "Gibraltar", "Budapest", "Pristina", "Riga", 
 				"Vaduz", "Vilnius", "Skopje", "Valletta", "Chisinau", "Monaco", "Podgorica",
-				"Warsaw", "Bucharest", "Moscow", "San Marino", "Belgrade", "Bratislava", "Lubljana", "Kiev",
-				"Vatican City", "Andorra la Vella", "Addis Ababa", "Edinburgh", "Cardiff", "Yerevan", "Nassau", "Beijing", "Havana", "Dili",
-				"South Tarawa", "Beirut", "San Juan", "Cape Town", "Bangkok", "Nuku'alofa", "Washington, D.C.", "Port Vila", "Caracas"};
+				"Warsaw", "Bucharest", "Moscow", "Belgrade", "Bratislava", "Lubljana", "Kiev", "Yerevan", 
+				// ^ europe 52
+				"Addis Ababa", "Nassau", "Beijing", "Havana", "Dili","South Tarawa", "Beirut", "San Juan", 
+				"Cape Town", "Bangkok", "Nuku'alofa", "Washington, D.C.", "Port Vila", "Caracas"
+				// ^ all countries 66
+				};
 		if(to == -1){
 			to = countries.length;
 		}
-		Flag[] flags = new Flag[to];
-		for(int i = 0; i < to; i++){
-			flags[i] = new Flag(countries[i], capitals[i], countries[i] + ".png");
+		Flag[] flags = new Flag[to-from];
+		for(int i = from; i < to; i++){
+			flags[i-from] = new Flag(countries[i], capitals[i], countries[i] + ".png");
 		}
 		
 		return flags;
@@ -203,8 +224,8 @@ public class Flags extends Category{
 	 * Group together Scandinavian countries
 	 * @return Flag array with the Scandinavian countries
 	 */
-	public Flag[] getScandinavia(){
-		Flag[] flags = allFlags(8);
+	public Flag[] getScandinaviaAndEasyEurope(){
+		Flag[] flags = allFlags(0, 11);
 		return flags;
 	}
 	
@@ -213,7 +234,7 @@ public class Flags extends Category{
 	 * @return Flag array with western Europe flags
 	 */
 	public Flag[] getWesternEurope(){
-		Flag[] flags = allFlags(20);
+		Flag[] flags = allFlags(0, 26);
 		return flags;
 	}
 	
@@ -222,7 +243,7 @@ public class Flags extends Category{
 	 * @return Flag array with Europe flags
 	 */
 	public Flag[] getEurope(){
-		Flag[] flags = allFlags(45);
+		Flag[] flags = allFlags(0, 52);
 		return flags;
 	}
 	
@@ -231,31 +252,50 @@ public class Flags extends Category{
 	 * @return Flag array with all the flags
 	 */
 	public Flag[] getAllCountries(){
-		Flag[] flags = allFlags(-1);
+		Flag[] flags = allFlags(0, -1);
+		return flags;
+	}
+	
+	/**
+	 * Get all flags available
+	 * @return Flag array with all the flags
+	 */
+	public Flag[] getDifficultCountries(){
+		Flag[] flags = allFlags(11, -1);
+		
 		return flags;
 	}
 
 	@Override
 	public void generate1stLevelQuestions(){
-		//Scandinavian flags + name question
-		Flag[] countries = getScandinavia();
+		//Scandinavian + easy europe flags + name question
+		Flag[] countries = getScandinaviaAndEasyEurope();
 
-		Random rand = new Random();
-		int randomFlag = rand.nextInt(countries.length);
-		
+		int randomFlag = findRandomFlag(countries);
 		generateQuestion(countries[randomFlag], false);
 		generateAnswers(countries, false);
 		generateCorrectAnswer(countries[randomFlag], false);
 	}
 	
+	/**
+	 * @param countries
+	 * @return a random flag that has not been used already in current level
+	 */
+	public int findRandomFlag(Flag[] countries){
+		Random rand = new Random();
+		int randomFlag = rand.nextInt(countries.length);
+		while(previousQuestions.contains(countries[randomFlag].getCountry())){
+			randomFlag = rand.nextInt(countries.length);
+		}
+		return randomFlag;
+	}
+	
 	@Override
 	public void generate2ndLevelQuestions(){
 		//Scandinavian flags + capitals question
-		Flag[] countries = getScandinavia();
+		Flag[] countries = getScandinaviaAndEasyEurope();
 		
-		Random rand = new Random();
-		int randomFlag = rand.nextInt(countries.length);
-		
+		int randomFlag = findRandomFlag(countries);
 		generateQuestion(countries[randomFlag], true);
 		generateAnswers(countries, false);
 		generateCorrectAnswer(countries[randomFlag], false);
@@ -266,9 +306,7 @@ public class Flags extends Category{
 		// Western Europe flags
 		Flag[] countries = getWesternEurope();
 		
-		Random rand = new Random();
-		int randomFlag = rand.nextInt(countries.length);
-		
+		int randomFlag = findRandomFlag(countries);
 		generateQuestion(countries[randomFlag], false);
 		generateAnswers(countries, false);
 		generateCorrectAnswer(countries[randomFlag], false);
@@ -279,9 +317,7 @@ public class Flags extends Category{
 		//Western Europe flags capitals
 		Flag[] countries = getWesternEurope();
 		
-		Random rand = new Random();
-		int randomFlag = rand.nextInt(countries.length);
-		
+		int randomFlag = findRandomFlag(countries);
 		generateQuestion(countries[randomFlag], true);
 		generateAnswers(countries, false);
 		generateCorrectAnswer(countries[randomFlag], false);
@@ -292,9 +328,7 @@ public class Flags extends Category{
 		//Europe flags capitals
 		Flag[] countries = getEurope();
 		
-		Random rand = new Random();
-		int randomFlag = rand.nextInt(countries.length);
-		
+		int randomFlag = findRandomFlag(countries);
 		generateQuestion(countries[randomFlag], false);
 		generateAnswers(countries, false);
 		generateCorrectAnswer(countries[randomFlag], false);
@@ -305,9 +339,7 @@ public class Flags extends Category{
 		//Europe flags capitals
 		Flag[] countries = getEurope();
 		
-		Random rand = new Random();
-		int randomFlag = rand.nextInt(countries.length);
-		
+		int randomFlag = findRandomFlag(countries);
 		generateQuestion(countries[randomFlag], true);
 		generateAnswers(countries, false);
 		generateCorrectAnswer(countries[randomFlag], false);
@@ -318,9 +350,7 @@ public class Flags extends Category{
 		//Europe countries and capitals, no flags
 		Flag[] countries = getEurope();
 		
-		Random rand = new Random();
-		int randomFlag = rand.nextInt(countries.length);
-		
+		int randomFlag = findRandomFlag(countries);
 		generateQuestion(countries[randomFlag], true);
 		generateAnswers(countries, true);
 		generateCorrectAnswer(countries[randomFlag], true);
@@ -329,11 +359,9 @@ public class Flags extends Category{
 	@Override
 	public void generate8thLevelQuestions() {
 		//All countries flags and countries
-		Flag[] countries = getAllCountries();
+		Flag[] countries = getDifficultCountries();
 		
-		Random rand = new Random();
-		int randomFlag = rand.nextInt(countries.length);
-		
+		int randomFlag = findRandomFlag(countries);
 		generateQuestion(countries[randomFlag], false);
 		generateAnswers(countries, false);
 		generateCorrectAnswer(countries[randomFlag], false);
@@ -342,11 +370,9 @@ public class Flags extends Category{
 	@Override
 	public void generate9thLevelQuestions() {
 		//All countries flags and capitals
-		Flag[] countries = getAllCountries();
+		Flag[] countries = getDifficultCountries();
 		
-		Random rand = new Random();
-		int randomFlag = rand.nextInt(countries.length);
-		
+		int randomFlag = findRandomFlag(countries);
 		generateQuestion(countries[randomFlag], true);
 		generateAnswers(countries, false);
 		generateCorrectAnswer(countries[randomFlag], false);
@@ -365,4 +391,9 @@ public class Flags extends Category{
 		
 		if(!directions.isEmpty()) super.showDirections(main, directions);
     }
+	
+	@Override
+	public void refreshQuestions(){
+		this.previousQuestions = new ArrayList<String>();
+	}
 }

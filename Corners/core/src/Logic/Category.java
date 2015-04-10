@@ -292,5 +292,9 @@ public class Category {
 		return this.playScreenWidth;
 	}
 	
+	/**
+	 * Makes a new list of previously asked questions for the category
+	 */
+	public void refreshQuestions(){}
 	
 }

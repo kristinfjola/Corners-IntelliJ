@@ -80,7 +80,7 @@ public class NotificationsImpl extends BroadcastReceiver implements Notification
 	     Intent i = new Intent(context, NotificationsImpl.class);
 	     PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
 	     
-	     // repeat at 15:00 every day
+	     // repeat at around 15:00 every day
 	     Calendar calendar = Calendar.getInstance();
 	     calendar.setTimeInMillis(System.currentTimeMillis());
 	     

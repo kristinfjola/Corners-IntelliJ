@@ -9,10 +9,9 @@ import java.util.Random;
 import boxes.Box;
 import boxes.ColorBox;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Array;
 import com.corners.game.MainActivity;
@@ -28,7 +27,6 @@ public class Colors extends Category {
 	Boolean[] lightColor = {true, true, true, true, false, true, false,
 			true, true, false, false, true, true, 
 			true, true, false, true};
-	Pixmap pm;
 
 	BitmapFont bmFontB;
 	BitmapFont bmFontW;
@@ -40,10 +38,6 @@ public class Colors extends Category {
 		type = "Colors";
 		qWidth = 100;
 		qHeight = 100;
-		
-    	pm = new Pixmap(qWidth, qHeight, Format.RGBA8888);
-		pm.setColor(Color.WHITE);
-		pm.fill();
 	}
 	
 	@Override
@@ -63,18 +57,15 @@ public class Colors extends Category {
  	    	ColorBox box = new ColorBox(qWidth, qHeight, Color.WHITE, "nafn", bmFontB);
  	 	    box.getRec().x = xcoords[i];
  	 	  	box.getRec().y = ycoords[i];
- 	 	  	box.setTexture(new Texture(pm));
+ 	 	  	box.setTexture(new Texture(Gdx.files.internal("colorBoxes/aBox"+(i+1)+".png")));
  	 	    answers.add(box);
  	    }
  	    
  	    //question
- 		Pixmap pixmap = new Pixmap(qWidth, qHeight, Format.RGBA8888);
- 		pixmap.setColor(Color.WHITE);
- 		pixmap.fill();
  		question = new ColorBox(qWidth + playScreenWidth/12, qHeight, Color.WHITE, "nafn", bmFontB);
   	    question.getRec().x = screenWidth / 2 - qWidth / 2;
   	    question.getRec().y = screenHeight / 2 - qHeight / 2;
-  	    question.setTexture(new Texture(pixmap));
+  	    question.setTexture(new Texture(Gdx.files.internal("colorBoxes/qBox.png")));
 	}
 	
 	@Override
@@ -131,7 +122,7 @@ public class Colors extends Category {
 				rand = new Random();
 				random = rand.nextInt(colors.length);
 			}
-			//State that this country is in a box.
+			//State that this color is in a box.
 			alreadyAnAnswer[random] = true;
 			((ColorBox) answer).setColor(colors[random].getColor());
 			((ColorBox) answer).setName(colors[random].getName());
@@ -191,12 +182,6 @@ public class Colors extends Category {
 	}
 	
 	private void generateTrickAnswers(CorColor[] colors, CorColor color, Boolean changeBackground, Boolean changeText){
-		int rightAnswer = -1;
-		for(int i = 0; i < 4; i++){
-			if(((ColorBox)answers.get(i)).getColor().equals(color.getColor()))
-				rightAnswer = i;
-		}
-		System.out.println("Right answer " + rightAnswer);
 		boolean[] alreadyAnAnswer = new boolean[colors.length];
 		
 		if(changeBackground){
