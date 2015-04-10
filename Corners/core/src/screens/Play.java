@@ -854,10 +854,10 @@ public class Play implements Screen, InputProcessor{
 	private void openNextLevel(int levelWon) {
 		if(levelWon == 9)
 			return;
-		//TODO: make a getStarsOfALevel function in DataHelper
-		int nextLevelStars = main.data.getStarsByString(cat.getType()).getStarsOfALevel(levelWon + 1);
-		if(nextLevelStars > -1)
+		int nextLevelStars = main.data.getStarsOfALevel(cat.getType(), levelWon + 1);
+		//If next level is open already, then return
+		if(nextLevelStars > -2)
 			return;
-		main.data.getStarsByString(cat.getType()).updateStars(levelWon + 1, 0);
+		main.data.updateStars(levelWon + 1, -1, cat.getType());
 	}
 }

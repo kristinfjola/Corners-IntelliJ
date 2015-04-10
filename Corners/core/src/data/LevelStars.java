@@ -80,7 +80,7 @@ public class LevelStars {
 		int count = 0;
 		double sumStars = 0.0;
 		for(int i = 1; i < stars.length; i++){
-			if(stars[i] != -1 && stars[i] != 0){
+			if(stars[i] != -2 && stars[i] != -1){
 				count++;
 				sumStars += stars[i];
 			}
@@ -97,7 +97,7 @@ public class LevelStars {
 	public int getLevelsFinished(){
 		int finished = 0;
 		for(int i = 1; i < stars.length; i++){
-			if(stars[i] != -1 && stars[i] != 0){
+			if(stars[i] != -2 && stars[i] != -1){
 				finished++;
 			}
 		}
