@@ -91,7 +91,7 @@ public class MainActivity extends Game {
 		start = new Start(this);
         setScreen(start);
         
-        fullStar = new Texture("stars/star_yellow.png");
+        fullStar = new Texture("stars/star_shadow.png");//("stars/star_yellow.png");
 		emptyStar = new Texture("stars/star_gray.png");		
 		settingsVolume = data.isSoundOn();
 		
