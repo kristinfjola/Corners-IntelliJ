@@ -24,8 +24,8 @@ public class Colors extends Category {
 	String[] colorNames = { "Blue", "Yellow", "Green", "Red", "Purple", "Pink", "Black",
 			"Magneta", "Maroon", "Navy", "Olive", "Orange", "Cyan",
 			"Teal", "White", "Dark gray", "Light gray" };
-	Boolean[] lightColor = {true, true, true, true, false, true, false,
-			true, true, false, false, true, true, 
+	Boolean[] lightColor = {false, true, true, true, false, true, false,
+			true, false, false, false, true, true, 
 			true, true, false, true};
 
 	BitmapFont bmFontB;
@@ -386,7 +386,7 @@ public class Colors extends Category {
    	switch(level){
    		case 1: directions = "Swipe the color in the middle to the matching color in the corners!";
    				break;
-   		case 2: directions = "Swipe the background color in the middle to the matching color int the corners!";
+   		case 2: directions = "Swipe the background color in the middle to the matching color in the corners!";
    				break;
    		case 3: directions = "Swipe the color name in the middle to the matching color in the corners!";
 				break;

@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import screens.Play;
-
 import boxes.Box;
 import boxes.FlagBox;
 
