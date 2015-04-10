@@ -112,26 +112,6 @@ public class Categories implements Screen {
 		
 	}
 	
-	/*private void addCarl() {
-		int levelsFinished = 0;
-		levelsFinished = main.data.getAllFinished();
-		if(levelsFinished < 5){
-			this.carl = new Texture("carl/carl1green.jpg");
-		}
-		else if(levelsFinished < 10){
-			this.carl = new Texture("carl/carl2green.jpg");
-		}
-		else if(levelsFinished < 15){
-			this.carl = new Texture("carl/carl3green.jpg");
-		}
-		else if(levelsFinished < 20){
-			this.carl = new Texture("carl/carl4green.jpg");
-		}
-		else{
-			this.carl = new Texture("carl/carl5green.jpg");
-		}
-	}*/
-	
 	/**
 	 * Renders all the cool stuff on the screen every delta time
 	 * 

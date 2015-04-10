@@ -14,7 +14,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -29,8 +28,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -336,17 +333,17 @@ public class Play implements Screen, InputProcessor{
 			if(finishCat && thisLevelOldStars<=0) {
 				String title = cat.getType()+" complete!";
 				String starsImgDir = "stars/"+main.getStarAmount(stars)+".png";
-				main.dialogs.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message, this);
+				main.dialogs.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message);
 			} else {
 				String title = "Level complete!";
 				String starsImgDir = "stars/"+main.getStarAmount(stars)+".png";
-				main.dialogs.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message, this);
+				main.dialogs.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message);
 			}
 		} else {
 			String title = "Oh no! You lost!";
 			String message = main.data.getName()+" says: \n";
 			message += "Better luck next time! \n";
-			main.dialogs.showEndLevelDialog(title, "", "faces/sadcarl.png",message, this);
+			main.dialogs.showEndLevelDialog(title, "", "faces/sadcarl.png",message);
 		}
 		Timer.schedule(getLevelsWindow(), 1);
 	}
@@ -389,35 +386,6 @@ public class Play implements Screen, InputProcessor{
 	public void clearPauseDialog(){
 		pauseDialog.remove();
 	}
-	
-	/**
-	 * @param numStars - number of stars earned
-	 * @return table of pictures of the stars 
-	 * 					(both earned and lost)
-	 */
-	/*public Table getStars(int numStars) {
-		int maxStars = 3;
-		int loseStars = maxStars-numStars;
-		
-		Table starsTable = new Table();
-		
-		Texture yellow_star = new Texture("stars/star_yellow.png");
-		Texture gray_star = new Texture("stars/star_gray.png");
-		
-		for(int i = 1; i <=numStars; i++) {
-			Image win_star = new Image();
-			win_star.setDrawable(new TextureRegionDrawable(new TextureRegion(yellow_star)));
-			starsTable.add(win_star).padTop(30).padBottom(30);
-		}
-		
-		for(int i = 1; i <= loseStars; i++) {
-			Image lose_star = new Image();
-			lose_star.setDrawable(new TextureRegionDrawable(new TextureRegion(gray_star)));
-			starsTable.add(lose_star).padTop(30).padBottom(30);
-		}
-		
-		return starsTable;
-	}*/
 	
 	/**
 	 * places question on top of answer
@@ -758,12 +726,16 @@ public class Play implements Screen, InputProcessor{
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(main.background, 0, 0, main.scrWidth, main.scrHeight);
+		batch.end();
+		batch.begin();
 		for(Box answer : cat.getAnswers()){
 			//batch.setColor(Color.RED);
 			answer.draw(batch);
 			//batch.setColor(Color.WHITE);
 		}
-		cat.getQuestion().draw(batch);	
+		cat.getQuestion().draw(batch);
+		batch.end();
+		batch.begin();
 		drawProgressBar();
 		drawNrOfQuestion();
 		batch.end();
@@ -859,17 +831,19 @@ public class Play implements Screen, InputProcessor{
 		openNextLevel(levelWon);
 		main.data.getStarsByString(cat.getType()).updateStars(levelWon, newStars);
 		main.data.saveData();
-		//save score on facebook
-		String temp_score = Double.toString(main.data.getAverageStars(cat));
-		int finished_levels = main.data.getAllFinished();
-		temp_score = temp_score.replace(".","");
-		if(temp_score.length() >= 3) {
-			temp_score = temp_score.substring(0, 3);
+		//save score on facebook if user is logged in
+		if(main.facebookService.isLoggedIn()) {
+			String temp_score = Double.toString(main.data.getAverageStars(cat));
+			int finished_levels = main.data.getAllFinished();
+			temp_score = temp_score.replace(".","");
+			if(temp_score.length() >= 3) {
+				temp_score = temp_score.substring(0, 3);
+			}
+			//format of score: stars777levels - 777 splits between stars and score
+			//facebook will only accept number as score, not string
+			String score = temp_score.substring(0, Math.min(3,temp_score.length()))+"777"+finished_levels;
+			main.facebookService.updateScore(score);
 		}
-		//format of score: stars777levels - 777 splits between stars and score
-		//facebook will only accept number as score, not string
-		String score = temp_score.substring(0, Math.min(3,temp_score.length()))+"777"+finished_levels;
-		main.facebookService.updateScore(score);
 	}
 
 	/**

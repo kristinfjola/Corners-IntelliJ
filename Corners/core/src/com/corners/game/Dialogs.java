@@ -13,12 +13,16 @@ import screens.Play;
 public interface Dialogs {
     /**
      * @param toastMessage
-     * @param toastDuration
-     * displays a toast with the message toastMessage
+     * displays a toast with the message toastMessage when the user tries
+     * to press the back button in the start screen
      */
-    public void showToast(CharSequence toastMessage);
+    public void showBackToast(CharSequence toastMessage);
     
-    public void removeAllToast();
+    /**
+     * removes the toast that is displayed when the user presses the back
+     * button in the start screen
+     */
+    public void removeBackToast();
     
     /**
      * @param alertBoxTitle
@@ -29,8 +33,23 @@ public interface Dialogs {
      */
     public void showDirections(String alertBoxTitle, String alertBoxMessage, Play playScreen);
     
-    public void showEndLevelDialog(String title, String starsImgDir, String charImgDir, String message, Play playScreen);
+    /**
+     * Shows a dialog with the title title, the images the directories starsImgDir and charImgDir represent
+     * and the text message. 
+     * @param title
+     * @param starsImgDir
+     * @param charImgDir
+     * @param message
+     */
+    public void showEndLevelDialog(String title, String starsImgDir, String charImgDir, String message);
     
+    /**
+     * Shows a diallog the has the title title and saves the text that the user inserts into
+     * the editText to main.data and label
+     * @param title
+     * @param main
+     * @param label
+     */
     public void showCharNameDialog(String title, MainActivity main, Label label);
             
     public void showProgressBar();

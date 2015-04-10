@@ -9,8 +9,8 @@
      <ImageView android:id="@+id/starsImg"
         android:contentDescription="@+strings/app_name"
         android:layout_width="80dp"
-	    android:layout_height="80dp"
-	    android:scaleType="fitXY"/>
+        android:layout_height="80dp"
+        android:scaleType="fitXY"/>
      
      <ImageView android:id="@+id/charImg"
         android:contentDescription="@+strings/app_name"

@@ -8,8 +8,6 @@ package com.corners.game.android;
 import java.io.IOException;
 import java.io.InputStream;
 
-import logic.Category;
-import screens.Levels;
 import screens.Play;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -17,6 +15,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -35,9 +34,13 @@ public class DialogsImpl implements Dialogs {
        ProgressDialog progress;
        Toast backToast;
 
-      public DialogsImpl(Context appContext) {
-               uiThread = new Handler();
-               this.appContext = appContext;
+       /**
+        * Constructor, creates and instance of this class
+        * @param appContext
+        */
+       public DialogsImpl(Context appContext) {
+    	   uiThread = new Handler();
+    	   this.appContext = appContext;
        }
 
       @Override
@@ -62,21 +65,21 @@ public class DialogsImpl implements Dialogs {
 		  final View dialogLayout = inflater.inflate(R.layout.directions_layout, null);
     	  uiThread.post(new Runnable() {
     		  public void run() {
-    			  AlertDialog dialog = new AlertDialog.Builder(appContext, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT)
-    			  	.setIcon(R.drawable.temp)
-                    //.setTitle(alertBoxTitle)
-    			  	.setMessage(alertBoxMessage)
-    			  	.setNeutralButton("Got it!", onClickListener)
-    			  	//.setView(dialogLayout)
-    			  	.create();
-    			  dialog.setOnDismissListener(onDismissListener);
-    			  dialog.show();
+    			  AlertDialog dialog = new AlertDialog.Builder(getStyle())
+	  			  	.setIcon(R.drawable.temp)
+	                  //.setTitle(alertBoxTitle)
+	  			  	.setMessage(alertBoxMessage)
+	  			  	.setNeutralButton("Got it!", onClickListener)
+	  			  	//.setView(dialogLayout)
+	  			  	.create();
+	  			  dialog.setOnDismissListener(onDismissListener);
+	  			  dialog.show();
     		  }
     	  });
       }
       
       @Override
-      public void showToast(final CharSequence toastMessage) {
+      public void showBackToast(final CharSequence toastMessage) {
     	  uiThread.post(new Runnable() {
     		  public void run() {
     			  backToast = Toast.makeText(appContext, toastMessage, Toast.LENGTH_LONG);
@@ -86,7 +89,7 @@ public class DialogsImpl implements Dialogs {
       }
       
       @Override
-      public void removeAllToast() {
+      public void removeBackToast() {
     	  backToast.cancel();
       }
 	
@@ -116,10 +119,13 @@ public class DialogsImpl implements Dialogs {
     	  });
       }
       
+      /**
+       * Displays the dialog that allows the user to change the characters name
+       */
       public void showCharNameDialog(final String title, final MainActivity main, final Label label) {
     	  uiThread.post(new Runnable() {
     		  public void run() {
-    			  AlertDialog.Builder dialog = new AlertDialog.Builder(appContext, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+    			  AlertDialog.Builder dialog = new AlertDialog.Builder(getStyle());
     			  dialog.setTitle(title);
     			  
     			  LayoutInflater factory = LayoutInflater.from(appContext);
@@ -127,11 +133,18 @@ public class DialogsImpl implements Dialogs {
  
     			  dialog.setView(view);
     			  dialog.setNeutralButton("Save", getNamePopupListener(view, main, label));    			  
-    			  dialog.show();
+    			  setTitleDividerLineColor(dialog.show());
     		  }
     	  });
       }
       
+      /**
+       * @param view
+       * @param main
+       * @param label
+       * @return listener that gets the text in the views editText and saves it to
+       * main.data and adds it to the label label
+       */
       private DialogInterface.OnClickListener getNamePopupListener(final View view, final MainActivity main,
     		  final Label label) {
     	  DialogInterface.OnClickListener popupClickListener = new DialogInterface.OnClickListener() {		
@@ -150,19 +163,14 @@ public class DialogsImpl implements Dialogs {
       
       @Override
       public void showEndLevelDialog(final String title, final String starsImgDir, final String charImgDir,
-    		  String message, final Play playScreen) {
-    	  final DialogInterface.OnClickListener popupClickListener = new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {				
-			}};
-    	  
+    		  String message) {
+
     	  final String[] messages = new String[3];
     	  int index = 0;
     	  for(int i=0; i<messages.length; i++) {
     		  index = message.indexOf("\n",index);
-	  		  if(index == -1) {
-	  			  messages[i] = "";
-	  		  } else {
+	  		  if(index == -1) messages[i] = "";
+	  		  else {
 	  			  messages[i] = message.substring(0,index);
 	  			  message = message.substring(index+1);
 	  		  }
@@ -170,13 +178,15 @@ public class DialogsImpl implements Dialogs {
     	  
     	  uiThread.post(new Runnable() {
     		  public void run() {
-    			  AlertDialog.Builder dialog = new AlertDialog.Builder(appContext, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+    			  AlertDialog.Builder dialog = new AlertDialog.Builder(getStyle());
     			  dialog.setTitle(title);
     			  
     			  LayoutInflater factory = LayoutInflater.from(appContext);
     			  final View view = factory.inflate(R.layout.popup_layout, null);
     			  
-    			  if(!starsImgDir.equals("")) {
+    			  if(starsImgDir.equals("")) 
+    				  ((ImageView) view.findViewById(R.id.starsImg)).getLayoutParams().height = 0;
+    			  else {
 	    			  try {
 	    				  InputStream stream = appContext.getAssets().open(starsImgDir);
 	    				  Drawable d = Drawable.createFromStream(stream, null);
@@ -202,14 +212,36 @@ public class DialogsImpl implements Dialogs {
     			  TextView text1 = (TextView) view.findViewById(R.id.message1);
     			  text1.setText(messages[1]);
     			  TextView text2 = (TextView) view.findViewById(R.id.message2);
-    			  text2.setText(messages[2]);
+    			  if(messages[2].equals("")) text2.getLayoutParams().height = 0;
+    			  else text2.setText(messages[2]);
 
     			  dialog.setView(view);
-    			  dialog.setNeutralButton("Ok", popupClickListener);
+    			  dialog.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+    					@Override
+    					public void onClick(DialogInterface dialog, int which) {				
+    					}
+    			  	});
     			  
-    			  //dialog.setOnDismissListener(onDismissListener);
-    			  dialog.show();
+    			  setTitleDividerLineColor(dialog.show());
     		  }
     	  });
+      }
+      
+      /**
+       * @return theme for the apps dialogs
+       */
+      public ContextThemeWrapper getStyle() {
+    	  return new ContextThemeWrapper(appContext, R.style.AlertDialogCustom);
+      }
+      
+      /**
+       * Changes the titleDividers color in the dialog dialog to the apps brown color
+       * @param dialog
+       */
+      public void setTitleDividerLineColor(AlertDialog dialog) {
+    	  int titleDividerId = appContext.getResources().getIdentifier("titleDivider", "id", "android");
+		  View titleDivider = dialog.findViewById(titleDividerId);
+		  if (titleDivider != null)
+			  titleDivider.setBackgroundColor(appContext.getResources().getColor(R.color.dialog_line_color));  
       }
 }

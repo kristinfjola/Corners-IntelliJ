@@ -16,6 +16,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -226,11 +227,11 @@ public class Start implements Screen{
 					if(backJustClicked) {
 						Gdx.app.exit();
 						main.activityRequestHandler.unregisterRingerReceiver();
-						main.dialogs.removeAllToast();
+						main.dialogs.removeBackToast();
 					}
 					else {
 						backJustClicked = true;
-						main.dialogs.showToast("Press again to exit");
+						main.dialogs.showBackToast("Press again to exit");
 						Timer.schedule(updateBackJustClicked(), 3.5f);
 					}
 				}
@@ -239,6 +240,9 @@ public class Start implements Screen{
 		};
 	}
 	
+	/**
+	 * @return Task that sets the backJustClicked to false
+	 */
 	public Task updateBackJustClicked(){
 		return new Task(){
 		    @Override

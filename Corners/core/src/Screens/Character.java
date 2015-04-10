@@ -93,6 +93,10 @@ public class Character {
 		return levelsToNext-getLevelsFinished();
 	}
 	
+	/**
+	 * @return if the character just grew (the amount of levels finished
+	 * is in the levelsSplit. Else returns false
+	 */
 	public boolean characterGrew() {
 		int levels = getLevelsFinished();
 		for(int i=0; i<levelsSplit.length-1; i++) {
