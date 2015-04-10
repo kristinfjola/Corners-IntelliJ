@@ -157,6 +157,7 @@ public class Levels implements Screen{
 			button.addListener(new ClickListener() {	
 				@Override
 				public void clicked (InputEvent event, float x, float y) {
+					cat.refreshQuestions();
 					main.play = new Play(main, cat, level);
 		            main.setScreen(main.play);
 		            
