@@ -765,7 +765,9 @@ public class Play implements Screen, InputProcessor{
 			answer.draw(batch);
 			//batch.setColor(Color.WHITE);
 		}
-		cat.getQuestion().draw(batch);	
+		cat.getQuestion().draw(batch);
+		batch.end();
+		batch.begin();
 		drawProgressBar();
 		drawNrOfQuestion();
 		batch.end();
