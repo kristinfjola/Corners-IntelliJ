@@ -14,7 +14,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -29,8 +28,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -336,17 +333,17 @@ public class Play implements Screen, InputProcessor{
 			if(finishCat && thisLevelOldStars<=0) {
 				String title = cat.getType()+" complete!";
 				String starsImgDir = "stars/"+main.getStarAmount(stars)+".png";
-				main.actionResolver.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message, this);
+				main.actionResolver.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message);
 			} else {
 				String title = "Level complete!";
 				String starsImgDir = "stars/"+main.getStarAmount(stars)+".png";
-				main.actionResolver.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message, this);
+				main.actionResolver.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message);
 			}
 		} else {
 			String title = "Oh no! You lost!";
 			String message = main.data.getName()+" says: \n";
 			message += "Better luck next time! \n";
-			main.actionResolver.showEndLevelDialog(title, "", "faces/sadcarl.png",message, this);
+			main.actionResolver.showEndLevelDialog(title, "", "faces/sadcarl.png",message);
 		}
 		Timer.schedule(getLevelsWindow(), 1);
 	}
@@ -389,35 +386,6 @@ public class Play implements Screen, InputProcessor{
 	public void clearPauseDialog(){
 		pauseDialog.remove();
 	}
-	
-	/**
-	 * @param numStars - number of stars earned
-	 * @return table of pictures of the stars 
-	 * 					(both earned and lost)
-	 */
-	/*public Table getStars(int numStars) {
-		int maxStars = 3;
-		int loseStars = maxStars-numStars;
-		
-		Table starsTable = new Table();
-		
-		Texture yellow_star = new Texture("stars/star_yellow.png");
-		Texture gray_star = new Texture("stars/star_gray.png");
-		
-		for(int i = 1; i <=numStars; i++) {
-			Image win_star = new Image();
-			win_star.setDrawable(new TextureRegionDrawable(new TextureRegion(yellow_star)));
-			starsTable.add(win_star).padTop(30).padBottom(30);
-		}
-		
-		for(int i = 1; i <= loseStars; i++) {
-			Image lose_star = new Image();
-			lose_star.setDrawable(new TextureRegionDrawable(new TextureRegion(gray_star)));
-			starsTable.add(lose_star).padTop(30).padBottom(30);
-		}
-		
-		return starsTable;
-	}*/
 	
 	/**
 	 * places question on top of answer

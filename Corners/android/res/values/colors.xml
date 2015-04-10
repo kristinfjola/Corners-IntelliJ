@@ -2,4 +2,5 @@
 <resources>
     <color name="app_red">#ffcc0000</color>
     <color name="black">#000000</color>
+    <color name="dialog_line_color">#94623A</color>
 </resources>

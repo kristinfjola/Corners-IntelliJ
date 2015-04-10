@@ -51,7 +51,6 @@ public class InfoBar {
 	public Table getInfoBar(){
 		Table infoBarTable = new Table(main.skin);
 		Pixmap pm = new Pixmap(1, 1, Format.RGBA8888);
-	 	//pm.setColor(new Color(20/255f, 120/255f, 113/255f, 1));
 	 	pm.setColor(new Color(118/255f, 185/255f, 52/255f, 1));
 	 	pm.fillRectangle(0,0,1,1);
 	 	infoBarTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(pm))));

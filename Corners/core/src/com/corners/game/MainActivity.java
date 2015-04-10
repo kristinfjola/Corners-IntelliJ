@@ -102,9 +102,6 @@ public class MainActivity extends Game {
 	    categoryFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
 	    
 	    setUpSliderDrawables();
-	    
-	    System.out.println(settingsVolume);
-		//actionResolver.showToast("Toast example", 5000);
 	}
 
 	@Override
@@ -158,6 +155,10 @@ public class MainActivity extends Game {
 		else screenSizeGroup = "screen1080"; //900 <= screenWidth
 	}
 
+	/**
+	 * TODO
+	 * @param facebookService
+	 */
 	public void setFacebookService(FacebookService facebookService) {
 		this.facebookService = facebookService;
 	}
