@@ -26,6 +26,8 @@ public class Math extends Category{
 		type = "Math";
 		qWidth = (int) (screenWidth/3.5);
 		qHeight = (int) (screenWidth/3.5);
+		int[] mathTimes = {7, 8, 8, 7, 7, 7, 9, 9, 10, 10};
+		levelTimes = mathTimes;
 	}
 	
 	/**
