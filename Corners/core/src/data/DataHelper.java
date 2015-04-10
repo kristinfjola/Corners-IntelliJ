@@ -149,4 +149,22 @@ public class DataHelper {
 	public LevelStars getStarsByString(String category){
 		return data.getStarsByString(category);
 	}
+	
+	/**
+	 * 
+	 * @param catType
+	 * @param level
+	 * @return number of stars in a level
+	 */
+	public int getStarsOfALevel(String catType, int level){
+		return getStarsByString(catType).getStarsOfALevel(level);
+	}
+	
+	/**
+	 * @param level
+	 * @param stars
+	 */
+	public void updateStars(int level, int stars, String catType){
+		data.getStarsByString(catType).updateStars(level, stars);
+	}
 }

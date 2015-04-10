@@ -153,7 +153,7 @@ public class DialogsImpl implements Dialogs {
     		  public void onClick(DialogInterface dialog, int whichButton) {
     			  TextView text = (TextView) view.findViewById(R.id.nameInput);
     			  String newName = text.getText().toString();
-    			  if(!newName.equals("")) {
+    			  if(!newName.equals("") && !newName.equals(null)) {
     				  main.data.setName(newName);
         			  label.setText(newName);
     			  }

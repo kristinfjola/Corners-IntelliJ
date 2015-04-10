@@ -114,7 +114,7 @@ public class Play implements Screen, InputProcessor{
  	    Gdx.input.setCatchBackKey(true);
 	    time = main.skin.getFont(main.screenSizeGroup+"-M");
 	    time.setColor(Color.BLACK);
-	    maxTime = 10;
+	    maxTime = cat.getTimeForLevel(level);
 	    nrOfQuestions = 9;
 		camera = new OrthographicCamera();
  	    camera.setToOrtho(false, main.scrWidth, main.scrHeight);
@@ -444,9 +444,9 @@ public class Play implements Screen, InputProcessor{
 	public void updateStars(){
 		totalSecondsWasted += secondsPassed;
 		
-		int threeStars = 20;
-		int twoStars = 45;
-		int oneStar = 75;
+		int threeStars = 12; // 1*9 + 3 = 12 sek
+		int twoStars = 18;	// 2*9 = 18 sek
+		int oneStar = 36;	// 4*9 = 36 sek
 		
 		if(totalSecondsWasted >= threeStars && stars == 3){
 			stars = 2;
@@ -853,10 +853,10 @@ public class Play implements Screen, InputProcessor{
 	private void openNextLevel(int levelWon) {
 		if(levelWon == 9)
 			return;
-		//TODO: make a getStarsOfALevel function in DataHelper
-		int nextLevelStars = main.data.getStarsByString(cat.getType()).getStarsOfALevel(levelWon + 1);
-		if(nextLevelStars > -1)
+		int nextLevelStars = main.data.getStarsOfALevel(cat.getType(), levelWon + 1);
+		//If next level is open already, then return
+		if(nextLevelStars > -2)
 			return;
-		main.data.getStarsByString(cat.getType()).updateStars(levelWon + 1, 0);
+		main.data.updateStars(levelWon + 1, -1, cat.getType());
 	}
 }

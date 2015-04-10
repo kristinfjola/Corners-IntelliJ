@@ -93,6 +93,7 @@ public class MainActivity extends Game {
         
         fullStar = new Texture("stars/1-star.png");
 		emptyStar = new Texture("stars/0-star.png");		
+
 		settingsVolume = data.isSoundOn();
 		
 		clickedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/clicked.mp3"));

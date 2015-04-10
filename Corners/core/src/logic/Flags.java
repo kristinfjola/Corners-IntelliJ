@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import screens.Play;
-
 import boxes.Box;
 import boxes.FlagBox;
 
@@ -32,6 +30,8 @@ public class Flags extends Category{
 		type = "Flags";
 		qWidth = 120;
 		qHeight = 80;
+		int[] flagTimes = {10, 10, 9, 9, 8, 8, 7, 7, 6};
+		levelTimes = flagTimes;
 	}
 	
 	@Override

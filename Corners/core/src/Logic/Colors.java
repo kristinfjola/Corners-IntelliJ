@@ -24,8 +24,8 @@ public class Colors extends Category {
 	String[] colorNames = { "Blue", "Yellow", "Green", "Red", "Purple", "Pink", "Black",
 			"Magneta", "Maroon", "Navy", "Olive", "Orange", "Cyan",
 			"Teal", "White", "Dark gray", "Light gray" };
-	Boolean[] lightColor = {true, true, true, true, false, true, false,
-			true, true, false, false, true, true, 
+	Boolean[] lightColor = {false, true, true, true, false, true, false,
+			true, false, false, false, true, true, 
 			true, true, false, true};
 
 	BitmapFont bmFontB;
@@ -38,6 +38,8 @@ public class Colors extends Category {
 		type = "Colors";
 		qWidth = 100;
 		qHeight = 100;
+		int[] colorTimes = {10, 10, 9, 9, 8, 8, 7, 7, 6};
+		levelTimes = colorTimes;
 	}
 	
 	@Override
@@ -95,7 +97,6 @@ public class Colors extends Category {
 	/**
 	 * @param color - color of the question
 	 * @param isText - is the  question a text question
-	 * @param background - background color of the question
 	 */
 	private void generateQuestion(CorColor color, boolean isText) {
 		((ColorBox) question).setColor(color.getColor());
@@ -122,6 +123,7 @@ public class Colors extends Category {
 				rand = new Random();
 				random = rand.nextInt(colors.length);
 			}
+			
 			//State that this color is in a box.
 			alreadyAnAnswer[random] = true;
 			((ColorBox) answer).setColor(colors[random].getColor());
@@ -196,6 +198,7 @@ public class Colors extends Category {
 				}
 				alreadyAnAnswer[random] = true;
 				((ColorBox)answers.get(i)).setBackground(colors[random].getColor());
+				
 				boolean light = colors[random].getLight();
 				if(light){
 					((ColorBox)answers.get(i)).setBmFont(bmFontB);
@@ -385,7 +388,7 @@ public class Colors extends Category {
    	switch(level){
    		case 1: directions = "Swipe the color in the middle to the matching color in the corners!";
    				break;
-   		case 2: directions = "Swipe the background color in the middle to the matching color int the corners!";
+   		case 2: directions = "Swipe the background color in the middle to the matching color in the corners!";
    				break;
    		case 3: directions = "Swipe the color name in the middle to the matching color in the corners!";
 				break;

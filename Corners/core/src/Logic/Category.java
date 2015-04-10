@@ -31,6 +31,7 @@ public class Category {
     Skin skin;
     String screenSizeGroup;
     Data data = new Data();
+    int[] levelTimes;
     
     /**
      * Generates questions for level
@@ -296,5 +297,13 @@ public class Category {
 	 * Makes a new list of previously asked questions for the category
 	 */
 	public void refreshQuestions(){}
+	
+	/**
+	 * @param level
+	 * @return time for level
+	 */
+	public int getTimeForLevel(int level){
+		return levelTimes[level-1];
+	}
 	
 }

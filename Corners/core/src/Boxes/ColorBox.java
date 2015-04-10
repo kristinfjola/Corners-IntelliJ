@@ -39,7 +39,6 @@ public class ColorBox extends Box{
 	public void draw(SpriteBatch batch){
 		this.batch.begin();
 		super.draw(this.batch);
-		this.batch.setColor(this.color);
 		if(this.text != null){
 			float plusY = bmFont.getBounds(text).height+ (rec.height-bmFont.getBounds(text).height)/2;
 			float plusX = (rec.width-bmFont.getBounds(text).width)/2;
