@@ -95,7 +95,6 @@ public class Colors extends Category {
 	/**
 	 * @param color - color of the question
 	 * @param isText - is the  question a text question
-	 * @param background - background color of the question
 	 */
 	private void generateQuestion(CorColor color, boolean isText) {
 		((ColorBox) question).setColor(color.getColor());
@@ -122,6 +121,7 @@ public class Colors extends Category {
 				rand = new Random();
 				random = rand.nextInt(colors.length);
 			}
+			
 			//State that this color is in a box.
 			alreadyAnAnswer[random] = true;
 			((ColorBox) answer).setColor(colors[random].getColor());
@@ -196,6 +196,7 @@ public class Colors extends Category {
 				}
 				alreadyAnAnswer[random] = true;
 				((ColorBox)answers.get(i)).setBackground(colors[random].getColor());
+				
 				boolean light = colors[random].getLight();
 				if(light){
 					((ColorBox)answers.get(i)).setBmFont(bmFontB);
