@@ -240,7 +240,7 @@ public class Play implements Screen, InputProcessor{
 		table.reset();
 		table.top();
 		table.setFillParent(true);
-		infoBar.setLeftImage("stars/"+stars+"-stars"+".png");
+		infoBar.setLeftImages(main.getStarImgs(stars));
 		table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 	}
 	
@@ -320,7 +320,7 @@ public class Play implements Screen, InputProcessor{
 		pause();
 		if(win) {
 			String message = main.data.getName()+" says: \n";
-			if(main.character.characterGrew()) {
+			if(main.character.characterGrew() && thisLevelOldStars<=0) {
 				message += "I just grew up! Good job! \n";
 			} else if(main.character.getNrOfLevelsToNext()!=0) {
 				message += "Good job! Only "+main.character.getNrOfLevelsToNext()+" more \n";
@@ -330,20 +330,19 @@ public class Play implements Screen, InputProcessor{
 				message += "Good job! \n";
 			}
 			
+			String[] starsImgDir = main.getStarImgs(stars);
 			if(finishCat && thisLevelOldStars<=0) {
 				String title = cat.getType()+" complete!";
-				String starsImgDir = "stars/"+main.getStarAmount(stars)+".png";
 				main.dialogs.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message);
 			} else {
 				String title = "Level complete!";
-				String starsImgDir = "stars/"+main.getStarAmount(stars)+".png";
 				main.dialogs.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message);
 			}
 		} else {
 			String title = "Oh no! You lost!";
 			String message = main.data.getName()+" says: \n";
 			message += "Better luck next time! \n";
-			main.dialogs.showEndLevelDialog(title, "", "faces/sadcarl.png",message);
+			main.dialogs.showEndLevelDialog(title, new String[]{"","",""}, "faces/sadcarl.png",message);
 		}
 		Timer.schedule(getLevelsWindow(), 1);
 	}
@@ -816,7 +815,7 @@ public class Play implements Screen, InputProcessor{
 		stage.addActor(table);
 		infoBar.setMiddleText("Level "+level);
 		infoBar.setRightText("");
-		infoBar.setLeftImage("stars/3-stars.png");
+		infoBar.setLeftImages(main.getStarImgs(3));
 		infoBar.setRightImage("infoBar/pause.png");
 	 	table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 

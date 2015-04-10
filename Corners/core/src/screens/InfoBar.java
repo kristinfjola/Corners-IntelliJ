@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -31,7 +32,7 @@ public class InfoBar {
 	String leftText="";
 	String middleText="";
 	String rightText="";
-	String leftImage="infoBar/empty.png";
+	String[] leftImages = new String[]{"infoBar/empty.png","infoBar/empty.png","infoBar/empty.png"};
 	String rightImage="infoBar/empty.png";
 	
 	/**
@@ -58,7 +59,7 @@ public class InfoBar {
 	 	Button leftButton = new Button(main.skin);
 	 	Label leftLabel = new Label(leftText, main.skin, main.screenSizeGroup+"-M");
 	 	leftLabel.setAlignment(Align.center);
-	 	leftButton.stack(new Image(new Texture(leftImage)), leftLabel).expand().fill();
+	 	leftButton.stack(getStarTable(), leftLabel).expand().fill();
 	 	
 	 	Label middleLabel = new Label(middleText, main.skin, main.screenSizeGroup+"-L");
 	 	middleLabel.setAlignment(Align.center);
@@ -97,10 +98,11 @@ public class InfoBar {
 	}
 	
 	/**
-	 * @param leftImage, the image that should be in the left corner of the infoBar
+	 * @param leftImages, and array of 3 images that should be in the left corner of the infoBar,
+	 * stacked together in a triangle
 	 */
-	public void setLeftImage(String leftImage) {
-		this.leftImage = leftImage;
+	public void setLeftImages(String[] leftImages) {
+		this.leftImages = leftImages;
 	}
 	
 	/**
@@ -108,5 +110,17 @@ public class InfoBar {
 	 */
 	public void setRightImage(String rightImage) {
 		this.rightImage = rightImage;
+	}
+	
+	/**
+	 * @return table with the three images in leftImages stacked together in a triangle
+	 */
+	public Table getStarTable() {
+		Table starTable = new Table();
+	 	starTable.add(new Image(new Texture(leftImages[1]))).size(barHeight/2).colspan(2).row();
+	 	starTable.add(new Image(new Texture(leftImages[0]))).size(barHeight/2).padTop(-barHeight/6).padRight(barHeight/15);
+	 	starTable.add(new Image(new Texture(leftImages[2]))).size(barHeight/2).padTop(-barHeight/6);
+	 	
+	 	return starTable;
 	}
 }

@@ -91,8 +91,8 @@ public class MainActivity extends Game {
 		start = new Start(this);
         setScreen(start);
         
-        fullStar = new Texture("stars/star_yellow.png");
-		emptyStar = new Texture("stars/star_gray.png");		
+        fullStar = new Texture("stars/1-star.png");
+		emptyStar = new Texture("stars/0-star.png");		
 		settingsVolume = data.isSoundOn();
 		
 		clickedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/clicked.mp3"));
@@ -268,27 +268,29 @@ public class MainActivity extends Game {
 	}
 	
 	/**
-	 * Rounds stars to the nearest quarter of an integer and puts together a string
+	 * Rounds stars to the nearest quarter of an integer
 	 * @param stars
-	 * @return string that refers to the correct image based on the number stars, 
-	 * e.g. "1_75-stars"
+	 * @return array of string that refers to the correct images based on the number stars, 
+	 * e.g. stars=1.75 returns {"stars/1-star.png","stars/0_75-star.png","stars/0-star.png"}
 	 */
-	public String getStarAmount(double stars) {
-		String starAmount="";
-		
+	public String[] getStarImgs(double stars) {		
 		double starsX4 = stars*4;
 		double roundedStarsX4 = Math.round(starsX4); 
 		double roundedStars = roundedStarsX4/4;
-		int wholeStars = (int) Math.floor(roundedStars);
 		
-		starAmount+=""+wholeStars;
-		
-		if(roundedStars-wholeStars==0.25) starAmount+="_25";
-		else if(roundedStars-wholeStars==0.5) starAmount+="_5";
-		else if(roundedStars-wholeStars==0.75) starAmount+="_75";
-		
-		starAmount+="-stars";
-		
-		return starAmount;
+		String[] starDir = new String[]{"stars/","stars/","stars/"};
+		System.out.println(""+roundedStars);
+		for(int i=0; i<starDir.length; i++) {
+			if(roundedStars >= i+1) starDir[i] += "1";
+			else {
+				double dif = roundedStars-i;
+				if(dif==0.75) 		starDir[i] += "0_75";
+				else if(dif==0.5) 	starDir[i] += "0_5";				
+				else if(dif==0.25)	starDir[i] += "0_25";
+				else				starDir[i] += "0";
+			}
+			starDir[i] += "-star.png";
+		}
+		return starDir;
 	}
 }

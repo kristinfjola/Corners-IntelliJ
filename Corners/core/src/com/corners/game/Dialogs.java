@@ -41,7 +41,7 @@ public interface Dialogs {
      * @param charImgDir
      * @param message
      */
-    public void showEndLevelDialog(String title, String starsImgDir, String charImgDir, String message);
+    public void showEndLevelDialog(String title, String starsImgDir[], String charImgDir, String message);
     
     /**
      * Shows a diallog the has the title title and saves the text that the user inserts into

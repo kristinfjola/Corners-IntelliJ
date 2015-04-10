@@ -19,6 +19,7 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -162,7 +163,7 @@ public class DialogsImpl implements Dialogs {
       }
       
       @Override
-      public void showEndLevelDialog(final String title, final String starsImgDir, final String charImgDir,
+      public void showEndLevelDialog(final String title, final String starsImgDir[], final String charImgDir,
     		  String message) {
 
     	  final String[] messages = new String[3];
@@ -184,15 +185,24 @@ public class DialogsImpl implements Dialogs {
     			  LayoutInflater factory = LayoutInflater.from(appContext);
     			  final View view = factory.inflate(R.layout.popup_layout, null);
     			  
-    			  if(starsImgDir.equals("")) 
-    				  ((ImageView) view.findViewById(R.id.starsImg)).getLayoutParams().height = 0;
+    			  if(starsImgDir[0].equals(""))
+    				  ((LinearLayout) view.findViewById(R.id.starTable)).getLayoutParams().height = 0;
     			  else {
 	    			  try {
-	    				  InputStream stream = appContext.getAssets().open(starsImgDir);
-	    				  Drawable d = Drawable.createFromStream(stream, null);
-	        			  ImageView image = (ImageView) view.findViewById(R.id.starsImg);
-	        			  image.setImageDrawable(d);
+	    				  InputStream stream0 = appContext.getAssets().open(starsImgDir[0]);
+	    				  Drawable d0 = Drawable.createFromStream(stream0, null);
+	        			  ImageView image0 = (ImageView) view.findViewById(R.id.starImg0);
+	        			  image0.setImageDrawable(d0);
 	        			  
+	        			  InputStream stream1 = appContext.getAssets().open(starsImgDir[1]);
+	    				  Drawable d1 = Drawable.createFromStream(stream1, null);
+	        			  ImageView image1 = (ImageView) view.findViewById(R.id.starImg1);
+	        			  image1.setImageDrawable(d1);
+	        			  
+	        			  InputStream stream2 = appContext.getAssets().open(starsImgDir[2]);
+	    				  Drawable d2 = Drawable.createFromStream(stream2, null);
+	        			  ImageView image2 = (ImageView) view.findViewById(R.id.starImg2);
+	        			  image2.setImageDrawable(d2); 
 	    			  } catch (IOException e) {
 	    				  e.printStackTrace();
 	    			  }

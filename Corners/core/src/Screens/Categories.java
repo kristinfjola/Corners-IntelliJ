@@ -22,7 +22,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -35,7 +34,6 @@ public class Categories implements Screen {
 	private Texture carl; //the character, let's call it Carl
 	private SpriteBatch batch;
 	private MainActivity main;
-	private Skin skin;
 	Category cat;
 	private Stage stage;
 	private InputProcessor inputProcessor;
@@ -60,7 +58,6 @@ public class Categories implements Screen {
 		//addCarl();
 		carl = main.character.getCharacterImg();
 		
-		skin = main.skin;
 		this.cat = new Category();
 		
 		// Create a table that fills the screen. Everything else will go inside this table.
@@ -236,7 +233,7 @@ public class Categories implements Screen {
 		InfoBar infoBar = new InfoBar(main);
 		infoBar.setMiddleText("Categories");
 		infoBar.setRightText(tempLevels+"/27");
-		infoBar.setLeftImage("stars/"+main.getStarAmount(tempStars)+".png");
+		infoBar.setLeftImages(main.getStarImgs(tempStars));
 		table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).fill().row();
 	}
 }

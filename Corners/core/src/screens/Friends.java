@@ -137,10 +137,15 @@ public class Friends implements Screen{
 				}
 			}
 			stars = stars_hash.get(name);
-			finished_levels = levels_hash.get(name);
-			stars_image = "stars/"+main.getStarAmount(stars)+".png";
+			finished_levels = levels_hash.get(name);			
+			Table starTable = new Table();
+			String[] starAmount = main.getStarImgs(stars);
+			for (int j=0; j<starAmount.length; j++) {
+				starTable.add(new Image(new Texture(starAmount[j]))).size(main.scrWidth/18);
+			}
+			
 			table.add(new Label(""+(i+1)+". "+name+"  ("+stars+"/"+finished_levels+")", friendsStyle)).left().padLeft(main.scrWidth/24f);
-			table.add(new Image(new Texture(stars_image))).size(main.scrWidth/6).right().padRight(main.scrWidth/26f).row();
+			table.add(starTable).size(main.scrWidth/6).right().padRight(main.scrWidth/26f).row();
 			
 		}
 	}

@@ -12,12 +12,13 @@ import com.corners.game.MainActivity;
 
 public class Character {
 	
-	/**
-	 * character 0: levels 0-3
-	 * character 1: levels 4-7
-	 * character 2: levels 8-12
-	 * character 3: levels 13-19
-	 * character 4: levels 20-27
+	/*
+	 * levelsSplit = {6, 13, 20, 27}
+	 * character 0: levels 0-5
+	 * character 1: levels 6-12
+	 * character 2: levels 13-19
+	 * character 3: levels 20-26
+	 * character 4: levels 27
 	 */
 	
 	private MainActivity main;
@@ -32,7 +33,8 @@ public class Character {
 		this.main = main;
 		
 		totalLevels = 27;
-		setUpLevelsSplit(new Float[]{0.15f, 0.3f, 0.5f, 0.75f, 1f});
+		Float[] percentage = new Float[]{0.25f, 0.5f, 0.75f, 1f};
+		setUpLevelsSplit(percentage);
 		
 		imgs = new Texture[levelsSplit.length];
 		for(int i=0; i<levelsSplit.length; i++) {
@@ -43,7 +45,6 @@ public class Character {
 	/**
 	 * sets the private variable levelSplit based on the total amount of levels
 	 * the game offers
-	 * levelsSplit = {4,8,13,20,27}
 	 * @param percentage hold the amount of percentage of how many levels need 
 	 * to be finished in order to "grow up"
 	 */
@@ -70,7 +71,7 @@ public class Character {
 		for(int i=0; i<levelsSplit.length; i++) {
 			if(levelsFinished < levelsSplit[i]) return i;
 		}
-		return 4;
+		return levelsSplit.length;
 	}
 	
 	/**
@@ -88,7 +89,7 @@ public class Character {
 	public int getNrOfLevelsToNext() {
 		int characterNumber = getCharacterNumber();
 		
-		if(characterNumber == levelsSplit.length-1) return 0;
+		if(characterNumber == levelsSplit.length) return 0;
 		int levelsToNext = levelsSplit[characterNumber];
 		return levelsToNext-getLevelsFinished();
 	}
