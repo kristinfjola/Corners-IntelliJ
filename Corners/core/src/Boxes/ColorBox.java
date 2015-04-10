@@ -7,9 +7,6 @@
 package boxes;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -19,9 +16,8 @@ public class ColorBox extends Box{
 	private String name;
 	private BitmapFont bmFont;
 	private String text;
-	private Pixmap pm;
 	private Boolean light;
-
+	private SpriteBatch batch;
 
 	/**
 	 * @param width
@@ -36,29 +32,27 @@ public class ColorBox extends Box{
 		this.name = name;
 		this.bmFont = bmFont;
 		this.bmFont.setColor(Color.BLACK);
-		this.pm  = new Pixmap(width, height, Format.RGBA8888);
+		this.batch = new SpriteBatch();
 	}
-
 	
 	@Override
 	public void draw(SpriteBatch batch){
-		super.draw(batch);
-		//this.pm.setColor(this.color);
-		//pm.fill();
+		this.batch.begin();
+		super.draw(this.batch);
+		this.batch.setColor(this.color);
 		if(this.text != null){
 			float plusY = bmFont.getBounds(text).height+ (rec.height-bmFont.getBounds(text).height)/2;
 			float plusX = (rec.width-bmFont.getBounds(text).width)/2;
-			bmFont.draw(batch, text, rec.x + plusX, rec.y + plusY);
+			bmFont.draw(this.batch, text, rec.x + plusX, rec.y + plusY);
 		}
+		this.batch.end();
     }
 	
 	/**
 	 * @param color
 	 */
 	public void setBackground(Color color){
-		this.pm.setColor(color);
-		this.pm.fill();
-		setTexture(new Texture(pm));
+		this.batch.setColor(color);
 	}
 
 	/**
@@ -68,15 +62,12 @@ public class ColorBox extends Box{
 		return name;
 	}
 
-
 	/**
 	 * @param name
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
 
 	/**
 	 * @return color of box
@@ -99,14 +90,12 @@ public class ColorBox extends Box{
 		return bmFont;
 	}
 
-
 	/**
 	 * @param bmFont for box
 	 */
 	public void setBmFont(BitmapFont bmFont) {
 		this.bmFont = bmFont;
 	}
-
 
 	/**
 	 * @return text of box
@@ -115,30 +104,12 @@ public class ColorBox extends Box{
 		return text;
 	}
 
-
 	/**
 	 * @param text - for box
 	 */
 	public void setText(String text) {
 		this.text = text;
 	}
-	
-	
-	/**
-	 * @return pixmap of box
-	 */
-	public Pixmap getPm() {
-		return pm;
-	}
-
-
-	/**
-	 * @param pm - pixmap for box
-	 */
-	public void setPm(Pixmap pm) {
-		this.pm = pm;
-	}
-
 
 	/**
 	 * @return true if color is light, else false
@@ -146,7 +117,6 @@ public class ColorBox extends Box{
 	public Boolean getLight() {
 		return light;
 	}
-
 
 	/**
 	 * @param light - true if color is light, else false 
