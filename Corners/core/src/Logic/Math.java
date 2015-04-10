@@ -16,6 +16,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Array;
+import com.corners.game.MainActivity;
 
 public class Math extends Category{
 	/**
@@ -374,4 +375,14 @@ public class Math extends Category{
 			return 1;
 		}
 	}
+	
+	@Override
+	public void setDirections(MainActivity main, int level){
+   	String directions = "";
+		if(main.data.getLevelsFinished(this) == 0 && level == 1){
+			directions = "Swipe the question in the middle to the correct answer in the corners!";
+		}
+		
+		if(!directions.isEmpty()) super.showDirections(main, directions);
+   }
 }

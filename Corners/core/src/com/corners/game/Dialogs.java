@@ -31,7 +31,7 @@ public interface Dialogs {
      * @param playScreen
      * displays directions to play on playScreen
      */
-    public void showDirections(String alertBoxTitle, String alertBoxMessage, String alertBoxButtonText, Play playScreen);
+    public void showDirections(String alertBoxTitle, String alertBoxMessage, Play playScreen);
     
     /**
      * Shows a dialog with the title title, the images the directories starsImgDir and charImgDir represent

@@ -157,13 +157,11 @@ public class Levels implements Screen{
 			button.addListener(new ClickListener() {	
 				@Override
 				public void clicked (InputEvent event, float x, float y) {
+					cat.refreshQuestions();
 					main.play = new Play(main, cat, level);
 		            main.setScreen(main.play);
 		            
-		            if(main.data.getAllFinished()<1){
-		            	main.actionResolver.showDirections("Corners", "Swipe the question to the correct corner!", "Got it!", main.play);
-		            	main.play.pause();
-		            }
+		            cat.setDirections(main, level);
 				}
 			});	
 		}

@@ -5,11 +5,13 @@
  */
 package logic;
 
+import screens.Play;
 import boxes.Box;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
+import com.corners.game.MainActivity;
 
 import data.Data;
 import data.DataProcessor;
@@ -128,6 +130,25 @@ public class Category {
 	 */
     public Box checkIfHitBox() {
     	return null;
+    }
+    
+    /**
+     * @param playScreen
+     * @param level
+     * Sets directions for level
+     */
+    public void setDirections(MainActivity main, int level){
+
+    }
+    
+    /**
+     * @param playScreen
+     * @param level
+     * Sets directions for level
+     */
+    public void showDirections(MainActivity main, String directions){
+    	main.dialogs.showDirections("Corners", directions, main.play);
+    	main.play.pause();
     }
 
 	/**
@@ -271,5 +292,9 @@ public class Category {
 		return this.playScreenWidth;
 	}
 	
+	/**
+	 * Makes a new list of previously asked questions for the category
+	 */
+	public void refreshQuestions(){}
 	
 }

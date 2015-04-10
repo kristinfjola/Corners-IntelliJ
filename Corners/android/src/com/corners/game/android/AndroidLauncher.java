@@ -85,7 +85,7 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
         mainActivity.activityRequestHandler = this;
         
         dialogs = new DialogsImpl(this);
-        mainActivity.actionResolver = dialogs;
+        mainActivity.dialogs = dialogs;
         
         notifications = new NotificationsImpl(this);
         mainActivity.notificationsService = notifications;

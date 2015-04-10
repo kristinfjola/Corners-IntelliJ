@@ -227,11 +227,11 @@ public class Start implements Screen{
 					if(backJustClicked) {
 						Gdx.app.exit();
 						main.activityRequestHandler.unregisterRingerReceiver();
-						main.actionResolver.removeBackToast();
+						main.dialogs.removeBackToast();
 					}
 					else {
 						backJustClicked = true;
-						main.actionResolver.showBackToast("Press again to exit");
+						main.dialogs.showBackToast("Press again to exit");
 						Timer.schedule(updateBackJustClicked(), 3.5f);
 					}
 				}

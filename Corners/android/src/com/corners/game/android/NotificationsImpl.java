@@ -80,12 +80,16 @@ public class NotificationsImpl extends BroadcastReceiver implements Notification
 	     Intent i = new Intent(context, NotificationsImpl.class);
 	     PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
 	     
-	     // repeat at 15:00 every day
+	     // repeat at around 15:00 every day
 	     Calendar calendar = Calendar.getInstance();
 	     calendar.setTimeInMillis(System.currentTimeMillis());
-	     calendar.add(Calendar.DATE, 1);
+	     
 	     calendar.set(Calendar.HOUR_OF_DAY, 15);
 	     calendar.set(Calendar.MINUTE, 0);
+	     
+	     if(System.currentTimeMillis() > calendar.getTimeInMillis()){
+	    	 calendar.add(Calendar.DATE, 1);
+	     }
 
 	     am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
 	     //am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 10, pi);

@@ -52,7 +52,7 @@ public class MainActivity extends Game {
 	
 	// services
 	public FacebookService facebookService;
-	public Dialogs actionResolver;
+	public Dialogs dialogs;
 	public ActivityRequestHandler activityRequestHandler;
 	public Notifications notificationsService;
 	public DataHelper data;

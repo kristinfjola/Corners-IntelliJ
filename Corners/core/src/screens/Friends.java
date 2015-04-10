@@ -92,7 +92,7 @@ public class Friends implements Screen{
 		new Thread(new Runnable() {
 		   @Override
 		   public void run() {
-			   main.actionResolver.showProgressBar();
+			   main.dialogs.showProgressBar();
 			   final List<String> friends = main.facebookService.getFriendsList();
 			   final List<Integer> scores = main.facebookService.getScores();
 			   final int my_score = main.facebookService.getMyScore();
@@ -101,7 +101,7 @@ public class Friends implements Screen{
 				   @Override
 				   public void run() {
 					   showFriends(friends, scores, my_score);
-					   main.actionResolver.hideProgressBar();
+					   main.dialogs.hideProgressBar();
 				   }
 			   });
 		   }

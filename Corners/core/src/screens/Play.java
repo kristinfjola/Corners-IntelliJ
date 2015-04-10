@@ -115,7 +115,7 @@ public class Play implements Screen, InputProcessor{
 	    time = main.skin.getFont(main.screenSizeGroup+"-M");
 	    time.setColor(Color.BLACK);
 	    maxTime = 10;
-	    nrOfQuestions = 1;
+	    nrOfQuestions = 9;
 		camera = new OrthographicCamera();
  	    camera.setToOrtho(false, main.scrWidth, main.scrHeight);
  	    batch = new SpriteBatch();
@@ -333,17 +333,17 @@ public class Play implements Screen, InputProcessor{
 			if(finishCat && thisLevelOldStars<=0) {
 				String title = cat.getType()+" complete!";
 				String starsImgDir = "stars/"+main.getStarAmount(stars)+".png";
-				main.actionResolver.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message);
+				main.dialogs.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message);
 			} else {
 				String title = "Level complete!";
 				String starsImgDir = "stars/"+main.getStarAmount(stars)+".png";
-				main.actionResolver.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message);
+				main.dialogs.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message);
 			}
 		} else {
 			String title = "Oh no! You lost!";
 			String message = main.data.getName()+" says: \n";
 			message += "Better luck next time! \n";
-			main.actionResolver.showEndLevelDialog(title, "", "faces/sadcarl.png",message);
+			main.dialogs.showEndLevelDialog(title, "", "faces/sadcarl.png",message);
 		}
 		Timer.schedule(getLevelsWindow(), 1);
 	}
@@ -726,12 +726,16 @@ public class Play implements Screen, InputProcessor{
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(main.background, 0, 0, main.scrWidth, main.scrHeight);
+		batch.end();
+		batch.begin();
 		for(Box answer : cat.getAnswers()){
 			//batch.setColor(Color.RED);
 			answer.draw(batch);
 			//batch.setColor(Color.WHITE);
 		}
-		cat.getQuestion().draw(batch);	
+		cat.getQuestion().draw(batch);
+		batch.end();
+		batch.begin();
 		drawProgressBar();
 		drawNrOfQuestion();
 		batch.end();
@@ -827,17 +831,19 @@ public class Play implements Screen, InputProcessor{
 		openNextLevel(levelWon);
 		main.data.getStarsByString(cat.getType()).updateStars(levelWon, newStars);
 		main.data.saveData();
-		//save score on facebook
-		String temp_score = Double.toString(main.data.getAverageStars(cat));
-		int finished_levels = main.data.getAllFinished();
-		temp_score = temp_score.replace(".","");
-		if(temp_score.length() >= 3) {
-			temp_score = temp_score.substring(0, 3);
+		//save score on facebook if user is logged in
+		if(main.facebookService.isLoggedIn()) {
+			String temp_score = Double.toString(main.data.getAverageStars(cat));
+			int finished_levels = main.data.getAllFinished();
+			temp_score = temp_score.replace(".","");
+			if(temp_score.length() >= 3) {
+				temp_score = temp_score.substring(0, 3);
+			}
+			//format of score: stars777levels - 777 splits between stars and score
+			//facebook will only accept number as score, not string
+			String score = temp_score.substring(0, Math.min(3,temp_score.length()))+"777"+finished_levels;
+			main.facebookService.updateScore(score);
 		}
-		//format of score: stars777levels - 777 splits between stars and score
-		//facebook will only accept number as score, not string
-		String score = temp_score.substring(0, Math.min(3,temp_score.length()))+"777"+finished_levels;
-		main.facebookService.updateScore(score);
 	}
 
 	/**
