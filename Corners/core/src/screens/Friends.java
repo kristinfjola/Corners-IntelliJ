@@ -94,13 +94,18 @@ public class Friends implements Screen{
 		   public void run() {
 			   main.dialogs.showProgressBar();
 			   final List<String> friends = main.facebookService.getFriendsList();
+			   System.out.println("GOT friends list");
 			   final List<Integer> scores = main.facebookService.getScores();
+			   System.out.println("GOT friends score");
 			   final int my_score = main.facebookService.getMyScore();
+			   System.out.println("GOT my score");
 			   
 			   Gdx.app.postRunnable(new Runnable() {
 				   @Override
 				   public void run() {
+					   System.out.println("Thread calling showFriends");
 					   showFriends(friends, scores, my_score);
+					   System.out.println("showFriends finished");
 					   main.dialogs.hideProgressBar();
 				   }
 			   });
@@ -157,6 +162,7 @@ public class Friends implements Screen{
 			String stars_string = "";
 			String score = Integer.toString(friends.get(key));
 			int i = 0;
+			System.out.println("friend: " + key + " score: " + score);
 			while(!score.substring(i, i+3).equals("777")) {
 				stars_string += score.substring(i, i+1);
 				i++;

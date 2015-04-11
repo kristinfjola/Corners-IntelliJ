@@ -50,7 +50,7 @@ public class NotificationsImpl extends BroadcastReceiver implements Notification
 	public void sendNotification(Context appContext){
 		NotificationCompat.Builder mBuilder =
 		        new NotificationCompat.Builder(appContext)
-		        .setSmallIcon(R.drawable.temp)
+		        .setSmallIcon(R.drawable.logo)
 		        .setContentTitle("Corners")
 		        .setContentText("Aren't you missing Corners already?")
 		        .setAutoCancel(true)
@@ -84,7 +84,7 @@ public class NotificationsImpl extends BroadcastReceiver implements Notification
 	     Calendar calendar = Calendar.getInstance();
 	     calendar.setTimeInMillis(System.currentTimeMillis());
 	     
-	     calendar.set(Calendar.HOUR_OF_DAY, 15);
+	     calendar.set(Calendar.HOUR_OF_DAY, 14);
 	     calendar.set(Calendar.MINUTE, 0);
 	     
 	     if(System.currentTimeMillis() > calendar.getTimeInMillis()){

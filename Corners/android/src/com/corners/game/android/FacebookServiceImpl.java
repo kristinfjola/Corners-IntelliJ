@@ -87,21 +87,31 @@ public class FacebookServiceImpl implements FacebookService{
                     public void call(Session session, SessionState state, Exception exception) {
                     	System.out.println("Session state change");
                         if (session.isOpened()) {
+                        	System.out.println("session isOpened");
                             if(!session.getPermissions().contains("publish_actions")) {
+                            	System.out.println("getting permission for publish_actions");
                             	 Session.NewPermissionsRequest newPermissionsRequest = new Session
                                          .NewPermissionsRequest(androidLauncher, Arrays.asList("publish_actions"));
                                  session.requestNewPublishPermissions(newPermissionsRequest);
                             }
                             if (!session.getPermissions().contains("user_friends")) {
+                            	System.out.println("getting permission for user_friends");
                                 Session.NewPermissionsRequest newPermissionsRequest = new Session
                                         .NewPermissionsRequest(androidLauncher, Arrays.asList("user_friends"));
                                 session.requestNewReadPermissions(newPermissionsRequest);
                                 System.out.println("setting user_friends permission");
-                            } else {
-                            	System.out.println("success yeahhh");
                             }
                             new GetFacebookUserTask().execute(session);
+                        } else {
+                        	System.out.println("session NOT isOpened");
                         }
+                        List<String> permissions = session.getPermissions();
+                        System.out.println("permissions: " + permissions);
+                        /*session.refreshPermissions();
+                        List<String> permissions2 = session.getPermissions();
+                        System.out.println("permissions 2: " + permissions2);*/
+                        
+                        System.out.println("finished logging into facebook");
                     }
                 }
         );
@@ -234,21 +244,28 @@ public class FacebookServiceImpl implements FacebookService{
     
     @Override
     public List<String> getFriendsList() {
+    	System.out.println("getting friends list");
+    	System.out.println("getting session");
     	Session session = Session.getActiveSession();
+    	System.out.println("getting request");
 		Request request = Request.newGraphPathRequest(session, "me/friends", null);
+		System.out.println("getting response");
 		Response response = Request.executeAndWait(request);
 		List<String> friends = new ArrayList<String>();
 		try {
 			JSONArray data = (JSONArray) response.getGraphObject().getInnerJSONObject().get("data");
+			System.out.println("DATA: " + data);
 			for(int i = 0; i < data.length(); i++) {
 				String name = (String) data.getJSONObject(i).get("name");
 				friends.add(name);
+				System.out.println("Adding to friendslist: " + name);
 			}
 			
 		} catch (JSONException e) {
 			e.printStackTrace();
+			Log.e("fb friends list", "JSONException retrieving fb friends list");
 		}
-		
+		System.out.println("returning friends list");
 		return friends;
     }
     
@@ -279,6 +296,7 @@ public class FacebookServiceImpl implements FacebookService{
     
     @Override
     public List<Integer> getScores() {
+    	System.out.println("getting scores from friends");
     	Session session = Session.getActiveSession();
     	List<String> friends = getFriendsListIds();
     	List<Integer> scores = new ArrayList<Integer>();
