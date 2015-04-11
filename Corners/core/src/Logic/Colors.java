@@ -22,7 +22,7 @@ public class Colors extends Category {
 			Color.MAGENTA, Color.MAROON, Color.NAVY, Color.OLIVE, Color.ORANGE, Color.CYAN, 
 			Color.TEAL, Color.WHITE, Color.DARK_GRAY, Color.LIGHT_GRAY};
 	String[] colorNames = { "Blue", "Yellow", "Green", "Red", "Purple", "Pink", "Black",
-			"Magneta", "Maroon", "Navy", "Olive", "Orange", "Cyan",
+			"Magenta", "Maroon", "Navy", "Olive", "Orange", "Cyan",
 			"Teal", "White", "Dark gray", "Light gray" };
 	Boolean[] lightColor = {false, true, true, true, false, true, false,
 			true, false, false, false, true, true, 
