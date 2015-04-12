@@ -165,6 +165,8 @@ public class Friends implements Screen{
 		double stars = 0;
 		HashMap<String, Double> stars_hash = new HashMap<String, Double>();
 		for (String key : friends.keySet()) {
+			// TODO: TEMP FIX for facebook permission publish_friends
+			if(friends.get(key) == 0) continue;
 			String stars_string = "";
 			String score = Integer.toString(friends.get(key));
 			int i = 0;
@@ -191,6 +193,8 @@ public class Friends implements Screen{
 		HashMap<String, Integer> levels = new HashMap<String, Integer>();
 		for (String key : friends.keySet()) {
 			String string_levels = "";
+			// TODO: TEMP FIX for facebook permission publish_friends
+			if(friends.get(key) == 0) continue;
 			String score = Integer.toString(friends.get(key));
 			for(int i = 0; i < score.length(); i++) {
 				if(score.substring(i, i+3).equals("777")) {
