@@ -97,6 +97,12 @@ public class Friends implements Screen{
 		table.add(new Label("into facebook to see your friends!", friendsStyle)).left().padLeft(main.scrWidth/24f).row();
 	}
 	
+	public void showNoFriendsMessage(){
+		table.add(new Label("I am so terribly sorry!",friendsStyleM)).left().padTop(main.scrWidth/18f).padLeft(main.scrWidth/24f).row();
+		table.add(new Label("You don't have any Corners friends.", friendsStyle)).left().padLeft(main.scrWidth/24f).padTop(main.scrWidth/24f).row();
+		table.add(new Label("Tell your friends to play!", friendsStyle)).left().padLeft(main.scrWidth/24f).row();
+	}
+	
 	public void getInfoFromFacebookAndShow() {
 		new Thread(new Runnable() {
 		   @Override
@@ -104,6 +110,7 @@ public class Friends implements Screen{
 			   main.dialogs.showProgressBar();
 			   final List<String> friends = main.facebookService.getFriendsList();
 			   System.out.println("GOT friends list");
+			   final boolean friends_is_empty = friends.isEmpty();
 			   final List<Integer> scores = main.facebookService.getScores();
 			   System.out.println("GOT friends score");
 			   final int my_score = main.facebookService.getMyScore();
@@ -112,9 +119,10 @@ public class Friends implements Screen{
 			   Gdx.app.postRunnable(new Runnable() {
 				   @Override
 				   public void run() {
-					   System.out.println("Thread calling showFriends");
-					   showFriends(friends, scores, my_score);
-					   System.out.println("showFriends finished");
+					   if(friends_is_empty) showNoFriendsMessage();
+					   else showFriends(friends, scores, my_score);
+					   //System.out.println("Thread calling showFriends");
+					   //System.out.println("showFriends finished");
 					   main.dialogs.hideProgressBar();
 				   }
 			   });
