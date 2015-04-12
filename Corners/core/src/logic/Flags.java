@@ -62,15 +62,30 @@ public class Flags extends Category{
 	
 	@Override
 	public void setUpBoxes() {	
-		qWidth = playScreenWidth*2/7+playScreenWidth/7;
+		qWidth = playScreenWidth*2/7;
 		qHeight = playScreenHeight/8;
 		
-		int[] xcoords = {0, 0, playScreenWidth-qWidth, playScreenWidth-qWidth}; 
-		int[] ycoords = {0, playScreenHeight-qHeight, playScreenHeight-qHeight, 0};
 		bmFontM = (this.skin).getFont(this.screenSizeGroup+"-M");
 		bmFontS = (this.skin).getFont(this.screenSizeGroup+"-S");
 		//answers
- 	    answers = new Array<Box>();
+ 	    setUpAnswerBoxes();
+
+ 	    //question
+ 		question = new FlagBox(qWidth+playScreenWidth/6, qHeight, "", "", bmFontM);
+  	    question.getRec().x = screenWidth / 2 - qWidth / 2;
+  	    question.getRec().y = screenHeight / 2 - qHeight / 2;
+  	    question.setTexture(new Texture(Gdx.files.internal("mathBoxes/qBox.png")));
+	}
+	
+	/**
+	 * Sets up the answer boxes
+	 */
+	private void setUpAnswerBoxes() {
+		answers = new Array<Box>();
+		
+		int[] xcoords = {0, 0, playScreenWidth-qWidth, playScreenWidth-qWidth}; 
+		int[] ycoords = {0, playScreenHeight-qHeight, playScreenHeight-qHeight, 0};
+		
  	    for(int i = 0; i < 4; i++){
  	    	FlagBox box = new FlagBox(qWidth, qHeight, "", "", bmFontS);
  	 	    box.getRec().x = xcoords[i];
@@ -78,14 +93,8 @@ public class Flags extends Category{
  	 	  	box.setTexture(new Texture(Gdx.files.internal("mathBoxes/aBox" + (i + 1) + ".png")));
  	 	    answers.add(box);
  	    }
- 	    
- 	    //question
- 		question = new FlagBox(qWidth/*+playScreenWidth/6*/, qHeight, "", "", bmFontS);
-  	    question.getRec().x = screenWidth / 2 - qWidth / 2;
-  	    question.getRec().y = screenHeight / 2 - qHeight / 2;
-  	    question.setTexture(new Texture(Gdx.files.internal("mathBoxes/qBox.png")));
 	}
-	
+
 	public void adjustFontSize(String text, FlagBox box) {
 		if(text.length() >= 14) {
 			box.setBmFont(bmFontS);
@@ -354,6 +363,8 @@ public class Flags extends Category{
 		//Europe countries and capitals, no flags
 		Flag[] countries = getEurope();
 		
+		qWidth = playScreenWidth*2/7+playScreenWidth/7;
+		setUpAnswerBoxes();
 		int randomFlag = findRandomFlag(countries);
 		generateQuestion(countries[randomFlag], true);
 		generateAnswers(countries, true);
@@ -365,6 +376,8 @@ public class Flags extends Category{
 		//All countries flags and countries
 		Flag[] countries = getDifficultCountries();
 		
+		qWidth = playScreenWidth*2/7;
+		setUpAnswerBoxes();
 		int randomFlag = findRandomFlag(countries);
 		generateQuestion(countries[randomFlag], false);
 		generateAnswers(countries, false);
