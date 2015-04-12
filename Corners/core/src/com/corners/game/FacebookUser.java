@@ -9,6 +9,8 @@ public class FacebookUser {
 	private String id;
 	private String firstName;
 	private String fullName;
+	private boolean triedGettingPublishPermission;
+	
 	/**
 	 * @return the user's Facebook id
 	 */
@@ -47,5 +49,20 @@ public class FacebookUser {
 	 */
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
+	}
+	
+	/**
+	 * @return whether we've tried to get permission to publish on facebook
+	 */
+	public boolean isTriedGettingPublishPermission() {
+		return triedGettingPublishPermission;
+	}
+	/**
+	 * @param triedGettingPublishPermission
+	 * sets whether we've tried to get permission to publish on facebook
+	 */
+	public void setTriedGettingPublishPermission(
+			boolean triedGettingPublishPermission) {
+		this.triedGettingPublishPermission = triedGettingPublishPermission;
 	}
 }

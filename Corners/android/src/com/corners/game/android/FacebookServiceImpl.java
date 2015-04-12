@@ -50,7 +50,7 @@ import com.facebook.model.GraphObject;
 public class FacebookServiceImpl implements FacebookService{
     private final AndroidLauncher androidLauncher;
     private final UiLifecycleHelper uiHelper;
-    private FacebookUser user;
+    private FacebookUser user = new FacebookUser();
    
     public FacebookServiceImpl(AndroidLauncher androidLauncher) {
         this.androidLauncher = androidLauncher;
@@ -88,28 +88,22 @@ public class FacebookServiceImpl implements FacebookService{
                     	System.out.println("Session state change");
                         if (session.isOpened()) {
                         	System.out.println("session isOpened");
-                            if(!session.getPermissions().contains("publish_actions")) {
-                            	System.out.println("getting permission for publish_actions");
+                            if(!session.getPermissions().contains("publish_actions") && !user.isTriedGettingPublishPermission()) {
+                            	 System.out.println("getting permission for publish_actions");
                             	 Session.NewPermissionsRequest newPermissionsRequest = new Session
                                          .NewPermissionsRequest(androidLauncher, Arrays.asList("publish_actions"));
                                  session.requestNewPublishPermissions(newPermissionsRequest);
+                                 user.setTriedGettingPublishPermission(true);
                             }
                             if (!session.getPermissions().contains("user_friends")) {
-                            	System.out.println("getting permission for user_friends");
                                 Session.NewPermissionsRequest newPermissionsRequest = new Session
                                         .NewPermissionsRequest(androidLauncher, Arrays.asList("user_friends"));
                                 session.requestNewReadPermissions(newPermissionsRequest);
-                                System.out.println("setting user_friends permission");
                             }
                             new GetFacebookUserTask().execute(session);
                         } else {
                         	System.out.println("session NOT isOpened");
                         }
-                        List<String> permissions = session.getPermissions();
-                        System.out.println("permissions: " + permissions);
-                        /*session.refreshPermissions();
-                        List<String> permissions2 = session.getPermissions();
-                        System.out.println("permissions 2: " + permissions2);*/
                         
                         System.out.println("finished logging into facebook");
                     }
@@ -139,7 +133,10 @@ public class FacebookServiceImpl implements FacebookService{
 	 * removing information from Facebook about the user 
 	 */
 	public void removeUser(){
-		user = null;
+		user.setFirstName(null);
+		user.setFullName(null);
+		user.setId(null);
+		user.setTriedGettingPublishPermission(false);
 		new SetProfilePicTask().execute(user);
 	}
     
@@ -180,7 +177,7 @@ public class FacebookServiceImpl implements FacebookService{
 		Response response = Request.executeAndWait(request);
 		try{
 			JSONObject JSONuser = response.getGraphObject().getInnerJSONObject();
-			user = setUser(JSONuser);
+			setUser(JSONuser);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -190,18 +187,16 @@ public class FacebookServiceImpl implements FacebookService{
      * @param jo - JSON object representing the user's Facebook account
      * @return FacebookUser - information about the user's Facebook account
      */
-    public FacebookUser setUser(JSONObject jo){
-    	FacebookUser u = new FacebookUser();
+    public void setUser(JSONObject jo){
     	try {
-			u.setId(jo.get("id").toString());
-			u.setFirstName(jo.get("first_name").toString());
-			u.setFullName(jo.get("name").toString());
+			user.setId(jo.get("id").toString());
+			user.setFirstName(jo.get("first_name").toString());
+			user.setFullName(jo.get("name").toString());
 		} catch (JSONException e) {
 			e.printStackTrace();
 			Log.e("facebook", "could not create user");
-			u = null;
-		}
-    	return u;    	
+			removeUser();
+		}  	
     }
     
     @Override
