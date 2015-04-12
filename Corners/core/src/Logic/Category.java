@@ -32,6 +32,7 @@ public class Category {
     String screenSizeGroup;
     Data data = new Data();
     int[] levelTimes;
+    int[] starsLimits = {9, 18, 27}; // 1*9, 2*9, 3*9
     
     /**
      * Generates questions for level
@@ -304,6 +305,30 @@ public class Category {
 	 */
 	public int getTimeForLevel(int level){
 		return levelTimes[level-1];
+	}
+	
+	/**
+	 * @return the time limit for reaching 3 stars
+	 * seconds that are allowed to pass
+	 */
+	public int get3StarsTimeLimit(){
+		return starsLimits[0];
+	}
+	
+	/**
+	 * @return the time limit for reaching 2 stars
+	 * seconds that are allowed to pass
+	 */
+	public int get2StarsTimeLimit(){
+		return starsLimits[1];
+	}
+	
+	/**
+	 * @return the time limit for reaching 1 star
+	 * seconds that are allowed to pass
+	 */
+	public int get1StarTimeLimit(){
+		return starsLimits[2];
 	}
 	
 }

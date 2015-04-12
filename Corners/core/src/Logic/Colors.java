@@ -38,7 +38,7 @@ public class Colors extends Category {
 		type = "Colors";
 		qWidth = 100;
 		qHeight = 100;
-		int[] colorTimes = {10, 10, 9, 9, 8, 8, 7, 7, 6};
+		int[] colorTimes = {4, 4, 4, 4, 4, 2, 2, 3, 2};
 		levelTimes = colorTimes;
 	}
 	

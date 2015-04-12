@@ -46,6 +46,7 @@ public class Play implements Screen, InputProcessor{
 	private Stage stage;
 	private State state;
     private int level;
+    private boolean timeOver = false;
     public Dialog pauseDialog;
     
     private int questionsAnswered = 0;
@@ -198,6 +199,7 @@ public class Play implements Screen, InputProcessor{
 	 * notifies user when he looses a level
 	 */
 	public void loose(){
+		timeOver = (maxTime - secondsPassed) < 0 ? true : false;
 		setWrongProgressBar();
 		refreshProgressBar(true);
 		delayTime = true;
@@ -257,7 +259,9 @@ public class Play implements Screen, InputProcessor{
 		
 		float xCoord = main.scrWidth/2-(time.getBounds(Long.toString(timeLeft)).width)/2;
 		float yCoord = main.scrHeight-infoBar.barHeight-progressBar.getPrefHeight()*1.5f;
-		time.draw(batch, Long.toString(timeLeft), xCoord, yCoord);
+		long timeLeftDisplay = timeLeft == maxTime ? maxTime : timeLeft + 1;
+		timeLeftDisplay = timeOver ? 0 : timeLeftDisplay;
+		time.draw(batch, Long.toString(timeLeftDisplay), xCoord, yCoord);
 	}
 	
 	/**
@@ -444,9 +448,9 @@ public class Play implements Screen, InputProcessor{
 	public void updateStars(){
 		totalSecondsWasted += secondsPassed;
 		
-		int threeStars = 12; // 1*9 + 3 = 12 sek
-		int twoStars = 18;	// 2*9 = 18 sek
-		int oneStar = 36;	// 4*9 = 36 sek
+		int threeStars = cat.get3StarsTimeLimit();
+		int twoStars = cat.get2StarsTimeLimit();
+		int oneStar = cat.get1StarTimeLimit();
 		
 		if(totalSecondsWasted >= threeStars && stars == 3){
 			stars = 2;

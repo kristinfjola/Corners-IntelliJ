@@ -26,8 +26,10 @@ public class Math extends Category{
 		type = "Math";
 		qWidth = (int) (screenWidth/3.5);
 		qHeight = (int) (screenWidth/3.5);
-		int[] mathTimes = {7, 8, 8, 7, 7, 7, 9, 9, 10, 10};
+		int[] mathTimes = {4, 5, 5, 6, 6, 6, 6, 10, 10};
 		levelTimes = mathTimes;
+		int[] mathTimeLimits = {18, 27, 36}; // 2*9, 3*9, 4*9
+		starsLimits = mathTimeLimits;
 	}
 	
 	/**
@@ -223,8 +225,8 @@ public class Math extends Category{
 			str = a + " x " + b;
 		} else {
 			// /
-			int a = 1 + rand.nextInt(30);
-			int b = (1 + rand.nextInt(30)) * a;
+			int a = 1 + rand.nextInt(25);
+			int b = (1 + rand.nextInt(12)) * a;
 			ans = b / a;
 			str = b + " / " + a;
 		}
