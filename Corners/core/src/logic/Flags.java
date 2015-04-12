@@ -21,7 +21,9 @@ import com.corners.game.MainActivity;
 
 public class Flags extends Category{
 	
-	List<String> previousQuestions = new ArrayList<String>();
+	private List<String> previousQuestions = new ArrayList<String>();
+	private BitmapFont bmFontS;
+	private BitmapFont bmFontM;
 	
 	/**
 	 * 	Creates a new Flags category, delivers a question and possible answers
@@ -60,16 +62,17 @@ public class Flags extends Category{
 	
 	@Override
 	public void setUpBoxes() {	
-		qWidth = playScreenWidth*2/7;
+		qWidth = playScreenWidth*2/7+playScreenWidth/7;
 		qHeight = playScreenHeight/8;
 		
 		int[] xcoords = {0, 0, playScreenWidth-qWidth, playScreenWidth-qWidth}; 
 		int[] ycoords = {0, playScreenHeight-qHeight, playScreenHeight-qHeight, 0};
-		BitmapFont bmFont = (this.skin).getFont(this.screenSizeGroup+"-M");
+		bmFontM = (this.skin).getFont(this.screenSizeGroup+"-M");
+		bmFontS = (this.skin).getFont(this.screenSizeGroup+"-S");
 		//answers
  	    answers = new Array<Box>();
  	    for(int i = 0; i < 4; i++){
- 	    	FlagBox box = new FlagBox(qWidth, qHeight, "Hey", "Hey", bmFont);
+ 	    	FlagBox box = new FlagBox(qWidth, qHeight, "", "", bmFontS);
  	 	    box.getRec().x = xcoords[i];
  	 	  	box.getRec().y = ycoords[i];
  	 	  	box.setTexture(new Texture(Gdx.files.internal("mathBoxes/aBox" + (i + 1) + ".png")));
@@ -77,7 +80,7 @@ public class Flags extends Category{
  	    }
  	    
  	    //question
- 		question = new FlagBox(qWidth+playScreenWidth/6, qHeight, "Bla", "Bla", bmFont);
+ 		question = new FlagBox(qWidth/*+playScreenWidth/6*/, qHeight, "", "", bmFontS);
   	    question.getRec().x = screenWidth / 2 - qWidth / 2;
   	    question.getRec().y = screenHeight / 2 - qHeight / 2;
   	    question.setTexture(new Texture(Gdx.files.internal("mathBoxes/qBox.png")));
@@ -85,9 +88,10 @@ public class Flags extends Category{
 	
 	public void adjustFontSize(String text, FlagBox box) {
 		if(text.length() >= 14) {
-			BitmapFont bmFont = (this.skin).getFont(this.screenSizeGroup+"-S");
-			bmFont.setColor(Color.BLACK);
-			box.setBmFont(bmFont);
+			box.setBmFont(bmFontS);
+		}
+		else{
+			box.setBmFont(bmFontM);
 		}
 	}
 	

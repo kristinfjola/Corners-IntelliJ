@@ -16,12 +16,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -36,7 +34,6 @@ public class Start implements Screen{
 	private MainActivity main;
 	private Stage stage;
 	private SpriteBatch batch;
-	private Skin skin;
 	Category cat;
 	private Texture carl;
 	Table table;
@@ -54,7 +51,6 @@ public class Start implements Screen{
 		this.main = main;		
 		stage = new Stage();
 		batch = new SpriteBatch();
-		skin = main.skin;
 		this.cat = new Category();
 		carl = main.character.getCharacterImg();
 		Gdx.input.setInputProcessor(stage);
