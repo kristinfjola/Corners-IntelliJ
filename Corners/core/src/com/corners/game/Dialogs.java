@@ -25,6 +25,12 @@ public interface Dialogs {
     public void removeBackToast();
     
     /**
+     * displays a toast that tells the user he/she is not connected
+     * to the internet
+     */
+    public void showNotConnectedToast();
+    
+    /**
      * @param alertBoxTitle
      * @param alertBoxMessage
      * @param alertBoxButtonText

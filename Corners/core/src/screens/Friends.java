@@ -78,14 +78,23 @@ public class Friends implements Screen{
 		
 		setUpInfoBar();
 		
-		if(main.facebookService.isLoggedIn()){
+		if(!main.activityRequestHandler.isConnectedToInternet()){
+			main.dialogs.showNotConnectedToast();
+		} else if(main.facebookService.isLoggedIn()){
 			getInfoFromFacebookAndShow();
 		} else {
+			showNotLoggedIntoFacebookMessage();
+		}
+	}
+	
+	/**
+	 * displays a message that tells the user he's not logged into Facebook
+	 */
+	public void showNotLoggedIntoFacebookMessage(){
 		table.add(new Label("Oops! You're not logged into",friendsStyleM)).left().padTop(main.scrWidth/18f).padLeft(main.scrWidth/24f).row();
 		table.add(new Label("facebook!",friendsStyleM)).left().padLeft(main.scrWidth/24f).row();
 		table.add(new Label("Go to Settings on the start screen and log", friendsStyle)).left().padLeft(main.scrWidth/24f).padTop(main.scrWidth/24f).row();
 		table.add(new Label("into facebook to see your friends!", friendsStyle)).left().padLeft(main.scrWidth/24f).row();
-		}
 	}
 	
 	public void getInfoFromFacebookAndShow() {

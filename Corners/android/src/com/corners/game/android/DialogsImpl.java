@@ -254,4 +254,15 @@ public class DialogsImpl implements Dialogs {
 		  if (titleDivider != null)
 			  titleDivider.setBackgroundColor(appContext.getResources().getColor(R.color.dialog_line_color));  
       }
+
+	@Override
+	public void showNotConnectedToast() {
+		uiThread.post(new Runnable() {
+  		  public void run() {
+  			  System.out.println("showing not connected toast");
+  			  backToast = Toast.makeText(appContext, "You're not connected to the internet", Toast.LENGTH_LONG);
+  			  backToast.show();
+  		  }
+  	  });
+	}
 }

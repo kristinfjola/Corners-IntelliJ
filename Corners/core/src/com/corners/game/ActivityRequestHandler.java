@@ -16,4 +16,9 @@ public interface ActivityRequestHandler {
 	 * Unregisters the ringermode receiver
 	 */
 	public void unregisterRingerReceiver();
+	
+	/**
+	 * @return true if user is connected to the internet, else false
+	 */
+	public boolean isConnectedToInternet();
 }

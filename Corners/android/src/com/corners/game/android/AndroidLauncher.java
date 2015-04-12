@@ -11,6 +11,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import screens.Levels;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -232,5 +234,13 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
 	@Override
 	public void unregisterRingerReceiver() {
 		unregisterReceiver(ringerModeHelper);
+	}
+
+	@Override
+	public boolean isConnectedToInternet() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);		 
+		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+		boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();	
+		return isConnected;	
 	}
 }

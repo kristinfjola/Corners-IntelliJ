@@ -239,7 +239,12 @@ public class Settings implements Screen{
 		
 		if(firstTime){
 			if(main.facebookService.isLoggedIn()){
-				btnLogin = new TextButton("", skin, main.screenSizeGroup+"-L"+"-fb_logout");
+				if(main.activityRequestHandler.isConnectedToInternet()){
+					btnLogin = new TextButton("", skin, main.screenSizeGroup+"-L"+"-fb_logout");
+				} else {
+					btnLogin = new TextButton("", skin, main.screenSizeGroup+"-L"+"-fb_login");
+					main.facebookService.logOut();
+				}
 			} else {
 				btnLogin = new TextButton("", skin, main.screenSizeGroup+"-L"+"-fb_login");
 			}
@@ -356,12 +361,12 @@ public class Settings implements Screen{
 		btnLogin.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if(main.facebookService.isLoggedIn()){
-					//btnLogin.setText("Log in");
+				if(!main.activityRequestHandler.isConnectedToInternet()){
+					main.dialogs.showNotConnectedToast();
+				} else if(main.facebookService.isLoggedIn()){
 					main.facebookService.logOut();
 					changeLoginButton(true);
 				} else {
-					//btnLogin.setText("Log out");
 					main.facebookService.logIn();
 					changeLoginButton(false);
 				}
