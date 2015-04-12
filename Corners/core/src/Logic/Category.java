@@ -5,7 +5,6 @@
  */
 package logic;
 
-import screens.Play;
 import boxes.Box;
 
 import com.badlogic.gdx.Gdx;
@@ -14,8 +13,6 @@ import com.badlogic.gdx.utils.Array;
 import com.corners.game.MainActivity;
 
 import data.Data;
-import data.DataProcessor;
-import data.LevelStars;
 
 public class Category {
 	

@@ -133,9 +133,6 @@ public class Friends implements Screen{
 		
 		HashMap<String, Double> stars_hash = getStarsFromScore(friends_hash_temp);
 		HashMap<String, Integer> levels_hash = getLevelsFromScore(friends_hash_temp);
-		
-		String stars_image = "";
-		
 		HashMap<String, Double> high_score_hash = getHighscoreHash(stars_hash, levels_hash);
 		
 		List<Double> high_score = getHighScoreList(high_score_hash);
@@ -238,7 +235,7 @@ public class Friends implements Screen{
 	}
 	
 	public List<Double> getHighScoreList(HashMap<String, Double> highScoreHash) {
-		List<Double> high_score = new ArrayList(highScoreHash.values());
+		List<Double> high_score = new ArrayList<Double>(highScoreHash.values());
 		Collections.sort(high_score);
 		Collections.reverse(high_score);
 		

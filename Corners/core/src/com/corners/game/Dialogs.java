@@ -7,7 +7,6 @@ package com.corners.game;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-import logic.Category;
 import screens.Play;
 
 public interface Dialogs {

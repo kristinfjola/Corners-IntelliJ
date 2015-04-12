@@ -7,8 +7,6 @@ package com.corners.game;
 
 import java.util.List;
 
-import screens.Friends;
-
 public interface FacebookService {
 
 	/**
