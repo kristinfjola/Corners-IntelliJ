@@ -65,12 +65,14 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
 	private final int SHOW = 1;
     private final int HIDE = 0;
     protected View fbView;
+    protected View splashView;
     private ProfilePictureView profilePictureView;
     private TextView userNameView;
     RingerModeHelper ringerModeHelper;
     
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
+		System.out.println("AndroidLauncher: starting create");
 		super.onCreate(savedInstanceState);
 
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
@@ -104,6 +106,7 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
 
         LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         fbView = vi.inflate(R.layout.main, null);
+        splashView = vi.inflate(R.layout.splash, null);
         profilePictureView = (ProfilePictureView) fbView.findViewById(R.id.selection_profile_pic);
         userNameView = (TextView) fbView.findViewById(R.id.selection_user_name);
 
@@ -116,6 +119,7 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
         
         layout.addView(gameView);
         layout.addView(fbView, fbParams);
+        layout.addView(splashView, fbParams);
         showFacebook(false);
 
         // Hook it all up
@@ -135,6 +139,8 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
         Bitmap bmp=BitmapFactory.decodeResource(getResources(),R.drawable.happycarl);                                                           
         bmp=Bitmap.createScaledBitmap(bmp, 100,height, true);
         img.setImageBitmap(bmp);
+        
+        System.out.println("AndroidLauncher: finishing create");
 	}
 	
 	/**
@@ -225,6 +231,27 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
             }
         }
     };
+    
+    /**
+     * handler to show and hide splash screen
+     */
+    protected Handler splashHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch(msg.what) {
+                case SHOW:
+                {
+                    splashView.setVisibility(View.VISIBLE);
+                    break;
+                }
+                case HIDE:
+                {
+                	splashView.setVisibility(View.GONE);
+                    break;
+                }
+            }
+        }
+    };
 
 	@Override
 	public void showFacebook(boolean show) {
@@ -242,5 +269,10 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
 		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 		boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();	
 		return isConnected;	
+	}
+
+	@Override
+	public void showSplash(boolean show) {
+		splashHandler.sendEmptyMessage(show ? SHOW : HIDE);
 	}
 }

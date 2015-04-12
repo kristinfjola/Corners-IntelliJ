@@ -55,6 +55,7 @@ public class Start implements Screen{
 		carl = main.character.getCharacterImg();
 		Gdx.input.setInputProcessor(stage);
 		main.activityRequestHandler.showFacebook(false);
+		main.activityRequestHandler.showSplash(false);
 		addBackToProcessor();
 		setAllProcessors();
 		backJustClicked = false;

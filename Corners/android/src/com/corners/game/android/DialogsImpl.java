@@ -62,16 +62,12 @@ public class DialogsImpl implements Dialogs {
 			  }
 		  };
     	  
-		  LayoutInflater inflater = (LayoutInflater) appContext.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		  final View dialogLayout = inflater.inflate(R.layout.directions_layout, null);
-    	  uiThread.post(new Runnable() {
+		  uiThread.post(new Runnable() {
     		  public void run() {
     			  AlertDialog dialog = new AlertDialog.Builder(getStyle())
 	  			  	.setIcon(R.drawable.temp)
-	                  //.setTitle(alertBoxTitle)
 	  			  	.setMessage(alertBoxMessage)
 	  			  	.setNeutralButton("Got it!", onClickListener)
-	  			  	//.setView(dialogLayout)
 	  			  	.create();
 	  			  dialog.setOnDismissListener(onDismissListener);
 	  			  dialog.show();

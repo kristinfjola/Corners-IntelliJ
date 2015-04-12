@@ -13,6 +13,12 @@ public interface ActivityRequestHandler {
 	public void showFacebook(boolean show);
 	
 	/**
+	 * @param show
+	 * shows and hides splash screen
+	 */
+	public void showSplash(boolean show);
+	
+	/**
 	 * Unregisters the ringermode receiver
 	 */
 	public void unregisterRingerReceiver();
