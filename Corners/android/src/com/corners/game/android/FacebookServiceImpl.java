@@ -7,45 +7,27 @@ package com.corners.game.android;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import org.json.JSONObject;
-import org.json.JSONException;
-
-import screens.Friends;
-
 import com.facebook.Request;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.corners.game.FacebookService;
 import com.corners.game.FacebookUser;
-import com.corners.game.MainActivity;
-import com.facebook.FacebookRequestError;
-import com.facebook.Request;
-import com.facebook.RequestBatch;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.corners.game.FacebookService;
 import com.facebook.HttpMethod;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
-import com.facebook.model.GraphObject;
 
 public class FacebookServiceImpl implements FacebookService{
     private final AndroidLauncher androidLauncher;
@@ -70,7 +52,7 @@ public class FacebookServiceImpl implements FacebookService{
 	@Override
 	public FacebookUser logIn() {
 		System.out.println("logging in to facebook");
-		List permissions = new ArrayList<String>();
+		List<String> permissions = new ArrayList<String>();
         permissions.add("user_friends");
         permissions.add("user_games_activity");
         permissions.add("friends_games_activity");

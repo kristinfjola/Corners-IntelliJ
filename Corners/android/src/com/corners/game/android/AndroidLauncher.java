@@ -5,12 +5,18 @@
  */
 package com.corners.game.android;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import screens.Levels;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -23,16 +29,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.Signature;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -40,23 +39,7 @@ import com.corners.game.ActivityRequestHandler;
 import com.corners.game.FacebookUser;
 import com.corners.game.MainActivity;
 import com.facebook.AppEventsLogger;
-import com.facebook.FacebookException;
-import com.facebook.FacebookOperationCanceledException;
-import com.facebook.Session;
-import com.facebook.model.GraphUser;
-import com.facebook.widget.LoginButton;
 import com.facebook.widget.ProfilePictureView;
-import com.facebook.widget.WebDialog;
-
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.Signature;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 
 public class AndroidLauncher extends AndroidApplication implements ActivityRequestHandler {
 	protected FacebookServiceImpl facebookService;
@@ -134,7 +117,7 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
         // hax to set position of facebook login
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
-        int height = display.getHeight()/4;
+		int height = display.getHeight()/4;
         ImageView img = (ImageView)findViewById(R.id.charImg);
         Bitmap bmp=BitmapFactory.decodeResource(getResources(),R.drawable.happycarl);                                                           
         bmp=Bitmap.createScaledBitmap(bmp, 100,height, true);

@@ -8,9 +8,6 @@ package com.corners.game.android;
 import java.util.Calendar;
 
 import com.corners.game.Notifications;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
 
 import android.app.AlarmManager;
 import android.app.NotificationManager;

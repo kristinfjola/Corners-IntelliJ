@@ -832,6 +832,9 @@ public class Play implements Screen, InputProcessor{
 	public void saveStars(int newStars){
 		int levelWon = level;
 		openNextLevel(levelWon);
+		int oldStars = main.data.getStarsByLevel(levelWon, cat);
+		if(newStars < oldStars)
+			return;
 		main.data.getStarsByString(cat.getType()).updateStars(levelWon, newStars);
 		main.data.saveData();
 		//save score on facebook if user is logged in
