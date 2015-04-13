@@ -79,7 +79,7 @@ public class Play implements Screen, InputProcessor{
     // time
     private long startTime = 0;	
     private long secondsPassed;
-    private long secondsWastedInPreviousQuestions = 0;
+    private long totalSecondsWasted = 0;
     private long oldSecondsPassed = 0;
     private ProgressBar progressBar;
     private ProgressBarStyle progressBarStyle;
@@ -159,6 +159,7 @@ public class Play implements Screen, InputProcessor{
 		thisLevelOldStars = main.data.getStarsByString(cat.getType()).getStarsOfALevel(level);
 		saveStars(stars);
 		questionsAnswered = 0;
+		totalSecondsWasted = 0;
 		setCorrectProgressBar();
 		
 		if(level < maxNumLevels) { 
@@ -231,6 +232,7 @@ public class Play implements Screen, InputProcessor{
 		startQuestion();
 		setNormalProgressBar();
 		refreshProgressBar(false);	
+		updateStarsInfoBar();
 	}
 	
 	/**
@@ -276,7 +278,6 @@ public class Play implements Screen, InputProcessor{
 	 */
 	public void displayRightAnswerAndGetNewQuestion(){
 		oldSecondsPassed = 0;
-		secondsWastedInPreviousQuestions += secondsPassed;
 		setCorrectProgressBar();
 		refreshProgressBar(true);
 		delayTime = true;
@@ -287,6 +288,7 @@ public class Play implements Screen, InputProcessor{
 		    	delayTime = false;
 		    }
 		}, 1);
+		updateStars();
 		main.correctAnswerSound.play(main.volume);
 	}
 	
@@ -444,7 +446,7 @@ public class Play implements Screen, InputProcessor{
 	 * calculates stars for finishing the level within the time limit 
 	 */
 	public void updateStars(){
-		long totalSecondsWasted = secondsWastedInPreviousQuestions + secondsPassed;
+		totalSecondsWasted += secondsPassed;
 		
 		int threeStars = cat.get3StarsTimeLimit();
 		int twoStars = cat.get2StarsTimeLimit();
@@ -457,8 +459,6 @@ public class Play implements Screen, InputProcessor{
 		} else if(totalSecondsWasted >= oneStar && stars == 1){
 			stars = 0;
 		}
-		
-		System.out.println("total : " + totalSecondsWasted);
 	}
 	
 	@Override
@@ -715,9 +715,6 @@ public class Play implements Screen, InputProcessor{
 		if(secondsPassed > progressBar.getMaxValue()){
 			loose();
 		}
-		
-		updateStars();
-		updateStarsInfoBar();
 	}
 	
 	/**
