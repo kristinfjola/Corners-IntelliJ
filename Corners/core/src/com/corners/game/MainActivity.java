@@ -293,4 +293,17 @@ public class MainActivity extends Game {
 		}
 		return starDir;
 	}
-}
+	
+	public void updateScoreOnFacebook() {
+		String temp_score = Double.toString(data.getAverageStars(cat));
+		int finished_levels = data.getAllFinished();
+		temp_score = temp_score.replace(".","");
+		if(temp_score.length() >= 3) {
+			temp_score = temp_score.substring(0, 3);
+		}
+		//format of score: stars777levels - 777 splits between stars and score
+		//facebook will only accept number as score, not string
+		String score = temp_score.substring(0, Math.min(3,temp_score.length()))+"777"+finished_levels;
+		facebookService.updateScore(score);
+	}
+ }

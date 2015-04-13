@@ -840,16 +840,7 @@ public class Play implements Screen, InputProcessor{
 		main.data.saveData();
 		//save score on facebook if user is logged in
 		if(main.facebookService.isLoggedIn()) {
-			String temp_score = Double.toString(main.data.getAverageStars(cat));
-			int finished_levels = main.data.getAllFinished();
-			temp_score = temp_score.replace(".","");
-			if(temp_score.length() >= 3) {
-				temp_score = temp_score.substring(0, 3);
-			}
-			//format of score: stars777levels - 777 splits between stars and score
-			//facebook will only accept number as score, not string
-			String score = temp_score.substring(0, Math.min(3,temp_score.length()))+"777"+finished_levels;
-			main.facebookService.updateScore(score);
+			main.updateScoreOnFacebook();
 		}
 	}
 
