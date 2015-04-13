@@ -193,7 +193,6 @@ public class Friends implements Screen{
 				String stars_string = "";
 				String score = Integer.toString(friends.get(key));
 				int i = 0;
-				System.out.println("friend: " + key + " score: " + score);
 				while(!score.substring(i, i+3).equals("777")) {
 					stars_string += score.substring(i, i+1);
 					i++;
