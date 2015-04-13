@@ -284,6 +284,11 @@ public class Play implements Screen, InputProcessor{
 		Timer.schedule(new Task(){
 		    @Override
 		    public void run() {
+		    	touchUp = false;
+		    	swipeQuestion = false;
+		    	moveQuestionToStartPos();
+		    	lockPos = false;
+		    	
 		    	getNewQuestion();
 		    	delayTime = false;
 		    }
