@@ -128,7 +128,7 @@ public class Levels implements Screen{
 		TextButton button;
 		
 		if(stars[level] > -2) {
-			button = new TextButton(""+level, main.skin, main.screenSizeGroup+"-L"+"-level-yellow");
+			button = new TextButton(""+level, main.skin, main.screenSizeGroup+"-L"+"-level");
 			button.addListener(new ClickListener() {	
 				@Override
 				public void clicked (InputEvent event, float x, float y) {

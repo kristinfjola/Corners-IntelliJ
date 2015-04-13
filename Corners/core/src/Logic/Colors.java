@@ -18,18 +18,18 @@ import com.corners.game.MainActivity;
 
 public class Colors extends Category {
 
-	Color[] colorColors = {Color.BLUE, Color.YELLOW, Color.GREEN, Color.RED,  Color.PURPLE, Color.PINK, Color.BLACK,
+	private Color[] colorColors = {Color.BLUE, Color.YELLOW, Color.GREEN, Color.RED,  Color.PURPLE, Color.PINK, Color.BLACK,
 			Color.MAGENTA, Color.MAROON, Color.NAVY, Color.OLIVE, Color.ORANGE, Color.CYAN, 
 			Color.TEAL, Color.WHITE, Color.DARK_GRAY, Color.LIGHT_GRAY};
-	String[] colorNames = { "Blue", "Yellow", "Green", "Red", "Purple", "Pink", "Black",
+	private String[] colorNames = { "Blue", "Yellow", "Green", "Red", "Purple", "Pink", "Black",
 			"Magenta", "Maroon", "Navy", "Olive", "Orange", "Cyan",
 			"Teal", "White", "Dark gray", "Light gray" };
-	Boolean[] lightColor = {false, true, true, true, false, true, false,
+	private Boolean[] lightColor = {false, true, true, true, false, true, false,
 			true, false, false, false, true, true, 
 			true, true, false, true};
 
-	BitmapFont bmFontB;
-	BitmapFont bmFontW;
+	private BitmapFont bmFontB;
+	private BitmapFont bmFontW;
 	
 	/**
 	 * 	Creates a new Colors category, delivers a question and possible answers
@@ -46,15 +46,31 @@ public class Colors extends Category {
 	public void setUpBoxes() {
 		qWidth = playScreenWidth/4 + playScreenWidth/30;
 		qHeight = playScreenHeight/6;
-		int[] xcoords = {0, 0, playScreenWidth-qWidth, playScreenWidth-qWidth}; 
-		int[] ycoords = {0, playScreenHeight-qHeight, playScreenHeight-qHeight, 0}; 
 
+		//Get fonts
 		bmFontB = (this.skin).getFont(this.screenSizeGroup+"-M-Black");
 		bmFontB.setColor(Color.BLACK);
 		bmFontW = (this.skin).getFont(this.screenSizeGroup+"-M-White");
 		bmFontW.setColor(Color.WHITE);
+		
 		//answers
- 	    answers = new Array<Box>();
+ 	    setUpAnswerBoxes();
+ 	    
+ 	    //question
+ 		question = new ColorBox(qWidth + playScreenWidth/10, qHeight, Color.WHITE, "nafn", bmFontB);
+  	    question.getRec().x = screenWidth / 2 - qWidth / 2;
+  	    question.getRec().y = screenHeight / 2 - qHeight / 2;
+  	    question.setTexture(new Texture(Gdx.files.internal("colorBoxes/qBox.png")));
+	}
+	
+	/**
+	 * Set up the answer boxes
+	 */
+	private void setUpAnswerBoxes(){
+		int[] xcoords = {0, 0, playScreenWidth-qWidth, playScreenWidth-qWidth}; 
+		int[] ycoords = {0, playScreenHeight-qHeight, playScreenHeight-qHeight, 0}; 
+		
+		answers = new Array<Box>();
  	    for(int i = 0; i < 4; i++){ 	    	
  	    	ColorBox box = new ColorBox(qWidth, qHeight, Color.WHITE, "nafn", bmFontB);
  	 	    box.getRec().x = xcoords[i];
@@ -62,12 +78,6 @@ public class Colors extends Category {
  	 	  	box.setTexture(new Texture(Gdx.files.internal("colorBoxes/aBox"+(i+1)+".png")));
  	 	    answers.add(box);
  	    }
- 	    
- 	    //question
- 		question = new ColorBox(qWidth + playScreenWidth/10, qHeight, Color.WHITE, "nafn", bmFontB);
-  	    question.getRec().x = screenWidth / 2 - qWidth / 2;
-  	    question.getRec().y = screenHeight / 2 - qHeight / 2;
-  	    question.setTexture(new Texture(Gdx.files.internal("colorBoxes/qBox.png")));
 	}
 	
 	@Override
@@ -156,6 +166,12 @@ public class Colors extends Category {
 			((ColorBox) answers.get(randomBox)).setText(color.getName());
 	}
 	
+	/**
+	 * Changes the question box to a new color names or new background
+	 * @param color
+	 * @param changeBackground
+	 * @param changeText
+	 */
 	private void generateTrickQuestion(CorColor color, boolean changeBackground, boolean changeText){
 		Random rand = new Random();
 		int randomBox = rand.nextInt(4);
@@ -163,8 +179,9 @@ public class Colors extends Category {
 			rand = new Random();
 			randomBox = rand.nextInt(4);
 		}
-		 
+		
 		boolean light = ((ColorBox) question).getLight();
+		
 		if(changeBackground){
 			Color background = ((ColorBox)answers.get(randomBox)).getColor();
 			light = ((ColorBox)answers.get(randomBox)).getLight();
@@ -175,6 +192,8 @@ public class Colors extends Category {
 			((ColorBox) question).setText(name);
 			light = ((ColorBox) question).getLight();
 		}
+		
+		//Set the color of the text
 		if(light){
 			((ColorBox) question).setBmFont(bmFontB);
 		}
@@ -183,6 +202,13 @@ public class Colors extends Category {
 		}
 	}
 	
+	/**
+	 * Changes the answer boxes to new backgrounds og new color names
+	 * @param colors
+	 * @param color
+	 * @param changeBackground
+	 * @param changeText
+	 */
 	private void generateTrickAnswers(CorColor[] colors, CorColor color, Boolean changeBackground, Boolean changeText){
 		boolean[] alreadyAnAnswer = new boolean[colors.length];
 		
@@ -191,6 +217,7 @@ public class Colors extends Category {
 			for(int i = 0; i < 4; i++){
 				Random rand = new Random();
 				int random = rand.nextInt(colors.length);
+				
 				//Check if this color is already in a box
 				while(alreadyAnAnswer[random]){
 					rand = new Random();
@@ -200,6 +227,8 @@ public class Colors extends Category {
 				((ColorBox)answers.get(i)).setBackground(colors[random].getColor());
 				
 				boolean light = colors[random].getLight();
+				
+				//Set the color of the text
 				if(light){
 					((ColorBox)answers.get(i)).setBmFont(bmFontB);
 				}
@@ -213,6 +242,7 @@ public class Colors extends Category {
 			for(int i = 0; i < 4; i++){
 				Random rand = new Random();
 				int random = rand.nextInt(colors.length);
+				
 				//Check if this color is already in a box
 				while(alreadyAnAnswer[random]){
 					rand = new Random();
@@ -261,7 +291,7 @@ public class Colors extends Category {
 
 	@Override
 	public void generate2ndLevelQuestions() {
-		//Random background, text to color,
+		//Colored background on question, random name on question
 		CorColor[] questions = getColors(7);
 		Random rand = new Random();
 		int randomColor = rand.nextInt(questions.length);
@@ -274,7 +304,6 @@ public class Colors extends Category {
 	
 	@Override
 	public void generate3rdLevelQuestions() {
-		//Background to text on answers, random backgrounds on answers
 		CorColor[] questions = getColors(13);
 		Random rand = new Random();
 		int randomColor = rand.nextInt(questions.length);
@@ -287,35 +316,32 @@ public class Colors extends Category {
 	
 	@Override
 	public void generate4thLevelQuestions() {
-		//
 		CorColor[] questions = getColors(13);
 		Random rand = new Random();
 		int randomColor = rand.nextInt(questions.length);
 
 		generateQuestion(questions[randomColor], true);
-		generateAnswers(questions, true); //texti á svörin
-		generateCorrectAnswer(questions[randomColor], true); //Setja eitt rétt svar, og setja textann á það
-		generateTrickQuestion(questions[randomColor], true, false); //breyta bakgrunni á spurningu á spurningu
-		generateTrickAnswers(questions, questions[randomColor], false, true); //breyta texta á spurningum
+		generateAnswers(questions, true); 
+		generateCorrectAnswer(questions[randomColor], true); 
+		generateTrickQuestion(questions[randomColor], true, false); 
+		generateTrickAnswers(questions, questions[randomColor], false, true); 
 	}
 	
 	@Override
 	public void generate5thLevelQuestions() {
-		//White background, random text, color of text to color
 		CorColor[] questions = getColors(17);
 		Random rand = new Random();
 		int randomColor = rand.nextInt(questions.length);
 
 		generateQuestion(questions[randomColor], true);
-		generateAnswers(questions, true); //texti á svörin
-		generateCorrectAnswer(questions[randomColor], true); //Setja eitt rétt svar, og setja textann á það
-		generateTrickQuestion(questions[randomColor], false, true); //breyta texta á spurningu
-		generateTrickAnswers(questions, questions[randomColor], true, false); //breyta bakgrunni á spurningum
+		generateAnswers(questions, true); 
+		generateCorrectAnswer(questions[randomColor], true); 
+		generateTrickQuestion(questions[randomColor], false, true); 
+		generateTrickAnswers(questions, questions[randomColor], true, false);
 	}
 	
 	@Override
 	public void generate6thLevelQuestions() {
-		//Colored background, colored text, 
 		CorColor[] questions = getColors(-1);
 		Random rand = new Random();
 		int randomColor = rand.nextInt(questions.length);
@@ -328,30 +354,28 @@ public class Colors extends Category {
 	
 	@Override
 	public void generate7thLevelQuestions() {
-		//
 		CorColor[] questions = getColors(-1);
 		Random rand = new Random();
 		int randomColor = rand.nextInt(questions.length);
 
 		generateQuestion(questions[randomColor], true);
-		generateAnswers(questions, true); //texti á svörin
-		generateCorrectAnswer(questions[randomColor], true); //Setja eitt rétt svar, og setja textann á það
-		generateTrickQuestion(questions[randomColor], true, false); //breyta bakgrunni á spurningu á spurningu
-		generateTrickAnswers(questions, questions[randomColor], false, true); //breyta texta á spurningum
+		generateAnswers(questions, true); 
+		generateCorrectAnswer(questions[randomColor], true); 
+		generateTrickQuestion(questions[randomColor], true, false); 
+		generateTrickAnswers(questions, questions[randomColor], false, true);
 	}
 	
 	@Override
 	public void generate8thLevelQuestions() {
-
 		CorColor[] questions = getColors(-1);
 		Random rand = new Random();
 		int randomColor = rand.nextInt(questions.length);
 
 		generateQuestion(questions[randomColor], true);
-		generateAnswers(questions, true); //texti á svörin
-		generateCorrectAnswer(questions[randomColor], true); //Setja eitt rétt svar, og setja textann á það
-		generateTrickQuestion(questions[randomColor], false, true); //breyta texta á spurningu
-		generateTrickAnswers(questions, questions[randomColor], true, false); //breyta bakgrunni á spurningum
+		generateAnswers(questions, true); 
+		generateCorrectAnswer(questions[randomColor], true);
+		generateTrickQuestion(questions[randomColor], false, true);
+		generateTrickAnswers(questions, questions[randomColor], true, false);
 	}
 
 	@Override
@@ -362,10 +386,10 @@ public class Colors extends Category {
 		int randomColor = rand.nextInt(questions.length);
 
 		generateQuestion(questions[randomColor], true);
-		generateAnswers(questions, true); //texti á svörin
-		generateCorrectAnswer(questions[randomColor], true); //Setja eitt rétt svar, og setja textann á það
-		generateTrickQuestion(questions[randomColor], false, true); //breyta texta á spurningu
-		generateTrickAnswers(questions, questions[randomColor], true, false); //breyta bakgrunni á spurningum
+		generateAnswers(questions, true); 
+		generateCorrectAnswer(questions[randomColor], true); 
+		generateTrickQuestion(questions[randomColor], false, true); 
+		generateTrickAnswers(questions, questions[randomColor], true, false);
 	}
 	
 	/**

@@ -22,7 +22,6 @@ public class Flags extends Category{
 	
 	private List<String> previousQuestions = new ArrayList<String>();
 	private BitmapFont bmFontS;
-	private BitmapFont bmFontM;
 	
 	/**
 	 * 	Creates a new Flags category, delivers a question and possible answers
@@ -65,6 +64,7 @@ public class Flags extends Category{
 		qHeight = playScreenHeight/8;
 		
 		bmFontS = (this.skin).getFont(this.screenSizeGroup+"-S");
+		
 		//answers
  	    setUpAnswerBoxes();
 
@@ -93,17 +93,13 @@ public class Flags extends Category{
  	    }
 	}
 
-	public void adjustFontSize(String text, FlagBox box) {
-		if(text.length() >= 14) {
-			box.setBmFont(bmFontS);
-		}
-		else{
-			box.setBmFont(bmFontM);
-		}
-	}
-	
-	public String replaceAndInString(String stringBefore) {
-		return (stringBefore.contains(" and ")) ? stringBefore.replace(" and ",  " & ") : stringBefore;
+	/**
+	 * Replaces and with & in a country name
+	 * @param stringBefore
+	 * @return
+	 */
+	public String replaceAndInString(String oldString) {
+		return (oldString.contains(" and ")) ? oldString.replace(" and ",  " & ") : oldString;
 	}
 
 	
@@ -123,7 +119,6 @@ public class Flags extends Category{
 			quest = replaceAndInString(quest);
 			((FlagBox) question).setText(quest);
 		}
-		//adjustFontSize(quest, (FlagBox) question);
 		previousQuestions.add(country.getCountry());
 	}
 	
@@ -150,7 +145,6 @@ public class Flags extends Category{
 				String answ = flags[random].getCountry();
 				answ = replaceAndInString(answ);
 				((FlagBox) answer).setText(answ);
-				//adjustFontSize(answ, (FlagBox) answer);
 			} else {
 				((FlagBox) answer).setTexture(new Texture(Gdx.files.internal("flags/"+flags[random].getFlag())));
 		
@@ -176,7 +170,6 @@ public class Flags extends Category{
 			String answ = country.getCountry();
 			answ = replaceAndInString(answ);
 			((FlagBox) answers.get(randomBox)).setText(answ);
-			//adjustFontSize(answ, (FlagBox) answers.get(randomBox));
 		} else {
 			((FlagBox) answers.get(randomBox)).setTexture(new Texture(Gdx.files.internal("flags/"+country.getFlag())));
 		}
@@ -277,17 +270,6 @@ public class Flags extends Category{
 		return flags;
 	}
 
-	@Override
-	public void generate1stLevelQuestions(){
-		//Scandinavian + easy europe flags + name question
-		Flag[] countries = getScandinaviaAndEasyEurope();
-
-		int randomFlag = findRandomFlag(countries);
-		generateQuestion(countries[randomFlag], false);
-		generateAnswers(countries, false);
-		generateCorrectAnswer(countries[randomFlag], false);
-	}
-	
 	/**
 	 * @param countries
 	 * @return a random flag that has not been used already in current level
@@ -299,6 +281,17 @@ public class Flags extends Category{
 			randomFlag = rand.nextInt(countries.length);
 		}
 		return randomFlag;
+	}
+	
+	@Override
+	public void generate1stLevelQuestions(){
+		//Scandinavian + easy europe flags + name question
+		Flag[] countries = getScandinaviaAndEasyEurope();
+
+		int randomFlag = findRandomFlag(countries);
+		generateQuestion(countries[randomFlag], false);
+		generateAnswers(countries, false);
+		generateCorrectAnswer(countries[randomFlag], false);
 	}
 	
 	@Override
@@ -363,6 +356,7 @@ public class Flags extends Category{
 		
 		qWidth = playScreenWidth*2/6;
 		setUpAnswerBoxes();
+		
 		int randomFlag = findRandomFlag(countries);
 		generateQuestion(countries[randomFlag], true);
 		generateAnswers(countries, true);
@@ -374,8 +368,6 @@ public class Flags extends Category{
 		//All countries flags and countries
 		Flag[] countries = getDifficultCountries();
 		
-		qWidth = playScreenWidth*2/7;
-		setUpAnswerBoxes();
 		int randomFlag = findRandomFlag(countries);
 		generateQuestion(countries[randomFlag], false);
 		generateAnswers(countries, false);

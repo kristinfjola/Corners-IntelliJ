@@ -366,16 +366,16 @@ public class Play implements Screen, InputProcessor{
 			String[] starsImgDir = main.getStarImgs(stars);
 			if(finishCat && thisLevelOldStars<=0) {
 				String title = cat.getType()+" complete!";
-				main.dialogs.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", messages);
+				main.dialogService.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", messages);
 			} else {
 				String title = "Level complete!";
-				main.dialogs.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", messages);
+				main.dialogService.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", messages);
 			}
 		} else {
 			String title = "Oh no! You lost!";
 			String[] messages = new String[]{main.data.getName()+" says:", "", ""};
 			messages[1] = "Better luck next time!";
-			main.dialogs.showEndLevelDialog(title, new String[]{"","",""}, "faces/sadcarl.png", messages);
+			main.dialogService.showEndLevelDialog(title, new String[]{"","",""}, "faces/sadcarl.png", messages);
 		}
 		Timer.schedule(getLevelsWindow(), 1);
 	}

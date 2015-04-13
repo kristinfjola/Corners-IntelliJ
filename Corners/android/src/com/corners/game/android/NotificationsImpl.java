@@ -1,7 +1,7 @@
 /**
  * @author Kristin Fjola Tomasdottir
  * @date 	26.03.2015
- * @goal 	Handles the notifications for the game
+ * @goal 	Handles and displays the notifications for the game
  */
 package com.corners.game.android;
 
@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 public class NotificationsImpl extends BroadcastReceiver implements Notifications{    
 	int mId = 0;
@@ -34,9 +35,7 @@ public class NotificationsImpl extends BroadcastReceiver implements Notification
     	 PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
          PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
          wl.acquire();
-
          sendNotification(context);
-
          wl.release();
     }
 	
@@ -67,38 +66,34 @@ public class NotificationsImpl extends BroadcastReceiver implements Notification
 		NotificationManager mNotificationManager =
 		    (NotificationManager) appContext.getSystemService(Context.NOTIFICATION_SERVICE);
 		mNotificationManager.notify(mId, mBuilder.build());
-		System.out.println("notification notified");
+		Log.i("notifications", "notification sent");
 	}
 
 	@Override
 	public void setNotifications() {
-		 System.out.println("setting alarm");
+		Log.i("notifications", "setting notifications on");
 		 AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 	     Intent i = new Intent(context, NotificationsImpl.class);
 	     PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
 	     
-	     // repeat at around 15:00 every day
+	     // repeat at around 14:00 every day
 	     Calendar calendar = Calendar.getInstance();
 	     calendar.setTimeInMillis(System.currentTimeMillis());
-	     
 	     calendar.set(Calendar.HOUR_OF_DAY, 14);
 	     calendar.set(Calendar.MINUTE, 0);
-	     
 	     if(System.currentTimeMillis() > calendar.getTimeInMillis()){
 	    	 calendar.add(Calendar.DATE, 1);
 	     }
 
 	     am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
-	     //am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 10, pi);
 	}
 	
 	@Override
 	public void cancelNotifications() {
-		System.out.println("canceling alarm");
+		Log.i("notifications", "canceling notifications");
 		Intent intent = new Intent(context, NotificationsImpl.class);
 	    PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
 	    AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 	    alarmManager.cancel(sender);
 	}
-
 }

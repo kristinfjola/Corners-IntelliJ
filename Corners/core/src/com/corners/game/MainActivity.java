@@ -1,8 +1,7 @@
 /**
  * @author: Edda Bjork Konradsdottir
  * @date: 	05.02.2015
- * @goal: 	The activity for the game, keeps track of which screen
- * 			to show
+ * @goal: 	The activity for the game, keeps track of which screen to show
  */
 
 package com.corners.game;
@@ -30,30 +29,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import data.DataHelper;
 
 public class MainActivity extends Game {
-	public float scrWidth;
-	public float scrHeight;
-	
+	// screens
 	public Categories categories;
 	public Levels levels;
 	public Play play;
 	public Settings settings;
 	public Start start;
-	
-	public Skin skin;
-	public String screenSizeGroup;
-	public Category cat;
-	public Character character;
-	
-	public Texture fullStar;
-	public Texture emptyStar;
-	public Texture background;
 	public Friends friends;
-	public FacebookUser user;
 	
 	// services
 	public FacebookService facebookService;
-	public Dialogs dialogs;
-	public ActivityRequestHandler activityRequestHandler;
+	public Dialogs dialogService;
+	public ActivityRequestHandler requestService;
 	public Notifications notificationsService;
 	public DataHelper data;
 	
@@ -67,20 +54,29 @@ public class MainActivity extends Game {
     public Sound levelFinishedSound;
     public Sound categoryFinishedSound;
 	
-    // sound slider drawables
+    // images
     public Drawable backgroundOn;
 	public Drawable backgroundOff;
 	public Drawable knob;
+	public Texture fullStar;
+	public Texture emptyStar;
+	public Texture background;
+	
+	// various
+	public Skin skin;
+	public String screenSizeGroup;
+	public float scrWidth;
+	public float scrHeight;
+	public Category cat;
+	public Character character;
+	public FacebookUser user;
 	
 	@Override
 	/** Method called once when the application is created. **/
 	public void create () {
-		System.out.println("MainActivity: starting create");
 		scrWidth = Gdx.graphics.getWidth();
 		scrHeight= Gdx.graphics.getHeight();
-		System.out.println("MainActivity: 1");
 		skin = getSkin();
-		System.out.println("MainActivity: 2");
 		initScreenSizeGroup();
 		this.cat = new Category();
 		this.data = new DataHelper();
@@ -90,29 +86,12 @@ public class MainActivity extends Game {
 		updateVolume();
 		setNotifications();
 		facebookService.showFacebookUser();
-		
-		System.out.println("MainActivity: 3");
-		
-		start = new Start(this);
-        setScreen(start);
-        
-        System.out.println("MainActivity: 4");
-        
-        fullStar = new Texture("stars/1-star.png");
-		emptyStar = new Texture("stars/0-star.png");		
-
-		settingsVolume = data.isSoundOn();
-		
-		clickedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/clicked.mp3"));
-		correctAnswerSound = Gdx.audio.newSound(Gdx.files.internal("sounds/correctAnswer.mp3"));
-	    wrongAnswerSound = Gdx.audio.newSound(Gdx.files.internal("sounds/wrongAnswer.mp3"));
-	    levelFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
-	    categoryFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
-	    
-	    System.out.println("MainActivity: 5");
-	    
+		setUpStars();
+		setUpSounds();
 	    setUpSliderDrawables();
-	    System.out.println("MainActivity: finishing create");
+	    
+	    start = new Start(this);
+        setScreen(start);
 	}
 
 	@Override
@@ -144,7 +123,6 @@ public class MainActivity extends Game {
 	
 	/**
 	 * Gets the skin
-	 * 
 	 * @return the skin from skins.json
 	 */
 	public Skin getSkin() {
@@ -164,14 +142,6 @@ public class MainActivity extends Game {
 		else if(510 <= screenWidth && screenWidth < 630) screenSizeGroup = "screen540";
 		else if(630 <= screenWidth && screenWidth < 900) screenSizeGroup = "screen720";
 		else screenSizeGroup = "screen1080"; //900 <= screenWidth
-	}
-
-	/**
-	 * TODO
-	 * @param facebookService
-	 */
-	public void setFacebookService(FacebookService facebookService) {
-		this.facebookService = facebookService;
 	}
 	
 	/**
@@ -290,7 +260,6 @@ public class MainActivity extends Game {
 		double roundedStars = roundedStarsX4/4;
 		
 		String[] starDir = new String[]{"stars/","stars/","stars/"};
-		System.out.println(""+roundedStars);
 		for(int i=0; i<starDir.length; i++) {
 			if(roundedStars >= i+1) starDir[i] += "1";
 			else {
@@ -305,6 +274,9 @@ public class MainActivity extends Game {
 		return starDir;
 	}
 	
+	/**
+	 * updates the current score on facebook
+	 */
 	public void updateScoreOnFacebook() {
 		String temp_score = Double.toString(data.getAllAverageStars());
 		int finished_levels = data.getAllFinished();
@@ -316,5 +288,25 @@ public class MainActivity extends Game {
 		//facebook will only accept number as score, not string
 		String score = temp_score.substring(0, Math.min(3,temp_score.length()))+"777"+finished_levels;
 		facebookService.updateScore(score);
+	}
+	
+	/**
+	 * initializes all the sounds that are used for the game
+	 */
+	public void setUpSounds(){
+		settingsVolume = data.isSoundOn();
+		clickedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/clicked.mp3"));
+		correctAnswerSound = Gdx.audio.newSound(Gdx.files.internal("sounds/correctAnswer.mp3"));
+	    wrongAnswerSound = Gdx.audio.newSound(Gdx.files.internal("sounds/wrongAnswer.mp3"));
+	    levelFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
+	    categoryFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
+	}
+	
+	/**
+	 * initializes the stars images for the game
+	 */
+	public void setUpStars(){
+		fullStar = new Texture("stars/1-star.png");
+		emptyStar = new Texture("stars/0-star.png");	
 	}
  }

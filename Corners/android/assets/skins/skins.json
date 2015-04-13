@@ -39,13 +39,13 @@
     },
 
     "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
-    	"default": { "font": screen540-L, "up": "levelButtonYellow", "fontColor": black },
+    	"default": { "font": screen540-L, "up": "levelButton", "fontColor": black },
 
-        "screen320-L-level-yellow": { "font": screen320-L, "up": "levelButtonYellow", "fontColor": black},
-    	"screen480-L-level-yellow": { "font": screen480-L, "up": "levelButtonYellow", "fontColor": black},
-        "screen540-L-level-yellow": { "font": screen540-L, "up": "levelButtonYellow", "fontColor": black},
-        "screen720-L-level-yellow": { "font": screen720-L, "up": "levelButtonYellow", "fontColor": black},
-        "screen1080-L-level-yellow": { "font": screen1080-L, "up": "levelButtonYellow", "fontColor": black},
+        "screen320-L-level": { "font": screen320-L, "up": "levelButton", "fontColor": black},
+    	"screen480-L-level": { "font": screen480-L, "up": "levelButton", "fontColor": black},
+        "screen540-L-level": { "font": screen540-L, "up": "levelButton", "fontColor": black},
+        "screen720-L-level": { "font": screen720-L, "up": "levelButton", "fontColor": black},
+        "screen1080-L-level": { "font": screen1080-L, "up": "levelButton", "fontColor": black},
         
         "screen320-L-level-grey": { "font": screen320-L, "up": "levelButtonGrey", "fontColor": black},
     	"screen480-L-level-grey": { "font": screen480-L, "up": "levelButtonGrey", "fontColor": black},

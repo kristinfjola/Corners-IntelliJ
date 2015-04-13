@@ -4,8 +4,5 @@
     <string name="app_name">Corners</string>
     <string name="facebook_app_id">948335645184499</string>
     <string name="app_id">948335645184499</string>
-    <string name="login">Login</string>
-    <string name="instructions">Login to create a link to fetch account data</string>
-    <string name="logout">Log out</string>
 
 </resources>

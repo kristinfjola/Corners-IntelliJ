@@ -12,9 +12,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MathBox extends Box{
 
-	int number;
-	BitmapFont bmFont;
-	String text;
+	private int number;
+	private BitmapFont bmFont;
+	private String text;
 	
 	/**
 	 * @param width	- width of box
@@ -24,10 +24,8 @@ public class MathBox extends Box{
 	public MathBox(int width, int height, int number, String text, BitmapFont bmFont){
 		super(width, height);
 		this.number = number;
-		
 		this.bmFont = bmFont;
 		this.bmFont.setColor(Color.BLACK);
-		
 		this.text = text;
 	}
 	
@@ -48,13 +46,13 @@ public class MathBox extends Box{
 
 	/**
 	 * @param number
+	 * set's the answer for the box
 	 */
 	public void setNumber(int number) {
 		this.number = number;
 	}
 
 	/**
-	 * 
 	 * @return the text of the box
 	 */
 	public String getText() {
@@ -62,12 +60,10 @@ public class MathBox extends Box{
 	}
 
 	/**
-	 * 
 	 * @param text
+	 * set's the text for the box
 	 */
 	public void setText(String text) {
 		this.text = text;
 	}
-	
-	
 }

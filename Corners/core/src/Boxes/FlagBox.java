@@ -41,28 +41,28 @@ public class FlagBox extends Box{
     }
 
 	/**
-	 * @return Bitmap of box
+	 * @return BitmapFont of box
 	 */
 	public BitmapFont getBmFont() {
 		return bmFont;
 	}
 
 	/**
-	 * @param bmFont
+	 * @param bmFont - BitmapFont of box
 	 */
 	public void setBmFont(BitmapFont bmFont) {
 		this.bmFont = bmFont;
 	}
 
 	/**
-	 * @return text of box
+	 * @return text on box
 	 */
 	public String getText() {
 		return text;
 	}
 
 	/**
-	 * @param text
+	 * @param text - new text on box
 	 */
 	public void setText(String text) {
 		this.text = text;
@@ -76,7 +76,7 @@ public class FlagBox extends Box{
 	}
 
 	/**
-	 * @param country
+	 * @param country - country of the box
 	 */
 	public void setCountry(String country) {
 		this.country = country;
@@ -92,7 +92,7 @@ public class FlagBox extends Box{
 
 	/**
 	 * 
-	 * @param capital
+	 * @param capital - capital of the box
 	 */
 	public void setCapital(String capital) {
 		this.capital = capital;

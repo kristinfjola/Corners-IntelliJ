@@ -28,36 +28,39 @@ public class Flag {
 	public String getCountry() {
 		return country;
 	}
+	
 	/**
-	 * @param country
+	 * @param country - the country of the Flag
 	 */
 	public void setCountry(String country) {
 		this.country = country;
 	}
+	
 	/**
 	 * @return Capital of the country of the Flag
 	 */
 	public String getCapital() {
 		return capital;
 	}
+	
 	/**
-	 * @param capital
+	 * @param capital - the capital of the flag
 	 */
 	public void setCapital(String capital) {
 		this.capital = capital;
 	}
+	
 	/**
 	 * @return Flag of the country
 	 */
 	public String getFlag() {
 		return flag;
 	}
+	
 	/**
 	 * @param flag - of the country
 	 */
 	public void setFlag(String flag) {
 		this.flag = flag;
 	}
-	
-	
 }

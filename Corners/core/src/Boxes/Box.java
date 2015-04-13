@@ -12,10 +12,10 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Box {
 
-	Rectangle rec;
-	int screenWidth = Gdx.graphics.getWidth();
-    int screenHeight = Gdx.graphics.getHeight();
-    Texture texture;
+	public Rectangle rec;
+	private int screenWidth;
+    private int screenHeight;
+    private Texture texture;
     
     /**
 	 * @param width	- width of box
@@ -25,6 +25,9 @@ public class Box {
     	this.rec = new Rectangle();
 		this.rec.width = width;
 		this.rec.height = height;
+		
+		this.screenWidth = Gdx.graphics.getWidth();
+		this.screenHeight = Gdx.graphics.getHeight();
     }
     
     /**

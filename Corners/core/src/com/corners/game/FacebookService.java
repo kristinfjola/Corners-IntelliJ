@@ -10,7 +10,7 @@ import java.util.List;
 public interface FacebookService {
 
 	/**
-	 * @return true if user is logged in to Facebook
+	 * @return true if user is logged in to Facebook, else false
 	 */
 	public boolean isLoggedIn();
 	
@@ -46,7 +46,7 @@ public interface FacebookService {
 	public String getUserName();
 	
 	/**
-	 * updates the score on facebook - score is the new score
+	 * updates the score on facebook - param-score is the new score
 	 * 
 	 * @param score 
 	 */

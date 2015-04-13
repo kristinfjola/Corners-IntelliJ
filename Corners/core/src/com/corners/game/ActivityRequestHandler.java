@@ -1,7 +1,7 @@
 /**
  * @author Kristin Fjola Tomasdottir
  * @date 	13.05.15
- * @goal 	Handles requests for the Android layout
+ * @goal 	Handles requests for native Android functionality
  */
 package com.corners.game;
 

@@ -1,8 +1,8 @@
 /**
  * @author 	Steinunn Fridgeirsdottir
  * @date 	05.02.2015
- * @goal 	Settings will be the class for the screen where that the user can change the settings of the game 
- * 			Has no functionality so far.
+ * @goal 	Settings will be the class for the screen where that the user can change 
+ * 			the settings of the game and log in to facebook
  */
 package screens;
 
@@ -34,31 +34,28 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.corners.game.MainActivity;
 
-
 public class Settings implements Screen{
 
-	MainActivity main;
-	Skin skin;
-	Stage stage;
-	SpriteBatch batch;
-	Category cat;
-	
+	private MainActivity main;
+	private Skin skin;
+	private Stage stage;
+	private SpriteBatch batch;
+	private Category cat;
 	private InputProcessor inputProcessor;
-	Table table;
+	private Table table;
 	
 	//Setting up the view
-	LabelStyle settingsStyle;
-	LabelStyle settingsStyleRight;
-	Label labelLogin;
-	float pad;
-	Slider soundSlider;
-	SliderStyle soundSliderStyle;
-	int soundSliderValue;
-	Label nameLabel;
-	TextButton btnLogin;
-	Slider notificationsSlider;
-	SliderStyle notificationsSliderStyle;
-	int notificationsSliderValue;
+	private LabelStyle settingsStyle;
+	private LabelStyle settingsStyleRight;
+	private float pad;
+	private Slider soundSlider;
+	private SliderStyle soundSliderStyle;
+	private int soundSliderValue;
+	private Label nameLabel;
+	private TextButton btnLogin;
+	private Slider notificationsSlider;
+	private SliderStyle notificationsSliderStyle;
+	private int notificationsSliderValue;
 	
 	/**
 	 * Constructor that sets the private variables and starts the screen
@@ -73,7 +70,7 @@ public class Settings implements Screen{
 		this.cat = new Category();
 		addBackToProcessor();
 		setAllProcessors();
-		main.activityRequestHandler.showFacebook(true);
+		main.requestService.showFacebook(true);
 		
 		settingsStyle = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-M"), Color.BLACK);
 		settingsStyleRight = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-M"), new Color(45/255f,45/255f,45/255f,1));
@@ -85,7 +82,6 @@ public class Settings implements Screen{
 		table = new Table();
 		table.top();
 		table.setFillParent(true);
-		
 		stage.addActor(table);
 		
 		setUpInfoBar();
@@ -96,7 +92,7 @@ public class Settings implements Screen{
 	}
 	
 	/**
-	 * refreshes all components in table for screen
+	 * Refreshes all components in table for screen
 	 */
 	public void refreshTable(){
 		table.reset();
@@ -132,20 +128,16 @@ public class Settings implements Screen{
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
-		
 	}
 
 	@Override
-	public void pause() {		
-	}
+	public void pause() {}
 
 	@Override
-	public void resume() {		
-	}
+	public void resume() {}
 
 	@Override
-	public void hide() {		
-	}
+	public void hide() {}
 
 	/**
 	 * Disposes the screen
@@ -238,8 +230,10 @@ public class Settings implements Screen{
 		Label labelFb = new Label("Facebook", settingsStyle);	
 		
 		if(firstTime){
+			// firstTime is false if the user pressed the login button
+			// firstTime is true if the user just opened the settings screen
 			if(main.facebookService.isLoggedIn()){
-				if(main.activityRequestHandler.isConnectedToInternet()){
+				if(main.requestService.isConnectedToInternet()){
 					btnLogin = new TextButton("", skin, main.screenSizeGroup+"-L"+"-fb_logout");
 				} else {
 					btnLogin = new TextButton("", skin, main.screenSizeGroup+"-L"+"-fb_login");
@@ -353,7 +347,6 @@ public class Settings implements Screen{
 		table.add(img).size(lineWidth,1).left().pad(0).padLeft(padLeft).row();
 	}
 	
-	
 	/**
 	 * Set's a listener for the Facebook login
 	 */
@@ -361,8 +354,8 @@ public class Settings implements Screen{
 		btnLogin.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if(!main.activityRequestHandler.isConnectedToInternet()){
-					main.dialogs.showNotConnectedToast();
+				if(!main.requestService.isConnectedToInternet()){
+					main.dialogService.showNotConnectedToast();
 				} else if(main.facebookService.isLoggedIn()){
 					main.facebookService.logOut();
 					changeLoginButton(true);
@@ -377,15 +370,13 @@ public class Settings implements Screen{
 									   if(main.facebookService.isLoggedIn()) {
 										 //update score on facebook
 											main.updateScoreOnFacebook();
-											
 											changeLoginButton(false);
 									   }
 								   }
 							   });
 						   }
-						}).start();
+					}).start();
 				}
-				
 			}
 		});
 	}
@@ -459,7 +450,6 @@ public class Settings implements Screen{
 					notificationsSlider.setValue((int)Math.round(notificationsSlider.getValue()));
 					notificationsSliderValue = (int)notificationsSlider.getValue();
 				}
-				System.out.println("notifications db: " + main.data.isNotificationOn());
 			}
 			
 			@Override
@@ -485,7 +475,7 @@ public class Settings implements Screen{
 		ClickListener listener = new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				main.dialogs.showCharNameDialog("Enter your character's name", main, nameLabel);
+				main.dialogService.showCharNameDialog("Enter your character's name", main, nameLabel);
 				super.touchUp(event, x, y, pointer, button);
 			}
 		};

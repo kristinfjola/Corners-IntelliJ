@@ -48,7 +48,7 @@ public class ColorBox extends Box{
     }
 	
 	/**
-	 * @param color
+	 * @param color - new background color of the box 
 	 */
 	public void setBackground(Color color){
 		this.batch.setColor(color);
@@ -62,7 +62,7 @@ public class ColorBox extends Box{
 	}
 
 	/**
-	 * @param name
+	 * @param name - new color name of the color
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -104,7 +104,7 @@ public class ColorBox extends Box{
 	}
 
 	/**
-	 * @param text - for box
+	 * @param text - new text on box
 	 */
 	public void setText(String text) {
 		this.text = text;

@@ -1,7 +1,7 @@
 /**
  * @author Kristin Fjola Tomasdottir
  * @date 	12.03.15
- * @goal 	Various native Android features
+ * @goal 	Various pop-up dialogs and toasts to display
  */
 package com.corners.game;
 
@@ -30,11 +30,11 @@ public interface Dialogs {
     public void showNotConnectedToast();
     
     /**
+     * Displays directions to play a level on playScreen
      * @param alertBoxTitle
      * @param alertBoxMessage
      * @param alertBoxButtonText
      * @param playScreen
-     * displays directions to play on playScreen
      */
     public void showDirections(String alertBoxTitle, String alertBoxMessage, Play playScreen);
     
@@ -57,7 +57,13 @@ public interface Dialogs {
      */
     public void showCharNameDialog(String title, MainActivity main, Label label);
             
+    /**
+     * Shows a loading progress bar when waiting for something
+     */
     public void showProgressBar();
     
+    /**
+     * Hides a loading progress bar when waiting for something
+     */
     public void hideProgressBar();
 }
