@@ -44,7 +44,7 @@ public class Colors extends Category {
 	
 	@Override
 	public void setUpBoxes() {
-		qWidth = playScreenWidth/3;
+		qWidth = playScreenWidth/4 + playScreenWidth/30;
 		qHeight = playScreenHeight/6;
 		int[] xcoords = {0, 0, playScreenWidth-qWidth, playScreenWidth-qWidth}; 
 		int[] ycoords = {0, playScreenHeight-qHeight, playScreenHeight-qHeight, 0}; 
@@ -64,7 +64,7 @@ public class Colors extends Category {
  	    }
  	    
  	    //question
- 		question = new ColorBox(qWidth + playScreenWidth/12, qHeight, Color.WHITE, "nafn", bmFontB);
+ 		question = new ColorBox(qWidth + playScreenWidth/10, qHeight, Color.WHITE, "nafn", bmFontB);
   	    question.getRec().x = screenWidth / 2 - qWidth / 2;
   	    question.getRec().y = screenHeight / 2 - qHeight / 2;
   	    question.setTexture(new Texture(Gdx.files.internal("colorBoxes/qBox.png")));

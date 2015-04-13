@@ -64,13 +64,12 @@ public class Flags extends Category{
 		qWidth = playScreenWidth*2/7;
 		qHeight = playScreenHeight/8;
 		
-		bmFontM = (this.skin).getFont(this.screenSizeGroup+"-M");
 		bmFontS = (this.skin).getFont(this.screenSizeGroup+"-S");
 		//answers
  	    setUpAnswerBoxes();
 
  	    //question
- 		question = new FlagBox(qWidth+playScreenWidth/6, qHeight, "", "", bmFontM);
+ 		question = new FlagBox(qWidth+playScreenWidth/14, qHeight, "", "", bmFontS);
   	    question.getRec().x = screenWidth / 2 - qWidth / 2;
   	    question.getRec().y = screenHeight / 2 - qHeight / 2;
   	    question.setTexture(new Texture(Gdx.files.internal("mathBoxes/qBox.png")));
@@ -124,7 +123,7 @@ public class Flags extends Category{
 			quest = replaceAndInString(quest);
 			((FlagBox) question).setText(quest);
 		}
-		adjustFontSize(quest, (FlagBox) question);
+		//adjustFontSize(quest, (FlagBox) question);
 		previousQuestions.add(country.getCountry());
 	}
 	
@@ -151,7 +150,7 @@ public class Flags extends Category{
 				String answ = flags[random].getCountry();
 				answ = replaceAndInString(answ);
 				((FlagBox) answer).setText(answ);
-				adjustFontSize(answ, (FlagBox) answer);
+				//adjustFontSize(answ, (FlagBox) answer);
 			} else {
 				((FlagBox) answer).setTexture(new Texture(Gdx.files.internal("flags/"+flags[random].getFlag())));
 		
@@ -177,7 +176,7 @@ public class Flags extends Category{
 			String answ = country.getCountry();
 			answ = replaceAndInString(answ);
 			((FlagBox) answers.get(randomBox)).setText(answ);
-			adjustFontSize(answ, (FlagBox) answers.get(randomBox));
+			//adjustFontSize(answ, (FlagBox) answers.get(randomBox));
 		} else {
 			((FlagBox) answers.get(randomBox)).setTexture(new Texture(Gdx.files.internal("flags/"+country.getFlag())));
 		}
@@ -195,7 +194,7 @@ public class Flags extends Category{
 				 "Greece", "Spain", "Austria", "Belgium", "Ireland", "Italy", "Luxembourg", "Netherlands", 
 				 "Portugal", "Switzerland", "Scotland", "Wales", "Vatican City", "Andorra", "San Marino",
 				 // ^ western europe 26
-				 "Albania", "Belarus", "Bosnia and Herzegovina",
+				 "Albania", "Belarus", "Bosnia and Herz",
 				 "Bulgaria", "Croatia", "Czech Republic", "Estonia", "Gibraltar", "Hungary", "Kosovo", "Latvia",
 				 "Liechtenstein", "Lithuania", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", 
 				 "Poland", "Romania", "Russia", "Serbia", "Slovakia", "Slovenia", "Ukraine", "Armenia",
@@ -362,7 +361,7 @@ public class Flags extends Category{
 		//Europe countries and capitals, no flags
 		Flag[] countries = getEurope();
 		
-		qWidth = playScreenWidth*2/7+playScreenWidth/7;
+		qWidth = playScreenWidth*2/6;
 		setUpAnswerBoxes();
 		int randomFlag = findRandomFlag(countries);
 		generateQuestion(countries[randomFlag], true);
