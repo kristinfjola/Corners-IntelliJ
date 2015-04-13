@@ -43,69 +43,60 @@ import com.facebook.widget.ProfilePictureView;
 
 public class AndroidLauncher extends AndroidApplication implements ActivityRequestHandler {
 	protected FacebookServiceImpl facebookService;
-	DialogsImpl dialogs;
-	NotificationsImpl notifications;
+	private DialogsImpl dialogs;
+	private NotificationsImpl notifications;
+	private RingerModeHelper ringerModeHelper;
 	private final int SHOW = 1;
     private final int HIDE = 0;
     protected View fbView;
     protected View splashView;
     private ProfilePictureView profilePictureView;
     private TextView userNameView;
-    RingerModeHelper ringerModeHelper;
     
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
-		System.out.println("AndroidLauncher: starting create");
 		super.onCreate(savedInstanceState);
 
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useAccelerometer = false;
         cfg.useCompass = false;
         cfg.useWakelock = true;
-        
-        //checkKeyHash();
 
         facebookService = new FacebookServiceImpl(this);
         facebookService.onCreate(savedInstanceState);      
         MainActivity mainActivity = new MainActivity();
-        mainActivity.setFacebookService(facebookService);  
-        mainActivity.activityRequestHandler = this;
+        mainActivity.facebookService = facebookService;  
+        mainActivity.requestService = this;
         
         dialogs = new DialogsImpl(this);
-        mainActivity.dialogs = dialogs;
+        mainActivity.dialogService = dialogs;
         
         notifications = new NotificationsImpl(this);
         mainActivity.notificationsService = notifications;
 
-        // -----    two layouts to include facebook ------
+        // three layouts to display facebook info and splash screen
         RelativeLayout layout = new RelativeLayout(this);
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
         View gameView = initializeForView(mainActivity);
-
         LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         fbView = vi.inflate(R.layout.main, null);
         splashView = vi.inflate(R.layout.splash, null);
         profilePictureView = (ProfilePictureView) fbView.findViewById(R.id.selection_profile_pic);
         userNameView = (TextView) fbView.findViewById(R.id.selection_user_name);
-
         
-        RelativeLayout.LayoutParams fbParams = 
-            new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, 
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-        fbParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        fbParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+        		RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         
         layout.addView(gameView);
-        layout.addView(fbView, fbParams);
-        layout.addView(splashView, fbParams);
+        layout.addView(fbView, params);
+        layout.addView(splashView, params);
         showFacebook(false);
-
-        // Hook it all up
         setContentView(layout);
 
         // sound
@@ -119,11 +110,9 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
         Display display = wm.getDefaultDisplay();
 		int height = display.getHeight()/4;
         ImageView img = (ImageView)findViewById(R.id.charImg);
-        Bitmap bmp=BitmapFactory.decodeResource(getResources(),R.drawable.happycarl);                                                           
-        bmp=Bitmap.createScaledBitmap(bmp, 100,height, true);
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(),R.drawable.happycarl);                                                           
+        bmp = Bitmap.createScaledBitmap(bmp, 100,height, true);
         img.setImageBitmap(bmp);
-        
-        System.out.println("AndroidLauncher: finishing create");
 	}
 	
 	/**
@@ -197,7 +186,7 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
     /**
      * handler to show and hide Facebook info
      */
-    protected Handler handler = new Handler() {
+    protected Handler facebookHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch(msg.what) {
@@ -238,7 +227,7 @@ public class AndroidLauncher extends AndroidApplication implements ActivityReque
 
 	@Override
 	public void showFacebook(boolean show) {
-		handler.sendEmptyMessage(show ? SHOW : HIDE);
+		facebookHandler.sendEmptyMessage(show ? SHOW : HIDE);
 	}
 	
 	@Override

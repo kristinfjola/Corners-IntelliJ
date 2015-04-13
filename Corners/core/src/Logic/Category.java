@@ -146,7 +146,7 @@ public class Category {
      * Sets directions for level
      */
     public void showDirections(MainActivity main, String directions){
-    	main.dialogs.showDirections("Corners", directions, main.play);
+    	main.dialogService.showDirections("Corners", directions, main.play);
     	main.play.pause();
     }
 

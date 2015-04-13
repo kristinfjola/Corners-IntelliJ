@@ -54,8 +54,8 @@ public class Start implements Screen{
 		this.cat = new Category();
 		carl = main.character.getCharacterImg();
 		Gdx.input.setInputProcessor(stage);
-		main.activityRequestHandler.showFacebook(false);
-		main.activityRequestHandler.showSplash(false);
+		main.requestService.showFacebook(false);
+		main.requestService.showSplash(false);
 		addBackToProcessor();
 		setAllProcessors();
 		backJustClicked = false;
@@ -223,12 +223,12 @@ public class Start implements Screen{
 				if(keycode == Keys.BACK){
 					if(backJustClicked) {
 						Gdx.app.exit();
-						main.activityRequestHandler.unregisterRingerReceiver();
-						main.dialogs.removeBackToast();
+						main.requestService.unregisterRingerReceiver();
+						main.dialogService.removeBackToast();
 					}
 					else {
 						backJustClicked = true;
-						main.dialogs.showBackToast("Press again to exit");
+						main.dialogService.showBackToast("Press again to exit");
 						Timer.schedule(updateBackJustClicked(), 3.5f);
 					}
 				}

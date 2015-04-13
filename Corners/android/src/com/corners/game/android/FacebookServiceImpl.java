@@ -51,7 +51,7 @@ public class FacebookServiceImpl implements FacebookService{
 
 	@Override
 	public FacebookUser logIn() {
-		System.out.println("logging in to facebook");
+		Log.i("facebook", "logging in");
 		List<String> permissions = new ArrayList<String>();
         permissions.add("user_friends");
         permissions.add("user_games_activity");
@@ -67,11 +67,11 @@ public class FacebookServiceImpl implements FacebookService{
                     // callback when session changes state
                     @Override
                     public void call(Session session, SessionState state, Exception exception) {
-                    	System.out.println("Session state change");
+                    	Log.i("facebook", "session state change");
                         if (session.isOpened()) {
-                        	System.out.println("session isOpened");
+                        	Log.i("facebook", "session isOpened");
                             if(!session.getPermissions().contains("publish_actions") && !user.isTriedGettingPublishPermission()) {
-                            	 System.out.println("getting permission for publish_actions");
+                            	 Log.i("facebook", "getting permission for publish_actions");
                             	 Session.NewPermissionsRequest newPermissionsRequest = new Session
                                          .NewPermissionsRequest(androidLauncher, Arrays.asList("publish_actions"));
                                  session.requestNewPublishPermissions(newPermissionsRequest);
@@ -84,10 +84,9 @@ public class FacebookServiceImpl implements FacebookService{
                             }
                             new GetFacebookUserTask().execute(session);
                         } else {
-                        	System.out.println("session NOT isOpened");
+                        	Log.i("facebook", "session was open");
                         }
-                        
-                        System.out.println("finished logging into facebook");
+                        Log.i("facebook", "finished logging into facebook");
                     }
                 }
         );
@@ -97,7 +96,7 @@ public class FacebookServiceImpl implements FacebookService{
 	@Override
 	public void logOut() {
 		 if (isLoggedIn()) {
-			System.out.println("logging out of facebook");
+			Log.i("facebook", "logging out");
             Session.getActiveSession().closeAndClearTokenInformation();
             removeUser();
         }
@@ -162,6 +161,7 @@ public class FacebookServiceImpl implements FacebookService{
 			setUser(JSONuser);
 		} catch (Exception e) {
 			e.printStackTrace();
+			Log.e("facebook", "could not read JSONuser");
 		}
     }
     
@@ -276,7 +276,6 @@ public class FacebookServiceImpl implements FacebookService{
     		boolean is_score = false;
     		Request request = Request.newGraphPathRequest(session, id+"/scores", null);
     		Response response = Request.executeAndWait(request);
-    		System.out.println(response);
     		try {
     			JSONArray data = (JSONArray) response.getGraphObject().getInnerJSONObject().get("data");
     			if(data.length() != 0) {
@@ -309,7 +308,6 @@ public class FacebookServiceImpl implements FacebookService{
     	Session session = Session.getActiveSession();
     	Request request = Request.newGraphPathRequest(session, "me/scores", null);
 		Response response = Request.executeAndWait(request);
-		System.out.println(response);
 		try {
 			JSONArray data = (JSONArray) response.getGraphObject().getInnerJSONObject().get("data");
 			if(data.length() != 0) {
@@ -340,13 +338,11 @@ public class FacebookServiceImpl implements FacebookService{
     	    HttpMethod.POST,
     	    new Request.Callback() {
     	        public void onCompleted(Response response) {
-    	            System.out.println("update response: "+response);
+    	        	Log.i("facebook", "updating score");
     	        }
     	    }
     	);
-    	
     	Response response = updateScores.executeAndWait();
-    	System.out.println("update scores response: "+response);
     }
     
     /**
@@ -356,6 +352,6 @@ public class FacebookServiceImpl implements FacebookService{
     	Session session = Session.getActiveSession();
 		Request request = Request.newGraphPathRequest(session, "me/permissions", null);
 		Response response = Request.executeAndWait(request);
-		System.out.println("permission: "+ response);
+		Log.i("facebook", "permission: "+ response);
     }
 }

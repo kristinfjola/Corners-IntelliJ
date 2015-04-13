@@ -15,22 +15,13 @@
 	        android:orientation="vertical"
 	        android:layout_weight="1"
 	        >
-	         <!-- 
-		    <com.facebook.widget.LoginButton
-	            android:id="@+id/login_button"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                 android:layout_marginTop="150dp"
-	            />
-			 -->
-	            
 	            
 			<ImageView
-        android:contentDescription="@+strings/app_name"
-        android:id="@+id/charImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"/>
+		        android:contentDescription="@+strings/app_name"
+		        android:id="@+id/charImg"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:visibility="invisible"/>
 	</LinearLayout>
 	
      

@@ -78,8 +78,8 @@ public class Friends implements Screen{
 		
 		setUpInfoBar();
 		
-		if(!main.activityRequestHandler.isConnectedToInternet()){
-			main.dialogs.showNotConnectedToast();
+		if(!main.requestService.isConnectedToInternet()){
+			main.dialogService.showNotConnectedToast();
 		} else if(main.facebookService.isLoggedIn()){
 			getInfoFromFacebookAndShow();
 		} else {
@@ -107,7 +107,7 @@ public class Friends implements Screen{
 		new Thread(new Runnable() {
 		   @Override
 		   public void run() {
-			   main.dialogs.showProgressBar();
+			   main.dialogService.showProgressBar();
 			   final List<String> friends = main.facebookService.getFriendsList();
 			   System.out.println("GOT friends list");
 			   final boolean friends_is_empty = friends.isEmpty();
@@ -123,7 +123,7 @@ public class Friends implements Screen{
 					   else showFriends(friends, scores, my_score);
 					   //System.out.println("Thread calling showFriends");
 					   //System.out.println("showFriends finished");
-					   main.dialogs.hideProgressBar();
+					   main.dialogService.hideProgressBar();
 				   }
 			   });
 		   }

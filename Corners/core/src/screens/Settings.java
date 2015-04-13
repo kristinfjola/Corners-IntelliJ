@@ -73,7 +73,7 @@ public class Settings implements Screen{
 		this.cat = new Category();
 		addBackToProcessor();
 		setAllProcessors();
-		main.activityRequestHandler.showFacebook(true);
+		main.requestService.showFacebook(true);
 		
 		settingsStyle = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-M"), Color.BLACK);
 		settingsStyleRight = new LabelStyle(main.skin.getFont(main.screenSizeGroup+"-M"), new Color(45/255f,45/255f,45/255f,1));
@@ -239,7 +239,7 @@ public class Settings implements Screen{
 		
 		if(firstTime){
 			if(main.facebookService.isLoggedIn()){
-				if(main.activityRequestHandler.isConnectedToInternet()){
+				if(main.requestService.isConnectedToInternet()){
 					btnLogin = new TextButton("", skin, main.screenSizeGroup+"-L"+"-fb_logout");
 				} else {
 					btnLogin = new TextButton("", skin, main.screenSizeGroup+"-L"+"-fb_login");
@@ -361,8 +361,8 @@ public class Settings implements Screen{
 		btnLogin.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if(!main.activityRequestHandler.isConnectedToInternet()){
-					main.dialogs.showNotConnectedToast();
+				if(!main.requestService.isConnectedToInternet()){
+					main.dialogService.showNotConnectedToast();
 				} else if(main.facebookService.isLoggedIn()){
 					main.facebookService.logOut();
 					changeLoginButton(true);
@@ -470,7 +470,7 @@ public class Settings implements Screen{
 		ClickListener listener = new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				main.dialogs.showCharNameDialog("Enter your character's name", main, nameLabel);
+				main.dialogService.showCharNameDialog("Enter your character's name", main, nameLabel);
 				super.touchUp(event, x, y, pointer, button);
 			}
 		};
