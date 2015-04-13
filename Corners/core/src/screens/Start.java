@@ -6,8 +6,6 @@
 
 package screens;
 
-import logic.Category;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
@@ -34,9 +32,8 @@ public class Start implements Screen{
 	private MainActivity main;
 	private Stage stage;
 	private SpriteBatch batch;
-	Category cat;
 	private Texture carl;
-	Table table;
+	private Table table;
 	private InputProcessor inputProcessor;
 	private boolean backJustClicked;
 	
@@ -51,7 +48,6 @@ public class Start implements Screen{
 		this.main = main;		
 		stage = new Stage();
 		batch = new SpriteBatch();
-		this.cat = new Category();
 		carl = main.character.getCharacterImg();
 		Gdx.input.setInputProcessor(stage);
 		main.requestService.showFacebook(false);
@@ -77,39 +73,41 @@ public class Start implements Screen{
 		TextButtonStyle style = new TextButtonStyle(btn, btn, btn, main.skin.getFont(main.screenSizeGroup+"-L"));
 		style.fontColor = Color.BLACK;
 
-		final TextButton btnCategories = new TextButton("Play",style);
-		btnCategories.addListener(new ChangeListener() {
-			public void changed (ChangeEvent event, Actor actor) {
-				dispose();
-				main.categories = new Categories(main);
-				main.setScreen(main.categories);
-			}
-		});
-		
-		TextButton btnSettings = new TextButton("Settings",style);
-		btnSettings.addListener(new ChangeListener() {
-			public void changed (ChangeEvent event, Actor actor) {
-				dispose();
-				main.settings = new Settings(main);
-				main.setScreen(main.settings);
-			}
-		});
-		
-		TextButton btnFriends = new TextButton("Friends",style);
-		btnFriends.addListener(new ChangeListener() {
-			public void changed (ChangeEvent event, Actor actor) {
-				dispose();
-				main.friends = new Friends(main);
-				main.setScreen(main.friends);
-			}
-		});
+		TextButton btnCategories = makeButton("Play", style);
+		TextButton btnFriends = makeButton("Friends", style);
+		TextButton btnSettings = makeButton("Settings", style);
 		
 		table.add(new Label(main.data.getName(), main.skin, main.screenSizeGroup+"-M"))
 				.padTop(main.scrHeight*0.4f-main.scrHeight/10).padBottom(main.scrHeight/40).row();
 		table.add(btnCategories).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
 		table.add(btnSettings).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
-		table.add(btnFriends).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
-		
+		table.add(btnFriends).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();	
+	}
+	
+	/**
+	 * Makes a new text button for the start screen
+	 * @param text
+	 * @param style
+	 * @return
+	 */
+	private TextButton makeButton(final String text, TextButtonStyle style){
+		TextButton button = new TextButton(text, style);
+		button.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				dispose();
+				if(text.equals("Friends")){
+					main.friends = new Friends(main);
+					main.setScreen(main.friends);
+				}else if(text.equals("Play")){
+					main.categories = new Categories(main);
+					main.setScreen(main.categories);
+				}else if(text.equals("Settings")){
+					main.settings = new Settings(main);
+					main.setScreen(main.settings);
+				}
+			}
+		});
+		return button;
 	}
 
 	/**
@@ -119,7 +117,6 @@ public class Start implements Screen{
 	 */
 	@Override
 	public void render(float delta) {	
-		//Gdx.gl.glClearColor(21/255f, 149/255f, 136/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);	
 		
 		batch.begin();
@@ -142,7 +139,6 @@ public class Start implements Screen{
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
-		
 	}
 
 	@Override
