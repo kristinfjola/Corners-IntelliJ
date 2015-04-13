@@ -40,13 +40,13 @@ public interface Dialogs {
     
     /**
      * Shows a dialog with the title title, the images the directories starsImgDir and charImgDir represent
-     * and the text message. 
+     * and the text messages. 
      * @param title
      * @param starsImgDir
      * @param charImgDir
-     * @param message
+     * @param messages
      */
-    public void showEndLevelDialog(String title, String starsImgDir[], String charImgDir, String message);
+    public void showEndLevelDialog(String title, String starsImgDir[], String charImgDir, String[] messages);
     
     /**
      * Shows a diallog the has the title title and saves the text that the user inserts into

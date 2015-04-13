@@ -323,30 +323,30 @@ public class Play implements Screen, InputProcessor{
 	public void showFinishLevelDialog(boolean win, boolean finishCat) {
 		pause();
 		if(win) {
-			String message = main.data.getName()+" says: \n";
+			String[] messages = new String[]{main.data.getName()+" says:","",""};
 			if(main.character.characterGrew() && thisLevelOldStars<=0) {
-				message += "I just grew up! Good job! \n";
+				messages[1] = "I just grew up! Good job!";
 			} else if(main.character.getNrOfLevelsToNext()!=0) {
-				message += "Good job! Only "+main.character.getNrOfLevelsToNext()+" more \n";
-				if(main.character.getNrOfLevelsToNext()==1) message += "level 'till I grow up! \n";
-				else message += "levels 'till I grow up! \n";
+				messages[1] = "Good job! Only "+main.character.getNrOfLevelsToNext()+" more";
+				if(main.character.getNrOfLevelsToNext()==1) messages[2] = "level 'till I grow up!";
+				else messages[2] = "levels 'till I grow up!";
 			} else {
-				message += "Good job! \n";
+				messages[1] = "Good job!";
 			}
 			
 			String[] starsImgDir = main.getStarImgs(stars);
 			if(finishCat && thisLevelOldStars<=0) {
 				String title = cat.getType()+" complete!";
-				main.dialogs.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message);
+				main.dialogs.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", messages);
 			} else {
 				String title = "Level complete!";
-				main.dialogs.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", message);
+				main.dialogs.showEndLevelDialog(title, starsImgDir, "faces/happycarl.png", messages);
 			}
 		} else {
 			String title = "Oh no! You lost!";
-			String message = main.data.getName()+" says: \n";
-			message += "Better luck next time! \n";
-			main.dialogs.showEndLevelDialog(title, new String[]{"","",""}, "faces/sadcarl.png",message);
+			String[] messages = new String[]{main.data.getName()+" says:", "", ""};
+			messages[1] = "Better luck next time!";
+			main.dialogs.showEndLevelDialog(title, new String[]{"","",""}, "faces/sadcarl.png", messages);
 		}
 		Timer.schedule(getLevelsWindow(), 1);
 	}
@@ -732,9 +732,7 @@ public class Play implements Screen, InputProcessor{
 		batch.end();
 		batch.begin();
 		for(Box answer : cat.getAnswers()){
-			//batch.setColor(Color.RED);
 			answer.draw(batch);
-			//batch.setColor(Color.WHITE);
 		}
 		cat.getQuestion().draw(batch);
 		batch.end();

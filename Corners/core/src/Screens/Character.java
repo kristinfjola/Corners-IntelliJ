@@ -36,8 +36,8 @@ public class Character {
 		Float[] percentage = new Float[]{0.25f, 0.5f, 0.75f, 1f};
 		setUpLevelsSplit(percentage);
 		
-		imgs = new Texture[levelsSplit.length];
-		for(int i=0; i<levelsSplit.length; i++) {
+		imgs = new Texture[levelsSplit.length+1];
+		for(int i=0; i<imgs.length; i++) {
 			imgs[i] = new Texture("carl/piggy"+i+".png");
 		}
 	}
