@@ -26,29 +26,26 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.corners.game.MainActivity;
 
 
 public class Friends implements Screen{
 
-	MainActivity main;
-	Skin skin;
-	InfoBar infoBar;
-	Stage stage;
-	SpriteBatch batch;
-	TextButton btnTest;
-	LabelStyle friendsStyle;
-	LabelStyle friendsStyleM;
+	private MainActivity main;
+	private Skin skin;
+	private Stage stage;
+	private SpriteBatch batch;
+	private LabelStyle friendsStyle;
+	private LabelStyle friendsStyleM;
 	
 	private InputProcessor inputProcessor;
-	Table table;
+	private Table table;
 	
 	//high score list
-	double stars;
-	int finished_levels;
-	List<String> names;
+	private double stars;
+	private int finished_levels;
+	private List<String> names;
 	
 	/**
 	 * Constructor that sets the private variables and starts the screen
@@ -60,7 +57,6 @@ public class Friends implements Screen{
 		batch = new SpriteBatch();
 		stage = new Stage();
 		skin = this.main.skin;
-		infoBar = new InfoBar(main);
 		Gdx.input.setInputProcessor(stage);
 		addBackToProcessor();
 		setAllProcessors();
@@ -169,13 +165,16 @@ public class Friends implements Screen{
 			Table starTable = new Table();
 			String[] starAmount = main.getStarImgs(stars);
 			for (int j=0; j<starAmount.length; j++) {
-				starTable.add(new Image(new Texture(starAmount[j]))).size(main.scrWidth/18);
+				starTable.add(new Image(new Texture(starAmount[j]))).
+					size(main.scrWidth/18);
 			}
 			starTable.row();
 			starTable.add(new Label(""+stars, friendsStyle)).colspan(3).expandX();
 			
-			table.add(new Label(""+(i+1)+". "+name+"  ("+"lvl. "+finished_levels+")", friendsStyle)).expandX().left().padLeft(main.scrWidth/24f);
-			table.add(starTable).size(main.scrWidth/6).expandX().right().padRight(main.scrWidth/26f).padTop(main.scrWidth/26f).row();
+			table.add(new Label(""+(i+1)+". "+name+"  ("+"lvl. "+finished_levels+")",
+					friendsStyle)).expandX().left().padLeft(main.scrWidth/24f);
+			table.add(starTable).size(main.scrWidth/6).expandX().right().
+				padRight(main.scrWidth/26f).padTop(main.scrWidth/26f).row();
 		}
 	}
 	
@@ -233,7 +232,8 @@ public class Friends implements Screen{
 			}
 			int j = split_index+3;
 			while(j < score.length()) {
-				if(!score.substring(j, j+1).equals("7") || j+1 == score.length()) string_levels += score.substring(j, j+1);
+				if(!score.substring(j, j+1).equals("7") || j+1 == score.length()) 
+					string_levels += score.substring(j, j+1);
 				j++;
 			}
 			finished_levels = Integer.parseInt(string_levels);
@@ -407,6 +407,7 @@ public class Friends implements Screen{
 	public void setUpInfoBar() {
 		InfoBar infoBar = new InfoBar(main);
 		infoBar.setMiddleText("High Score");
-	 	table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).expandX().left().row();
+	 	table.add(infoBar.getInfoBar()).size(main.scrWidth, main.scrHeight/10).
+	 		expandX().left().row();
 	}
 }
