@@ -7,8 +7,6 @@
 package screens;
 
 import logic.Category;
-import logic.Colors;
-import logic.Flags;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -31,7 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.corners.game.MainActivity;
 
 public class Categories implements Screen {
-	private Texture carl; //the character, let's call it Carl
+	private Texture carl; //the character
 	private SpriteBatch batch;
 	private MainActivity main;
 	Category cat;
@@ -55,7 +53,6 @@ public class Categories implements Screen {
 		
 		addBackToProcessor();
 		setAllProcessors();
-		//addCarl();
 		carl = main.character.getCharacterImg();
 		
 		this.cat = new Category();
@@ -75,31 +72,10 @@ public class Categories implements Screen {
 		TextButtonStyle style = new TextButtonStyle(btn, btn, btn, main.skin.getFont(main.screenSizeGroup+"-L"));
 		style.fontColor = Color.BLACK;
 		
-		final TextButton btnMath = new TextButton("Math",style);
-		btnMath.addListener(new ChangeListener() {
-			public void changed (ChangeEvent event, Actor actor) {
-				main.levels = new Levels(main, new logic.Math());
-				main.setScreen(main.levels);
-			}
-		});
-
-		final TextButton btnColors = new TextButton("Colors",style);
-		btnColors.addListener(new ChangeListener() {
-			public void changed (ChangeEvent event, Actor actor) {
-				System.out.println("COLORS!");
-				main.levels = new Levels(main, new Colors());
-	            main.setScreen(main.levels);
-			}
-		});
+		TextButton btnMath = makeButton("Math", style);
+		TextButton btnColors = makeButton("Colors", style);
+		TextButton btnFlags = makeButton("Flags", style);
 		
-		final TextButton btnFlags = new TextButton("Flags",style);
-		btnFlags.addListener(new ChangeListener() {
-			public void changed (ChangeEvent event, Actor actor) {
-				System.out.println("FLAGS!");
-				main.levels = new Levels(main, new Flags());
-	            main.setScreen(main.levels);
-			}
-		});
 		
 		table.add(new Label(main.data.getName(), main.skin, main.screenSizeGroup+"-M"))
 				.padTop(main.scrHeight*0.4f-main.scrHeight/10).padBottom(main.scrHeight/40).row();
@@ -107,6 +83,32 @@ public class Categories implements Screen {
 		table.add(btnColors).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
 		table.add(btnFlags).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
 		
+	}
+	
+	/**
+	 * Makes a new text button for the start screen
+	 * @param text
+	 * @param style
+	 * @return
+	 */
+	private TextButton makeButton(final String text, TextButtonStyle style){
+		TextButton button = new TextButton(text, style);
+		button.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				dispose();
+				if(text.equals("Math")){
+					main.levels = new Levels(main, new logic.Math());
+					main.setScreen(main.levels);
+				}else if(text.equals("Colors")){
+					main.levels = new Levels(main, new logic.Colors());
+		            main.setScreen(main.levels);
+				}else if(text.equals("Flags")){
+					main.levels = new Levels(main, new logic.Flags());
+		            main.setScreen(main.levels);
+				}
+			}
+		});
+		return button;
 	}
 	
 	/**
