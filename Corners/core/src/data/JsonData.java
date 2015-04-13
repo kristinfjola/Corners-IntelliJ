@@ -9,13 +9,13 @@ package data;
 import java.util.Arrays;
 
 public class JsonData {
-	public int[] Math;
-	public int[] Colors;
-	public int[] Flags;
-	public int[] Reset;
-	public String Name;
-	public int Sound;
-	public int Notifications;
+	private int[] Math;
+	private int[] Colors;
+	private int[] Flags;
+	private int[] Reset;
+	private String Name;
+	private int Sound;
+	private int Notifications;
 	
 	/**
 	 * @return Math - array with the level state of math
