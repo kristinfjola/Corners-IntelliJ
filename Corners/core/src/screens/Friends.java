@@ -97,32 +97,33 @@ public class Friends implements Screen{
 		table.add(new Label("into facebook to see your friends!", friendsStyle)).left().padLeft(main.scrWidth/24f).row();
 	}
 	
+	/**
+	 * displays a message that tells the user he has no Corners friends
+	 */
 	public void showNoFriendsMessage(){
 		table.add(new Label("I am so terribly sorry!",friendsStyleM)).left().padTop(main.scrWidth/18f).padLeft(main.scrWidth/24f).row();
 		table.add(new Label("You don't have any Corners friends.", friendsStyle)).left().padLeft(main.scrWidth/24f).padTop(main.scrWidth/24f).row();
 		table.add(new Label("Tell your friends to play!", friendsStyle)).left().padLeft(main.scrWidth/24f).row();
 	}
 	
+	/**
+	 * gets and displays friends list from facebook with scores
+	 */
 	public void getInfoFromFacebookAndShow() {
 		new Thread(new Runnable() {
 		   @Override
 		   public void run() {
 			   main.dialogs.showProgressBar();
 			   final List<String> friends = main.facebookService.getFriendsList();
-			   System.out.println("GOT friends list");
 			   final boolean friends_is_empty = friends.isEmpty();
 			   final List<Integer> scores = main.facebookService.getScores();
-			   System.out.println("GOT friends score");
 			   final int my_score = main.facebookService.getMyScore();
-			   System.out.println("GOT my score");
 			   
 			   Gdx.app.postRunnable(new Runnable() {
 				   @Override
 				   public void run() {
 					   if(friends_is_empty) showNoFriendsMessage();
 					   else showFriends(friends, scores, my_score);
-					   //System.out.println("Thread calling showFriends");
-					   //System.out.println("showFriends finished");
 					   main.dialogs.hideProgressBar();
 				   }
 			   });
@@ -130,6 +131,13 @@ public class Friends implements Screen{
 		}).start();
 	}
 	
+	/**
+	 * shows friends list from facebook with score
+	 * 
+	 * @param friends - friends list from facebook
+	 * @param scores - scores from friends
+	 * @param myScore - user's score
+	 */
 	public void showFriends(List<String> friends, List<Integer> scores, Integer myScore) {
 		HashMap<String, Integer> friends_hash_temp = new HashMap<String, Integer>();
 		
@@ -165,10 +173,13 @@ public class Friends implements Screen{
 			
 			table.add(new Label(""+(i+1)+". "+name+"  ("+stars+"/"+finished_levels+")", friendsStyle)).left().padLeft(main.scrWidth/24f);
 			table.add(starTable).size(main.scrWidth/6).right().padRight(main.scrWidth/26f).row();
-			
 		}
 	}
 	
+	/**
+	 * @param friends - friends list from facebook
+	 * @return - stars for each user
+	 */
 	public HashMap<String, Double> getStarsFromScore(HashMap<String, Integer> friends) {
 		double stars = 0;
 		HashMap<String, Double> stars_hash = new HashMap<String, Double>();
@@ -199,6 +210,10 @@ public class Friends implements Screen{
 		return stars_hash;
 	}
 	
+	/**
+	 * @param friends - friends list from facebook
+	 * @return - finished levels for each user
+	 */
 	public HashMap<String, Integer> getLevelsFromScore(HashMap<String, Integer> friends) {
 		int finished_levels = 0;
 		int split_index = 0;
@@ -226,6 +241,11 @@ public class Friends implements Screen{
 		return levels;
 	}
 	
+	/**
+	 * @param friends - friends list from facebook
+	 * @param stars
+	 * @return - friends that have param-stars many stars
+	 */
 	public List<String> getKeysByValue(Map<String, Double> friends, Double stars) {
 	    List<String> keys = new ArrayList<String>();
 		for (Entry<String, Double> entry : friends.entrySet()) {
@@ -236,6 +256,11 @@ public class Friends implements Screen{
 	    return keys;
 	}
 	
+	/**
+	 * @param starsHash - each user with stars
+	 * @param levelsHash - each user with finished levels
+	 * @return - value used in high score for each user
+	 */
 	public HashMap<String, Double> getHighscoreHash(HashMap<String, Double> starsHash, HashMap<String, Integer> levelsHash) {
 		HashMap<String, Double> high_score_hash = new HashMap<String, Double>();
 		double high = 0;
@@ -250,6 +275,10 @@ public class Friends implements Screen{
 		return high_score_hash;
 	}
 	
+	/**
+	 * @param highScoreHash - high score values for each user
+	 * @return - sorted high score
+	 */
 	public List<Double> getHighScoreList(HashMap<String, Double> highScoreHash) {
 		List<Double> high_score = new ArrayList<Double>(highScoreHash.values());
 		Collections.sort(high_score);
