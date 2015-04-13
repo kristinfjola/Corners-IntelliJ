@@ -8,7 +8,6 @@
 
 package screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -23,24 +22,25 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.corners.game.MainActivity;
 
 public class InfoBar {
-	float screenWidth = Gdx.graphics.getWidth();
-	float screenHeight = Gdx.graphics.getHeight();
-	float barHeight;
-	float barWidth;
-	MainActivity main;
-	String leftText="";
-	String middleText="";
-	String rightText="";
-	String[] leftImages = new String[]{"infoBar/empty.png","infoBar/empty.png","infoBar/empty.png"};
-	String rightImage="infoBar/empty.png";
+	private MainActivity main;
+	private float barHeight;
+	private String leftText;
+	private String middleText;
+	private String rightText;
+	private String[] leftImages;
+	private String rightImage;
 	
 	/**
 	 * Constructor. Creates the the interface and sets the private variables
 	 */
 	public InfoBar(MainActivity main) {
 		this.main = main;
-		barWidth = screenWidth;
-	 	barHeight = screenHeight/10;
+	 	barHeight = main.scrHeight/10;
+	 	leftText="";
+		middleText="";
+		rightText="";
+		leftImages = new String[]{"infoBar/empty.png","infoBar/empty.png","infoBar/empty.png"};
+		rightImage="infoBar/empty.png";
 	}
 	
 	/**
@@ -121,5 +121,12 @@ public class InfoBar {
 	 	starTable.add(new Image(new Texture(leftImages[2]))).size(barHeight/2).padTop(-barHeight/6);
 	 	
 	 	return starTable;
+	}
+	
+	/**
+	 * @return the info bar's height
+	 */
+	public float getBarHeight() {
+		return barHeight;
 	}
 }

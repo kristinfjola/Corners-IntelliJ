@@ -46,50 +46,49 @@ public class Play implements Screen, InputProcessor{
 	private Stage stage;
 	private State state;
     private int level;
-    private boolean timeOver = false;
+    private boolean timeOver;
     public Dialog pauseDialog;
-    
-    private int questionsAnswered = 0;
+    private InputProcessor inputProcessor;
+    private int questionsAnswered;
     private int nrOfQuestions;
     private float origX;
     private float origY;
     
     // end dialog
-    private int questionStatusDisplay = 0;
-    private int thisLevelOldStars = 0 ;
+    private int questionStatusDisplay;
+    private int thisLevelOldStars;
     
     // infoBar
     private InfoBar infoBar;
     private Table table;
-    private InputProcessor inputProcessor;
     
     //progressBar
-    private float progressBarHeight = (new Image(new Texture("progressBar/background.png"))).getPrefHeight();
+    private float progressBarHeight;
 
     // swipe
     private Vector3 touchPos;
-    private boolean swipeQuestion = false;
-    private boolean hitBox = false;
-    private boolean touchUp = false;
-    private float sum = 0;
-    private String xDirection = "none";
-    private String yDirection = "none";
-    private boolean lockPos = false;
+    private boolean swipeQuestion;
+    private boolean hitBox;
+    private boolean touchUp;
+    private float sum;
+    private String xDirection;
+    private String yDirection;
+    private boolean lockPos;
 
     // time
-    private long startTime = 0;	
+    private long startTime;	
     private long secondsPassed;
-    private long totalSecondsWasted = 0;
-    private long oldSecondsPassed = 0;
+    private long totalSecondsWasted;
+    private long oldSecondsPassed;
     private ProgressBar progressBar;
     private ProgressBarStyle progressBarStyle;
     private BitmapFont time;
     private long maxTime;
-    private boolean delayTime = false;
-    private int stars = 3;
+    private boolean delayTime;
+    private int stars;
     
     // levels
-    private int maxNumLevels = 9;
+    private int maxNumLevels;
 	
 	/**
 	 * @param main - main activity of the game
@@ -97,29 +96,54 @@ public class Play implements Screen, InputProcessor{
 	 */
 	public Play(MainActivity main, Category cat, int level){
 		this.main = main;
-		this.infoBar = new InfoBar(main);
+		infoBar = new InfoBar(main);
 		this.cat = cat;
 		this.level = level;
-		this.state = State.RUN;
-		this.stage = new Stage();
-		this.table = new Table();
-		this.table.top().setFillParent(true);
+		camera = new OrthographicCamera();
+ 	    camera.setToOrtho(false, main.scrWidth, main.scrHeight);
+ 	    batch = new SpriteBatch();
+		state = State.RUN;
+		stage = new Stage();
+		table = new Table();
+		table.top().setFillParent(true);
+		
+		timeOver = false;
+		questionsAnswered = 0;
+		nrOfQuestions = 9;
+		origX = main.scrWidth/2 - cat.getQuestion().getRec().getWidth()/2;
+	    origY = main.scrHeight/2 - cat.getQuestion().getRec().getHeight()/2;
+		
+		questionStatusDisplay = 0;
+	    thisLevelOldStars = 0;
+	    
+	    progressBarHeight = (new Image(new Texture("progressBar/background.png"))).getPrefHeight();
+	    
+	    swipeQuestion = false;
+	    hitBox = false;
+	    touchUp = false;
+	    sum = 0;
+	    xDirection = "none";
+	    yDirection = "none";
+	    lockPos = false;
+	    
+	    startTime = 0;	
+	    totalSecondsWasted = 0;
+	    oldSecondsPassed = 0;
+	    time = main.skin.getFont(main.screenSizeGroup+"-M");
+	    time.setColor(Color.BLACK);
+	    maxTime = cat.getTimeForLevel(level);
+	    delayTime = false;
+	    stars = 3;
+	    
+	    maxNumLevels = 9;
 		
 		addPauseToProcessor();
 		setAllProcessors(); 
 		
 		setUpInfoBar();
-	
-		origX = main.scrWidth/2 - cat.getQuestion().getRec().getWidth()/2;
-	    origY = main.scrHeight/2 - cat.getQuestion().getRec().getHeight()/2;
+
  	    Gdx.input.setCatchBackKey(true);
-	    time = main.skin.getFont(main.screenSizeGroup+"-M");
-	    time.setColor(Color.BLACK);
-	    maxTime = cat.getTimeForLevel(level);
-	    nrOfQuestions = 9;
-		camera = new OrthographicCamera();
- 	    camera.setToOrtho(false, main.scrWidth, main.scrHeight);
- 	    batch = new SpriteBatch();
+
  	    createProgressBar();
  	    startQuestion();
 	}
@@ -196,9 +220,9 @@ public class Play implements Screen, InputProcessor{
 	}
 	
 	/**
-	 * notifies user when he looses a level
+	 * notifies user when he loses a level
 	 */
-	public void loose(){
+	public void lose(){
 		timeOver = (maxTime - secondsPassed) < 0 ? true : false;
 		setWrongProgressBar();
 		refreshProgressBar(true);
@@ -258,7 +282,7 @@ public class Play implements Screen, InputProcessor{
 		long timeLeft = (maxTime - secondsPassed) >= 0 ? (maxTime - secondsPassed) : 0;
 		
 		float xCoord = main.scrWidth/2-(time.getBounds(Long.toString(timeLeft)).width)/2;
-		float yCoord = main.scrHeight-infoBar.barHeight-progressBar.getPrefHeight()*1.5f;
+		float yCoord = main.scrHeight-infoBar.getBarHeight()-progressBar.getPrefHeight()*1.5f;
 		long timeLeftDisplay = timeLeft == maxTime ? maxTime : timeLeft + 1;
 		timeLeftDisplay = timeOver ? 0 : timeLeftDisplay;
 		time.draw(batch, Long.toString(timeLeftDisplay), xCoord, yCoord);
@@ -406,6 +430,7 @@ public class Play implements Screen, InputProcessor{
 		
 	/**
 	 * sets new progress bar
+	 * 
 	 * @param delay
 	 */
 	public void refreshProgressBar(boolean delay){
@@ -568,9 +593,8 @@ public class Play implements Screen, InputProcessor{
 				rec.x = main.scrWidth-rec.getWidth();
 			}
 		} else if(axis == "y") {
-			//screenHeight/10 is the height of the infoBar
-			if(rec.y > main.scrHeight-rec.getHeight()-main.scrHeight/10-progressBarHeight) {
-				rec.y = main.scrHeight-rec.getHeight()-main.scrHeight/10-progressBarHeight;
+			if(rec.y > main.scrHeight-rec.getHeight()-infoBar.getBarHeight()-progressBarHeight) {
+				rec.y = main.scrHeight-rec.getHeight()-infoBar.getBarHeight()-progressBarHeight;
 			}
 		}	
 	}
@@ -680,7 +704,7 @@ public class Play implements Screen, InputProcessor{
 		Box _hitBox = cat.checkIfHitBox();
 		if(_hitBox != null && hit == null && !delayTime) {
 			hitBox = true;
-			loose();
+			lose();
 		}
 	}
 	
@@ -718,7 +742,7 @@ public class Play implements Screen, InputProcessor{
 		
 		// check time
 		if(secondsPassed > progressBar.getMaxValue()){
-			loose();
+			lose();
 		}
 	}
 	
