@@ -306,7 +306,7 @@ public class MainActivity extends Game {
 	}
 	
 	public void updateScoreOnFacebook() {
-		String temp_score = Double.toString(data.getAverageStars(cat));
+		String temp_score = Double.toString(data.getAllAverageStars());
 		int finished_levels = data.getAllFinished();
 		temp_score = temp_score.replace(".","");
 		if(temp_score.length() >= 3) {
