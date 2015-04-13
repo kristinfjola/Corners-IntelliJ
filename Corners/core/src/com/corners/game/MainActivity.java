@@ -305,6 +305,9 @@ public class MainActivity extends Game {
 		return starDir;
 	}
 	
+	/**
+	 * updates the current score on facebook
+	 */
 	public void updateScoreOnFacebook() {
 		String temp_score = Double.toString(data.getAllAverageStars());
 		int finished_levels = data.getAllFinished();
