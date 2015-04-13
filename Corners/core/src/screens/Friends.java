@@ -171,9 +171,11 @@ public class Friends implements Screen{
 			for (int j=0; j<starAmount.length; j++) {
 				starTable.add(new Image(new Texture(starAmount[j]))).size(main.scrWidth/18);
 			}
+			starTable.row();
+			starTable.add(new Label(""+stars, friendsStyle)).colspan(3).expandX();
 			
-			table.add(new Label(""+(i+1)+". "+name+"  ("+stars+"/"+finished_levels+")", friendsStyle)).left().padLeft(main.scrWidth/24f);
-			table.add(starTable).size(main.scrWidth/6).right().padRight(main.scrWidth/26f).row();
+			table.add(new Label(""+(i+1)+". "+name+"  ("+"lvl. "+finished_levels+")", friendsStyle)).expandX().left().padLeft(main.scrWidth/24f);
+			table.add(starTable).size(main.scrWidth/6).expandX().right().padRight(main.scrWidth/26f).padTop(main.scrWidth/26f).row();
 		}
 	}
 	

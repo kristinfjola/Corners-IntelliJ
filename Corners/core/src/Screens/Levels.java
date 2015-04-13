@@ -19,17 +19,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.corners.game.MainActivity;
 
-
 public class Levels implements Screen{
 
 	private MainActivity main;
-	private Skin skin;
 	private Stage stage;
 	private Table container;
 	private Category cat;
@@ -46,22 +43,18 @@ public class Levels implements Screen{
 	 */
 	public Levels(MainActivity main, Category category){
 		this.main = main;
-		this.cat = category;
-		this.infoBar = new InfoBar(main);
+		cat = category;
+		infoBar = new InfoBar(main);
 		setUpCat();
  	    Gdx.input.setCatchBackKey(true);
  	    addBackToProcessor(); 
  	    processData(category);
-		create();
 	}
 
-	/**
-	 * Sets up the buttons on the level screen
-	 */
-	public void create(){
+	@Override
+	public void show() {
 		stage = new Stage();
 		this.batch = new SpriteBatch();
-		skin = main.skin;
 
 		container = new Table();
 		stage.addActor(container);
@@ -91,11 +84,6 @@ public class Levels implements Screen{
 		container.add(tableLevels).expand().fill();
 	}
 
-	/**
-	 * Renders the stuff on the screen 
-	 *
-	 * @param delta
-	 */
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -108,11 +96,6 @@ public class Levels implements Screen{
 		stage.draw();		
 	}
 
-	/**
-	 * Sets the screen to its proper size
-	 * @param width
-	 * @param height
-	 */
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
@@ -129,14 +112,7 @@ public class Levels implements Screen{
 	@Override
 	public void hide() {
 	}
-	
-	@Override
-	public void show() {
-	}
 
-	/**
-	 * Disposes the screen
-	 */
 	@Override
 	public void dispose() {
 		stage.dispose();
@@ -145,7 +121,6 @@ public class Levels implements Screen{
 	/**
 	 * Creates a button to represent a level
 	 * level is a int number that represents the level number of the button
-	 * 
 	 * @param level
 	 * @return The button to use for the level
 	 */
@@ -153,7 +128,7 @@ public class Levels implements Screen{
 		TextButton button;
 		
 		if(stars[level] > -2) {
-			button = new TextButton(""+level, skin, main.screenSizeGroup+"-L"+"-level");
+			button = new TextButton(""+level, main.skin, main.screenSizeGroup+"-L"+"-level");
 			button.addListener(new ClickListener() {	
 				@Override
 				public void clicked (InputEvent event, float x, float y) {
@@ -166,11 +141,10 @@ public class Levels implements Screen{
 			});	
 		}
 		else {
-			button = new TextButton(""+level, skin, main.screenSizeGroup+"-L"+"-level-grey");
+			button = new TextButton(""+level, main.skin, main.screenSizeGroup+"-L"+"-level-grey");
 		}
 		
 		button.setName("Level" + Integer.toString(level));
-			
 		return button;
 	}
 	
@@ -197,11 +171,10 @@ public class Levels implements Screen{
 	
 	/**
 	 * Sets the stars variable with appropriate values for the category
-	 * 
 	 * @param category
 	 */
 	private void processData(Category category) {
-			stars = main.data.getStarsArray(category);
+		stars = main.data.getStarsArray(category);
 	}
 
 	/**
@@ -257,9 +230,6 @@ public class Levels implements Screen{
 				return false;
 			}
 			
-			/**
-			 * Handles the back event
-			 */
 			@Override
 			public boolean keyDown(int keycode) {
 				if(keycode == Keys.BACK){
@@ -276,7 +246,6 @@ public class Levels implements Screen{
 	public void setUpInfoBar() {
 		double averageStars = main.data.getAverageStars(cat);
 		int finishedLevels = main.data.getLevelsFinished(cat);
-		InfoBar infoBar = new InfoBar(main);
 		infoBar.setMiddleText(cat.getType());
 		infoBar.setRightText(finishedLevels+"/9");
 		infoBar.setLeftImages(main.getStarImgs(averageStars));
@@ -292,7 +261,7 @@ public class Levels implements Screen{
 		
 		float playScreenWidth = main.scrWidth;
 		float pBarHeight = (new Image(new Texture("progressBar/background.png"))).getPrefHeight();
-		float playScreenHeight = main.scrHeight-infoBar.barHeight-pBarHeight;
+		float playScreenHeight = main.scrHeight-infoBar.getBarHeight()-pBarHeight;
 		cat.setPlayScreenWidth((int) playScreenWidth);
 		cat.setPlayScreenHeight((int) playScreenHeight);
 

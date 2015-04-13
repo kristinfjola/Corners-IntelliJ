@@ -6,8 +6,6 @@
 
 package screens;
 
-import logic.Category;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
@@ -15,7 +13,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -29,10 +26,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.corners.game.MainActivity;
 
 public class Categories implements Screen {
-	private Texture carl; //the character
+
 	private SpriteBatch batch;
 	private MainActivity main;
-	Category cat;
 	private Stage stage;
 	private InputProcessor inputProcessor;
 	private Table table;
@@ -45,20 +41,19 @@ public class Categories implements Screen {
 	 */
 	public Categories(MainActivity main){
 		this.main = main;
-		this.batch = new SpriteBatch();
+		batch = new SpriteBatch();
 		stage = new Stage();
+
 		this.main.scrWidth = Gdx.graphics.getWidth();
 		this.main.scrHeight = Gdx.graphics.getHeight();
 		main.requestService.showFacebook(false);
 		
 		addBackToProcessor();
 		setAllProcessors();
-		carl = main.character.getCharacterImg();
-		
-		this.cat = new Category();
 		
 		// Create a table that fills the screen. Everything else will go inside this table.
 		this.table = new Table();
+		table = new Table();
 		table.top();
 		table.setFillParent(true);
 		stage.addActor(table);
@@ -68,8 +63,10 @@ public class Categories implements Screen {
 
 	@Override
 	public void show() {
-		Drawable btn = new NinePatchDrawable(main.getPatch("buttons/mainButton.9.png",Integer.MAX_VALUE,main.scrHeight/8));
-		TextButtonStyle style = new TextButtonStyle(btn, btn, btn, main.skin.getFont(main.screenSizeGroup+"-L"));
+		Drawable btn = new NinePatchDrawable(main.getPatch("buttons/mainButton.9.png",
+				Integer.MAX_VALUE,main.scrHeight/8));
+		TextButtonStyle style = new TextButtonStyle(btn, btn, btn,
+				main.skin.getFont(main.screenSizeGroup+"-L"));
 		style.fontColor = Color.BLACK;
 		
 		TextButton btnMath = makeButton("Math", style);
@@ -82,7 +79,6 @@ public class Categories implements Screen {
 		table.add(btnMath).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
 		table.add(btnColors).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
 		table.add(btnFlags).size(main.scrWidth/1.5f, main.scrHeight/8).padBottom(main.scrHeight/20).row();
-		
 	}
 	
 	/**
@@ -116,27 +112,22 @@ public class Categories implements Screen {
 	 * 
 	 * @param delta
 	 */
+	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(21/255f, 149/255f, 136/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         batch.begin();
         batch.draw(main.background, 0, 0, main.scrWidth, main.scrHeight);
-		batch.draw(carl, main.scrWidth*0.25f, main.scrHeight*0.6f, main.scrWidth*0.5f, main.scrWidth*0.5f);	
+		batch.draw(main.character.getCharacterImg(), main.scrWidth*0.25f,
+				main.scrHeight*0.6f, main.scrWidth*0.5f, main.scrWidth*0.5f);	
         batch.end();
 		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 	}
 
-	/**
-	 * Resizes the screen to the applicable size, the parameters
-	 * width and height are the new width and height the screen 
-	 * has been resized to
-	 * 
-	 * @param width
-	 * @param height
-	 */
+	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
 	}
@@ -156,6 +147,7 @@ public class Categories implements Screen {
 	/**
 	 * Disposes the screen
 	 */
+	@Override
 	public void dispose() {
 		stage.dispose();
 	}
@@ -201,9 +193,6 @@ public class Categories implements Screen {
 				return false;
 			}
 			
-			/**
-			 * Handles the back event
-			 */
 			@Override
 			public boolean keyDown(int keycode) {
 				if(keycode == Keys.BACK){

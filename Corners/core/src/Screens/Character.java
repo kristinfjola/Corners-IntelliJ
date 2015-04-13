@@ -27,7 +27,7 @@ public class Character {
 	private int[] levelsSplit;
 	
 	/**
-	 * Constructor. Creates the the interface and sets the private variables
+	 * Constructor. Sets the private variables
 	 */
 	public Character(MainActivity main) {
 		this.main = main;
@@ -88,7 +88,6 @@ public class Character {
 	 */
 	public int getNrOfLevelsToNext() {
 		int characterNumber = getCharacterNumber();
-		
 		if(characterNumber == levelsSplit.length) return 0;
 		int levelsToNext = levelsSplit[characterNumber];
 		return levelsToNext-getLevelsFinished();

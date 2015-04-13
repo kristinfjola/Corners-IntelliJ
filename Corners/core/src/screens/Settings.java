@@ -6,7 +6,6 @@
  */
 package screens;
 
-import logic.Category;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
@@ -40,7 +39,6 @@ public class Settings implements Screen{
 	private Skin skin;
 	private Stage stage;
 	private SpriteBatch batch;
-	private Category cat;
 	private InputProcessor inputProcessor;
 	private Table table;
 	
@@ -67,7 +65,6 @@ public class Settings implements Screen{
 		batch = new SpriteBatch();
 		stage = new Stage();
 		skin = this.main.skin;
-		this.cat = new Category();
 		addBackToProcessor();
 		setAllProcessors();
 		main.requestService.showFacebook(true);
