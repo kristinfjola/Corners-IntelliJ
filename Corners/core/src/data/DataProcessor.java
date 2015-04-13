@@ -90,7 +90,6 @@ public class DataProcessor {
 		Gson gson = new Gson();
 		JsonData jData = convertData(data);
 		String json = gson.toJson(jData);
-		System.out.println("Json file-inn sem er verið að vista " + json);
 		try {
 			FileHandle file = Gdx.files.local("db/db.json");
 			file.writeString(json, false);

@@ -8,7 +8,6 @@ package logic;
 
 import com.badlogic.gdx.graphics.Color;
 
-
 public class CorColor {
 
 	private Color color;

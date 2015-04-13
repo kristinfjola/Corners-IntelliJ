@@ -12,24 +12,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.corners.game.MainActivity;
 
-import data.Data;
-
 public class Category {
 	
-	Box question;
-	Array<Box> answers;
-	int qWidth;
-	int qHeight;
-	int screenWidth = Gdx.graphics.getWidth();
-    int screenHeight = Gdx.graphics.getHeight();
-    String type;
-    int playScreenHeight;
-    int playScreenWidth;
-    Skin skin;
-    String screenSizeGroup;
-    Data data = new Data();
-    int[] levelTimes;
-    int[] starsLimits = {9, 18, 27}; // 1*9, 2*9, 3*9
+	public Box question;
+	public Array<Box> answers;
+	public int qWidth;
+	public int qHeight;
+	public int screenWidth = Gdx.graphics.getWidth();
+	public int screenHeight = Gdx.graphics.getHeight();
+	public String type;
+	public int playScreenHeight;
+	public int playScreenWidth;
+	public Skin skin;
+	public String screenSizeGroup;
+	public int[] levelTimes;
+	public int[] starsLimits = {9, 18, 27}; // 1*9, 2*9, 3*9
     
     /**
      * Generates questions for level

@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.Array;
 import com.corners.game.MainActivity;
 
 public class Math extends Category{
+	
 	/**
 	 * 	Creates a new Math category
 	 */

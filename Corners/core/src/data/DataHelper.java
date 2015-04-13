@@ -10,7 +10,10 @@ import logic.Category;
 public class DataHelper {
 
 	private Data data = new Data();
-	
+
+	/**
+	 * Constructor for DataHelper
+	 */
 	public DataHelper(){
 		DataProcessor.getData(data);
 	}
