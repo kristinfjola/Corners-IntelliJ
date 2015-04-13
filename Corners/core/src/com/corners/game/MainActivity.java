@@ -75,9 +75,12 @@ public class MainActivity extends Game {
 	@Override
 	/** Method called once when the application is created. **/
 	public void create () {
+		System.out.println("MainActivity: starting create");
 		scrWidth = Gdx.graphics.getWidth();
 		scrHeight= Gdx.graphics.getHeight();
+		System.out.println("MainActivity: 1");
 		skin = getSkin();
+		System.out.println("MainActivity: 2");
 		initScreenSizeGroup();
 		this.cat = new Category();
 		this.data = new DataHelper();
@@ -88,8 +91,12 @@ public class MainActivity extends Game {
 		setNotifications();
 		facebookService.showFacebookUser();
 		
+		System.out.println("MainActivity: 3");
+		
 		start = new Start(this);
         setScreen(start);
+        
+        System.out.println("MainActivity: 4");
         
         fullStar = new Texture("stars/1-star.png");
 		emptyStar = new Texture("stars/0-star.png");		
@@ -102,7 +109,10 @@ public class MainActivity extends Game {
 	    levelFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
 	    categoryFinishedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/levelFinished.mp3"));
 	    
+	    System.out.println("MainActivity: 5");
+	    
 	    setUpSliderDrawables();
+	    System.out.println("MainActivity: finishing create");
 	}
 
 	@Override
@@ -272,6 +282,7 @@ public class MainActivity extends Game {
 		double roundedStars = roundedStarsX4/4;
 		
 		String[] starDir = new String[]{"stars/","stars/","stars/"};
+		System.out.println(""+roundedStars);
 		for(int i=0; i<starDir.length; i++) {
 			if(roundedStars >= i+1) starDir[i] += "1";
 			else {
@@ -285,4 +296,17 @@ public class MainActivity extends Game {
 		}
 		return starDir;
 	}
-}
+	
+	public void updateScoreOnFacebook() {
+		String temp_score = Double.toString(data.getAllAverageStars());
+		int finished_levels = data.getAllFinished();
+		temp_score = temp_score.replace(".","");
+		if(temp_score.length() >= 3) {
+			temp_score = temp_score.substring(0, 3);
+		}
+		//format of score: stars777levels - 777 splits between stars and score
+		//facebook will only accept number as score, not string
+		String score = temp_score.substring(0, Math.min(3,temp_score.length()))+"777"+finished_levels;
+		facebookService.updateScore(score);
+	}
+ }

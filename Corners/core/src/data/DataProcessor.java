@@ -51,13 +51,10 @@ public class DataProcessor {
 		try {
 			root = jp.parse(string);
 		} catch (JsonIOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JsonSyntaxException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

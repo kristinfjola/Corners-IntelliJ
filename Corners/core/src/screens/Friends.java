@@ -175,19 +175,23 @@ public class Friends implements Screen{
 		for (String key : friends.keySet()) {
 			// TODO: TEMP FIX for facebook permission publish_friends
 			if(friends.get(key) == 0) continue;
-			String stars_string = "";
-			String score = Integer.toString(friends.get(key));
-			int i = 0;
-			System.out.println("friend: " + key + " score: " + score);
-			while(!score.substring(i, i+3).equals("777")) {
-				stars_string += score.substring(i, i+1);
-				i++;
-			}
-			stars = Double.parseDouble(stars_string);
-			if(stars_string.length() == 2) {
-				stars = stars / 10;
-			} else if(stars_string.length() == 3) {
-				stars = stars / 100;
+			if(friends.get(key).toString().substring(0, 1).equals("7")) {
+				stars = 0;
+			} else {
+				String stars_string = "";
+				String score = Integer.toString(friends.get(key));
+				int i = 0;
+				System.out.println("friend: " + key + " score: " + score);
+				while(!score.substring(i, i+3).equals("777")) {
+					stars_string += score.substring(i, i+1);
+					i++;
+				}
+				stars = Double.parseDouble(stars_string);
+				if(stars_string.length() == 2) {
+					stars = stars / 10;
+				} else if(stars_string.length() == 3) {
+					stars = stars / 100;
+				}
 			}
 			stars_hash.put(key, stars);
 		}

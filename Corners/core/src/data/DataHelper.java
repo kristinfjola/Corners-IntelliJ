@@ -9,7 +9,7 @@ import logic.Category;
 
 public class DataHelper {
 
-	Data data = new Data();
+	private Data data = new Data();
 	
 	public DataHelper(){
 		DataProcessor.getData(data);

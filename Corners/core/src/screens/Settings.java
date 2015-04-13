@@ -367,8 +367,23 @@ public class Settings implements Screen{
 					main.facebookService.logOut();
 					changeLoginButton(true);
 				} else {
-					main.facebookService.logIn();
-					changeLoginButton(false);
+					new Thread(new Runnable() {
+						   @Override
+						   public void run() {
+							   main.facebookService.logIn();
+							   Gdx.app.postRunnable(new Runnable() {
+								   @Override
+								   public void run() {
+									   if(main.facebookService.isLoggedIn()) {
+										 //update score on facebook
+											main.updateScoreOnFacebook();
+											
+											changeLoginButton(false);
+									   }
+								   }
+							   });
+						   }
+						}).start();
 				}
 				
 			}
