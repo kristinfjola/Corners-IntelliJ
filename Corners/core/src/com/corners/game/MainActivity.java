@@ -52,8 +52,8 @@ public class MainActivity extends Game {
 	
 	// services
 	public FacebookService facebookService;
-	public Dialogs dialogs;
-	public ActivityRequestHandler activityRequestHandler;
+	public Dialogs dialogService;
+	public ActivityRequestHandler requestService;
 	public Notifications notificationsService;
 	public DataHelper data;
 	
@@ -164,14 +164,6 @@ public class MainActivity extends Game {
 		else if(510 <= screenWidth && screenWidth < 630) screenSizeGroup = "screen540";
 		else if(630 <= screenWidth && screenWidth < 900) screenSizeGroup = "screen720";
 		else screenSizeGroup = "screen1080"; //900 <= screenWidth
-	}
-
-	/**
-	 * TODO
-	 * @param facebookService
-	 */
-	public void setFacebookService(FacebookService facebookService) {
-		this.facebookService = facebookService;
 	}
 	
 	/**

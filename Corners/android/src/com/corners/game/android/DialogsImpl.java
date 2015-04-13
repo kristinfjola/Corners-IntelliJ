@@ -1,7 +1,7 @@
 /**
  * @author Kristin Fjola Tomasdottir
  * @date 	12.03.15
- * @goal 	Various native Android features
+ * @goal 	Various pop-up dialogs and toasts to display
  */
 package com.corners.game.android;
 
@@ -65,7 +65,6 @@ public class DialogsImpl implements Dialogs {
 		  uiThread.post(new Runnable() {
     		  public void run() {
     			  AlertDialog dialog = new AlertDialog.Builder(getStyle())
-	  			  	.setIcon(R.drawable.temp)
 	  			  	.setMessage(alertBoxMessage)
 	  			  	.setNeutralButton("Got it!", onClickListener)
 	  			  	.create();
@@ -97,7 +96,6 @@ public class DialogsImpl implements Dialogs {
     	  inflater.inflate(R.layout.directions_layout, null);
     	  uiThread.post(new Runnable() {
     		  public void run() {
-    			  //show(Context context, CharSequence title, CharSequence message, boolean indeterminate, boolean cancelable, DialogInterface.OnCancelListener cancelListener)
     			  progress = new ProgressDialog(appContext);
     			  progress.setMessage("Loading friends... ");
     			  progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -239,7 +237,6 @@ public class DialogsImpl implements Dialogs {
 	public void showNotConnectedToast() {
 		uiThread.post(new Runnable() {
   		  public void run() {
-  			  System.out.println("showing not connected toast");
   			  backToast = Toast.makeText(appContext, "You're not connected to the internet", Toast.LENGTH_LONG);
   			  backToast.show();
   		  }
