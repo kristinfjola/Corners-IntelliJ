@@ -221,28 +221,21 @@ public class FacebookServiceImpl implements FacebookService{
     
     @Override
     public List<String> getFriendsList() {
-    	System.out.println("getting friends list");
-    	System.out.println("getting session");
     	Session session = Session.getActiveSession();
-    	System.out.println("getting request");
 		Request request = Request.newGraphPathRequest(session, "me/friends", null);
-		System.out.println("getting response");
 		Response response = Request.executeAndWait(request);
 		List<String> friends = new ArrayList<String>();
 		try {
 			JSONArray data = (JSONArray) response.getGraphObject().getInnerJSONObject().get("data");
-			System.out.println("DATA: " + data);
 			for(int i = 0; i < data.length(); i++) {
 				String name = (String) data.getJSONObject(i).get("name");
 				friends.add(name);
-				System.out.println("Adding to friendslist: " + name);
 			}
 			
 		} catch (JSONException e) {
 			e.printStackTrace();
 			Log.e("fb friends list", "JSONException retrieving fb friends list");
 		}
-		System.out.println("returning friends list");
 		return friends;
     }
     
@@ -273,7 +266,6 @@ public class FacebookServiceImpl implements FacebookService{
     
     @Override
     public List<Integer> getScores() {
-    	System.out.println("getting scores from friends");
     	Session session = Session.getActiveSession();
     	List<String> friends = getFriendsListIds();
     	List<Integer> scores = new ArrayList<Integer>();
@@ -338,7 +330,6 @@ public class FacebookServiceImpl implements FacebookService{
     
     @Override
     public void updateScore(String score) {
-    	System.out.println("update score: "+ score);
     	Session session = Session.getActiveSession();
     	Bundle params = new Bundle();
     	params.putString("score", score);
