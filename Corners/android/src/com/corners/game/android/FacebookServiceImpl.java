@@ -55,7 +55,7 @@ public class FacebookServiceImpl implements FacebookService{
 		List<String> permissions = new ArrayList<String>();
         permissions.add("user_friends");
         permissions.add("user_games_activity");
-        permissions.add("friends_games_activity");
+        //permissions.add("friends_games_activity");
         permissions.add("public_profile");
         permissions.add("email");
 
